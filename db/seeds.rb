@@ -5,3 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+org = Organization.create(title: "Conroy")
+
+user = User.create(first_name: "keith", last_name: "conroy", organization_id: org.id, email: "keith@mail.com", password: "123")
+room = Room.create(title: "Room A")
