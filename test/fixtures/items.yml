@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  quantity: 1
+  type: 
+  organization_id: 
+
+two:
+  title: MyString
+  quantity: 1
+  type: 
+  organization_id: 
