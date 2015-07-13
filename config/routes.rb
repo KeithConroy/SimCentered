@@ -1,71 +1,12 @@
 Rails.application.routes.draw do
-  get 'items/index'
 
-  get 'items/new'
+  resources :organizations do
+    resources :items
+    resources :events
+    resources :rooms
+    resources :users
+  end
 
-  get 'items/create'
-
-  get 'items/show'
-
-  get 'items/edit'
-
-  get 'items/update'
-
-  get 'items/destroy'
-
-  get 'events/index'
-
-  get 'events/new'
-
-  get 'events/create'
-
-  get 'events/show'
-
-  get 'events/edit'
-
-  get 'events/update'
-
-  get 'events/destroy'
-
-  get 'rooms/index'
-
-  get 'rooms/new'
-
-  get 'rooms/create'
-
-  get 'rooms/show'
-
-  get 'rooms/edit'
-
-  get 'rooms/update'
-
-  get 'rooms/destroy'
-
-  get 'users/index'
-
-  get 'users/new'
-
-  get 'users/create'
-
-  get 'users/show'
-
-  get 'users/edit'
-
-  get 'users/update'
-
-  get 'users/destroy'
-
-  get 'organizations/new'
-
-  get 'organizations/create'
-
-  get 'organizations/show'
-
-  get 'organizations/edit'
-
-  get 'organizations/update'
-
-  get 'organizations/destroy'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
