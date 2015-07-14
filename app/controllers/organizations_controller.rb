@@ -10,6 +10,8 @@ class OrganizationsController < ApplicationController
   end
 
   def show
+    @event = Event.new()
+    @organization = Organization.where(id: params[:id]).first
   end
 
   def edit
