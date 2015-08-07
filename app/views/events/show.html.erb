@@ -1,7 +1,5 @@
-<h1>Events#show</h1>
-<p>Find me in app/views/events/show.html.erb</p>
+<h2 class="page-header"><%= @event.title %></h2>
 
-<%= @event.title %>
 <%= @event.date %>
 <%= @event.time %>
 <%= link_to 'Edit', edit_organization_event_path(@event.organization_id, @event.id) %>
