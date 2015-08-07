@@ -36,9 +36,8 @@
               Schedule
             </a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="#">Calendar</a></li>
-              <li><a href="events/new">New Event</a></li>
-              <li><%= link_to "New Event", [@organization, :events] %></li>
+              <li><%= link_to "Calendar", organization_events_path(@organization) %></li>
+              <li><%= link_to "New Event", new_organization_event_path(@organization, @event) %></li>
             </ul>
           </li>
           <li class="dropdown">

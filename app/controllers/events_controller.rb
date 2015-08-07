@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  before_action :find_organization
+
   def index
   end
 
@@ -19,5 +21,11 @@ class EventsController < ApplicationController
   end
 
   def destroy
+  end
+
+  private
+
+  def find_organization
+    @organization = Organization.where(id: params[:organization_id]).first
   end
 end
