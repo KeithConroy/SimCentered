@@ -1,9 +1,9 @@
 <h2 class="page-header">Edit Room</h2>
 
-<%= form_for @room, url: organization_room_path do |f| %>
-  Title: <%= f.text_field :title %>
-  Room Number: <%= f.text_field :number %>
-  Building: <%= f.text_field :building %>
-  Description: <%= f.text_area :description %>
+<%= bootstrap_form_for @room, url: organization_room_path do |f| %>
+  <%= f.text_field :title %>
+  <%= f.text_field :number %>
+  <%= f.text_field :building %>
+  <%= f.text_area :description %>
   <%= f.submit %>
 <% end %>
