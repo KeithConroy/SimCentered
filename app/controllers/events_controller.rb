@@ -3,7 +3,7 @@ class EventsController < ApplicationController
   before_action :find_event, only: [:show, :edit, :update, :destroy]
 
   def index
-    @events = Event.where(organization_id: @organization.id).order(date: :asc)
+    @events = Event.where(organization_id: @organization.id).order(date: :asc).order(time: :asc)
   end
 
   def new
