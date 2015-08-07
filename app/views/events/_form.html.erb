@@ -1,7 +1,4 @@
-<h1>Events#new</h1>
-<p>Find me in app/views/events/new.html.erb</p>
-
-<%= form_for @event, url: organization_events_path do |f| %>
+<%= form_for @event, url: organization_event_path do |f| %>
   Title: <%= f.text_field :title %>
   Date: <%= f.date_field :date %>
   Time: <%= f.time_field :time %>
