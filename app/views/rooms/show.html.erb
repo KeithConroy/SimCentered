@@ -1,2 +1,8 @@
-<h1>Rooms#show</h1>
-<p>Find me in app/views/rooms/show.html.erb</p>
+<h2 class="page-header"><%= @room.title %></h2>
+
+<p>Room Number: <%= @room.number %></p>
+<p>Building: <%= @room.building %></p>
+<p>Description: <%= @room.description %></p>
+
+<%= link_to 'Edit', edit_organization_room_path(@room.organization_id, @room.id) %>
+<%= link_to 'Delete', organization_room_path(@room.organization_id, @room.id), method: :delete, data: { confirm: 'Are you sure?' } %>
