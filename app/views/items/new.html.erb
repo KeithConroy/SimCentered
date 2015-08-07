@@ -1,2 +1,8 @@
-<h1>Items#new</h1>
-<p>Find me in app/views/items/new.html.erb</p>
+<h2 class="page-header">Create a New Item</h2>
+
+<%= form_for @item, url: organization_items_path do |f| %>
+  Title: <%= f.text_field :title %>
+  Quantity: <%= f.text_field :quantity %>
+  Disposable?: <%= f.check_box :disposable %>
+  <%= f.submit %>
+<% end %>
