@@ -1,6 +1,6 @@
 <h2 class="page-header"><%= @event.title %></h2>
 
-<%= @event.date %>
-<%= @event.time %>
+<p>Date: <%= @event.date %></p>
+<p>Time: <%= @event.time %></p>
 <%= link_to 'Edit', edit_organization_event_path(@event.organization_id, @event.id) %>
 <%= link_to 'Delete', organization_event_path(@event.organization_id, @event.id), method: :delete, data: { confirm: 'Are you sure?' } %>

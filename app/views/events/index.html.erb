@@ -22,7 +22,7 @@
         </div>
         <button type="submit" class="btn btn-default" name="commit">Submit</button>
       </form>
-      <ul class="nav navbar-nav navbar-right" data-toggle="tooltip" data-placement="top" title="New Room">
+      <ul class="nav navbar-nav navbar-right" data-toggle="tooltip" data-placement="top" title="New Event">
         <%= link_to new_organization_event_path(@organization, @event), class: "btn btn-primary navbar-btn" do %>
           <i class="glyphicon glyphicon-plus"></i>
         <% end %>
@@ -38,8 +38,8 @@
         <th>Event</th>
         <th>Date</th>
         <th>Time</th>
-        <th></th>
-        <th></th>
+        <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
