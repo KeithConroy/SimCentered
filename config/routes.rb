@@ -1,11 +1,18 @@
 Rails.application.routes.draw do
 
+  root 'welcome#index'
+
   resources :organizations do
     resources :items
     resources :events
     resources :rooms
     resources :users
   end
+
+  get '/about' => 'welcome#about'
+  get '/contact' => 'welcome#contact'
+  get '/pricing' => 'welcome#pricing'
+  get '/faq' => 'welcome#faq'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
