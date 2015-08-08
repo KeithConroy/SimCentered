@@ -16,36 +16,14 @@
       <div class="panel-heading">
         <div class="panel-title">Students</div>
       </div>
-      <div class="panel-body">
-        Panel content
-      </div>
       <table class="table table-hover">
         <thead>
           <tr>
-            <th>Room</th>
-            <th>Number</th>
-            <th>Building</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th>Name</th>
+            <th>Remove</th>
           </tr>
         </thead>
         <tbody>
-          <% @rooms.each do |room| %>
-          <tr>
-            <td><%= link_to room.title, organization_room_path(room.organization_id, room.id) %></td>
-            <td><%= room.number %></td>
-            <td><%= room.building %></td>
-            <td><%= link_to edit_organization_room_path(room.organization_id, room.id), class: "glyphicon" do %>
-              <i class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="top" title="Edit"></i>
-            <% end %>
-            </td>
-            <td><%= link_to organization_room_path(room.organization_id, room.id), method: :delete, data: { confirm: 'Are you sure you want to delete this room?' }, class: "glyphicon" do %>
-              <i class="glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="top" title="Delete"></i>
-            <% end %>
-            </td>
-          </tr>
-          <% end %>
-        </tbody>
       </table>
     </div>
   </div>
@@ -55,9 +33,15 @@
       <div class="panel-heading">
         <div class="panel-title">Rooms</div>
       </div>
-      <div class="panel-body">
-        Panel content
-      </div>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Room</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+      </table>
     </div>
   </div>
 
@@ -66,9 +50,16 @@
       <div class="panel-heading">
         <div class="panel-title">Inventory</div>
       </div>
-      <div class="panel-body">
-        Panel content
-      </div>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+      </table>
     </div>
   </div>
 </div>
