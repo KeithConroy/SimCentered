@@ -1,8 +1,8 @@
 <h2 class="page-header">Edit Event</h2>
 
-<%= form_for @event, url: organization_event_path do |f| %>
-  Title: <%= f.text_field :title %>
-  Date: <%= f.date_field :date %>
-  Time: <%= f.time_field :time %>
+<%= bootstrap_form_for @event, url: organization_event_path do |f| %>
+  <%= f.text_field :title %>
+  <%= f.date_field :date %>
+  <%= f.time_field :time %>
   <%= f.submit %>
 <% end %>

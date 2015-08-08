@@ -1,8 +1,8 @@
 <h2 class="page-header">Edit Item</h2>
 
-<%= form_for @item, url: organization_item_path do |f| %>
-  Title: <%= f.text_field :title %>
-  Quantity: <%= f.text_field :quantity %>
-  Disposable?: <%= f.check_box :disposable %>
+<%= bootstrap_form_for @item, url: organization_item_path do |f| %>
+  <%= f.text_field :title %>
+  <%= f.text_field :quantity %>
+  <%= f.check_box :disposable %>
   <%= f.submit %>
 <% end %>
