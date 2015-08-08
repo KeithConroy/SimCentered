@@ -1,2 +1,13 @@
-<h1>Users#edit</h1>
-<p>Find me in app/views/users/edit.html.erb</p>
+<h2 class="page-header">Edit User</h2>
+
+<!--
+<div class="alert alert-success" role="alert" id="saved" style="display:none;">Save Successful</div>
+<div class="alert alert-danger" role="alert" id="error" style="display:none;">Error</div>
+-->
+<%= bootstrap_form_for @user, url: organization_item_path do |f| %>
+  <%= f.text_field :first_name %>
+  <%= f.text_field :last_name %>
+  <%= f.email_field :email %>
+  <%= f.password_field :password %>
+  <%= f.submit %>
+<% end %>

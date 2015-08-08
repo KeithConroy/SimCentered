@@ -21,6 +21,7 @@ class EventsController < ApplicationController
   end
 
   def show
+    @rooms = @event.rooms
   end
 
   def edit

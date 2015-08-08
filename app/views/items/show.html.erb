@@ -1,7 +1,13 @@
-<h2 class="page-header"><%= @item.title %></h2>
+<h2 class="page-header">
+  <%= @item.title %>
+  <small>
+  <span class="pull-right">
+    <%= link_to 'Edit', edit_organization_item_path(@item.organization_id, @item.id) %>
+    <%= link_to 'Delete', organization_item_path(@item.organization_id, @item.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+  </span>
+  </small>
+</h2>
 
 <p>Item Quantity: <%= @item.quantity %></p>
 <p>Disposable?: <%= @item.disposable %></p>
 
-<%= link_to 'Edit', edit_organization_item_path(@item.organization_id, @item.id) %>
-<%= link_to 'Delete', organization_item_path(@item.organization_id, @item.id), method: :delete, data: { confirm: 'Are you sure?' } %>
