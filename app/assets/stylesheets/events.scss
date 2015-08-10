@@ -2,11 +2,9 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#events_students h4 {
-  height: 100px;
-  width: 45%;
-  text-align: center;
-  background-color: red;
+#event_students {
+  height: 400px;
+  overflow: scroll;
 }
 
 #events_rooms {
