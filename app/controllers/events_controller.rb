@@ -8,6 +8,9 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+    @users = User.where(organization_id: @organization.id).order(last_name: :asc).order(first_name: :asc)
+    @rooms = Room.where(organization_id: @organization.id).order(title: :asc)
+    @items = Item.where(organization_id: @organization.id).order(title: :asc)
   end
 
   def create
