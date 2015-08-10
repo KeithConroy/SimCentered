@@ -17,13 +17,18 @@
         <div class="panel-title">Students</div>
       </div>
       <table class="table table-hover">
-        <thead>
+        <!-- <thead>
           <tr>
             <th>Name</th>
-            <th>Remove</th>
           </tr>
-        </thead>
+        </thead> -->
         <tbody>
+          <% @event.users.each do |user| %>
+          <tr>
+            <td><%= user.first_name%> <%= user.last_name %></td>
+          </tr>
+          <% end %>
+        </tbody>
       </table>
     </div>
   </div>
@@ -34,13 +39,18 @@
         <div class="panel-title">Rooms</div>
       </div>
       <table class="table table-hover">
-        <thead>
+        <!-- <thead>
           <tr>
             <th>Room</th>
-            <th>Remove</th>
           </tr>
-        </thead>
+        </thead> -->
         <tbody>
+          <% @event.rooms.each do |room| %>
+          <tr>
+            <td><%= room.title %></td>
+          </tr>
+          <% end %>
+        </tbody>
       </table>
     </div>
   </div>
@@ -51,14 +61,20 @@
         <div class="panel-title">Inventory</div>
       </div>
       <table class="table table-hover">
-        <thead>
+        <!-- <thead>
           <tr>
             <th>Item</th>
             <th>Qty</th>
-            <th>Remove</th>
           </tr>
-        </thead>
+        </thead> -->
         <tbody>
+          <% @event.items.each do |item| %>
+          <tr>
+            <td><%= item.title %></td>
+            <td><%= item.quantity %></td>
+          </tr>
+          <% end %>
+        </tbody>
       </table>
     </div>
   </div>
