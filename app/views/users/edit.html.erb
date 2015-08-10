@@ -4,7 +4,7 @@
 <div class="alert alert-success" role="alert" id="saved" style="display:none;">Save Successful</div>
 <div class="alert alert-danger" role="alert" id="error" style="display:none;">Error</div>
 -->
-<%= bootstrap_form_for @user, url: organization_user_path do |f| %>
+<%= bootstrap_form_for @user, layout: :horizontal, control_col: "col-sm-9", url: organization_user_path do |f| %>
   <%= f.text_field :first_name %>
   <%= f.text_field :last_name %>
   <%= f.email_field :email %>
