@@ -1,6 +1,6 @@
 <h2 class="page-header">Create a New Room</h2>
 
-<%= bootstrap_form_for @room, url: organization_rooms_path do |f| %>
+<%= bootstrap_form_for @room, layout: :horizontal, control_col: "col-sm-9", url: organization_rooms_path do |f| %>
   <%= f.text_field :title %>
   <%= f.text_field :number %>
   <%= f.text_field :building %>
