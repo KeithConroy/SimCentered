@@ -6,7 +6,24 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-org = Organization.create(title: "Conroy")
+10.times do
+  User.create(
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    email: Faker::Internet.email,
+    organization_id: 1
+  )
+end
 
-user = User.create(first_name: "keith", last_name: "conroy", organization_id: org.id, email: "keith@mail.com", password: "123")
-room = Room.create(title: "Room A")
+# 10.times do |num|
+#   Room.create(
+#     title: "Exam Room #{num+1}",
+#     number: Faker::Number.number(3),
+#     building: Faker::Company.name,
+#     organization_id: 1
+#   )
+# end
+
+# Organization.create(
+#   title: Faker::University.name
+# )
