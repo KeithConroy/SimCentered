@@ -15,6 +15,15 @@
   )
 end
 
+# 10.times do |num|
+#   Room.create(
+#     title: "Exam Room #{num+1}",
+#     number: Faker::Number.number(3),
+#     building: Faker::Company.name,
+#     organization_id: 1
+#   )
+# end
+
 # Organization.create(
 #   title: Faker::University.name
 # )
