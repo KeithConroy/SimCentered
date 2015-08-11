@@ -1,6 +1,6 @@
 <h2 class="page-header">Edit Item</h2>
 
-<%= bootstrap_form_for @item, url: organization_item_path do |f| %>
+<%= bootstrap_form_for @item, layout: :horizontal, control_col: "col-sm-9", url: organization_item_path do |f| %>
   <%= f.text_field :title %>
   <%= f.text_field :quantity %>
   <%= f.check_box :disposable %>
