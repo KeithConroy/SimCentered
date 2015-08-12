@@ -2,9 +2,21 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#event_students {
-  height: 400px;
+.event-students-table {
+  max-height: 350px;
   overflow: scroll;
+}
+
+#student-selector {
+  display: none;
+}
+
+#room-selector {
+  display: none;
+}
+
+#item-selector {
+  display: none;
 }
 
 #events_rooms {
