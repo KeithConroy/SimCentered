@@ -8,7 +8,7 @@
   </small>
 </h2>
 
-<p>Instructor: <%= full_name(@event.instructor) %></p>
+<p>Instructor: <%= full_name(@event.instructor) if @event.instructor %></p>
 
 <div class="row col-md-12">
   <div id="student-selector" class="col-md-8">
