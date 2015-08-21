@@ -6,7 +6,7 @@
   margin-top: 50px;
 }*/
 
-$bgDefault      : #f7340a;
+$bgDefault      : #ea361e;
 $bgHighlight    : #d4412b;
 $colDefault     : #ecf0f1;
 $colHighlight   : #d4412b;
@@ -16,8 +16,13 @@ $dropDown       : true;
   border-color: $bgHighlight;
   .navbar-brand {
     color: $colDefault;
+    -webkit-transition-duration: 1s; /* Safari */
+      transition-duration: 1s;
     &:hover, &:focus {
-      color: $bgHighlight; }}
+      color: white;
+      transform: scale(1.2);
+      -webkit-transition-duration: 1s; /* Safari */
+        transition-duration: 1s;}}
   .navbar-text {
     color: $colDefault; }
   .navbar-nav {
