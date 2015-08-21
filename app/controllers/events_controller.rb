@@ -1,9 +1,12 @@
 class EventsController < ApplicationController
   before_action :find_organization
   before_action :find_event, only: [:show, :edit, :update, :destroy]
-  before_action :assign_student, only: [:add_student, :remove_student]
-  before_action :assign_room, only: [:add_room, :remove_room]
-  before_action :assign_item, only: [:add_item, :remove_item]
+
+  before_action :related_student, only: [:add_student, :remove_student]
+  before_action :related_room, only: [:add_room, :remove_room]
+  before_action :related_item, only: [:add_item, :remove_item]
+
+  before_action :related_event, only: [:add_student, :remove_student, :add_room, :remove_room, :add_item, :remove_item]
 
   def index
     @events = Event.where(organization_id: @organization.id).order(date: :asc).order(time: :asc)
@@ -11,9 +14,6 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
-    # @users = User.where(organization_id: @organization.id).order(last_name: :asc).order(first_name: :asc)
-    # @rooms = Room.where(organization_id: @organization.id).order(title: :asc)
-    # @items = Item.where(organization_id: @organization.id).order(title: :asc)
   end
 
   def create
@@ -101,18 +101,19 @@ class EventsController < ApplicationController
     params.require(:event).permit(:title, :date, :time, :organization_id)
   end
 
-  def assign_student
+  def related_event
     @event = Event.where(id: params[:event_id]).first
+  end
+
+  def related_student
     @user = User.where(id: params[:id]).first
   end
 
-  def assign_room
-    @event = Event.where(id: params[:event_id]).first
+  def related_room
     @room = Room.where(id: params[:id]).first
   end
 
-  def assign_item
-    @event = Event.where(id: params[:event_id]).first
+  def related_item
     @item = Item.where(id: params[:id]).first
   end
 end
