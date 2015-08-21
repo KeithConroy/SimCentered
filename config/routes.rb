@@ -1,5 +1,17 @@
 Rails.application.routes.draw do
 
+  get 'courses/index'
+
+  get 'courses/new'
+
+  get 'courses/create'
+
+  get 'courses/show'
+
+  get 'courses/edit'
+
+  get 'courses/destroy'
+
   root 'welcome#index'
 
   resources :organizations do
