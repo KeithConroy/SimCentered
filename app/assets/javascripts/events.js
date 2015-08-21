@@ -1,7 +1,14 @@
 $(document).on('page:change', function() {
 
   bindEvents();
+  $("body").on('click', ".add-student", addStudent);
+  $("body").on('click', ".remove-student", removeStudent);
 
+  $("body").on('click', ".add-room", addRoom);
+  $("body").on('click', ".remove-room", removeRoom);
+
+  $("body").on('click', ".add-item", addItem);
+  $("body").on('click', ".remove-item", removeItem);
 });
 
 var bindEvents = function(){
@@ -58,4 +65,100 @@ var hideAll = function(){
   $('#selected-students').hide();
   $('#selected-rooms').hide();
   $('#selected-items').hide();
+}
+
+var addStudent = function(){
+  event.preventDefault();
+
+  var url = $(this).attr('href');
+  this.closest("tr").remove();
+
+  $.ajax({
+    url: url,
+    type: 'post'
+  }).done(function(data) {
+    $('#student-count').text(data.count);
+  }).fail(function() {
+      console.log('error');
+  });
+}
+
+var removeStudent = function(){
+  event.preventDefault();
+
+  var url = $(this).attr('href');
+  this.closest("tr").remove();
+
+  $.ajax({
+    url: url,
+    type: 'delete'
+  }).done(function(data) {
+    $('#student-count').text(data.count);
+  }).fail(function() {
+      console.log('error');
+  });
+}
+
+var addRoom = function(){
+  event.preventDefault();
+
+  var url = $(this).attr('href');
+  this.closest("tr").remove();
+
+  $.ajax({
+    url: url,
+    type: 'post'
+  }).done(function(data) {
+    $('#room-count').text(data.count);
+  }).fail(function() {
+      console.log('error');
+  });
+}
+
+var removeRoom = function(){
+  event.preventDefault();
+
+  var url = $(this).attr('href');
+  this.closest("tr").remove();
+
+  $.ajax({
+    url: url,
+    type: 'delete'
+  }).done(function(data) {
+    $('#room-count').text(data.count);
+  }).fail(function() {
+      console.log('error');
+  });
+}
+
+var addItem = function(){
+  event.preventDefault();
+
+  var url = $(this).attr('href');
+  this.closest("tr").remove();
+
+  $.ajax({
+    url: url,
+    type: 'post'
+  }).done(function(data) {
+    $('#item-count').text(data.count);
+  }).fail(function() {
+      console.log('error');
+  });
+}
+
+var removeItem = function(){
+  event.preventDefault();
+
+  var url = $(this).attr('href');
+  this.closest("tr").remove();
+
+  $.ajax({
+    url: url,
+    type: 'delete'
+  }).done(function(data) {
+    $('#item-count').text(data.count);
+  }).fail(function() {
+      console.log('error');
+  });
 }

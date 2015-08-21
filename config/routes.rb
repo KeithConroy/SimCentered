@@ -16,7 +16,16 @@ Rails.application.routes.draw do
 
   resources :organizations do
     resources :items
-    resources :events
+    resources :events do
+      post 'add_student/:id' => 'events#add_student'
+      delete 'remove_student/:id' => 'events#remove_student'
+
+      post 'add_room/:id' => 'events#add_room'
+      delete 'remove_room/:id' => 'events#remove_room'
+
+      post 'add_item/:id' => 'events#add_item'
+      delete 'remove_item/:id' => 'events#remove_item'
+    end
     resources :rooms
     resources :users
   end
@@ -25,6 +34,7 @@ Rails.application.routes.draw do
   get '/contact' => 'welcome#contact'
   get '/pricing' => 'welcome#pricing'
   get '/faq' => 'welcome#faq'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

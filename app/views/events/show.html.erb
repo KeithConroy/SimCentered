@@ -8,7 +8,7 @@
   </small>
 </h2>
 
-<p>Instructor: <%=  %></p>
+<p>Instructor: <%= full_name(@event.instructor) if @event.instructor %></p>
 
 <div class="row col-md-12">
   <div id="student-selector" class="col-md-8">
@@ -17,46 +17,49 @@
         <div class="panel-title">Students</div>
       </div>
       <div class="event-students-table">
-      <table class="table table-hover">
-        <!-- <thead>
-          <tr>
-            <th>Name</th>
-          </tr>
-        </thead> -->
-        <tbody>
-          <% @users.each do |user| %>
-          <tr>
-            <td><%= user.first_name%> <%= user.last_name %></td>
-            <td><i class="glyphicon glyphicon-plus" data-toggle="tooltip" data-placement="top" title="Add"></i></td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+        <table id="available-students" class="table table-hover">
+          <!-- <thead>
+            <tr>
+              <th>Name</th>
+            </tr>
+          </thead> -->
+          <tbody>
+            <% @users.each do |user| %>
+            <tr>
+              <td><%= full_name(user) %></td>
+              <td><a href="<%= @event.id %>/add_student/<%= user.id %>" class="add-student"><i class="fa fa-plus"></i></a></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div id="selected-students" class="col-md-4">
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
-        <div class="panel-title pull-left"> Scheduled Students - <%= @event.users.count %></div>
+        <div class="panel-title pull-left"> Scheduled Students - <span id="student-count"><%= @event.students.count %></span></div>
         <div class="pull-right">
           <a id="schedule-students" href="#"><i class="glyphicon glyphicon-option-horizontal" data-toggle="tooltip" data-placement="top" title="Add"></i></a>
         </div>
       </div>
-      <table class="table table-condensed">
-        <!-- <thead>
-          <tr>
-            <th>Name</th>
-          </tr>
-        </thead> -->
-        <tbody>
-          <% @event.users.each do |user| %>
-          <tr>
-            <td><%= user.first_name%> <%= user.last_name %></td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <div class="event-students-table">
+        <table id="scheduled-students" class="table table-condensed">
+          <!-- <thead>
+            <tr>
+              <th>Name</th>
+            </tr>
+          </thead> -->
+          <tbody>
+            <% @event.students.each do |student| %>
+            <tr>
+              <td><%= full_name(student) %></td>
+              <td><a href="<%= @event.id %>/remove_student/<%= student.id %>" class="remove-student"><i class="fa fa-minus"></i></a></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -66,46 +69,49 @@
         <div class="panel-title">Rooms</div>
       </div>
       <div class="event-students-table">
-      <table class="table table-hover">
-        <!-- <thead>
-          <tr>
-            <th>Name</th>
-          </tr>
-        </thead> -->
-        <tbody>
-          <% @rooms.each do |room| %>
-          <tr>
-            <td><%= room.title%></td>
-            <td><i class="glyphicon glyphicon-plus" data-toggle="tooltip" data-placement="top" title="Add"></i></td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+        <table class="table table-hover">
+          <!-- <thead>
+            <tr>
+              <th>Name</th>
+            </tr>
+          </thead> -->
+          <tbody>
+            <% @rooms.each do |room| %>
+            <tr>
+              <td><%= room.title %></td>
+              <td><a href="<%= @event.id %>/add_room/<%= room.id %>" class="add-room"><i class="fa fa-plus"></i></a></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div id="selected-rooms" class="col-md-4">
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
-        <div class="panel-title pull-left"> Scheduled Rooms - <%= @event.rooms.count %></div>
+        <div class="panel-title pull-left"> Scheduled Rooms - <span id="room-count"><%= @event.rooms.count %></span></div>
         <div class="pull-right">
           <a id="schedule-rooms" href="#"><i class="glyphicon glyphicon-option-horizontal" data-toggle="tooltip" data-placement="top" title="Add"></i></a>
         </div>
       </div>
-      <table class="table table-condensed">
-        <!-- <thead>
-          <tr>
-            <th>Room</th>
-          </tr>
-        </thead> -->
-        <tbody>
-          <% @event.rooms.each do |room| %>
-          <tr>
-            <td><%= room.title %></td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <div class="event-students-table">
+        <table class="table table-condensed">
+          <!-- <thead>
+            <tr>
+              <th>Room</th>
+            </tr>
+          </thead> -->
+          <tbody>
+            <% @event.rooms.each do |room| %>
+            <tr>
+              <td><%= room.title %></td>
+              <td><a href="<%= @event.id %>/remove_room/<%= room.id %>" class="remove-room"><i class="fa fa-minus"></i></a></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -115,48 +121,51 @@
         <div class="panel-title">Items</div>
       </div>
       <div class="event-students-table">
-      <table class="table table-hover">
-        <!-- <thead>
-          <tr>
-            <th>Name</th>
-          </tr>
-        </thead> -->
-        <tbody>
-          <% @items.each do |item| %>
-          <tr>
-            <td><%= item.title %></td>
-            <td><i class="glyphicon glyphicon-plus" data-toggle="tooltip" data-placement="top" title="Add"></i></td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+        <table class="table table-hover">
+          <!-- <thead>
+            <tr>
+              <th>Name</th>
+            </tr>
+          </thead> -->
+          <tbody>
+            <% @items.each do |item| %>
+            <tr>
+              <td><%= item.title %></td>
+              <td><a href="<%= @event.id %>/add_item/<%= item.id %>" class="add-item"><i class="fa fa-plus"></i></a></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div id="selected-items" class="col-md-4">
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
-        <div class="panel-title pull-left"> Scheduled Inventory - <%= @event.items.count %></div>
+        <div class="panel-title pull-left"> Scheduled Inventory - <span id="item-count"><%= @event.items.count %></span></div>
         <div class="pull-right">
           <a id="schedule-items" href="#"><i class="glyphicon glyphicon-option-horizontal" data-toggle="tooltip" data-placement="top" title="Add"></i></a>
         </div>
       </div>
-      <table class="table table-condensed">
-        <!-- <thead>
-          <tr>
-            <th>Item</th>
-            <th>Qty</th>
-          </tr>
-        </thead> -->
-        <tbody>
-          <% @event.items.each do |item| %>
-          <tr>
-            <td><%= item.title %></td>
-            <td><%= item.quantity %></td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <div class="event-students-table">
+        <table class="table table-condensed">
+          <!-- <thead>
+            <tr>
+              <th>Item</th>
+              <th>Qty</th>
+            </tr>
+          </thead> -->
+          <tbody>
+            <% @event.items.each do |item| %>
+            <tr>
+              <td><%= item.title %></td>
+              <td><%= item.quantity %></td>
+              <td><a href="<%= @event.id %>/remove_item/<%= item.id %>" class="remove-item"><i class="fa fa-minus"></i></a></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

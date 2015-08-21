@@ -2,15 +2,18 @@ class EventsController < ApplicationController
   before_action :find_organization
   before_action :find_event, only: [:show, :edit, :update, :destroy]
 
+  before_action :related_student, only: [:add_student, :remove_student]
+  before_action :related_room, only: [:add_room, :remove_room]
+  before_action :related_item, only: [:add_item, :remove_item]
+
+  before_action :related_event, only: [:add_student, :remove_student, :add_room, :remove_room, :add_item, :remove_item]
+
   def index
     @events = Event.where(organization_id: @organization.id).order(date: :asc).order(time: :asc)
   end
 
   def new
     @event = Event.new
-    @users = User.where(organization_id: @organization.id).order(last_name: :asc).order(first_name: :asc)
-    @rooms = Room.where(organization_id: @organization.id).order(title: :asc)
-    @items = Item.where(organization_id: @organization.id).order(title: :asc)
   end
 
   def create
@@ -25,11 +28,11 @@ class EventsController < ApplicationController
 
   def show
     @users = User.where(organization_id: @organization.id).order(last_name: :asc).order(first_name: :asc)
-    @users -= @event.users
+    @users -= @event.students
     @rooms = Room.where(organization_id: @organization.id).order(title: :asc)
     @rooms -= @event.rooms
     @items = Item.where(organization_id: @organization.id).order(title: :asc)
-    # @items -= @event.items
+    @items -= @event.items
   end
 
   def edit
@@ -48,6 +51,42 @@ class EventsController < ApplicationController
     redirect_to(:action => 'index')
   end
 
+  def add_student
+    @event.students << @user
+    @event.save
+    render json: {user: @user, count: @event.students.count, event: @event.id}
+  end
+
+  def remove_student
+    @event.students.delete(@user)
+    @event.save
+    render json: {user: @user, count: @event.students.count, event: @event.id}
+  end
+
+  def add_room
+    @event.rooms << @room
+    @event.save
+    render json: {room: @room, count: @event.rooms.count, event: @event.id}
+  end
+
+  def remove_room
+    @event.rooms.delete(@room)
+    @event.save
+    render json: {room: @room, count: @event.rooms.count, event: @event.id}
+  end
+
+  def add_item
+    @event.items << @item
+    @event.save
+    render json: {item: @item, count: @event.items.count, event: @event.id}
+  end
+
+  def remove_item
+    @event.items.delete(@item)
+    @event.save
+    render json: {item: @item, count: @event.items.count, event: @event.id}
+  end
+
   private
 
   def find_organization
@@ -60,5 +99,21 @@ class EventsController < ApplicationController
 
   def event_params
     params.require(:event).permit(:title, :date, :time, :organization_id)
+  end
+
+  def related_event
+    @event = Event.where(id: params[:event_id]).first
+  end
+
+  def related_student
+    @user = User.where(id: params[:id]).first
+  end
+
+  def related_room
+    @room = Room.where(id: params[:id]).first
+  end
+
+  def related_item
+    @item = Item.where(id: params[:id]).first
   end
 end
