@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+
   root 'welcome#index'
 
   resources :organizations do
@@ -16,6 +17,7 @@ Rails.application.routes.draw do
     end
     resources :rooms
     resources :users
+    resources :courses
   end
 
   get '/about' => 'welcome#about'

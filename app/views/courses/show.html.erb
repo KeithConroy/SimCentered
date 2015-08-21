@@ -1,0 +1,36 @@
+<h2 class="page-header">
+  <%= @course.title %>
+  <small>
+  <span class="pull-right">
+    <%= link_to 'Edit', edit_organization_course_path(@course.organization_id, @course.id) %>
+    <%= link_to 'Delete', organization_course_path(@course.organization_id, @course.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+  </span>
+  </small>
+</h2>
+
+<p>Instructor: <%= full_name(@course.instructor) if @course.instructor %></p>
+
+
+<div id="selected-students" class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <div class="panel-title pull-left"> Enrolled Students - <span id="student-count"><%= @course.students.count %></span></div>
+      </div>
+      <div class="course-students-table">
+        <table id="scheduled-students" class="table table-condensed">
+          <!-- <thead>
+            <tr>
+              <th>Name</th>
+            </tr>
+          </thead> -->
+          <tbody>
+            <% @course.students.each do |student| %>
+            <tr>
+              <td><%= full_name(student) %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
