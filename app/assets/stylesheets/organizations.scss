@@ -2,10 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-/*#main {
-  margin-top: 50px;
-}*/
-
 $bgDefault      : #ea361e;
 $bgHighlight    : #d4412b;
 $colDefault     : #ecf0f1;
@@ -20,7 +16,7 @@ $dropDown       : true;
       transition-duration: 1s;
     &:hover, &:focus {
       color: white;
-      transform: scale(1.2);
+      transform: scale(1.1);
       -webkit-transition-duration: 1s; /* Safari */
         transition-duration: 1s;}}
   .navbar-text {
