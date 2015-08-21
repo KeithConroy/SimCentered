@@ -1,16 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'courses/index'
-
-  get 'courses/new'
-
-  get 'courses/create'
-
-  get 'courses/show'
-
-  get 'courses/edit'
-
-  get 'courses/destroy'
 
   root 'welcome#index'
 
@@ -28,6 +17,7 @@ Rails.application.routes.draw do
     end
     resources :rooms
     resources :users
+    resources :courses
   end
 
   get '/about' => 'welcome#about'

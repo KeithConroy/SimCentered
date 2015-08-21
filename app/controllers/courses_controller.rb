@@ -3,7 +3,7 @@ class CoursesController < ApplicationController
   before_action :find_course, only: [:show, :edit, :update, :destroy]
 
   def index
-    @courses = Course.where(organization_id: @organization.id).order(date: :asc).order(time: :asc)
+    @courses = Course.where(organization_id: @organization.id).order(title: :asc)
   end
 
   def new
