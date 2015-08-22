@@ -2,10 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$bgDefault      : #ea361e;
-$bgHighlight    : #d4412b;
-$colDefault     : #ecf0f1;
-$colHighlight   : #d4412b;
+$bgDefault      : #0096b5;
+$bgHighlight    : #00667a;
+$colDefault     : #ffffff;
+$colHighlight   : #00667a;
 $dropDown       : true;
 .navbar-custom {
   background-color: $bgDefault;
@@ -76,5 +76,5 @@ $dropDown       : true;
 }
 
 body {
-  background-color: #fcfcfc;
+  /*background-color: #E9EAED;*/
 }
