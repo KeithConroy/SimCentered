@@ -29,8 +29,8 @@ class EventsController < ApplicationController
   end
 
   def show
-    @users = User.where(organization_id: @organization.id, is_student: true).order(last_name: :asc).order(first_name: :asc)
-    @users -= @event.students
+    @students = User.where(organization_id: @organization.id, is_student: true).order(last_name: :asc).order(first_name: :asc)
+    @students -= @event.students
     @rooms = Room.where(organization_id: @organization.id).order(title: :asc)
     @rooms -= @event.rooms
     @items = Item.where(organization_id: @organization.id).order(title: :asc)

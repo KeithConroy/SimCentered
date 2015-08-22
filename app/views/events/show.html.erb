@@ -24,10 +24,10 @@
             </tr>
           </thead> -->
           <tbody>
-            <% @users.each do |user| %>
+            <% @students.each do |student| %>
             <tr>
-              <td><%= full_name(user) %></td>
-              <td><a href="<%= @event.id %>/add_student/<%= user.id %>" class="add-student"><i class="fa fa-plus"></i></a></td>
+              <td><%= full_name(student) %></td>
+              <td><a href="<%= @event.id %>/add_student/<%= student.id %>" class="add-student"><i class="fa fa-plus"></i></a></td>
             </tr>
             <% end %>
           </tbody>

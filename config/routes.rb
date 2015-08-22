@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
 
-
   root 'welcome#index'
 
   resources :organizations do
-    resources :items
+
+    resources :courses do
+      post 'add_student/:id' => 'courses#add_student'
+      delete 'remove_student/:id' => 'courses#remove_student'
+    end
+
     resources :events do
       post 'add_student/:id' => 'events#add_student'
       delete 'remove_student/:id' => 'events#remove_student'
@@ -15,9 +19,11 @@ Rails.application.routes.draw do
       post 'add_item/:id' => 'events#add_item'
       delete 'remove_item/:id' => 'events#remove_item'
     end
+
+    resources :items
     resources :rooms
     resources :users
-    resources :courses
+
   end
 
   get '/about' => 'welcome#about'
