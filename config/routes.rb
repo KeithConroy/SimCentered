@@ -17,7 +17,10 @@ Rails.application.routes.draw do
     end
     resources :rooms
     resources :users
-    resources :courses
+    resources :courses do
+      post 'add_student/:id' => 'courses#add_student'
+      delete 'remove_student/:id' => 'courses#remove_student'
+    end
   end
 
   get '/about' => 'welcome#about'

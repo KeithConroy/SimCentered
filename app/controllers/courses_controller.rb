@@ -2,6 +2,8 @@ class CoursesController < ApplicationController
   before_action :find_organization
   before_action :find_course, only: [:show, :edit, :update, :destroy]
 
+  before_action :related_course, only: [:add_student, :remove_student]
+
   before_action :faculty, only: [:new, :edit]
 
   def index
@@ -23,8 +25,8 @@ class CoursesController < ApplicationController
   end
 
   def show
-    # @users = User.where(organization_id: @organization.id).order(last_name: :asc).order(first_name: :asc)
-    # @users -= @course.students
+    @students = User.where(organization_id: @organization.id, is_student: true).order(last_name: :asc).order(first_name: :asc)
+    @students -= @course.students
   end
 
   def edit
@@ -44,15 +46,15 @@ class CoursesController < ApplicationController
   end
 
   def add_student
-    @course.students << @user
+    @course.students << @student
     @course.save
-    render json: {user: @user, count: @course.students.count, course: @course.id}
+    render json: {student: @student, count: @course.students.count, course: @course.id}
   end
 
   def remove_student
-    @course.students.delete(@user)
+    @course.students.delete(@student)
     @course.save
-    render json: {user: @user, count: @course.students.count, course: @course.id}
+    render json: {student: @student, count: @course.students.count, course: @course.id}
   end
 
   private
@@ -74,6 +76,11 @@ class CoursesController < ApplicationController
     @faculty = @users.map do |user|
       ["#{user.first_name} #{user.last_name}", user.id]
     end
+  end
+
+  def related_course
+    @course = Course.where(id: params[:course_id]).first
+    @student = User.where(id: params[:id]).first
   end
 
 end
