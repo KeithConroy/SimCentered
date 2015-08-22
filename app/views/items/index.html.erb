@@ -31,38 +31,40 @@
   </div><!-- /.container-fluid -->
 </nav>
 
-<div class="table-responsive">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Item</th>
-        <th>Quantity</th>
-        <th>Disposable?</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @items.each do |item| %>
-      <tr>
-        <td><%= link_to item.title, organization_item_path(item.organization_id, item.id) %></td>
-        <td><%= item.quantity %></td>
-        <td>
-          <% if item.disposable %>
-            <i class="glyphicon glyphicon-ok"></i>
-          <% else %>
+<div class="panel panel-default">
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Quantity</th>
+          <th>Disposable?</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @items.each do |item| %>
+        <tr>
+          <td><%= link_to item.title, organization_item_path(item.organization_id, item.id) %></td>
+          <td><%= item.quantity %></td>
+          <td>
+            <% if item.disposable %>
+              <i class="glyphicon glyphicon-ok"></i>
+            <% else %>
+            <% end %>
+          </td>
+          <td><%= link_to edit_organization_item_path(item.organization_id, item.id), class: "glyphicon" do %>
+            <i class="fa fa-pencil-square-o fa-lg"></i>
           <% end %>
-        </td>
-        <td><%= link_to edit_organization_item_path(item.organization_id, item.id), class: "glyphicon" do %>
-          <i class="fa fa-pencil-square-o fa-lg"></i>
+          </td>
+          <td><%= link_to organization_item_path(item.organization_id, item.id), method: :delete, data: { confirm: 'Are you sure you want to delete this item?' }, class: "glyphicon" do %>
+            <i class="fa fa-trash-o fa-lg"></i>
+          <% end %>
+          </td>
+        </tr>
         <% end %>
-        </td>
-        <td><%= link_to organization_item_path(item.organization_id, item.id), method: :delete, data: { confirm: 'Are you sure you want to delete this item?' }, class: "glyphicon" do %>
-          <i class="fa fa-trash-o fa-lg"></i>
-        <% end %>
-        </td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
 </div>
