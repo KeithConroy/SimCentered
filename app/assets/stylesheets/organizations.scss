@@ -79,6 +79,10 @@ body {
   background-color: #E9EAED;
 }
 
+#main {
+  margin-bottom: 5%;
+}
+
 a {
   color: $bgDefault;
 }
@@ -86,4 +90,8 @@ a {
 .page-header {
   color: $bgDefault;
   border-bottom: 1px solid #a0a0a0;
+}
+
+.btn-default {
+  /*color: #0096b5;*/
 }
