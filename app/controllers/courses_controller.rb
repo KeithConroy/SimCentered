@@ -2,7 +2,7 @@ class CoursesController < ApplicationController
   before_action :find_organization
   before_action :find_course, only: [:show, :edit, :update, :destroy]
 
-  before_action :related_course, only: [:add_student, :remove_student]
+  before_action :realtion_variables, only: [:add_student, :remove_student]
 
   before_action :faculty, only: [:new, :edit]
 
@@ -78,7 +78,7 @@ class CoursesController < ApplicationController
     end
   end
 
-  def related_course
+  def realtion_variables
     @course = Course.where(id: params[:course_id]).first
     @student = User.where(id: params[:id]).first
   end
