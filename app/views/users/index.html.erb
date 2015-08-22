@@ -37,7 +37,7 @@
       <tr>
         <th>Name</th>
         <th>Email</th>
-        <th></th>
+        <th>Status</th>
         <th>Edit</th>
         <th>Delete</th>
       </tr>
@@ -47,7 +47,7 @@
       <tr>
         <td><%= link_to "#{user.first_name} #{user.last_name}", organization_user_path(user.organization_id, user.id) %></td>
         <td><%= user.email %></td>
-        <td></td>
+        <td><%= status(user) %></td>
         <td><%= link_to edit_organization_user_path(user.organization_id, user.id), class: "glyphicon" do %>
           <i class="fa fa-pencil-square-o fa-lg"></i>
         <% end %>
