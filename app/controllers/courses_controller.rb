@@ -2,6 +2,8 @@ class CoursesController < ApplicationController
   before_action :find_organization
   before_action :find_course, only: [:show, :edit, :update, :destroy]
 
+  before_action :faculty, only: [:new, :edit]
+
   def index
     @courses = Course.where(organization_id: @organization.id).order(title: :asc)
   end
@@ -65,6 +67,13 @@ class CoursesController < ApplicationController
 
   def course_params
     params.require(:course).permit(:title, :instructor_id, :organization_id)
+  end
+
+  def faculty
+    @users = User.where(organization_id: @organization.id, is_student: false).order(last_name: :asc).order(first_name: :asc)
+    @faculty = @users.map do |user|
+      ["#{user.first_name} #{user.last_name}", user.id]
+    end
   end
 
 end
