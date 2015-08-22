@@ -8,6 +8,8 @@ class EventsController < ApplicationController
 
   before_action :related_event, only: [:add_student, :remove_student, :add_room, :remove_room, :add_item, :remove_item]
 
+  before_action :faculty, only: [:new, :edit]
+
   def index
     @events = Event.where(organization_id: @organization.id).order(date: :asc).order(time: :asc)
   end
@@ -98,7 +100,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:title, :date, :time, :organization_id)
+    params.require(:event).permit(:title, :date, :time, :instructor_id, :organization_id)
   end
 
   def related_event
@@ -115,5 +117,12 @@ class EventsController < ApplicationController
 
   def related_item
     @item = Item.where(id: params[:id]).first
+  end
+
+  def faculty
+    @users = User.where(organization_id: @organization.id, is_student: false).order(last_name: :asc).order(first_name: :asc)
+    @faculty = @users.map do |user|
+      ["#{user.first_name} #{user.last_name}", user.id]
+    end
   end
 end
