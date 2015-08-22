@@ -31,31 +31,33 @@
   </div><!-- /.container-fluid -->
 </nav>
 
-<div class="table-responsive">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Course</th>
-        <th>Instructor</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @courses.each do |course| %>
-      <tr>
-        <td><%= link_to course.title, organization_course_path(course.organization_id, course.id) %></td>
-        <td><%= full_name(course.instructor) %></td>
-        <td><%= link_to edit_organization_course_path(course.organization_id, course.id), class: "glyphicon" do %>
-          <i class="fa fa-pencil-square-o fa-lg"></i>
+<div class="panel panel-default">
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th>Instructor</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @courses.each do |course| %>
+        <tr>
+          <td><%= link_to course.title, organization_course_path(course.organization_id, course.id) %></td>
+          <td><%= full_name(course.instructor) %></td>
+          <td><%= link_to edit_organization_course_path(course.organization_id, course.id), class: "glyphicon" do %>
+            <i class="fa fa-pencil-square-o fa-lg"></i>
+          <% end %>
+          </td>
+          <td><%= link_to organization_course_path(course.organization_id, course.id), method: :delete, data: { confirm: 'Are you sure you want to delete this course?' }, class: "glyphicon" do %>
+            <i class="fa fa-trash-o fa-lg"></i>
+          <% end %>
+          </td>
+        </tr>
         <% end %>
-        </td>
-        <td><%= link_to organization_course_path(course.organization_id, course.id), method: :delete, data: { confirm: 'Are you sure you want to delete this course?' }, class: "glyphicon" do %>
-          <i class="fa fa-trash-o fa-lg"></i>
-        <% end %>
-        </td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
 </div>
