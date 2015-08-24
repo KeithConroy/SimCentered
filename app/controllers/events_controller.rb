@@ -11,7 +11,15 @@ class EventsController < ApplicationController
   before_action :faculty, only: [:new, :edit]
 
   def index
-    @events = Event.where(organization_id: @organization.id).order(date: :asc).order(time: :asc)
+    if request.xhr?
+      events = Event.where(organization_id: @organization.id, date: params[:start]..params[:end])
+      events = events.map do |event|
+        {title: event.title, start: event.date, url: "events/#{event.id}"} #needs time
+      end
+      render json: events
+    else
+      @events = Event.where(organization_id: @organization.id).order(date: :asc).order(time: :asc)
+    end
   end
 
   def new
