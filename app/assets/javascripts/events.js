@@ -9,6 +9,24 @@ $(document).on('page:change', function() {
 
   $("body").on('click', ".add-item", addItem);
   $("body").on('click', ".remove-item", removeItem);
+
+  $('#calendar').fullCalendar({
+    header: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'month,agendaWeek,agendaDay'
+    },
+    dayClick: function(date, jsEvent, view) {
+
+        alert('Clicked on: ' + date.format() +
+          '; Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY +
+          '; Current view: ' + view.name);
+
+    },
+    eventLimit: true,
+        // put your options and callbacks here
+    events: '/organizations/1/events'
+  })
 });
 
 var bindEvents = function(){

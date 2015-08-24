@@ -77,10 +77,14 @@ $dropDown       : true;
 
 body {
   background-color: #E9EAED;
+  height: 100%;
 }
 
 #main {
-  margin-bottom: 5%;
+  background-color: #ffffff;
+  padding: 0 5% 3% 5%;
+  margin-bottom: 25px;
+  border-radius: 10px;
 }
 
 a {
