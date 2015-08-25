@@ -1,6 +1,9 @@
 $(document).on('page:change', function() {
 
   bindEvents();
+  $("body").on('click', ".add-course", addCourse);
+  $("body").on('click', ".remove-course", removeCourse);
+
   $("body").on('click', ".add-student", addStudent);
   $("body").on('click', ".remove-student", removeStudent);
 
@@ -176,6 +179,38 @@ var removeItem = function(){
     type: 'delete'
   }).done(function(data) {
     $('#item-count').text(data.count);
+  }).fail(function() {
+      console.log('error');
+  });
+}
+
+var addCourse = function(){
+  event.preventDefault();
+
+  var url = $(this).attr('href');
+  this.closest("tr").remove();
+
+  $.ajax({
+    url: url,
+    type: 'post'
+  }).done(function(data) {
+    $('#student-count').text(data.count);
+  }).fail(function() {
+      console.log('error');
+  });
+}
+
+var removeCourse = function(){
+  event.preventDefault();
+
+  var url = $(this).attr('href');
+  this.closest("tr").remove();
+
+  $.ajax({
+    url: url,
+    type: 'delete'
+  }).done(function(data) {
+    // $('#Course-count').text(data.count);
   }).fail(function() {
       console.log('error');
   });

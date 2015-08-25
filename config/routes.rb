@@ -10,6 +10,9 @@ Rails.application.routes.draw do
     end
 
     resources :events do
+      post 'add_course/:id' => 'events#add_course'
+      # delete 'remove_course/:id' => 'events#remove_course'
+
       post 'add_student/:id' => 'events#add_student'
       delete 'remove_student/:id' => 'events#remove_student'
 
