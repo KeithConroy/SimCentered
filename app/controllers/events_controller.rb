@@ -6,7 +6,7 @@ class EventsController < ApplicationController
   before_action :related_room, only: [:add_room, :remove_room]
   before_action :related_item, only: [:add_item, :remove_item]
 
-  before_action :related_event, only: [:add_student, :remove_student, :add_room, :remove_room, :add_item, :remove_item]
+  before_action :related_event, only: [:add_course, :remove_course, :add_student, :remove_student, :add_room, :remove_room, :add_item, :remove_item]
 
   before_action :faculty, only: [:new, :edit]
 
@@ -37,6 +37,7 @@ class EventsController < ApplicationController
   end
 
   def show
+    @courses = Course.where(organization_id: @organization.id).order(title: :asc)
     @students = User.where(organization_id: @organization.id, is_student: true).order(last_name: :asc).order(first_name: :asc)
     @students -= @event.students
     @rooms = Room.where(organization_id: @organization.id).order(title: :asc)
@@ -60,6 +61,25 @@ class EventsController < ApplicationController
     @event.destroy
     redirect_to(:action => 'index')
   end
+
+  def add_course
+    course = Course.where(id: params[:id]).first
+    course.students.each do |student|
+      p student.first_name
+      @event.students << student unless @event.students.include?(student)
+    end
+    @event.save
+    render json: {user: @user, count: @event.students.count, event: @event.id}
+  end
+
+  # def remove_course
+  #   course = Course.where(id: params[:id])
+  #   course.students.each do |student|
+  #     @event.courses.delete(student)
+  #   end
+  #   @event.save
+  #   render json: {user: @user, count: @event.courses.count, event: @event.id}
+  # end
 
   def add_student
     @event.students << @user

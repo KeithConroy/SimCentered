@@ -24,6 +24,23 @@
             </tr>
           </thead> -->
           <tbody>
+            <% @courses.each do |course| %>
+              <tr class="clicker">
+                <td><i class="fa fa-users"></i> <%= course.title %></td>
+                <td><a href="<%= @event.id %>/add_course/<%= course.id %>" class="add-course"><i class="fa fa-plus"></i></a></td>
+              </tr>
+              <tr class="dropdown-row">
+                <td>
+                  <ul>
+                  <% course.students.each do |student| %>
+                    <li><%= full_name(student) %></li>
+                  <% end %>
+                  </ul>
+                </td>
+                <td></td>
+              </tr>
+            <% end %>
+
             <% @students.each do |student| %>
             <tr>
               <td><%= full_name(student) %></td>
