@@ -13,6 +13,10 @@ $(document).on('page:change', function() {
   $("body").on('click', ".add-item", addItem);
   $("body").on('click', ".remove-item", removeItem);
 
+  $(".clicker").on("click", function(){
+    $(this).next().slideToggle();
+  });
+
   $('#calendar').fullCalendar({
     header: {
       left: 'prev,next today',
