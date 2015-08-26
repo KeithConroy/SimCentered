@@ -12,13 +12,13 @@ class EventsController < ApplicationController
 
   def index
     if request.xhr?
-      events = Event.where(organization_id: @organization.id, date: params[:start]..params[:end])
+      events = Event.where(organization_id: @organization.id, start: params[:start]..params[:end])
       events = events.map do |event|
-        {title: event.title, start: event.date, url: "events/#{event.id}"} #needs time
+        {title: event.title, start: event.start, url: "events/#{event.id}"} #needs time
       end
       render json: events
     else
-      @events = Event.where(organization_id: @organization.id).order(date: :asc).order(time: :asc)
+      @events = Event.where(organization_id: @organization.id).order(start: :asc)
     end
   end
 
@@ -128,7 +128,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:title, :date, :time, :instructor_id, :organization_id)
+    params.require(:event).permit(:title, :start, :end, :instructor_id, :organization_id)
   end
 
   def related_event
