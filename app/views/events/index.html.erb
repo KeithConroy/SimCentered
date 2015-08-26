@@ -46,8 +46,8 @@
         <% @events.each do |event| %>
         <tr>
           <td><%= link_to event.title, organization_event_path(event.organization_id, event.id) %></td>
-          <td><%= event.date %></td>
-          <td><%= event.time %></td>
+          <td><%= event.start %></td>
+          <td><%= event.end %></td>
           <td><%= link_to edit_organization_event_path(event.organization_id, event.id), class: "glyphicon" do %>
             <i class="fa fa-pencil-square-o fa-lg"></i>
           <% end %>

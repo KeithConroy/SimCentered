@@ -14,7 +14,7 @@ class EventsController < ApplicationController
     if request.xhr?
       events = Event.where(organization_id: @organization.id, start: params[:start]..params[:end])
       events = events.map do |event|
-        {title: event.title, start: event.start, url: "events/#{event.id}"} #needs time
+        {title: event.title, start: event.start, :end => event.end, url: "events/#{event.id}"}
       end
       render json: events
     else

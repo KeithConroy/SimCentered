@@ -13,7 +13,7 @@ class OrganizationsController < ApplicationController
   def show
     @organization = Organization.where(id: params[:id]).first
     @event = Event.new()
-    @events = Event.where(organization_id: @organization.id, date: Date.today).order(time: :asc)
+    @events = Event.where(organization_id: @organization.id, start: Date.today).order(start: :asc)
   end
 
   def edit
