@@ -5,9 +5,23 @@ class OrganizationsController < ApplicationController
   end
 
   def new
+    @organization = Organization.new
   end
 
   def create
+    @organization = Organization.new(organization_params)
+    if @organization.save
+      @admin = User.create!(
+        first_name: organization_params[:title],
+        last_name: "Admin",
+        email: organization_params[:email],
+        password: "",
+        organization_id: @organization.id
+      )
+      redirect_to organization_path(@organization.id)
+    else
+      render json: "no"
+    end
   end
 
   def show
@@ -23,5 +37,11 @@ class OrganizationsController < ApplicationController
   end
 
   def destroy
+  end
+
+  private
+
+  def organization_params
+    params.require(:organization).permit(:title, :email)
   end
 end

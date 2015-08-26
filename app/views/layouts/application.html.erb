@@ -28,7 +28,7 @@
           <span class="icon-bar"></span>
         </button>
 
-        <% if @organization %>
+        <% if @organization.id %>
 
             <%= link_to "SimCentered", @organization, class: 'navbar-brand' %>
           </div>
@@ -82,6 +82,7 @@
               <li><a href="contact">Contact</a></li>
               <li><a href="pricing">Pricing</a></li>
               <li><a href="faq">FAQ</a></li>
+              <li><%= link_to "Sign Up", new_organization_path(@organization) %></li>
               <li><a href="/organizations/1">Sign In</a></li>
             </ul>
 
