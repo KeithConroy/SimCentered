@@ -100,3 +100,27 @@ a {
 .btn-default {
   /*color: #0096b5;*/
 }
+
+.search {
+  border-radius: 30px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+#search-parent {
+  position: relative;
+  width: 50%;
+  margin: auto;
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+#search-parent label {
+  position: absolute;
+  left: 17px;
+  top: 17px;
+}
+
+.pull-right a {
+  margin: 0;
+}

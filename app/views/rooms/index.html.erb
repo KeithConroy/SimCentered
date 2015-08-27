@@ -1,35 +1,21 @@
+<h2 class="page-header"><i class="fa fa-hospital-o"></i> Rooms
+  <small>
+  <span class="pull-right">
+    <%= link_to new_organization_room_path(@organization, @room), class: "btn btn-default" do %>
+      <i class="fa fa-plus"></i>
+    <% end %>
+  </span>
+  </small>
+</h2>
 
-<h2 class="page-header"><i class="fa fa-hospital-o"></i> Rooms</h2>
-
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
-
-      <form class="navbar-form navbar-left" role="search" accept-charset="UTF-8" action="/search" method="get">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" id="s" name="q" type="text">
-        </div>
-        <button type="submit" class="btn btn-default" name="commit">Submit</button>
-      </form>
-      <ul class="nav navbar-nav navbar-right" data-toggle="tooltip" data-placement="top" title="New Room">
-        <%= link_to new_organization_room_path(@organization, @room), class: "btn btn-primary navbar-btn" do %>
-          <i class="fa fa-plus"></i>
-        <% end %>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+<div id="search-parent">
+  <label for="search">
+    <i class="fa fa-search"></i>
+  </label>
+  <div class="form-group">
+    <input type="text" class="form-control search" placeholder="Search">
+  </div>
+</div>
 
 <div class="panel panel-default">
   <div class="table-responsive">

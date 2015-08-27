@@ -1,32 +1,12 @@
-
-<h2 class="page-header">Calendar</h2>
-
-<!-- <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-    </div>
-
-    <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
-
-      <form class="navbar-form navbar-left" role="search" accept-charset="UTF-8" action="/search" method="get">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" id="s" name="q" type="text">
-        </div>
-      </form>
-      <ul class="nav navbar-nav navbar-right" data-toggle="tooltip" data-placement="top" title="New Event">
-        <%= link_to new_organization_event_path(@organization, @event), class: "btn btn-primary navbar-btn" do %>
-          <i class="fa fa-plus"></i>
-        <% end %>
-      </ul>
-    </div>
-  </div>
-</nav> -->
+<h2 class="page-header">Calendar
+  <small>
+  <span class="pull-right">
+    <%= link_to new_organization_event_path(@organization, @event), class: "btn btn-default" do %>
+      <i class="fa fa-plus"></i>
+    <% end %>
+  </span>
+  </small>
+</h2>
 
 <div id='calendar'></div>
 
