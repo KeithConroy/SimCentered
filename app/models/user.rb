@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+
+  attr_accessor :busy
+
   belongs_to :organization
   has_and_belongs_to_many :events
   has_and_belongs_to_many :courses

@@ -40,10 +40,44 @@ class EventsController < ApplicationController
     @courses = Course.where(organization_id: @organization.id).order(title: :asc)
     @students = User.where(organization_id: @organization.id, is_student: true).order(last_name: :asc).order(first_name: :asc)
     @students -= @event.students
+
     @rooms = Room.where(organization_id: @organization.id).order(title: :asc)
     @rooms -= @event.rooms
     @items = Item.where(organization_id: @organization.id).order(title: :asc)
     @items -= @event.items
+
+# =begin
+    # Event.where(organization_id: @organization.id).where('start BETWEEN ? AND ? OR end BETWEEN ? AND ?', @event.start, @event.end, @event.start, @event.end)
+
+    events = Event.where('organization_id = ? AND start BETWEEN ? AND ? OR end BETWEEN ? AND ?', @organization.id, @event.start, @event.end, @event.start, @event.end)
+
+    busy_students = []
+    busy_rooms = []
+    busy_items = []
+
+    events.each do |event|
+      busy_students << event.students
+      busy_rooms << event.rooms
+      busy_items << event.items
+    end
+
+    busy_students.flatten!.uniq!
+    busy_rooms.flatten!.uniq!
+    busy_items.flatten!.uniq!
+
+    @students.each do |student|
+      busy_students.include?(student) ? student.busy = true : student.busy = false
+    end
+
+    @rooms.each do |room|
+      busy_rooms.include?(room) ? room.busy = true : room.busy = false
+    end
+
+    @items.each do |item|
+      busy_items.include?(item) ? item.busy = true : item.busy = false
+    end
+# =end
+
   end
 
   def edit

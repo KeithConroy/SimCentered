@@ -34,6 +34,10 @@ $(document).on('page:change', function() {
         // put your options and callbacks here
     events: '/organizations/1/events'
   })
+
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
 });
 
 var bindEvents = function(){
