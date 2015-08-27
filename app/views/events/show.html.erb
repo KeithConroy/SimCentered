@@ -46,7 +46,7 @@
               <td><%= full_name(student) %></td>
               <td>
                 <% if student.busy %>
-                  Busy
+                  <i class="fa fa-ban busy" data-toggle="tooltip" data-placement="left" title="Busy"></i>
                 <% else %>
                   <a href="<%= @event.id %>/add_student/<%= student.id %>" class="add-student"><i class="fa fa-plus"></i></a>
                 <% end %>
@@ -104,9 +104,9 @@
               <td><%= room.title %></td>
               <td>
                 <% if room.busy %>
-                  In Use
+                  <i class="fa fa-ban busy" data-toggle="tooltip" data-placement="left" title="In Use"></i>
                 <% else %>
-                <a href="<%= @event.id %>/add_room/<%= room.id %>" class="add-room"><i class="fa fa-plus"></i></a>
+                  <a href="<%= @event.id %>/add_room/<%= room.id %>" class="add-room"><i class="fa fa-plus"></i></a>
                 <% end %>
               </td>
             </tr>
@@ -162,9 +162,9 @@
               <td><%= item.title %></td>
               <td>
                 <% if item.busy %>
-                  In Use
+                  <i class="fa fa-ban busy" data-toggle="tooltip" data-placement="left" title="In Use"></i>
                 <% else %>
-                <a href="<%= @event.id %>/add_item/<%= item.id %>" class="add-item"><i class="fa fa-plus"></i></a>
+                  <a href="<%= @event.id %>/add_item/<%= item.id %>" class="add-item"><i class="fa fa-plus"></i></a>
                 <% end %>
               </td>
             </tr>
