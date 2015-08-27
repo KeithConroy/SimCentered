@@ -44,7 +44,13 @@
             <% @students.each do |student| %>
             <tr>
               <td><%= full_name(student) %></td>
-              <td><a href="<%= @event.id %>/add_student/<%= student.id %>" class="add-student"><i class="fa fa-plus"></i></a></td>
+              <td>
+                <% if student.busy %>
+                  Busy
+                <% else %>
+                  <a href="<%= @event.id %>/add_student/<%= student.id %>" class="add-student"><i class="fa fa-plus"></i></a>
+                <% end %>
+              </td>
             </tr>
             <% end %>
           </tbody>
@@ -96,7 +102,13 @@
             <% @rooms.each do |room| %>
             <tr>
               <td><%= room.title %></td>
-              <td><a href="<%= @event.id %>/add_room/<%= room.id %>" class="add-room"><i class="fa fa-plus"></i></a></td>
+              <td>
+                <% if room.busy %>
+                  In Use
+                <% else %>
+                <a href="<%= @event.id %>/add_room/<%= room.id %>" class="add-room"><i class="fa fa-plus"></i></a>
+                <% end %>
+              </td>
             </tr>
             <% end %>
           </tbody>
@@ -148,7 +160,13 @@
             <% @items.each do |item| %>
             <tr>
               <td><%= item.title %></td>
-              <td><a href="<%= @event.id %>/add_item/<%= item.id %>" class="add-item"><i class="fa fa-plus"></i></a></td>
+              <td>
+                <% if item.busy %>
+                  In Use
+                <% else %>
+                <a href="<%= @event.id %>/add_item/<%= item.id %>" class="add-item"><i class="fa fa-plus"></i></a>
+                <% end %>
+              </td>
             </tr>
             <% end %>
           </tbody>
