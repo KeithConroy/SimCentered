@@ -1,4 +1,7 @@
 <h2 class="page-header">
+  <%= link_to organization_events_path(@organization), class: "back" do %>
+    <i class="fa fa-angle-double-left"></i>
+  <% end %>
   <%= @event.title %>
   <small> - <%= @event.start.strftime("%B %e, %Y at %l:%M %p %Z") %>
   <span class="pull-right">

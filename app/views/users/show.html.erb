@@ -1,4 +1,7 @@
 <h2 class="page-header">
+  <%= link_to organization_users_path(@organization), class: "back" do %>
+    <i class="fa fa-angle-double-left"></i>
+  <% end %>
   <%= full_name(@user) %>
   <small> - <%= status(@user) %> <%= @user.email %>
   <span class="pull-right">
