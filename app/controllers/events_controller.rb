@@ -38,7 +38,8 @@ class EventsController < ApplicationController
 
   def show
     @courses = Course.where(organization_id: @organization.id).order(title: :asc)
-    @students = User.where(organization_id: @organization.id, is_student: true).order(last_name: :asc).order(first_name: :asc)
+    @students = User.where(organization_id: @organization.id, is_student: true)
+      .order(last_name: :asc).order(first_name: :asc)
     @students -= @event.students
 
     @rooms = Room.where(organization_id: @organization.id).order(title: :asc)
@@ -46,38 +47,32 @@ class EventsController < ApplicationController
     @items = Item.where(organization_id: @organization.id).order(title: :asc)
     @items -= @event.items
 
-# =begin
-    # Event.where(organization_id: @organization.id).where('start BETWEEN ? AND ? OR end BETWEEN ? AND ?', @event.start, @event.end, @event.start, @event.end)
+    conflicting_events = Event.where('organization_id = ? AND start BETWEEN ? AND ? OR end BETWEEN ? AND ?', @organization.id, @event.start, @event.end, @event.start, @event.end)
 
-    events = Event.where('organization_id = ? AND start BETWEEN ? AND ? OR end BETWEEN ? AND ?', @organization.id, @event.start, @event.end, @event.start, @event.end)
+    find_busy(conflicting_events) unless conflicting_events.empty?
+  end
 
+  def find_busy(conflicting_events)
     busy_students = []
     busy_rooms = []
     busy_items = []
 
-    events.each do |event|
+    conflicting_events.each do |event|
       busy_students << event.students
       busy_rooms << event.rooms
       busy_items << event.items
     end
 
-    busy_students.flatten!.uniq!
-    busy_rooms.flatten!.uniq!
-    busy_items.flatten!.uniq!
+    mark_busy(@students, busy_students) unless busy_students.empty?
+    mark_busy(@rooms, busy_rooms) unless busy_rooms.empty?
+    mark_busy(@items, busy_items) unless busy_items.empty?
+  end
 
-    @students.each do |student|
-      busy_students.include?(student) ? student.busy = true : student.busy = false
+  def mark_busy(full_array, busy_array)
+    busy_array.flatten!.uniq!
+    full_array.each do |object|
+      busy_array.include?(object) ? object.busy = true : object.busy = false
     end
-
-    @rooms.each do |room|
-      busy_rooms.include?(room) ? room.busy = true : room.busy = false
-    end
-
-    @items.each do |item|
-      busy_items.include?(item) ? item.busy = true : item.busy = false
-    end
-# =end
-
   end
 
   def edit
