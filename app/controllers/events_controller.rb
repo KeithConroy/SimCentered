@@ -30,13 +30,17 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
     @event.organization_id = @organization.id
     if @event.save
-      redirect_to organization_event_path(@organization.id, @event.id)
+      redirect_to "/organizations/#{@organization.id}/events/#{@event.id}/modify"
     else
       render json: "no"
     end
   end
 
   def show
+  end
+
+  def modify
+    @event = Event.where(id: params[:event_id]).first
     @courses = Course.where(organization_id: @organization.id).order(title: :asc)
     @students = User.where(organization_id: @organization.id, is_student: true)
       .order(last_name: :asc).order(first_name: :asc)

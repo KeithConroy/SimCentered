@@ -21,6 +21,8 @@ Rails.application.routes.draw do
 
       post 'add_item/:id' => 'events#add_item'
       delete 'remove_item/:id' => 'events#remove_item'
+
+      get 'modify' => 'events#modify'
     end
 
     resources :items
