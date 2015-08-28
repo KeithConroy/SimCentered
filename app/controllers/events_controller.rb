@@ -2,11 +2,11 @@ class EventsController < ApplicationController
   before_action :find_organization
   before_action :find_event, only: [:show, :edit, :update, :destroy]
 
-  before_action :related_student, only: [:add_student, :remove_student]
-  before_action :related_room, only: [:add_room, :remove_room]
-  before_action :related_item, only: [:add_item, :remove_item]
+  before_action :nested_student, only: [:add_student, :remove_student]
+  before_action :nested_room, only: [:add_room, :remove_room]
+  before_action :nested_item, only: [:add_item, :remove_item]
 
-  before_action :related_event, only: [:add_course, :remove_course, :add_student, :remove_student, :add_room, :remove_room, :add_item, :remove_item]
+  before_action :nested_event, only: [:modify, :add_course, :remove_course, :add_student, :remove_student, :add_room, :remove_room, :add_item, :remove_item]
 
   before_action :faculty, only: [:new, :edit]
 
@@ -40,7 +40,6 @@ class EventsController < ApplicationController
   end
 
   def modify
-    @event = Event.where(id: params[:event_id]).first
     @courses = Course.where(organization_id: @organization.id).order(title: :asc)
     @students = User.where(organization_id: @organization.id, is_student: true)
       .order(last_name: :asc).order(first_name: :asc)
@@ -48,6 +47,7 @@ class EventsController < ApplicationController
 
     @rooms = Room.where(organization_id: @organization.id).order(title: :asc)
     @rooms -= @event.rooms
+
     @items = Item.where(organization_id: @organization.id).order(title: :asc)
     @items -= @event.items
 
@@ -164,19 +164,19 @@ class EventsController < ApplicationController
     params.require(:event).permit(:title, :start, :end, :instructor_id, :organization_id)
   end
 
-  def related_event
+  def nested_event
     @event = Event.where(id: params[:event_id]).first
   end
 
-  def related_student
+  def nested_student
     @user = User.where(id: params[:id]).first
   end
 
-  def related_room
+  def nested_room
     @room = Room.where(id: params[:id]).first
   end
 
-  def related_item
+  def nested_item
     @item = Item.where(id: params[:id]).first
   end
 
