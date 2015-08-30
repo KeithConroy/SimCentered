@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  before_action :find_organization
+  # before_action :find_organization
 
   def index
 

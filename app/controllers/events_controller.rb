@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :find_organization
+  # before_action :find_organization
   before_action :find_event, only: [:show, :edit, :update, :destroy]
 
   before_action :nested_student, only: [:add_student, :remove_student]
