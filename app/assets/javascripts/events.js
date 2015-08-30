@@ -32,7 +32,7 @@ $(document).on('page:change', function() {
     },
     eventLimit: true,
         // put your options and callbacks here
-    events: '/organizations/1/events'
+    events: '/events'
   })
 
   $(function () {

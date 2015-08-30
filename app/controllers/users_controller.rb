@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  # before_action :find_organization
   before_action :find_user, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -14,7 +13,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @user.organization_id = @organization.id
     if @user.save
-      redirect_to organization_user_path(@organization.id, @user.id)
+      redirect_to user_path(@organization.id, @user.id)
     else
       render json: "no"
     end
@@ -28,7 +27,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update_attributes(user_params)
-      redirect_to organization_user_path(@organization.id, @user.id)
+      redirect_to user_path(@organization.id, @user.id)
     else
 
     end
@@ -40,10 +39,6 @@ class UsersController < ApplicationController
   end
 
   private
-
-  def find_organization
-    @organization = Organization.where(id: params[:organization_id]).first
-  end
 
   def find_user
     @user = User.where(id: params[:id]).first

@@ -1,5 +1,4 @@
 class EventsController < ApplicationController
-  # before_action :find_organization
   before_action :find_event, only: [:show, :edit, :update, :destroy]
 
   before_action :nested_student, only: [:add_student, :remove_student]
@@ -84,7 +83,7 @@ class EventsController < ApplicationController
 
   def update
     if @event.update_attributes(event_params)
-      redirect_to organization_event_path(@organization.id, @event.id)
+      redirect_to event_path(@organization.id, @event.id)
     else
 
     end
@@ -151,10 +150,6 @@ class EventsController < ApplicationController
   end
 
   private
-
-  def find_organization
-    @organization = Organization.where(id: params[:organization_id]).first
-  end
 
   def find_event
     @event = Event.where(id: params[:id]).first

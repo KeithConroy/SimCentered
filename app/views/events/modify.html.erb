@@ -1,18 +1,18 @@
 <h2 class="page-header">
-  <%= link_to organization_events_path(@organization), class: "back" do %>
+  <%= link_to events_path, class: "back" do %>
     <i class="fa fa-angle-double-left"></i>
   <% end %>
   <%= @event.title %>
   <small> - <%= @event.start.strftime("%B %e, %Y at %l:%M %p %Z") %>
   <span class="pull-right">
-    <%= link_to 'Edit', edit_organization_event_path(@event.organization_id, @event.id) %>
-    <%= link_to 'Delete', organization_event_path(@event.organization_id, @event.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+    <%= link_to 'Edit', edit_event_path(@event.id) %>
+    <%= link_to 'Delete', event_path(@event.id), method: :delete, data: { confirm: 'Are you sure?' } %>
   </span>
   </small>
 </h2>
 
 <p>Instructor: <%= full_name(@event.instructor) if @event.instructor %></p>
-<p><%= link_to "Done", organization_event_path(@event.organization_id, @event.id) %></p>
+<p><%= link_to "Done", event_path(@event.id) %></p>
 
 <div class="row col-md-12">
   <div id="student-selector" class="col-md-8">

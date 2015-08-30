@@ -1,6 +1,6 @@
 <h2 class="page-header">Create a New User</h2>
 
-<%= bootstrap_form_for @user, layout: :horizontal, control_col: "col-sm-9", url: organization_users_path do |f| %>
+<%= bootstrap_form_for @user, layout: :horizontal, control_col: "col-sm-9", url: users_path do |f| %>
   <%= f.text_field :first_name %>
   <%= f.text_field :last_name %>
   <%= f.email_field :email %>

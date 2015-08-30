@@ -1,5 +1,4 @@
 class OrganizationsController < ApplicationController
-  # before_action :find_organization
 
   def index
 
@@ -46,10 +45,6 @@ class OrganizationsController < ApplicationController
   end
 
   private
-
-  def find_organization
-    @organization = Organization.where(id: params[:id]).first
-  end
 
   def organization_params
     params.require(:organization).permit(:title, :subdomain, :email)

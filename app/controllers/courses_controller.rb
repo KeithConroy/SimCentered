@@ -1,5 +1,4 @@
 class CoursesController < ApplicationController
-  # before_action :find_organization
   before_action :find_course, only: [:show, :edit, :update, :destroy]
 
   before_action :realtion_variables, only: [:add_student, :remove_student]
@@ -18,7 +17,7 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
     @course.organization_id = @organization.id
     if @course.save
-      redirect_to organization_course_path(@organization.id, @course.id)
+      redirect_to course_path(@organization.id, @course.id)
     else
       render json: "no"
     end
@@ -34,7 +33,7 @@ class CoursesController < ApplicationController
 
   def update
     if @course.update_attributes(course_params)
-      redirect_to organization_course_path(@organization.id, @course.id)
+      redirect_to course_path(@organization.id, @course.id)
     else
 
     end
@@ -58,10 +57,6 @@ class CoursesController < ApplicationController
   end
 
   private
-
-  def find_organization
-    @organization = Organization.where(id: params[:organization_id]).first
-  end
 
   def find_course
     @course = Course.where(id: params[:id]).first

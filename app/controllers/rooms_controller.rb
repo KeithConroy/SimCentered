@@ -1,5 +1,4 @@
 class RoomsController < ApplicationController
-  # before_action :find_organization
   before_action :find_room, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -14,7 +13,7 @@ class RoomsController < ApplicationController
     @room = Room.new(room_params)
     @room.organization_id = @organization.id
     if @room.save
-      redirect_to organization_room_path(@organization.id, @room.id)
+      redirect_to room_path(@organization.id, @room.id)
     else
       render json: "no"
     end
@@ -28,7 +27,7 @@ class RoomsController < ApplicationController
 
   def update
     if @room.update_attributes(room_params)
-      redirect_to organization_room_path(@organization.id, @room.id)
+      redirect_to room_path(@organization.id, @room.id)
     else
 
     end
@@ -40,10 +39,6 @@ class RoomsController < ApplicationController
   end
 
   private
-
-  def find_organization
-    @organization = Organization.where(id: params[:organization_id]).first
-  end
 
   def find_room
     @room = Room.where(id: params[:id]).first

@@ -1,5 +1,4 @@
 class ItemsController < ApplicationController
-  # before_action :find_organization
   before_action :find_item, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -14,7 +13,7 @@ class ItemsController < ApplicationController
     @item = Item.new(item_params)
     @item.organization_id = @organization.id
     if @item.save
-      redirect_to organization_item_path(@organization.id, @item.id)
+      redirect_to item_path(@organization.id, @item.id)
     else
       render json: "no"
     end
@@ -28,7 +27,7 @@ class ItemsController < ApplicationController
 
   def update
     if @item.update_attributes(item_params)
-      redirect_to organization_item_path(@organization.id, @item.id)
+      redirect_to item_path(@organization.id, @item.id)
     else
 
     end
@@ -40,10 +39,6 @@ class ItemsController < ApplicationController
   end
 
   private
-
-  def find_organization
-    @organization = Organization.where(id: params[:organization_id]).first
-  end
 
   def find_item
     @item = Item.where(id: params[:id]).first
