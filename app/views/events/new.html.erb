@@ -4,7 +4,7 @@
   <%= f.text_field :title %>
   <%= f.select(:instructor_id, @faculty) %>
   <%= f.datetime_select :start, :ampm => true, :order => [:month, :day, :year] %>
-  <%= f.datetime_select :end, :ampm => true, :order => [:month, :day, :year] %>
+  <%= f.datetime_select :finish, :ampm => true, :order => [:month, :day, :year] %>
   <%= f.submit %>
 <% end %>
 

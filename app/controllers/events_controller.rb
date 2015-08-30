@@ -14,7 +14,7 @@ class EventsController < ApplicationController
     if request.xhr?
       events = Event.where(organization_id: @organization.id, start: params[:start]..params[:end])
       events = events.map do |event|
-        {title: event.title, start: event.start, :end => event.end, url: "events/#{event.id}"}
+        {title: event.title, start: event.start, :end => event.finish, url: "events/#{event.id}"}
       end
       render json: events
     else
@@ -51,7 +51,7 @@ class EventsController < ApplicationController
     @items = Item.where(organization_id: @organization.id).order(title: :asc)
     @items -= @event.items
 
-    conflicting_events = Event.where('organization_id = ? AND start BETWEEN ? AND ? OR end BETWEEN ? AND ?', @organization.id, @event.start, @event.end, @event.start, @event.end)
+    conflicting_events = Event.where("organization_id = ? AND (start BETWEEN ? AND ?) OR (finish BETWEEN ? AND ?)", @organization.id, @event.start, @event.finish, @event.start, @event.finish)
 
     find_busy(conflicting_events) unless conflicting_events.empty?
   end
@@ -161,7 +161,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:title, :start, :end, :instructor_id, :organization_id)
+    params.require(:event).permit(:title, :start, :finish, :instructor_id, :organization_id)
   end
 
   def nested_event
