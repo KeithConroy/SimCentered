@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
 
+  match '/', to: 'welcome#index', constraints: { subdomain: 'www' }, via: [:get, :post, :put, :patch, :delete]
+  match '/', to: 'organizations#show', constraints: { subdomain: /.+/ }, via: [:get, :post, :put, :patch, :delete]
   root 'welcome#index'
 
-  resources :organizations do
+  resources :organizations
 
     resources :courses do
       post 'add_student/:id' => 'courses#add_student'
@@ -29,7 +31,7 @@ Rails.application.routes.draw do
     resources :rooms
     resources :users
 
-  end
+
 
   get '/about' => 'welcome#about'
   get '/contact' => 'welcome#contact'
@@ -37,7 +39,6 @@ Rails.application.routes.draw do
   get '/faq' => 'welcome#faq'
 
   get '/organizations/:id/community' => 'welcome#community'
-
 
 
   # The priority is based upon order of creation: first created -> highest priority.
