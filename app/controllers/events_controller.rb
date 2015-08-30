@@ -161,7 +161,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:title, :start, :end, :instructor_id, :organization_id)
+    params.require(:event).permit(:title, :start, :finish, :instructor_id, :organization_id)
   end
 
   def nested_event
