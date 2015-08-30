@@ -26,6 +26,9 @@ $dropDown       : true;
       > a {
         color: $colDefault;
         &:hover,  &:focus {
+          > i.heart {
+            color: #ff0004;
+          }
           color: $colHighlight; }}
       @if $dropDown {
         > .dropdown-menu {
