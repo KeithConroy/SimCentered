@@ -25,9 +25,16 @@ $dropDown       : true;
     > li {
       > a {
         color: $colDefault;
+        > i.heart {
+          -webkit-transition-duration: 1s; /* Safari */
+            transition-duration: 1s;
+        }
         &:hover,  &:focus {
           > i.heart {
             color: #ff0004;
+            transform: scale(1.5);
+            -webkit-transition-duration: 1s; /* Safari */
+              transition-duration: 1s;
           }
           color: $colHighlight; }}
       @if $dropDown {
