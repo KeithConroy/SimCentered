@@ -51,7 +51,7 @@ class EventsController < ApplicationController
     @items = Item.where(organization_id: @organization.id).order(title: :asc)
     @items -= @event.items
 
-    conflicting_events = Event.where("organization_id = ? AND start BETWEEN ? AND ? OR end BETWEEN ? AND ?", @organization.id, @event.start, @event.end, @event.start, @event.end)
+    conflicting_events = Event.where("organization_id = ? AND (start BETWEEN ? AND ?) OR (end BETWEEN ? AND ?)", @organization.id, @event.start, @event.end, @event.start, @event.end)
 
     find_busy(conflicting_events) unless conflicting_events.empty?
   end
