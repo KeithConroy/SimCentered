@@ -35,8 +35,8 @@
         <% @events.each do |event| %>
         <tr>
           <td><%= link_to event.title, organization_event_path(event.organization_id, event.id) %></td>
-          <td><%= event.start.strftime("%m-%e-%g %l:%M %p") %></td>
-          <td><%= event.finish.strftime("%m-%e-%g %l:%M %p") %></td>
+          <td><%= event.start.strftime("%b %e @ %l:%M %p") %></td>
+          <td><%= event.finish.strftime("%b %e @ %l:%M %p") %></td>
           <td class='icon'><%= link_to edit_organization_event_path(event.organization_id, event.id), class: "glyphicon" do %>
             <i class="fa fa-pencil-square-o fa-lg"></i>
           <% end %>

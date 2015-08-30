@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150826234347) do
+ActiveRecord::Schema.define(version: 20150830224224) do
 
   create_table "courses", force: :cascade do |t|
     t.string   "title"
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20150826234347) do
     t.datetime "updated_at",      null: false
     t.integer  "instructor_id"
     t.datetime "start"
-    t.datetime "end"
+    t.datetime "finish"
   end
 
   add_index "events", ["instructor_id"], name: "index_events_on_instructor_id"
