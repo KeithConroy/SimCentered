@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   get '/pricing' => 'welcome#pricing'
   get '/faq' => 'welcome#faq'
 
-  get '/organizations/:id/community' => 'welcome#community'
+  get '/community' => 'welcome#community'
 
 
   # The priority is based upon order of creation: first created -> highest priority.

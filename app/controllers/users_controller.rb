@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @user.organization_id = @organization.id
     if @user.save
-      redirect_to user_path(@organization.id, @user.id)
+      redirect_to @user
     else
       render json: "no"
     end
@@ -27,7 +27,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update_attributes(user_params)
-      redirect_to user_path(@organization.id, @user.id)
+      redirect_to @user
     else
 
     end

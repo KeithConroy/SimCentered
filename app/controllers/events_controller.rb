@@ -29,7 +29,7 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
     @event.organization_id = @organization.id
     if @event.save
-      redirect_to "/organizations/#{@organization.id}/events/#{@event.id}/modify"
+      redirect_to "/events/#{@event.id}/modify"
     else
       render json: "no"
     end
@@ -83,7 +83,7 @@ class EventsController < ApplicationController
 
   def update
     if @event.update_attributes(event_params)
-      redirect_to event_path(@organization.id, @event.id)
+      redirect_to @event
     else
 
     end

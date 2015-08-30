@@ -13,7 +13,7 @@ class ItemsController < ApplicationController
     @item = Item.new(item_params)
     @item.organization_id = @organization.id
     if @item.save
-      redirect_to item_path(@organization.id, @item.id)
+      redirect_to @item
     else
       render json: "no"
     end
@@ -27,7 +27,7 @@ class ItemsController < ApplicationController
 
   def update
     if @item.update_attributes(item_params)
-      redirect_to item_path(@organization.id, @item.id)
+      redirect_to @item
     else
 
     end

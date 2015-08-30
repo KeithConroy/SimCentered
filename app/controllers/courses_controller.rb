@@ -17,7 +17,7 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
     @course.organization_id = @organization.id
     if @course.save
-      redirect_to course_path(@organization.id, @course.id)
+      redirect_to @course
     else
       render json: "no"
     end
@@ -33,7 +33,7 @@ class CoursesController < ApplicationController
 
   def update
     if @course.update_attributes(course_params)
-      redirect_to course_path(@organization.id, @course.id)
+      redirect_to @course
     else
 
     end

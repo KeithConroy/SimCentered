@@ -19,7 +19,7 @@ class OrganizationsController < ApplicationController
         is_student: false,
         organization_id: @organization.id
       )
-      redirect_to organization_path(@organization.id)
+      redirect_to root_url(subdomain: @organization.subdomain)
     else
       render json: "no"
     end
@@ -35,7 +35,7 @@ class OrganizationsController < ApplicationController
 
   def update
     if @organization.update_attributes(organization_params)
-      redirect_to @organization
+      redirect_to root_url(subdomain: @organization.subdomain)
     else
 
     end
