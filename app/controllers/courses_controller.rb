@@ -7,7 +7,7 @@ class CoursesController < ApplicationController
   before_action :faculty, only: [:new, :edit]
 
   def index
-    @courses = Course.where(organization_id: @organization.id).order(title: :asc)
+    @courses = Course.where(organization_id: @organization.id).order(title: :asc).paginate(page: params[:page], per_page: 15)
 
     return render :'courses/_all_courses', layout: false if request.xhr?
   end
@@ -60,7 +60,7 @@ class CoursesController < ApplicationController
   end
 
   def search
-    @courses = Course.where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%").order(title: :asc)
+    @courses = Course.where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%").order(title: :asc).paginate(page: 1, per_page: 15)
     return render :'courses/_all_courses', layout: false
   end
 
