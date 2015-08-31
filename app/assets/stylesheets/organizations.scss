@@ -26,15 +26,15 @@ $dropDown       : true;
       > a {
         color: $colDefault;
         > i.heart {
-          -webkit-transition-duration: 1s; /* Safari */
-            transition-duration: 1s;
+          -webkit-transition-duration: .7s; /* Safari */
+            transition-duration: .7s;
         }
         &:hover,  &:focus {
           > i.heart {
             color: #ff0004;
-            transform: scale(1.5);
-            -webkit-transition-duration: 1s; /* Safari */
-              transition-duration: 1s;
+            // transform: scale(1.5);
+            -webkit-transition-duration: .7s; /* Safari */
+              transition-duration: .7s;
           }
           color: $colHighlight; }}
       @if $dropDown {
