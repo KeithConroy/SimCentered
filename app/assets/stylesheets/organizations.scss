@@ -32,7 +32,7 @@ $dropDown       : true;
         &:hover,  &:focus {
           > i.heart {
             color: #ff0004;
-            // transform: scale(1.5);
+            transform: scale(1.5);
             -webkit-transition-duration: .7s; /* Safari */
               transition-duration: .7s;
           }
