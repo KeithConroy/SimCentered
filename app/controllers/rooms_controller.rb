@@ -4,6 +4,8 @@ class RoomsController < ApplicationController
 
   def index
     @rooms = Room.where(organization_id: @organization.id).order(title: :asc)
+
+    return render :'rooms/_all_rooms', layout: false if request.xhr?
   end
 
   def new
@@ -37,6 +39,11 @@ class RoomsController < ApplicationController
   def destroy
     @room.destroy
     redirect_to(:action => 'index')
+  end
+
+  def search
+    @rooms = Room.where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%").order(title: :asc)
+    return render :'rooms/_all_rooms', layout: false
   end
 
   private
