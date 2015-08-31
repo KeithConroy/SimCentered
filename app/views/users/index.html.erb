@@ -1,22 +1,20 @@
 <h2 class="page-header"><i class="fa fa-user-md"></i> Users
   <small>
-  <span class="pull-right">
-    <%= link_to new_organization_user_path(@organization, @user), class: "btn btn-default" do %>
-      <i class="fa fa-plus"></i>
-    <% end %>
-  </span>
+    <div id="search-parent">
+      <label for="search">
+        <i class="fa fa-search"></i>
+      </label>
+      <div class="form-group">
+        <input id="user-search" type="text" class="form-control search" placeholder="Search">
+      </div>
+    </div>
+    <span class="pull-right">
+      <%= link_to new_organization_user_path(@organization, @user), class: "btn btn-default" do %>
+        <i class="fa fa-plus"></i>
+      <% end %>
+    </span>
   </small>
 </h2>
-
-
-<div id="search-parent">
-  <label for="search">
-    <i class="fa fa-search"></i>
-  </label>
-  <div class="form-group">
-    <input id="user-search" type="text" class="form-control search" placeholder="Search">
-  </div>
-</div>
 
 <%= will_paginate @users %>
 
