@@ -159,14 +159,14 @@ a {
   }
   .form-group {
     margin: 0;
-    width: 130px;
+    width: 119px;
     .search {
       border-radius: 30px;
       padding-left: 40px;
-      padding-right: 40px;
+      padding-right: 30px;
     }
     >:focus {
-      width: 400px;
+      width: 350px;
         -webkit-transition: width .5s;
           -moz-transition: width .5s;
           -o-transition: width .5s;
