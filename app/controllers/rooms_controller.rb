@@ -3,7 +3,7 @@ class RoomsController < ApplicationController
   before_action :find_room, only: [:show, :edit, :update, :destroy]
 
   def index
-    @rooms = Room.where(organization_id: @organization.id).order(title: :asc)
+    @rooms = Room.where(organization_id: @organization.id).order(title: :asc).paginate(page: params[:page], per_page: 15)
 
     return render :'rooms/_all_rooms', layout: false if request.xhr?
   end
@@ -42,7 +42,7 @@ class RoomsController < ApplicationController
   end
 
   def search
-    @rooms = Room.where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%").order(title: :asc)
+    @rooms = Room.where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%").order(title: :asc).paginate(page: 1, per_page: 15)
     return render :'rooms/_all_rooms', layout: false
   end
 

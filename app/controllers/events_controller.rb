@@ -18,7 +18,7 @@ class EventsController < ApplicationController
       end
       render json: events
     else
-      @events = Event.where(organization_id: @organization.id).order(start: :asc)
+      @events = Event.where(organization_id: @organization.id).order(start: :asc).paginate(page: params[:page], per_page: 15)
     end
   end
 
@@ -153,9 +153,9 @@ class EventsController < ApplicationController
   def search
     phrase = params[:phrase]
     if phrase == '`'
-      @events = Event.where(organization_id: @organization.id).order(start: :asc)
+      @events = Event.where(organization_id: @organization.id).order(start: :asc).paginate(page: 1, per_page: 15)
     else
-      @events = Event.where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%").order(start: :asc)
+      @events = Event.where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%").order(start: :asc).paginate(page: 1, per_page: 15)
     end
     return render :'events/_all_events', layout: false
   end
