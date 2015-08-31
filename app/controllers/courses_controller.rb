@@ -8,6 +8,8 @@ class CoursesController < ApplicationController
 
   def index
     @courses = Course.where(organization_id: @organization.id).order(title: :asc)
+
+    return render :'courses/_all_courses', layout: false if request.xhr?
   end
 
   def new
@@ -55,6 +57,11 @@ class CoursesController < ApplicationController
     @course.students.delete(@student)
     @course.save
     render json: {student: @student, count: @course.students.count, course: @course.id}
+  end
+
+  def search
+    @courses = Course.where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%").order(title: :asc)
+    return render :'courses/_all_courses', layout: false
   end
 
   private

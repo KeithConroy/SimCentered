@@ -4,6 +4,8 @@ class ItemsController < ApplicationController
 
   def index
     @items = Item.where(organization_id: @organization.id).order(title: :asc)
+
+    return render :'items/_all_items', layout: false if request.xhr?
   end
 
   def new
@@ -37,6 +39,11 @@ class ItemsController < ApplicationController
   def destroy
     @item.destroy
     redirect_to(:action => 'index')
+  end
+
+  def search
+    @items = Item.where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%").order(title: :asc)
+    return render :'items/_all_items', layout: false
   end
 
   private

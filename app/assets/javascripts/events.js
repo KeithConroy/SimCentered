@@ -13,6 +13,8 @@ $(document).on('page:change', function() {
   $("body").on('click', ".add-item", addItem);
   $("body").on('click', ".remove-item", removeItem);
 
+  $('#event-search').on('keyup', eventSearch);
+
   $(".clicker").on("click", function(){
     $(this).next().slideToggle();
   });
@@ -222,4 +224,17 @@ var removeCourse = function(){
   }).fail(function() {
       console.log('error');
   });
+}
+
+var eventSearch = function(){
+  var phrase = $(this).val().toLowerCase();
+  if (phrase) {
+    $.get('events/search/'+phrase).success(function(payload) {
+      $('#events-index').html($(payload));
+    });
+  } else {
+    $.get('events/search/`').success(function(payload) {
+      $('#events-index').html($(payload));
+    });
+  }
 }

@@ -13,7 +13,7 @@
     <i class="fa fa-search"></i>
   </label>
   <div class="form-group">
-    <input type="text" class="form-control search" placeholder="Search">
+    <input id="room-search" type="text" class="form-control search" placeholder="Search">
   </div>
 </div>
 
@@ -29,22 +29,8 @@
           <th class='icon'>Delete</th>
         </tr>
       </thead>
-      <tbody>
-        <% @rooms.each do |room| %>
-        <tr>
-          <td><%= link_to room.title, organization_room_path(room.organization_id, room.id) %></td>
-          <td><%= room.number %></td>
-          <td><%= room.building %></td>
-          <td class='icon'><%= link_to edit_organization_room_path(room.organization_id, room.id), class: "glyphicon" do %>
-            <i class="fa fa-pencil-square-o fa-lg"></i>
-          <% end %>
-          </td>
-          <td class='icon'><%= link_to organization_room_path(room.organization_id, room.id), method: :delete, data: { confirm: 'Are you sure you want to delete this room?' }, class: "glyphicon" do %>
-            <i class="fa fa-trash-o fa-lg"></i>
-          <% end %>
-          </td>
-        </tr>
-        <% end %>
+      <tbody id="rooms-index">
+        <%= render 'all_rooms' %>
       </tbody>
     </table>
   </div>

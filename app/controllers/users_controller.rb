@@ -4,6 +4,8 @@ class UsersController < ApplicationController
 
   def index
     @users = User.where(organization_id: @organization.id).order(last_name: :asc).order(first_name: :asc)
+
+    return render :'users/_all_users', layout: false if request.xhr?
   end
 
   def new
@@ -37,6 +39,11 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     redirect_to(:action => 'index')
+  end
+
+  def search
+    @users = User.where("organization_id = ? AND lower(first_name) LIKE ? OR lower(last_name) LIKE ?", @organization.id, "%#{params[:phrase]}%", "%#{params[:phrase]}%").order(last_name: :asc).order(first_name: :asc)
+    return render :'users/_all_users', layout: false
   end
 
   private

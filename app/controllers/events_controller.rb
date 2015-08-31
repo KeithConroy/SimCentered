@@ -150,6 +150,16 @@ class EventsController < ApplicationController
     render json: {item: @item, count: @event.items.count, event: @event.id}
   end
 
+  def search
+    phrase = params[:phrase]
+    if phrase == '`'
+      @events = Event.where(organization_id: @organization.id).order(start: :asc)
+    else
+      @events = Event.where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%").order(start: :asc)
+    end
+    return render :'events/_all_events', layout: false
+  end
+
   private
 
   def find_organization
