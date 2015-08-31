@@ -112,31 +112,68 @@ a {
   /*color: #0096b5;*/
 }
 
-.search {
-  border-radius: 30px;
-  padding-left: 40px;
-  padding-right: 40px;
-}
+// .search {
+//   border-radius: 30px;
+//   padding-left: 40px;
+//   padding-right: 40px;
+// }
+
+// #search-parent {
+//   position: relative;
+//   width: 50%;
+//   margin: auto;
+//   padding-top: 10px;
+//   padding-bottom: 20px;
+//   .form-group {
+//     margin: 0;
+//     // width: 130px;
+//     // >:focus {
+//     //   width: 400px;
+//     //     -webkit-transition: width .5s;
+//     //       -moz-transition: width .5s;
+//     //       -o-transition: width .5s;
+//     //       -ms-transition: width .5s;
+//     //       transition: width .5s;
+//     // }
+//   }
+//   label {
+//     position: absolute;
+//     left: 17px;
+//     top: 17px;
+//   }
+//   :active {
+//     width: 100%;
+//   }
+// }
 
 #search-parent {
+  display: inline-block;
   position: relative;
-  width: 50%;
-  margin: auto;
-  padding-top: 10px;
-  padding-bottom: 20px;
-}
-
-#search-parent label {
-  position: absolute;
-  left: 17px;
-  top: 17px;
-}
-
-.global-search {
-  border-radius: 30px;
-  padding-left: 40px;
-  padding-right: 40px;
-
+  width: 130px;
+  margin-left: 20px;
+  top: -4px;
+  label {
+    position: absolute;
+    left: 17px;
+    top: 7px;
+  }
+  .form-group {
+    margin: 0;
+    width: 130px;
+    .search {
+      border-radius: 30px;
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+    >:focus {
+      width: 400px;
+        -webkit-transition: width .5s;
+          -moz-transition: width .5s;
+          -o-transition: width .5s;
+          -ms-transition: width .5s;
+          transition: width .5s;
+    }
+  }
 }
 
 #global-search-parent {
@@ -144,12 +181,28 @@ a {
   width: 130px;
   margin: auto;
   top: 7px;
-}
-
-#global-search-parent label {
-  position: absolute;
-  left: 17px;
-  top: 7px;
+  label {
+    position: absolute;
+    left: 17px;
+    top: 7px;
+  }
+  .form-group {
+    margin: 0;
+    width: 130px;
+    .global-search {
+      border-radius: 30px;
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+    >:focus {
+      width: 400px;
+        -webkit-transition: width .5s;
+          -moz-transition: width .5s;
+          -o-transition: width .5s;
+          -ms-transition: width .5s;
+          transition: width .5s;
+    }
+  }
 }
 
 .global-close {
@@ -171,7 +224,6 @@ a {
   box-shadow: 0px 1px 5px #a3a3a3;
 }
 
-
 .pull-right a {
   margin: 0;
 }
@@ -183,4 +235,9 @@ a:hover {
 .icon {
   width: 75px;
   text-align: center;
+}
+
+.pagination {
+  text-align: center;
+  display: block;
 }
