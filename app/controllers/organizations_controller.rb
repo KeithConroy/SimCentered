@@ -43,6 +43,14 @@ class OrganizationsController < ApplicationController
   end
 
   def destroy
+    Course.delete_all(organization_id: @organization.id)
+    Event.delete_all(organization_id: @organization.id)
+    Item.delete_all(organization_id: @organization.id)
+    Room.delete_all(organization_id: @organization.id)
+    User.delete_all(organization_id: @organization.id)
+
+    @organization.destroy
+    redirect_to :root
   end
 
   private
