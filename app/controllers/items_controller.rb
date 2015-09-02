@@ -3,7 +3,10 @@ class ItemsController < ApplicationController
   before_action :find_item, only: [:show, :edit, :update, :destroy]
 
   def index
-    @items = Item.where(organization_id: @organization.id).order(title: :asc).paginate(page: params[:page], per_page: 15)
+    @items = Item
+      .where(organization_id: @organization.id)
+      .order(title: :asc)
+      .paginate(page: params[:page], per_page: 15)
 
     return render :'items/_all_items', layout: false if request.xhr?
   end
@@ -42,7 +45,10 @@ class ItemsController < ApplicationController
   end
 
   def search
-    @items = Item.where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%").order(title: :asc).paginate(page: 1, per_page: 15)
+    @items = Item
+      .where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%")
+      .order(title: :asc)
+      .paginate(page: 1, per_page: 15)
     return render :'items/_all_items', layout: false
   end
 
