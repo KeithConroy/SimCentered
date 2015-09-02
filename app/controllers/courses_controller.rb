@@ -67,7 +67,8 @@ class CoursesController < ApplicationController
 
   def search
     @courses = Course
-      .where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%").order(title: :asc)
+      .where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%")
+      .order(title: :asc)
       .paginate(page: 1, per_page: 15)
     return render :'courses/_all_courses', layout: false
   end
