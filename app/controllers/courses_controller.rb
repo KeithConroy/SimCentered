@@ -7,7 +7,10 @@ class CoursesController < ApplicationController
   before_action :faculty, only: [:new, :edit]
 
   def index
-    @courses = Course.where(organization_id: @organization.id).order(title: :asc).paginate(page: params[:page], per_page: 15)
+    @courses = Course
+      .where(organization_id: @organization.id)
+      .order(title: :asc)
+      .paginate(page: params[:page], per_page: 15)
 
     return render :'courses/_all_courses', layout: false if request.xhr?
   end
@@ -27,7 +30,10 @@ class CoursesController < ApplicationController
   end
 
   def show
-    @students = User.where(organization_id: @organization.id, is_student: true).order(last_name: :asc).order(first_name: :asc)
+    @students = User
+      .where(organization_id: @organization.id, is_student: true)
+      .order(last_name: :asc)
+      .order(first_name: :asc)
     @students -= @course.students
   end
 
@@ -60,7 +66,10 @@ class CoursesController < ApplicationController
   end
 
   def search
-    @courses = Course.where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%").order(title: :asc).paginate(page: 1, per_page: 15)
+    @courses = Course
+      .where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%")
+      .order(title: :asc)
+      .paginate(page: 1, per_page: 15)
     return render :'courses/_all_courses', layout: false
   end
 
@@ -79,7 +88,10 @@ class CoursesController < ApplicationController
   end
 
   def faculty
-    @users = User.where(organization_id: @organization.id, is_student: false).order(last_name: :asc).order(first_name: :asc)
+    @users = User
+      .where(organization_id: @organization.id, is_student: false)
+      .order(last_name: :asc)
+      .order(first_name: :asc)
     @faculty = @users.map do |user|
       ["#{user.first_name} #{user.last_name}", user.id]
     end

@@ -18,7 +18,10 @@ class EventsController < ApplicationController
       end
       render json: events
     else
-      @events = Event.where(organization_id: @organization.id).order(start: :asc).paginate(page: params[:page], per_page: 15)
+      @events = Event
+        .where(organization_id: @organization.id)
+        .order(start: :asc)
+        .paginate(page: params[:page], per_page: 15)
     end
   end
 
@@ -40,15 +43,22 @@ class EventsController < ApplicationController
   end
 
   def modify
-    @courses = Course.where(organization_id: @organization.id).order(title: :asc)
-    @students = User.where(organization_id: @organization.id, is_student: true)
+    @courses = Course
+      .where(organization_id: @organization.id)
+      .order(title: :asc)
+    @students = User
+      .where(organization_id: @organization.id, is_student: true)
       .order(last_name: :asc).order(first_name: :asc)
     @students -= @event.students
 
-    @rooms = Room.where(organization_id: @organization.id).order(title: :asc)
+    @rooms = Room
+      .where(organization_id: @organization.id)
+      .order(title: :asc)
     @rooms -= @event.rooms
 
-    @items = Item.where(organization_id: @organization.id).order(title: :asc)
+    @items = Item
+      .where(organization_id: @organization.id)
+      .order(title: :asc)
     @items -= @event.items
 
     conflicting_events = Event.where("organization_id = ? AND (start BETWEEN ? AND ?) OR (finish BETWEEN ? AND ?)", @organization.id, @event.start, @event.finish, @event.start, @event.finish)
@@ -153,9 +163,15 @@ class EventsController < ApplicationController
   def search
     phrase = params[:phrase]
     if phrase == '`'
-      @events = Event.where(organization_id: @organization.id).order(start: :asc).paginate(page: 1, per_page: 15)
+      @events = Event
+        .where(organization_id: @organization.id)
+        .order(start: :asc)
+        .paginate(page: 1, per_page: 15)
     else
-      @events = Event.where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%").order(start: :asc).paginate(page: 1, per_page: 15)
+      @events = Event
+        .where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%")
+        .order(start: :asc)
+        .paginate(page: 1, per_page: 15)
     end
     return render :'events/_all_events', layout: false
   end
@@ -191,7 +207,10 @@ class EventsController < ApplicationController
   end
 
   def faculty
-    @users = User.where(organization_id: @organization.id, is_student: false).order(last_name: :asc).order(first_name: :asc)
+    @users = User
+      .where(organization_id: @organization.id, is_student: false)
+      .order(last_name: :asc)
+      .order(first_name: :asc)
     @faculty = @users.map do |user|
       ["#{user.first_name} #{user.last_name}", user.id]
     end
