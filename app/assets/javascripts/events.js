@@ -32,7 +32,7 @@ $(document).on('page:change', function() {
           '; Current view: ' + view.name);
 
     },
-    timezone: 'local',
+    // timezone: 'local',  #this displays events in the browsers time zone
     eventLimit: true,
         // put your options and callbacks here
     events: '/organizations/1/events'

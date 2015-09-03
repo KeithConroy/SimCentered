@@ -1,5 +1,5 @@
 class RoomsController < ApplicationController
-  before_action :find_organization
+  # before_action :find_organization
   before_action :find_room, only: [:show, :edit, :update, :destroy]
 
   def index
