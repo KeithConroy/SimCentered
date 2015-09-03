@@ -5,7 +5,6 @@
   <%= f.select(:instructor_id, @faculty) %>
   <%= f.datetime_select :start, :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
   <%= f.datetime_select :finish, :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
-  <%= f.datetime_field :finish %>
   <%= f.submit %>
 <% end %>
 
