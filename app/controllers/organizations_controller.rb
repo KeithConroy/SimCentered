@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  before_action :find_organization
+  # before_action :find_organization
 
   def index
 
@@ -63,6 +63,6 @@ class OrganizationsController < ApplicationController
   end
 
   def organization_params
-    params.require(:organization).permit(:title, :subdomain, :email)
+    params.require(:organization).permit(:title, :subdomain, :time_zone, :email)
   end
 end
