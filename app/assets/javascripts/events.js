@@ -32,6 +32,7 @@ $(document).on('page:change', function() {
           '; Current view: ' + view.name);
 
     },
+    timezone: 'local',
     eventLimit: true,
         // put your options and callbacks here
     events: '/organizations/1/events'
