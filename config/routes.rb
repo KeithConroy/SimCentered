@@ -2,6 +2,12 @@ Rails.application.routes.draw do
 
   root 'welcome#index'
 
+  get 'organizations/:organization_id/courses/search/:phrase' => 'courses#search'
+  get 'organizations/:organization_id/events/search/:phrase' => 'events#search'
+  get 'organizations/:organization_id/items/search/:phrase' => 'items#search'
+  get 'organizations/:organization_id/rooms/search/:phrase' => 'rooms#search'
+  get 'organizations/:organization_id/users/search/:phrase' => 'users#search'
+
   resources :organizations do
 
     resources :courses do

@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  before_action :find_organization
+  # before_action :find_organization
 
   def index
 
@@ -28,7 +28,10 @@ class OrganizationsController < ApplicationController
 
   def show
     @event = Event.new()
-    @events = Event.where(organization_id: @organization.id).where('start BETWEEN ? AND ?', DateTime.now.beginning_of_day, DateTime.now.end_of_day).order(start: :asc)
+    @events = Event
+      .where(organization_id: @organization.id)
+      .where('start BETWEEN ? AND ?', DateTime.now.beginning_of_day, DateTime.now.end_of_day)
+      .order(start: :asc)
   end
 
   def edit
@@ -43,6 +46,14 @@ class OrganizationsController < ApplicationController
   end
 
   def destroy
+    Course.delete_all(organization_id: @organization.id)
+    Event.delete_all(organization_id: @organization.id)
+    Item.delete_all(organization_id: @organization.id)
+    Room.delete_all(organization_id: @organization.id)
+    User.delete_all(organization_id: @organization.id)
+
+    @organization.destroy
+    redirect_to :root
   end
 
   private
@@ -52,6 +63,6 @@ class OrganizationsController < ApplicationController
   end
 
   def organization_params
-    params.require(:organization).permit(:title, :subdomain, :email)
+    params.require(:organization).permit(:title, :subdomain, :time_zone, :email)
   end
 end

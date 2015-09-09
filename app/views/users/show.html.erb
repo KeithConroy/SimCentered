@@ -1,3 +1,5 @@
+<% content_for :title, " | #{full_name(@user)}" %>
+
 <h2 class="page-header">
   <%= link_to organization_users_path(@organization), class: "back" do %>
     <i class="fa fa-angle-double-left"></i>
@@ -17,7 +19,7 @@
     <div class="panel-heading clearfix">
       <div class="panel-title pull-left"> Courses - <span id="student-count"><%= @user.courses.count %></span></div>
     </div>
-    <div class="event-students-table">
+    <div class="display-table">
       <table id="scheduled-students" class="table table-condensed">
         <!-- <thead>
           <tr>
@@ -41,7 +43,7 @@
     <div class="panel-heading clearfix">
       <div class="panel-title pull-left"> Events - <span id="student-count"><%= @user.events.count %></span></div>
     </div>
-    <div class="event-students-table">
+    <div class="display-table">
       <table id="scheduled-students" class="table table-condensed">
         <!-- <thead>
           <tr>

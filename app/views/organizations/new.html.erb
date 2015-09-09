@@ -4,5 +4,6 @@
   <%= f.text_field :title, label: "Organization Name" %>
   <%= f.text_field :subdomain %>
   <%= f.email_field :email, label: "Admin Email" %>
+  <%= f.time_zone_select :time_zone, nil, :default => "Pacific Time (US & Canada)"%>
   <%= f.submit %>
 <% end %>

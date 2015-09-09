@@ -1,21 +1,24 @@
+<% content_for :title, " | Rooms" %>
+
 <h2 class="page-header"><i class="fa fa-hospital-o"></i> Rooms
   <small>
-  <span class="pull-right">
-    <%= link_to new_organization_room_path(@organization, @room), class: "btn btn-default" do %>
-      <i class="fa fa-plus"></i>
-    <% end %>
-  </span>
+    <div id="search-parent">
+      <label for="search">
+        <i class="fa fa-search"></i>
+      </label>
+      <div class="form-group">
+        <input id="room-search" type="text" class="form-control search" placeholder="Search">
+      </div>
+    </div>
+    <span class="pull-right">
+      <%= link_to new_organization_room_path(@organization, @room), class: "new" do %>
+        <i class="fa fa-plus fa-lg"></i>
+      <% end %>
+    </span>
   </small>
 </h2>
 
-<div id="search-parent">
-  <label for="search">
-    <i class="fa fa-search"></i>
-  </label>
-  <div class="form-group">
-    <input type="text" class="form-control search" placeholder="Search">
-  </div>
-</div>
+<%= will_paginate @rooms %>
 
 <div class="panel panel-default">
   <div class="table-responsive">
@@ -29,22 +32,8 @@
           <th class='icon'>Delete</th>
         </tr>
       </thead>
-      <tbody>
-        <% @rooms.each do |room| %>
-        <tr>
-          <td><%= link_to room.title, organization_room_path(room.organization_id, room.id) %></td>
-          <td><%= room.number %></td>
-          <td><%= room.building %></td>
-          <td class='icon'><%= link_to edit_organization_room_path(room.organization_id, room.id), class: "glyphicon" do %>
-            <i class="fa fa-pencil-square-o fa-lg"></i>
-          <% end %>
-          </td>
-          <td class='icon'><%= link_to organization_room_path(room.organization_id, room.id), method: :delete, data: { confirm: 'Are you sure you want to delete this room?' }, class: "glyphicon" do %>
-            <i class="fa fa-trash-o fa-lg"></i>
-          <% end %>
-          </td>
-        </tr>
-        <% end %>
+      <tbody id="rooms-index">
+        <%= render 'all_rooms' %>
       </tbody>
     </table>
   </div>

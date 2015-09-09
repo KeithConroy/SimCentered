@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>SimCentered</title>
+  <title>SimCentered<%= yield(:title) %></title>
   <%= favicon_link_tag 'sc-red.ico' %>
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -54,6 +54,16 @@
                   <li><%= link_to "Users", organization_users_path(@organization) %></li>
                 </ul>
               </li>
+<!--               <li>
+                <div id="global-search-parent">
+                  <label for="search">
+                    <i class="fa fa-search"></i>
+                  </label>
+                  <div class="form-group">
+                    <input type="text" class="form-control global-search" placeholder="Search">
+                  </div>
+                </div>
+              </li>-->
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li>

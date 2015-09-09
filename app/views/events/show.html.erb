@@ -1,9 +1,11 @@
+<% content_for :title, " | #{@event.title}" %>
+
 <h2 class="page-header">
   <%= link_to organization_events_path(@organization), class: "back" do %>
     <i class="fa fa-angle-double-left"></i>
   <% end %>
   <%= @event.title %>
-  <small> - <%= @event.start.strftime("%B %e, %Y at %l:%M %p %Z") %>
+  <small> - <%= @event.start.strftime("%a %b %e, %g at %l:%M %p %Z") %>
   <span class="pull-right">
     <%= link_to 'Edit', edit_organization_event_path(@event.organization_id, @event.id) %>
     <%= link_to 'Delete', organization_event_path(@event.organization_id, @event.id), method: :delete, data: { confirm: 'Are you sure?' } %>
@@ -21,8 +23,8 @@
         <div class="panel-title pull-left"> Scheduled Students - <span id="student-count"><%= @event.students.count %></span>
         </div>
       </div>
-      <div class="event-students-table">
-        <table id="scheduled-students" class="table table-condensed">
+      <div class="display-table">
+        <table class="table table-condensed">
           <tbody>
             <% @event.students.each do |student| %>
             <tr>
@@ -40,7 +42,7 @@
       <div class="panel-heading clearfix">
         <div class="panel-title pull-left"> Scheduled Rooms - <span id="room-count"><%= @event.rooms.count %></span></div>
       </div>
-      <div class="event-students-table">
+      <div class="display-table">
         <table class="table table-condensed">
           <tbody>
             <% @event.rooms.each do |room| %>
@@ -59,13 +61,19 @@
       <div class="panel-heading clearfix">
         <div class="panel-title pull-left"> Scheduled Inventory - <span id="item-count"><%= @event.items.count %></span></div>
       </div>
-      <div class="event-students-table">
+      <div class="display-table">
         <table class="table table-condensed">
           <tbody>
             <% @event.items.each do |item| %>
             <tr>
               <td><%= item.title %></td>
-              <td><%= item.quantity %></td>
+              <% if item.disposable %>
+                <td>
+                  <%= item.quantity %>
+                </td>
+              <% else %>
+                <td></td>
+              <% end %>
             </tr>
             <% end %>
           </tbody>

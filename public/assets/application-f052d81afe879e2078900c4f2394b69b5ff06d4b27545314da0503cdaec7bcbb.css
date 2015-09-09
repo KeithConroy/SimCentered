@@ -1,4 +1,4 @@
-.event-students-table{height:350px;overflow:scroll}#add-students,#add-rooms,#add-items{margin:auto}#calendar{border-radius:10px;background-color:#ffffff;padding:2% 5% 5% 5%}tr.dropdown-row{display:none}/*!
+.display-table{height:350px;overflow:scroll}#add-students,#add-rooms,#add-items{margin:auto}#calendar{border-radius:10px;background-color:#ffffff;padding:2% 5% 5% 5%}tr.dropdown-row{display:none}/*!
  * FullCalendar v2.4.0 Stylesheet
  * Docs & License: http://fullcalendar.io/
  * (c) 2015 Adam Shaw

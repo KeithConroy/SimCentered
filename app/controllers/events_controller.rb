@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :find_organization
+  # before_action :find_organization
   before_action :find_event, only: [:show, :edit, :update, :destroy]
 
   before_action :nested_student, only: [:add_student, :remove_student]
@@ -18,7 +18,10 @@ class EventsController < ApplicationController
       end
       render json: events
     else
-      @events = Event.where(organization_id: @organization.id).order(start: :asc)
+      @events = Event
+        .where(organization_id: @organization.id)
+        .order(start: :asc)
+        .paginate(page: params[:page], per_page: 15)
     end
   end
 
@@ -40,20 +43,37 @@ class EventsController < ApplicationController
   end
 
   def modify
-    @courses = Course.where(organization_id: @organization.id).order(title: :asc)
-    @students = User.where(organization_id: @organization.id, is_student: true)
-      .order(last_name: :asc).order(first_name: :asc)
-    @students -= @event.students
-
-    @rooms = Room.where(organization_id: @organization.id).order(title: :asc)
-    @rooms -= @event.rooms
-
-    @items = Item.where(organization_id: @organization.id).order(title: :asc)
-    @items -= @event.items
+    available_students
+    available_rooms
+    available_items
 
     conflicting_events = Event.where("organization_id = ? AND (start BETWEEN ? AND ?) OR (finish BETWEEN ? AND ?)", @organization.id, @event.start, @event.finish, @event.start, @event.finish)
 
     find_busy(conflicting_events) unless conflicting_events.empty?
+  end
+
+  def available_students
+    @courses = Course
+      .where(organization_id: @organization.id)
+      .order(title: :asc)
+    @students = User
+      .where(organization_id: @organization.id, is_student: true)
+      .order(last_name: :asc).order(first_name: :asc)
+    @students -= @event.students
+  end
+
+  def available_rooms
+    @rooms = Room
+      .where(organization_id: @organization.id)
+      .order(title: :asc)
+    @rooms -= @event.rooms
+  end
+
+  def available_items
+    @items = Item
+      .where(organization_id: @organization.id)
+      .order(title: :asc)
+    @items -= @event.items
   end
 
   def find_busy(conflicting_events)
@@ -102,7 +122,8 @@ class EventsController < ApplicationController
       @event.students << student unless @event.students.include?(student)
     end
     @event.save
-    render json: {user: @user, count: @event.students.count, event: @event.id}
+    return render :'events/_scheduled_students', layout: false
+    # render json: {user: @user, count: @event.students.count, event: @event.id}
   end
 
   # def remove_course
@@ -117,37 +138,62 @@ class EventsController < ApplicationController
   def add_student
     @event.students << @user
     @event.save
-    render json: {user: @user, count: @event.students.count, event: @event.id}
+    return render :'events/_scheduled_students', layout: false
+    # render json: {user: @user, count: @event.students.count, event: @event.id}
   end
 
   def remove_student
     @event.students.delete(@user)
     @event.save
-    render json: {user: @user, count: @event.students.count, event: @event.id}
+    available_students
+    return render :'events/_available_students', layout: false
+    # render json: {user: @user, count: @event.students.count, event: @event.id}
   end
 
   def add_room
     @event.rooms << @room
     @event.save
-    render json: {room: @room, count: @event.rooms.count, event: @event.id}
+    return render :'events/_scheduled_rooms', layout: false
+    # render json: {room: @room, count: @event.rooms.count, event: @event.id}
   end
 
   def remove_room
     @event.rooms.delete(@room)
     @event.save
-    render json: {room: @room, count: @event.rooms.count, event: @event.id}
+    available_rooms
+    return render :'events/_available_rooms', layout: false
+    # render json: {room: @room, count: @event.rooms.count, event: @event.id}
   end
 
   def add_item
     @event.items << @item
     @event.save
-    render json: {item: @item, count: @event.items.count, event: @event.id}
+    return render :'events/_scheduled_items', layout: false
+    # render json: {item: @item, count: @event.items.count, event: @event.id}
   end
 
   def remove_item
     @event.items.delete(@item)
     @event.save
-    render json: {item: @item, count: @event.items.count, event: @event.id}
+    available_items
+    return render :'events/_available_items', layout: false
+    # render json: {item: @item, count: @event.items.count, event: @event.id}
+  end
+
+  def search
+    phrase = params[:phrase]
+    if phrase == '`'
+      @events = Event
+        .where(organization_id: @organization.id)
+        .order(start: :asc)
+        .paginate(page: 1, per_page: 15)
+    else
+      @events = Event
+        .where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%")
+        .order(start: :asc)
+        .paginate(page: 1, per_page: 15)
+    end
+    return render :'events/_all_events', layout: false
   end
 
   private
@@ -181,7 +227,10 @@ class EventsController < ApplicationController
   end
 
   def faculty
-    @users = User.where(organization_id: @organization.id, is_student: false).order(last_name: :asc).order(first_name: :asc)
+    @users = User
+      .where(organization_id: @organization.id, is_student: false)
+      .order(last_name: :asc)
+      .order(first_name: :asc)
     @faculty = @users.map do |user|
       ["#{user.first_name} #{user.last_name}", user.id]
     end
