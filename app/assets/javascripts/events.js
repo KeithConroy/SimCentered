@@ -38,6 +38,10 @@ $(document).on('page:change', function() {
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()
   })
+
+  $('#newEventModal').on('hidden.bs.modal', function(){
+      $(this).find('form')[0].reset();
+  });
 });
 
 var bindEvents = function(){
