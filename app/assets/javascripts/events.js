@@ -16,11 +16,22 @@ $(document).on('page:change', function() {
       right: 'month,agendaWeek,agendaDay'
     },
     dayClick: function(date, jsEvent, view) {
+      $('#newEventModal').modal('show');
 
-        alert('Clicked on: ' + date.format() +
-          '; Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY +
-          '; Current view: ' + view.name);
+      var day = date.format('D');
+      var month = date.format('M');
+      var year = date.format('YYYY');
+      var hour = date.format('HH');
 
+      $('#event_start_3i option[value="'+ day +'"]').prop('selected', true)
+      $('#event_start_2i option[value="'+ month +'"]').prop('selected', true)
+      $('#event_start_1i option[value="'+ year +'"]').prop('selected', true)
+      $('#event_start_4i option[value="'+ hour +'"]').prop('selected', true)
+
+      $('#event_finish_3i option[value="'+ day +'"]').prop('selected', true)
+      $('#event_finish_2i option[value="'+ month +'"]').prop('selected', true)
+      $('#event_finish_1i option[value="'+ year +'"]').prop('selected', true)
+      $('#event_finish_4i option[value="'+ hour +'"]').prop('selected', true)
     },
   })
 

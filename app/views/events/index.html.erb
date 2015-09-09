@@ -3,9 +3,9 @@
 <h2 class="page-header">Calendar
   <small>
   <span class="pull-right">
-    <%= link_to new_organization_event_path(@organization, @event), class: "new" do %>
+    <a href="" class="new" data-toggle="modal" data-target="#newEventModal">
       <i class="fa fa-plus fa-lg"></i>
-    <% end %>
+    </a>
   </span>
   </small>
 </h2>
@@ -23,14 +23,12 @@
       </div>
     </div>
     <span class="pull-right">
-      <%= link_to new_organization_event_path(@organization, @event), class: "new" do %>
+      <a href="" class="new" data-toggle="modal" data-target="#newEventModal">
         <i class="fa fa-plus fa-lg"></i>
-      <% end %>
+      </a>
     </span>
   </small>
 </h2>
-
-
 
 <%= will_paginate @events %>
 
@@ -50,5 +48,28 @@
         <%= render 'all_events' %>
       </tbody>
     </table>
+  </div>
+</div>
+
+<div class="modal fade" id="newEventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Create a New Event</h4>
+      </div>
+      <div class="modal-body">
+        <%= bootstrap_form_for @new_event, layout: :horizontal, control_col: "col-sm-9", url: organization_events_path do |f| %>
+          <%= f.text_field :title %>
+          <%= f.select(:instructor_id, @faculty) %>
+          <%= f.datetime_select :start, :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
+          <%= f.datetime_select :finish, :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <%= f.submit %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>
