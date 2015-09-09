@@ -1,9 +1,11 @@
+<% content_for :title, " | #{@event.title}" %>
+
 <h2 class="page-header">
   <%= link_to organization_events_path(@organization), class: "back" do %>
     <i class="fa fa-angle-double-left"></i>
   <% end %>
   <%= @event.title %>
-  <small> - <%= @event.start.strftime("%B %e, %Y at %l:%M %p %Z") %>
+  <small> - <%= @event.start.strftime("%a %b %e, %g at %l:%M %p %Z") %>
   <span class="pull-right">
     <%= link_to 'Edit', edit_organization_event_path(@event.organization_id, @event.id) %>
     <%= link_to 'Delete', organization_event_path(@event.organization_id, @event.id), method: :delete, data: { confirm: 'Are you sure?' } %>
@@ -15,172 +17,88 @@
 <p><%= link_to "Done", organization_event_path(@event.organization_id, @event.id) %></p>
 
 <div class="row col-md-12">
-  <div id="student-selector" class="col-md-8">
+  <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <div class="panel-title">Students</div>
+        <div class="panel-title">
+          Available Students
+        </div>
       </div>
-      <div class="event-students-table">
+      <div class="display-table">
         <table id="available-students" class="table table-hover">
-          <tbody>
-            <% @courses.each do |course| %>
-              <tr class="clicker">
-                <td><i class="fa fa-users"></i> <%= course.title %></td>
-                <td class="icon"><a href="add_course/<%= course.id %>" class="add-course"><i class="fa fa-plus"></i></a></td>
-              </tr>
-              <tr class="dropdown-row">
-                <td>
-                  <ul>
-                  <% course.students.each do |student| %>
-                    <li><%= full_name(student) %></li>
-                  <% end %>
-                  </ul>
-                </td>
-                <td></td>
-              </tr>
-            <% end %>
-
-            <% @students.each do |student| %>
-            <tr>
-              <td><%= full_name(student) %></td>
-              <td class="icon">
-                <% if student.busy %>
-                  <i class="fa fa-ban busy" data-toggle="tooltip" data-placement="left" title="Busy"></i>
-                <% else %>
-                  <a href="add_student/<%= student.id %>" class="add-student">
-                    <i class="fa fa-plus"></i>
-                  </a>
-                <% end %>
-              </td>
-            </tr>
-            <% end %>
-          </tbody>
+          <%= render 'available_students' %>
         </table>
       </div>
     </div>
   </div>
-  <div id="selected-students" class="col-md-4">
+  <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
-        <div class="panel-title pull-left"> Scheduled Students - <span id="student-count"><%= @event.students.count %></span></div>
+        <div class="panel-title">
+          Scheduled Students
+        </div>
       </div>
-      <div class="event-students-table">
+      <div class="display-table">
         <table id="scheduled-students" class="table table-condensed">
-          <tbody>
-            <% @event.students.each do |student| %>
-            <tr>
-              <td><%= full_name(student) %></td>
-              <td class="icon">
-                <a href="remove_student/<%= student.id %>" class="remove-student">
-                  <i class="fa fa-minus"></i>
-                </a>
-              </td>
-            </tr>
-            <% end %>
-          </tbody>
+          <%= render 'scheduled_students' %>
         </table>
       </div>
     </div>
   </div>
 
-  <div id="room-selector" class="col-md-8">
+  <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <div class="panel-title">Rooms</div>
+        <div class="panel-title">
+          Available Rooms
+        </div>
       </div>
-      <div class="event-students-table">
-        <table class="table table-hover">
-          <tbody>
-            <% @rooms.each do |room| %>
-            <tr>
-              <td><%= room.title %></td>
-              <td class="icon">
-                <% if room.busy %>
-                  <i class="fa fa-ban busy" data-toggle="tooltip" data-placement="left" title="In Use"></i>
-                <% else %>
-                  <a href="add_room/<%= room.id %>" class="add-room">
-                    <i class="fa fa-plus"></i>
-                  </a>
-                <% end %>
-              </td>
-            </tr>
-            <% end %>
-          </tbody>
+      <div class="display-table">
+        <table id="available-rooms" class="table table-hover">
+          <%= render 'available_rooms' %>
         </table>
       </div>
     </div>
   </div>
-  <div id="selected-rooms" class="col-md-4">
+  <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
-        <div class="panel-title pull-left"> Scheduled Rooms - <span id="room-count"><%= @event.rooms.count %></span></div>
+        <div class="panel-title">
+          Scheduled Rooms
+        </div>
       </div>
-      <div class="event-students-table">
-        <table class="table table-condensed">
-          <tbody>
-            <% @event.rooms.each do |room| %>
-            <tr>
-              <td><%= room.title %></td>
-              <td class="icon">
-                <a href="remove_room/<%= room.id %>" class="remove-room">
-                  <i class="fa fa-minus"></i>
-                </a>
-              </td>
-            </tr>
-            <% end %>
-          </tbody>
+      <div class="display-table">
+        <table id="scheduled-rooms" class="table table-condensed">
+          <%= render 'scheduled_rooms' %>
         </table>
       </div>
     </div>
   </div>
 
-  <div id="item-selector" class="col-md-8">
+  <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <div class="panel-title">Items</div>
+        <div class="panel-title">
+          Available Items
+        </div>
       </div>
-      <div class="event-students-table">
-        <table class="table table-hover">
-          <tbody>
-            <% @items.each do |item| %>
-            <tr>
-              <td><%= item.title %></td>
-              <td class="icon">
-                <% if item.busy %>
-                  <i class="fa fa-ban busy" data-toggle="tooltip" data-placement="left" title="In Use"></i>
-                <% else %>
-                  <a href="add_item/<%= item.id %>" class="add-item">
-                    <i class="fa fa-plus"></i>
-                  </a>
-                <% end %>
-              </td>
-            </tr>
-            <% end %>
-          </tbody>
+      <div class="display-table">
+        <table id="available-items" class="table table-hover">
+          <%= render 'available_items' %>
         </table>
       </div>
     </div>
   </div>
-  <div id="selected-items" class="col-md-4">
+  <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
-        <div class="panel-title pull-left"> Scheduled Inventory - <span id="item-count"><%= @event.items.count %></span></div>
+        <div class="panel-title">
+          Scheduled Inventory
+        </div>
       </div>
-      <div class="event-students-table">
-        <table class="table table-condensed">
-          <tbody>
-            <% @event.items.each do |item| %>
-            <tr>
-              <td><%= item.title %></td>
-              <td><%= item.quantity %></td>
-              <td class="icon">
-                <a href="remove_item/<%= item.id %>" class="remove-item">
-                  <i class="fa fa-minus"></i>
-                </a>
-              </td>
-            </tr>
-            <% end %>
-          </tbody>
+      <div class="display-table">
+        <table id="scheduled-items" class="table table-condensed">
+          <%= render 'scheduled_items' %>
         </table>
       </div>
     </div>

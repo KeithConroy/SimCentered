@@ -1,0 +1,13 @@
+<tbody>
+  <% @event.items.each do |item| %>
+  <tr>
+    <td><%= item.title %></td>
+    <td><%= item.quantity %></td>
+    <td class="icon">
+      <a href="remove_item/<%= item.id %>" class="remove-item">
+        <i class="fa fa-minus"></i>
+      </a>
+    </td>
+  </tr>
+  <% end %>
+</tbody>
