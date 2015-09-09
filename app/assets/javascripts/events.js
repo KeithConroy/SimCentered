@@ -23,25 +23,26 @@ $(document).on('page:change', function() {
       var year = date.format('YYYY');
       var hour = date.format('HH');
 
-      $('#event_start_3i option[value="'+ day +'"]').prop('selected', true)
-      $('#event_start_2i option[value="'+ month +'"]').prop('selected', true)
-      $('#event_start_1i option[value="'+ year +'"]').prop('selected', true)
-      $('#event_start_4i option[value="'+ hour +'"]').prop('selected', true)
+      $('#event_start_3i option[value="'+ day +'"]').prop('selected', true);
+      $('#event_start_2i option[value="'+ month +'"]').prop('selected', true);
+      $('#event_start_1i option[value="'+ year +'"]').prop('selected', true);
+      $('#event_start_4i option[value="'+ hour +'"]').prop('selected', true);
 
-      $('#event_finish_3i option[value="'+ day +'"]').prop('selected', true)
-      $('#event_finish_2i option[value="'+ month +'"]').prop('selected', true)
-      $('#event_finish_1i option[value="'+ year +'"]').prop('selected', true)
-      $('#event_finish_4i option[value="'+ hour +'"]').prop('selected', true)
+      $('#event_finish_3i option[value="'+ day +'"]').prop('selected', true);
+      $('#event_finish_2i option[value="'+ month +'"]').prop('selected', true);
+      $('#event_finish_1i option[value="'+ year +'"]').prop('selected', true);
+      $('#event_finish_4i option[value="'+ hour +'"]').prop('selected', true);
     },
   })
 
   $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
   })
 
   $('#newEventModal').on('hidden.bs.modal', function(){
-      $(this).find('form')[0].reset();
+    $(this).find('form')[0].reset();
   });
+
 });
 
 var bindEvents = function(){
