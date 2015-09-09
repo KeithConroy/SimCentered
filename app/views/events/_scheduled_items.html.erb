@@ -2,7 +2,13 @@
   <% @event.items.each do |item| %>
   <tr>
     <td><%= item.title %></td>
-    <td><%= item.quantity %></td>
+    <% if item.disposable %>
+      <td>
+        <%= item.quantity %>
+      </td>
+    <% else %>
+      <td></td>
+    <% end %>
     <td class="icon">
       <a href="remove_item/<%= item.id %>" class="remove-item">
         <i class="fa fa-minus"></i>

@@ -67,7 +67,13 @@
             <% @event.items.each do |item| %>
             <tr>
               <td><%= item.title %></td>
-              <td><%= item.quantity %></td>
+              <% if item.disposable %>
+                <td>
+                  <%= item.quantity %>
+                </td>
+              <% else %>
+                <td></td>
+              <% end %>
             </tr>
             <% end %>
           </tbody>
