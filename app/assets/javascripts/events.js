@@ -22,16 +22,19 @@ $(document).on('page:change', function() {
       var month = date.format('M');
       var year = date.format('YYYY');
       var hour = date.format('HH');
+      var minute = date.format('mm');
 
       $('#event_start_3i option[value="'+ day +'"]').prop('selected', true);
       $('#event_start_2i option[value="'+ month +'"]').prop('selected', true);
       $('#event_start_1i option[value="'+ year +'"]').prop('selected', true);
       $('#event_start_4i option[value="'+ hour +'"]').prop('selected', true);
+      $('#event_start_5i option[value="'+ minute +'"]').prop('selected', true);
 
       $('#event_finish_3i option[value="'+ day +'"]').prop('selected', true);
       $('#event_finish_2i option[value="'+ month +'"]').prop('selected', true);
       $('#event_finish_1i option[value="'+ year +'"]').prop('selected', true);
       $('#event_finish_4i option[value="'+ hour +'"]').prop('selected', true);
+      $('#event_finish_5i option[value="'+ minute +'"]').prop('selected', true);
     },
   })
 
