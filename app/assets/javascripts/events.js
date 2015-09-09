@@ -16,17 +16,45 @@ $(document).on('page:change', function() {
       right: 'month,agendaWeek,agendaDay'
     },
     dayClick: function(date, jsEvent, view) {
+      $('#newEventModal').modal('show');
 
-        alert('Clicked on: ' + date.format() +
-          '; Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY +
-          '; Current view: ' + view.name);
+      var day = date.format('D');
+      var month = date.format('M');
+      var year = date.format('YYYY');
+      var hour = date.format('HH');
+      var minute = date.format('mm');
 
+      $('#event_start_3i option[value="'+ day +'"]').prop('selected', true);
+      $('#event_start_2i option[value="'+ month +'"]').prop('selected', true);
+      $('#event_start_1i option[value="'+ year +'"]').prop('selected', true);
+      $('#event_start_4i option[value="'+ hour +'"]').prop('selected', true);
+      $('#event_start_5i option[value="'+ minute +'"]').prop('selected', true);
+
+      $('#event_finish_3i option[value="'+ day +'"]').prop('selected', true);
+      $('#event_finish_2i option[value="'+ month +'"]').prop('selected', true);
+      $('#event_finish_1i option[value="'+ year +'"]').prop('selected', true);
+      $('#event_finish_4i option[value="'+ hour +'"]').prop('selected', true);
+      $('#event_finish_5i option[value="'+ minute +'"]').prop('selected', true);
     },
   })
 
   $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
   })
+
+  $('#newEventModal').on('hidden.bs.modal', function(){
+    $(this).find('form')[0].reset();
+  });
+
+  // $('#deleteEventModal').on('show.bs.modal', function (event) {
+  //   var button = $(event.relatedTarget)
+  //   var title = button.data('event-title')
+  //   var id = button.data('event-id')
+  //   var modal = $(this)
+  //   // modal.find('.modal-title').text('Delete ' + title)
+  //   modal.find('.modal-body').text('Are you sure you want to delete the event: ' + title + '?')
+  // });
+
 });
 
 var bindEvents = function(){
