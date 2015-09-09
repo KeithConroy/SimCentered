@@ -1,0 +1,33 @@
+<tbody>
+  <% @courses.each do |course| %>
+    <tr class="clicker">
+      <td><i class="fa fa-users"></i> <%= course.title %></td>
+      <td class="icon"><a href="add_course/<%= course.id %>" class="add-course"><i class="fa fa-plus"></i></a></td>
+    </tr>
+    <tr class="dropdown-row">
+      <td>
+        <ul>
+        <% course.students.each do |student| %>
+          <li><%= full_name(student) %></li>
+        <% end %>
+        </ul>
+      </td>
+      <td></td>
+    </tr>
+  <% end %>
+
+  <% @students.each do |student| %>
+  <tr>
+    <td><%= full_name(student) %></td>
+    <td class="icon">
+      <% if student.busy %>
+        <i class="fa fa-ban busy" data-toggle="tooltip" data-placement="left" title="Busy"></i>
+      <% else %>
+        <a href="add_student/<%= student.id %>" class="add-student">
+          <i class="fa fa-plus"></i>
+        </a>
+      <% end %>
+    </td>
+  </tr>
+  <% end %>
+</tbody>

@@ -1,0 +1,12 @@
+<tbody>
+  <% @event.rooms.each do |room| %>
+  <tr>
+    <td><%= room.title %></td>
+    <td class="icon">
+      <a href="remove_room/<%= room.id %>" class="remove-room">
+        <i class="fa fa-minus"></i>
+      </a>
+    </td>
+  </tr>
+  <% end %>
+</tbody>
