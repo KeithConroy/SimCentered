@@ -43,6 +43,15 @@ $(document).on('page:change', function() {
     $(this).find('form')[0].reset();
   });
 
+  // $('#deleteEventModal').on('show.bs.modal', function (event) {
+  //   var button = $(event.relatedTarget)
+  //   var title = button.data('event-title')
+  //   var id = button.data('event-id')
+  //   var modal = $(this)
+  //   // modal.find('.modal-title').text('Delete ' + title)
+  //   modal.find('.modal-body').text('Are you sure you want to delete the event: ' + title + '?')
+  // });
+
 });
 
 var bindEvents = function(){
