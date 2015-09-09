@@ -3,6 +3,7 @@ class ItemsController < ApplicationController
   before_action :find_item, only: [:show, :edit, :update, :destroy]
 
   def index
+    @new_item = Item.new
     @items = Item
       .where(organization_id: @organization.id)
       .order(title: :asc)

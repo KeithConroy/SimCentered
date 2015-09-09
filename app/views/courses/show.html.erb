@@ -15,7 +15,7 @@
 
 <p>Instructor: <%= full_name(@course.instructor) if @course.instructor %></p>
 
-<div id="student-selector" class="col-md-8">
+<div id="student-selector" class="col-md-6">
   <div class="panel panel-default">
     <div class="panel-heading">
       <div class="panel-title">Students</div>
@@ -39,7 +39,7 @@
     </div>
   </div>
 </div>
-<div id="selected-students" class="col-md-4">
+<div id="selected-students" class="col-md-6">
   <div class="panel panel-default">
     <div class="panel-heading clearfix">
       <div class="panel-title pull-left"> Enrolled Students - <span id="student-count"><%= @course.students.count %></span></div>

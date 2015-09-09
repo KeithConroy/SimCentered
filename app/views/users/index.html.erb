@@ -11,9 +11,9 @@
       </div>
     </div>
     <span class="pull-right">
-      <%= link_to new_organization_user_path(@organization, @user), class: "new" do %>
+      <a href="" class="new" data-toggle="modal" data-target="#newUserModal">
         <i class="fa fa-plus fa-lg"></i>
-      <% end %>
+      </a>
     </span>
   </small>
 </h2>
@@ -39,3 +39,26 @@
   </div>
 </div>
 
+<div class="modal fade" id="newUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Create a New User</h4>
+      </div>
+      <div class="modal-body">
+        <%= bootstrap_form_for @new_user, layout: :horizontal, control_col: "col-sm-9", url: organization_users_path do |f| %>
+          <%= f.text_field :first_name %>
+          <%= f.text_field :last_name %>
+          <%= f.email_field :email %>
+          <%= f.check_box :is_student, label: "Student?" %>
+          <%= f.password_field :password %>
+          <%= f.submit %>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
