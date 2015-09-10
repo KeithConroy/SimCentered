@@ -3,6 +3,7 @@ class RoomsController < ApplicationController
   before_action :find_room, only: [:show, :edit, :update, :destroy]
 
   def index
+    @new_room = Room.new
     @rooms = Room
       .where(organization_id: @organization.id)
       .order(title: :asc)

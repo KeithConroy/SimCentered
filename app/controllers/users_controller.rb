@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   before_action :find_user, only: [:show, :edit, :update, :destroy]
 
   def index
+    @new_user = User.new
     # @users = User.where(organization_id: @organization.id).order(last_name: :asc).order(first_name: :asc)
     get_paged_users
     return render :'users/_all_users', layout: false if request.xhr?
