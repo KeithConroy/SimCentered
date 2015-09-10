@@ -243,8 +243,14 @@ a:hover {
   display: block;
 }
 
-.new {
+a.new {
   position: relative;
   top: 12px;
   right: 5px;
+  outline: none;
+}
+
+input[type="submit"] {
+  display: block;
+  margin: 0 0 0 auto;
 }
