@@ -32,7 +32,7 @@ $dropDown       : true;
         &:hover,  &:focus {
           > i.heart {
             color: #ff0004;
-            transform: scale(1.5);
+            // transform: scale(1.5);
             -webkit-transition-duration: .7s; /* Safari */
               transition-duration: .7s;
           }
@@ -177,53 +177,53 @@ a {
   }
 }
 
-#global-search-parent {
-  position: relative;
-  width: 130px;
-  margin: auto;
-  top: 7px;
-  label {
-    position: absolute;
-    left: 17px;
-    top: 7px;
-  }
-  .form-group {
-    margin: 0;
-    width: 130px;
-    .global-search {
-      border-radius: 30px;
-      padding-left: 40px;
-      padding-right: 40px;
-    }
-    >:focus {
-      width: 400px;
-        -webkit-transition: width .5s;
-          -moz-transition: width .5s;
-          -o-transition: width .5s;
-          -ms-transition: width .5s;
-          transition: width .5s;
-    }
-  }
-}
+// #global-search-parent {
+//   position: relative;
+//   width: 130px;
+//   margin: auto;
+//   top: 7px;
+//   label {
+//     position: absolute;
+//     left: 17px;
+//     top: 7px;
+//   }
+//   .form-group {
+//     margin: 0;
+//     width: 130px;
+//     .global-search {
+//       border-radius: 30px;
+//       padding-left: 40px;
+//       padding-right: 40px;
+//     }
+//     >:focus {
+//       width: 400px;
+//         -webkit-transition: width .5s;
+//           -moz-transition: width .5s;
+//           -o-transition: width .5s;
+//           -ms-transition: width .5s;
+//           transition: width .5s;
+//     }
+//   }
+// }
 
-.global-close {
-  display: none;
-  position: absolute;
-  right: 17px;
-  top: 7px;
-}
+// .global-close {
+//   display: none;
+//   position: absolute;
+//   right: 17px;
+//   top: 7px;
+// }
 
-.search-results {
-  display: none;
-  position: absolute;
-  // background-color: #E9EAED;
-  background-color: #ffffff;
-  width: 100%;
-  z-index: 1;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0px 1px 5px #a3a3a3;
-}
+// .search-results {
+//   display: none;
+//   position: absolute;
+//   // background-color: #E9EAED;
+//   background-color: #ffffff;
+//   width: 100%;
+//   z-index: 1;
+//   border-radius: 10px;
+//   text-align: center;
+//   box-shadow: 0px 1px 5px #a3a3a3;
+// }
 
 .pull-right a {
   margin: 0;
