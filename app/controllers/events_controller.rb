@@ -6,7 +6,7 @@ class EventsController < ApplicationController
   before_action :nested_room, only: [:add_room, :remove_room]
   before_action :nested_item, only: [:add_item, :remove_item]
 
-  before_action :nested_event, only: [:modify, :add_course, :remove_course, :add_student, :remove_student, :add_room, :remove_room, :add_item, :remove_item]
+  before_action :nested_event, only: [:modify, :add_course, :remove_course, :add_student, :remove_student, :add_room, :remove_room, :add_item, :remove_item, :modify_search]
 
   before_action :faculty, only: [:index,:new, :edit]
 
@@ -44,38 +44,38 @@ class EventsController < ApplicationController
   end
 
   def modify
-    available_students
-    available_rooms
-    available_items
+    # available_students
+    # available_rooms
+    # available_items
 
-    conflicting_events = Event.where("organization_id = ? AND (start BETWEEN ? AND ?) OR (finish BETWEEN ? AND ?)", @organization.id, @event.start, @event.finish, @event.start, @event.finish)
+    # conflicting_events = Event.where("organization_id = ? AND (start BETWEEN ? AND ?) OR (finish BETWEEN ? AND ?)", @organization.id, @event.start, @event.finish, @event.start, @event.finish)
 
-    find_busy(conflicting_events) unless conflicting_events.empty?
+    # find_busy(conflicting_events) unless conflicting_events.empty?
   end
 
-  def available_students
-    @courses = Course
-      .where(organization_id: @organization.id)
-      .order(title: :asc)
-    @students = User
-      .where(organization_id: @organization.id, is_student: true)
-      .order(last_name: :asc).order(first_name: :asc)
-    @students -= @event.students
-  end
+  # def available_students
+  #   @courses = Course
+  #     .where(organization_id: @organization.id)
+  #     .order(title: :asc)
+  #   @students = User
+  #     .where(organization_id: @organization.id, is_student: true)
+  #     .order(last_name: :asc).order(first_name: :asc)
+  #   @students -= @event.students
+  # end
 
-  def available_rooms
-    @rooms = Room
-      .where(organization_id: @organization.id)
-      .order(title: :asc)
-    @rooms -= @event.rooms
-  end
+  # def available_rooms
+  #   @rooms = Room
+  #     .where(organization_id: @organization.id)
+  #     .order(title: :asc)
+  #   @rooms -= @event.rooms
+  # end
 
-  def available_items
-    @items = Item
-      .where(organization_id: @organization.id)
-      .order(title: :asc)
-    @items -= @event.items
-  end
+  # def available_items
+  #   @items = Item
+  #     .where(organization_id: @organization.id)
+  #     .order(title: :asc)
+  #   @items -= @event.items
+  # end
 
   def find_busy(conflicting_events)
     busy_students = []
@@ -146,9 +146,7 @@ class EventsController < ApplicationController
   def remove_student
     @event.students.delete(@user)
     @event.save
-    available_students
-    return render :'events/_available_students', layout: false
-    # render json: {user: @user, count: @event.students.count, event: @event.id}
+    render json: {count: @event.students.count}
   end
 
   def add_room
@@ -161,9 +159,7 @@ class EventsController < ApplicationController
   def remove_room
     @event.rooms.delete(@room)
     @event.save
-    available_rooms
-    return render :'events/_available_rooms', layout: false
-    # render json: {room: @room, count: @event.rooms.count, event: @event.id}
+    render json: {count: @event.rooms.count}
   end
 
   def add_item
@@ -176,9 +172,7 @@ class EventsController < ApplicationController
   def remove_item
     @event.items.delete(@item)
     @event.save
-    available_items
-    return render :'events/_available_items', layout: false
-    # render json: {item: @item, count: @event.items.count, event: @event.id}
+    render json: {count: @event.items.count}
   end
 
   def search
@@ -195,6 +189,43 @@ class EventsController < ApplicationController
         .paginate(page: 1, per_page: 15)
     end
     return render :'events/_all_events', layout: false
+  end
+
+  def modify_search
+    @phrase = params[:phrase]
+    search_available_students
+    search_available_rooms
+    search_available_items
+
+    conflicting_events = Event.where("organization_id = ? AND (start BETWEEN ? AND ?) OR (finish BETWEEN ? AND ?)", @organization.id, @event.start, @event.finish, @event.start, @event.finish)
+
+    find_busy(conflicting_events) unless conflicting_events.empty?
+
+    return render :'events/_modify_search', layout: false
+  end
+
+  def search_available_students
+    @courses = Course
+      .where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%")
+      .order(title: :asc)
+    @students = User
+      .where("organization_id = ? AND lower(first_name) LIKE ? OR lower(last_name) LIKE ?", @organization.id, "%#{params[:phrase]}%", "%#{params[:phrase]}%")
+      .order(last_name: :asc).order(first_name: :asc)
+    @students -= @event.students
+  end
+
+  def search_available_rooms
+    @rooms = Room
+      .where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%")
+      .order(title: :asc)
+    @rooms -= @event.rooms
+  end
+
+  def search_available_items
+    @items = Item
+      .where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%")
+      .order(title: :asc)
+    @items -= @event.items
   end
 
   private

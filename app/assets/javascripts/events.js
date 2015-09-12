@@ -71,6 +71,10 @@ var bindEvents = function(){
   $("body").on('click', ".remove-item", removeItem);
 
   $('#event-search').on('keyup', eventSearch);
+
+  $('.modify-search').on('keyup', modifySearch);
+  $('.modify-search').focusin(showResults);
+  $('.modify-search').focusout(hideResults);
 }
 
 var addStudent = function(){
@@ -99,7 +103,7 @@ var removeStudent = function(){
     url: url,
     type: 'delete'
   }).done(function(data) {
-    $('#available-students').html($(data));
+    // $('#available-students').html($(data));
     // $('#student-count').text(data.count);
   }).fail(function() {
       console.log('error');
@@ -133,7 +137,7 @@ var removeRoom = function(){
     url: url,
     type: 'delete'
   }).done(function(data) {
-    $('#available-rooms').html($(data));
+    // $('#available-rooms').html($(data));
     // $('#room-count').text(data.count);
   }).fail(function() {
       console.log('error');
@@ -142,6 +146,8 @@ var removeRoom = function(){
 
 var addItem = function(){
   event.preventDefault();
+
+  alert('Quantity?')
 
   var url = $(this).attr('href');
   this.closest("tr").remove();
@@ -167,7 +173,7 @@ var removeItem = function(){
     url: url,
     type: 'delete'
   }).done(function(data) {
-    $('#available-items').html($(data));
+    // $('#available-items').html($(data));
     // $('#item-count').text(data.count);
   }).fail(function() {
       console.log('error');
@@ -217,4 +223,32 @@ var eventSearch = function(){
       $('#events-index').html($(payload));
     });
   }
+}
+
+var modifySearch = function(event){
+  var phrase = $(this).val().toLowerCase();
+  var eventId = $(this).attr('id');
+
+  if(event.keyCode == 13){
+    $('.search-results a:first').click();
+    // $(this).val('');
+  };
+
+  if (phrase) {
+    $.get(eventId + '/modify_search/' + phrase).success(function(payload) {
+      $('.search-results').html($(payload));
+      // $('.search-results tr:first')
+      // add hover to first element
+    });
+  } else {
+    $('.search-results').empty();
+  };
+}
+
+var showResults = function() {
+  $('.search-results').fadeIn(200);
+}
+
+var hideResults = function() {
+  $('.search-results').fadeOut(200);
 }
