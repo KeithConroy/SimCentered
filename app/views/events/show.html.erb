@@ -1,11 +1,16 @@
 <% content_for :title, " | #{@event.title}" %>
 
-<h2 class="page-header">
+<h2 class="page-header edit-parent">
   <%= link_to organization_events_path(@organization), class: "back" do %>
     <i class="fa fa-angle-double-left fa-lg"></i>
   <% end %>
   <i class="fa fa-calendar"></i>
-  <%= @event.title %>
+  <span class="header-edit editable"><%= @event.title %> <i class="fa fa-pencil"></i></span>
+  <div class="header-edit-form">
+    <form class="edit" action="<%= @event.id %>">
+      <input class="edit" type="text" value="<%= @event.title %>" name="event[title]" id="event_title">
+    </form>
+  </div>
   <small>
   <span class="pull-right">
     <%= link_to 'Edit', edit_organization_event_path(@event.organization_id, @event.id) %>
@@ -14,10 +19,25 @@
   </small>
 </h2>
 
-<div class="row col-md-12 details">
-  <h4>Instructor: <small><%= full_name(@event.instructor) if @event.instructor %></small></h4>
-  <h4>Start Time: <small><%= @event.start.strftime("%a %b %e, %g @ %l:%M %p %Z") %></small></h4>
-  <h4>End Time: <small><%= @event.finish.strftime("%a %b %e, %g @ %l:%M %p %Z") %></small></h4>
+<div class="row col-md-12 details edit-parent">
+  <h4 class="edit-parent">Instructor:
+    <span class="editable">
+      <small><%= full_name(@event.instructor) if @event.instructor %></small>
+      <i class="fa fa-pencil"></i>
+    </span>
+  </h4>
+  <h4 class="edit-parent">Start Time:
+    <span class="editable">
+      <small><%= @event.start.strftime("%a %b %e, %g @ %l:%M %p %Z") %></small>
+      <i class="fa fa-pencil"></i>
+    </span>
+  </h4>
+  <h4 class="edit-parent">End Time:
+    <span class="editable">
+      <small><%= @event.finish.strftime("%a %b %e, %g @ %l:%M %p %Z") %></small>
+      <i class="fa fa-pencil"></i>
+    </span>
+  </h4>
 </div>
 
 <div class="row col-md-12">

@@ -265,6 +265,35 @@ input[type="submit"] {
 }
 
 .details {
-  text-align: center;
+  // text-align: center;
+  width: auto;
+  margin-left: 35%;
   margin-bottom: 30px;
+}
+
+.header-edit-form {
+  display: none;
+  position: absolute;
+  top: -7px;
+  left: 63px;
+}
+
+input.edit {
+  background-color: #CAECFC;
+}
+
+.edit-parent {
+  position: relative;
+  >span.editable {
+    >i {
+      color: $bgDefault;
+      display: none;
+    }
+  }
+  >span.editable:hover {
+    background-color: #CAECFC;
+    >i {
+      display: inline-block;
+    }
+  }
 }
