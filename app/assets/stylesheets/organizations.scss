@@ -177,7 +177,7 @@ a {
   }
 }
 
-#modify-search-parent {
+#search-n-go-parent {
   position: relative;
   width: 400px;
   margin: 0 auto 5% auto;
@@ -190,7 +190,7 @@ a {
   .form-group {
     margin: 0;
     // width: 400px;
-    .modify-search {
+    .search-n-go {
       border-radius: 30px;
       padding-left: 40px;
       padding-right: 40px;
@@ -262,4 +262,9 @@ input[type="submit"] {
 
 .table-hover>tbody>tr:hover {
     background-color: #e1eff2;
+}
+
+.details {
+  text-align: center;
+  margin-bottom: 30px;
 }

@@ -14,7 +14,7 @@
   </small>
 </h2>
 
-<div class="row col-md-12" style="text-align: center; margin-bottom: 30px;">
+<div class="row col-md-12 details">
   <h4>Instructor: <small><%= full_name(@event.instructor) if @event.instructor %></small></h4>
   <h4>Start Time: <small><%= @event.start.strftime("%a %b %e, %g @ %l:%M %p %Z") %></small></h4>
   <h4>End Time: <small><%= @event.finish.strftime("%a %b %e, %g @ %l:%M %p %Z") %></small></h4>
@@ -23,12 +23,12 @@
 <div class="row col-md-12">
   <div class="col-md-6">
 
-    <div id="modify-search-parent">
+    <div id="search-n-go-parent">
       <label for="search">
         <i class="fa fa-search"></i>
       </label>
       <div class="form-group">
-        <input id="<%= @event.id %>" type="text" class="form-control modify-search" placeholder="Add Courses, Students, Rooms and Inventory">
+        <input id="<%= @event.id %>" type="text" class="form-control search-n-go modify-search" placeholder="Add Courses, Students, Rooms and Inventory">
       </div>
       <div>
         <table class="table table-hover search-results">

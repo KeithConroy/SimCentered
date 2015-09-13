@@ -31,11 +31,11 @@ class CoursesController < ApplicationController
   end
 
   def show
-    @students = User
-      .where(organization_id: @organization.id, is_student: true)
-      .order(last_name: :asc)
-      .order(first_name: :asc)
-    @students -= @course.students
+    # @students = User
+    #   .where(organization_id: @organization.id, is_student: true)
+    #   .order(last_name: :asc)
+    #   .order(first_name: :asc)
+    # @students -= @course.students
   end
 
   def edit
@@ -57,13 +57,14 @@ class CoursesController < ApplicationController
   def add_student
     @course.students << @student
     @course.save
-    render json: {student: @student, count: @course.students.count, course: @course.id}
+    return render :'courses/_enrolled_students', layout: false
+    # render json: {student: @student, count: @course.students.count, course: @course.id}
   end
 
   def remove_student
     @course.students.delete(@student)
     @course.save
-    render json: {student: @student, count: @course.students.count, course: @course.id}
+    render json: {count: @course.students.count}
   end
 
   def search
@@ -72,6 +73,22 @@ class CoursesController < ApplicationController
       .order(title: :asc)
       .paginate(page: 1, per_page: 15)
     return render :'courses/_all_courses', layout: false
+  end
+
+  def modify_search
+    @course = Course.where(id: params[:course_id]).first
+    @phrase = params[:phrase]
+    search_available_students
+
+    return render :'courses/_modify_search', layout: false
+  end
+
+  def search_available_students
+    @students = User
+      .where("organization_id = ? AND lower(first_name) LIKE ? OR lower(last_name) LIKE ?", @organization.id, "%#{params[:phrase]}%", "%#{params[:phrase]}%")
+      .order(last_name: :asc)
+      .order(first_name: :asc)
+    @students -= @course.students
   end
 
   private

@@ -4,6 +4,7 @@
   <%= link_to organization_rooms_path(@organization), class: "back" do %>
     <i class="fa fa-angle-double-left fa-lg"></i>
   <% end %>
+  <i class="fa fa-hospital-o"></i>
   <%= @room.title %>
   <small>
   <span class="pull-right">
@@ -13,7 +14,9 @@
   </small>
 </h2>
 
-<p>Room Number: <%= @room.number %></p>
-<p>Building: <%= @room.building %></p>
-<p>Description: <%= @room.description %></p>
 
+<div class="row col-md-12 details">
+  <h4>Room Number: <%= @room.number %></h4>
+  <h4>Building: <%= @room.building %></h4>
+  <h4>Description: <%= @room.description %></h4>
+</div>

@@ -4,8 +4,9 @@
   <%= link_to organization_users_path(@organization), class: "back" do %>
     <i class="fa fa-angle-double-left fa-lg"></i>
   <% end %>
+  <i class="fa fa-user-md"></i>
   <%= full_name(@user) %>
-  <small> - <%= status(@user) %> <%= @user.email %>
+  <small>
   <span class="pull-right">
     <%= link_to 'Edit', edit_organization_user_path(@user.organization_id, @user.id) %>
     <%= link_to 'Delete', organization_user_path(@user.organization_id, @user.id), method: :delete, data: { confirm: 'Are you sure?' } %>
@@ -13,6 +14,10 @@
   </small>
 </h2>
 
+<div class="row col-md-12 details">
+  <h4>User Type: <small><%= status(@user) %></small></h4>
+  <h4>Email: <small><%= @user.email %></small></h4>
+</div>
 
 <div id="selected-students" class="col-md-6">
   <div class="panel panel-default">

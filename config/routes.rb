@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'organizations/:organization_id/courses/search/:phrase' => 'courses#search'
   get 'organizations/:organization_id/events/search/:phrase' => 'events#search'
   get 'organizations/:organization_id/events/:event_id/modify_search/:phrase' => 'events#modify_search'
+  get 'organizations/:organization_id/courses/:course_id/modify_search/:phrase' => 'courses#modify_search'
   get 'organizations/:organization_id/items/search/:phrase' => 'items#search'
   get 'organizations/:organization_id/rooms/search/:phrase' => 'rooms#search'
   get 'organizations/:organization_id/users/search/:phrase' => 'users#search'
