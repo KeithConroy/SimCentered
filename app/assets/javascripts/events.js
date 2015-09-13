@@ -15,6 +15,7 @@ $(document).on('page:change', function() {
       center: 'title',
       right: 'month,agendaWeek,agendaDay'
     },
+    fixedWeekCount: false,
     dayClick: function(date, jsEvent, view) {
       $('#newEventModal').modal('show');
 
