@@ -2,8 +2,9 @@
 
 <h2 class="page-header">
   <%= link_to organization_items_path(@organization), class: "back" do %>
-    <i class="fa fa-angle-double-left"></i>
+    <i class="fa fa-angle-double-left fa-lg"></i>
   <% end %>
+  <i class="fa fa-barcode"></i>
   <%= @item.title %>
   <small>
   <span class="pull-right">
@@ -13,12 +14,14 @@
   </small>
 </h2>
 
-<p>Item Quantity: <%= @item.quantity %></p>
-<p>Disposable?: <%= @item.disposable %></p>
+<div class="row col-md-12 details">
+  <h4>Item Quantity: <small><%= @item.quantity %></small></h4>
+  <h4>Disposable?: <small><%= @item.disposable %></small></h4>
+  <a href="">Usage Report
+    <i class="fa fa-area-chart fa-lg"></i>
+    <i class="fa fa-bar-chart fa-lg"></i>
+    <i class="fa fa-line-chart fa-lg"></i>
+    <i class="fa fa-pie-chart fa-lg"></i>
+  </a>
+</div>
 
-<a href="">Usage Report
-  <i class="fa fa-area-chart fa-lg"></i>
-  <i class="fa fa-bar-chart fa-lg"></i>
-  <i class="fa fa-line-chart fa-lg"></i>
-  <i class="fa fa-pie-chart fa-lg"></i>
-</a>

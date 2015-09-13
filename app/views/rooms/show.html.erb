@@ -2,8 +2,9 @@
 
 <h2 class="page-header">
   <%= link_to organization_rooms_path(@organization), class: "back" do %>
-    <i class="fa fa-angle-double-left"></i>
+    <i class="fa fa-angle-double-left fa-lg"></i>
   <% end %>
+  <i class="fa fa-hospital-o"></i>
   <%= @room.title %>
   <small>
   <span class="pull-right">
@@ -13,7 +14,9 @@
   </small>
 </h2>
 
-<p>Room Number: <%= @room.number %></p>
-<p>Building: <%= @room.building %></p>
-<p>Description: <%= @room.description %></p>
 
+<div class="row col-md-12 details">
+  <h4>Room Number: <small><%= @room.number %></small></h4>
+  <h4>Building: <small><%= @room.building %></small></h4>
+  <h4>Description: <small><%= @room.description %></small></h4>
+</div>

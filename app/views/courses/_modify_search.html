@@ -1,0 +1,12 @@
+<tbody>
+  <% @students.each do |student| %>
+  <tr>
+    <td><%= full_name(student) %></td>
+    <td class="icon">
+      <a href="<%= @course.id %>/add_student/<%= student.id %>" class="add-student">
+        <i class="fa fa-plus"></i>
+      </a>
+    </td>
+  </tr>
+  <% end %>
+</tbody>

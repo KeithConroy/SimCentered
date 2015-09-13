@@ -3,7 +3,7 @@
   <tr>
     <td><%= full_name(student) %></td>
     <td class="icon">
-      <a href="remove_student/<%= student.id %>" class="remove-student">
+      <a href="<%= @event.id %>/remove_student/<%= student.id %>" class="remove-student">
         <i class="fa fa-minus"></i>
       </a>
     </td>

@@ -4,6 +4,10 @@ $(document).on('page:change', function() {
   $("body").on('click', ".remove-student-course", removeStudentCourse);
   $('#course-search').on('keyup', courseSearch);
 
+  $('.modify-course-search').on('keyup', modifyCourseSearch);
+  $('.modify-course-search').focusin(showResults);
+  $('.modify-course-search').focusout(hideResults);
+
 });
 
 var addStudentCourse = function(){
@@ -49,4 +53,32 @@ var courseSearch = function(){
       $('#courses-index').html($(payload));
     });
   }
+}
+
+var modifyCourseSearch = function(event){
+  var phrase = $(this).val().toLowerCase();
+  var courseId = $(this).attr('id');
+
+  if(event.keyCode == 13){
+    $('.search-results a:first').click();
+    // $(this).val('');
+  };
+
+  if (phrase) {
+    $.get(courseId + '/modify_search/' + phrase).success(function(payload) {
+      $('.search-results').html($(payload));
+      // $('.search-results tr:first')
+      // add hover to first element
+    });
+  } else {
+    $('.search-results').empty();
+  };
+}
+
+var showResults = function() {
+  $('.search-results').fadeIn(200);
+}
+
+var hideResults = function() {
+  $('.search-results').fadeOut(200);
 }
