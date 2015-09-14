@@ -43,7 +43,8 @@ class CoursesController < ApplicationController
 
   def update
     if @course.update_attributes(course_params)
-      redirect_to organization_course_path(@organization.id, @course.id)
+      render json: @course
+      # redirect_to organization_course_path(@organization.id, @course.id)
     else
 
     end
@@ -55,7 +56,7 @@ class CoursesController < ApplicationController
   end
 
   def add_student
-    @course.students << @student
+    @course.students << @student unless @course.students.include?(@student)
     @course.save
     return render :'courses/_enrolled_students', layout: false
     # render json: {student: @student, count: @course.students.count, course: @course.id}

@@ -2,7 +2,6 @@ $(document).on('page:change', function() {
 
   $('.header-edit').on('click', showEditHeaderForm);
   $('form.edit').on('submit', submit);
-  $('body').on('click', bodyClick);
 
 });
 
@@ -43,8 +42,3 @@ var submit = function() {
   });
 
 }
-
-var bodyClick = function() {
-  console.log('click');
-}
-

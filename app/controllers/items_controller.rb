@@ -34,7 +34,8 @@ class ItemsController < ApplicationController
 
   def update
     if @item.update_attributes(item_params)
-      redirect_to organization_item_path(@organization.id, @item.id)
+      render json: @item
+      # redirect_to organization_item_path(@organization.id, @item.id)
     else
 
     end

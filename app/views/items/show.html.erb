@@ -1,11 +1,16 @@
 <% content_for :title, " | #{@item.title}" %>
 
-<h2 class="page-header">
+<h2 class="page-header edit-parent">
   <%= link_to organization_items_path(@organization), class: "back" do %>
     <i class="fa fa-angle-double-left fa-lg"></i>
   <% end %>
   <i class="fa fa-barcode"></i>
-  <%= @item.title %>
+  <span class="header-edit editable"><%= @item.title %> <i class="fa fa-pencil"></i></span>
+  <div class="header-edit-form">
+    <form class="edit" action="<%= @item.id %>">
+      <input class="edit" type="text" value="<%= @item.title %>" name="item[title]" id="item_title">
+    </form>
+  </div>
   <small>
   <span class="pull-right">
     <%= link_to 'Edit', edit_organization_item_path(@item.organization_id, @item.id) %>

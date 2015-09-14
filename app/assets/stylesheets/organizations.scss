@@ -285,13 +285,15 @@ input.edit {
 .edit-parent {
   position: relative;
   >span.editable {
+    cursor: pointer;
     >i {
       color: $bgDefault;
       display: none;
     }
   }
   >span.editable:hover {
-    background-color: #CAECFC;
+    // background-color: #CAECFC;
+
     >i {
       display: inline-block;
     }

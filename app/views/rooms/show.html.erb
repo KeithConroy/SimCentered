@@ -1,11 +1,16 @@
 <% content_for :title, " | #{@room.title}" %>
 
-<h2 class="page-header">
+<h2 class="page-header edit-parent">
   <%= link_to organization_rooms_path(@organization), class: "back" do %>
     <i class="fa fa-angle-double-left fa-lg"></i>
   <% end %>
   <i class="fa fa-hospital-o"></i>
-  <%= @room.title %>
+  <span class="header-edit editable"><%= @room.title %> <i class="fa fa-pencil"></i></span>
+  <div class="header-edit-form">
+    <form class="edit" action="<%= @room.id %>">
+      <input class="edit" type="text" value="<%= @room.title %>" name="room[title]" id="room_title">
+    </form>
+  </div>
   <small>
   <span class="pull-right">
     <%= link_to 'Edit', edit_organization_room_path(@room.organization_id, @room.id) %>
@@ -14,9 +19,23 @@
   </small>
 </h2>
 
-
 <div class="row col-md-12 details">
-  <h4>Room Number: <small><%= @room.number %></small></h4>
-  <h4>Building: <small><%= @room.building %></small></h4>
-  <h4>Description: <small><%= @room.description %></small></h4>
+  <h4 class="edit-parent">Room Number:
+    <span class="editable">
+      <small><%= @room.number %></small>
+      <i class="fa fa-pencil"></i>
+    </span>
+  </h4>
+  <h4 class="edit-parent">Building:
+    <span class="editable">
+      <small><%= @room.building %></small>
+      <i class="fa fa-pencil"></i>
+    </span>
+  </h4>
+  <h4 class="edit-parent">Description:
+    <span class="editable">
+      <small><%= @room.description %></small>
+      <i class="fa fa-pencil"></i>
+    </span>
+  </h4>
 </div>

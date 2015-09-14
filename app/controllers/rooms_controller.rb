@@ -34,7 +34,8 @@ class RoomsController < ApplicationController
 
   def update
     if @room.update_attributes(room_params)
-      redirect_to organization_room_path(@organization.id, @room.id)
+      render json: @room
+      # redirect_to organization_room_path(@organization.id, @room.id)
     else
 
     end
