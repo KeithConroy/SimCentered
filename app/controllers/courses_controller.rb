@@ -55,7 +55,7 @@ class CoursesController < ApplicationController
   end
 
   def add_student
-    @course.students << @student
+    @course.students << @student unless @course.students.include?(@student)
     @course.save
     return render :'courses/_enrolled_students', layout: false
     # render json: {student: @student, count: @course.students.count, course: @course.id}
