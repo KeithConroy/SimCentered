@@ -66,7 +66,7 @@ var modifyCourseSearch = function(event){
 
   if (phrase) {
     $.get(courseId + '/modify_search/' + phrase).success(function(payload) {
-      $('.search-results').html($(payload));
+      $('.search-results table').html($(payload));
       // $('.search-results tr:first')
       // add hover to first element
     });
