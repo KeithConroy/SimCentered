@@ -242,7 +242,7 @@ var modifySearch = function(event){
       // add hover to first element
     });
   } else {
-    $('.search-results').empty();
+    $('.search-results table').empty();
   };
 }
 
