@@ -265,10 +265,8 @@ input[type="submit"] {
 }
 
 .details {
-  // text-align: center;
-  width: auto;
-  margin-left: 35%;
-  margin-bottom: 30px;
+  width: 300px;  // can't stay fixed
+  margin: 0 auto 30px auto;
 }
 
 .header-edit-form {
