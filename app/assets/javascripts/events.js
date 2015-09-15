@@ -73,10 +73,12 @@ var bindEvents = function(){
 
   $('#event-search').on('keyup', eventSearch);
 
+  $('body').on('keyup', calendarFlip);
+
   $('.modify-search').on('keyup', modifySearch);
   $('.modify-search').focusin(showResults);
   $('.modify-search').focusout(hideResults);
-}
+};
 
 var addStudent = function(){
   event.preventDefault();
@@ -92,7 +94,7 @@ var addStudent = function(){
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var removeStudent = function(){
   event.preventDefault();
@@ -109,7 +111,7 @@ var removeStudent = function(){
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var addRoom = function(){
   event.preventDefault();
@@ -126,7 +128,7 @@ var addRoom = function(){
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var removeRoom = function(){
   event.preventDefault();
@@ -143,7 +145,7 @@ var removeRoom = function(){
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var addItem = function(){
   event.preventDefault();
@@ -162,7 +164,7 @@ var addItem = function(){
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var removeItem = function(){
   event.preventDefault();
@@ -179,7 +181,7 @@ var removeItem = function(){
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var addCourse = function(){
   event.preventDefault();
@@ -195,7 +197,7 @@ var addCourse = function(){
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var removeCourse = function(){
   event.preventDefault();
@@ -211,7 +213,7 @@ var removeCourse = function(){
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var eventSearch = function(){
   var phrase = $(this).val().toLowerCase();
@@ -224,7 +226,7 @@ var eventSearch = function(){
       $('#events-index').html($(payload));
     });
   }
-}
+};
 
 var modifySearch = function(event){
   var phrase = $(this).val().toLowerCase();
@@ -244,12 +246,21 @@ var modifySearch = function(event){
   } else {
     $('.search-results table').empty();
   };
-}
+};
 
 var showResults = function() {
   $('.search-results').fadeIn(200);
-}
+};
 
 var hideResults = function() {
   $('.search-results').fadeOut(200);
-}
+};
+
+var calendarFlip = function() {
+  if(event.keyCode == 37){
+    $('#calendar').fullCalendar('prev');
+  };
+  if(event.keyCode == 39){
+    $('#calendar').fullCalendar('next');
+  };
+};
