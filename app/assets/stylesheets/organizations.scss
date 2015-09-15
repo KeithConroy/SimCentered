@@ -150,6 +150,7 @@ a {
   display: inline-block;
   position: relative;
   width: 130px;
+  height: 25px;
   margin-left: 20px;
   top: -4px;
   label {
@@ -245,7 +246,7 @@ a:hover {
   display: block;
 }
 
-a.new {
+a.header-icon-right {
   position: relative;
   top: 12px;
   right: 5px;

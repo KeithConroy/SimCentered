@@ -8,7 +8,7 @@ class EventsController < ApplicationController
 
   before_action :nested_event, only: [:modify, :add_course, :remove_course, :add_student, :remove_student, :add_room, :remove_room, :add_item, :remove_item, :modify_search]
 
-  before_action :faculty, only: [:index,:new, :edit]
+  before_action :faculty, only: [:index,:new, :show, :edit]
 
   def index
     @new_event = Event.new
@@ -209,7 +209,8 @@ class EventsController < ApplicationController
       .where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%")
       .order(title: :asc)
     @students = User
-      .where("organization_id = ? AND lower(first_name) LIKE ? OR lower(last_name) LIKE ?", @organization.id, "%#{params[:phrase]}%", "%#{params[:phrase]}%")
+      .where(organization_id: @organization.id, is_student: true)
+      .where("lower(first_name) LIKE ? OR lower(last_name) LIKE ?", "%#{params[:phrase]}%", "%#{params[:phrase]}%")
       .order(last_name: :asc).order(first_name: :asc)
     @students -= @event.students
   end

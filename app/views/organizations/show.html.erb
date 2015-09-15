@@ -4,8 +4,10 @@
   <%= @organization.title %>
   <small>
   <span class="pull-right">
-    <%= link_to 'Edit', edit_organization_path(@organization) %>
-    <%= link_to 'Delete', organization_path(@organization), method: :delete, data: { confirm: 'Are you sure? This will delete your entire account including Events, Users, Courses, Rooms and Inventory.' } %>
+    <a href="#" class="header-icon-right" data-toggle="modal" data-target="#editOrganizationModal">
+      Edit <i class="fa fa-pencil"></i>
+    </a>
+    <%= link_to 'Delete', organization_path(@organization), method: :delete, data: { confirm: 'Are you sure? This will delete your entire account including Events, Users, Courses, Rooms and Inventory.' }, class: 'header-icon-right' %>
   </span>
   </small>
 </h2>
@@ -42,5 +44,24 @@
         <% end %>
       </tbody>
     </table>
+  </div>
+</div>
+
+<div class="modal fade" id="editOrganizationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Organization</h4>
+      </div>
+      <div class="modal-body">
+        <%= bootstrap_form_for @organization, layout: :horizontal, control_col: "col-sm-9", url: organization_path do |f| %>
+          <%= f.text_field :title, label: "Organization Name" %>
+          <%= f.text_field :subdomain %>
+          <%= f.time_zone_select :time_zone, nil, :default => "Pacific Time (US & Canada)"%>
+          <%= f.submit %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>
