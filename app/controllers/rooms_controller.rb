@@ -22,7 +22,7 @@ class RoomsController < ApplicationController
     if @room.save
       redirect_to organization_room_path(@organization.id, @room.id)
     else
-      render json: "no"
+      render json: @room.errors.full_messages
     end
   end
 
@@ -36,7 +36,7 @@ class RoomsController < ApplicationController
     if @room.update_attributes(room_params)
       redirect_to organization_room_path(@organization.id, @room.id)
     else
-
+      render json: @room.errors.full_messages
     end
   end
 

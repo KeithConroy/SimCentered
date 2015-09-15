@@ -36,7 +36,7 @@ class EventsController < ApplicationController
     if @event.save
       redirect_to "/organizations/#{@organization.id}/events/#{@event.id}/modify"
     else
-      render json: "no"
+      render json: @event.errors.full_messages
     end
   end
 
@@ -107,7 +107,7 @@ class EventsController < ApplicationController
     if @event.update_attributes(event_params)
       redirect_to organization_event_path(@organization.id, @event.id)
     else
-
+      render json: @event.errors.full_messages
     end
   end
 

@@ -22,7 +22,7 @@ class ItemsController < ApplicationController
     if @item.save
       redirect_to organization_item_path(@organization.id, @item.id)
     else
-      render json: "no"
+      render json: @item.errors.full_messages
     end
   end
 
@@ -36,7 +36,7 @@ class ItemsController < ApplicationController
     if @item.update_attributes(item_params)
       redirect_to organization_item_path(@organization.id, @item.id)
     else
-
+      render json: @item.errors.full_messages
     end
   end
 

@@ -4,7 +4,6 @@ class UsersController < ApplicationController
 
   def index
     @new_user = User.new
-    # @users = User.where(organization_id: @organization.id).order(last_name: :asc).order(first_name: :asc)
     get_paged_users
     return render :'users/_all_users', layout: false if request.xhr?
   end
@@ -19,7 +18,7 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to organization_user_path(@organization.id, @user.id)
     else
-      render json: "no"
+      render json: @user.errors.full_messages
     end
   end
 
@@ -33,7 +32,7 @@ class UsersController < ApplicationController
     if @user.update_attributes(user_params)
       redirect_to organization_user_path(@organization.id, @user.id)
     else
-
+      render json: @user.errors.full_messages
     end
   end
 
