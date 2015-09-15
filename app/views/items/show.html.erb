@@ -8,8 +8,10 @@
   <%= @item.title %>
   <small>
   <span class="pull-right">
-    <%= link_to 'Edit', edit_organization_item_path(@item.organization_id, @item.id) %>
-    <%= link_to 'Delete', organization_item_path(@item.organization_id, @item.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+    <a href="#" class="header-icon-right" data-toggle="modal" data-target="#editItemModal">
+      Edit <i class="fa fa-pencil"></i>
+    </a>
+    <%= link_to 'Delete', organization_item_path(@item.organization_id, @item.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'header-icon-right' %>
   </span>
   </small>
 </h2>
@@ -17,7 +19,7 @@
 <div class="row col-md-12 details">
   <h4>Item Quantity: <small><%= @item.quantity %></small></h4>
   <h4>Disposable?: <small><%= @item.disposable %></small></h4>
-  <a href="">Usage Report
+  <a href="#">Usage Report
     <i class="fa fa-area-chart fa-lg"></i>
     <i class="fa fa-bar-chart fa-lg"></i>
     <i class="fa fa-line-chart fa-lg"></i>
@@ -25,3 +27,21 @@
   </a>
 </div>
 
+<div class="modal fade" id="editItemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Item</h4>
+      </div>
+      <div class="modal-body">
+        <%= bootstrap_form_for @item, layout: :horizontal, control_col: "col-sm-9", url: organization_item_path do |f| %>
+          <%= f.text_field :title %>
+          <%= f.text_field :quantity %>
+          <%= f.check_box :disposable %>
+          <%= f.submit %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

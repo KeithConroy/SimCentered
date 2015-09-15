@@ -4,7 +4,7 @@ class CoursesController < ApplicationController
 
   before_action :realtion_variables, only: [:add_student, :remove_student]
 
-  before_action :faculty, only: [:index, :new, :edit]
+  before_action :faculty, only: [:index, :new, :show, :edit]
 
   def index
     @new_course = Course.new

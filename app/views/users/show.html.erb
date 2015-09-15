@@ -8,8 +8,10 @@
   <%= full_name(@user) %>
   <small>
   <span class="pull-right">
-    <%= link_to 'Edit', edit_organization_user_path(@user.organization_id, @user.id) %>
-    <%= link_to 'Delete', organization_user_path(@user.organization_id, @user.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+    <a href="#" class="header-icon-right" data-toggle="modal" data-target="#editUserModal">
+      Edit <i class="fa fa-pencil"></i>
+    </a>
+    <%= link_to 'Delete', organization_user_path(@user.organization_id, @user.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'header-icon-right' %>
   </span>
   </small>
 </h2>
@@ -63,6 +65,27 @@
           <% end %>
         </tbody>
       </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit User</h4>
+      </div>
+      <div class="modal-body">
+        <%= bootstrap_form_for @user, layout: :horizontal, control_col: "col-sm-9", url: organization_user_path do |f| %>
+          <%= f.text_field :first_name %>
+          <%= f.text_field :last_name %>
+          <%= f.email_field :email %>
+          <%= f.check_box :is_student, label: "Student?" %>
+          <%= f.password_field :password %>
+          <%= f.submit %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

@@ -8,7 +8,7 @@ class EventsController < ApplicationController
 
   before_action :nested_event, only: [:modify, :add_course, :remove_course, :add_student, :remove_student, :add_room, :remove_room, :add_item, :remove_item, :modify_search]
 
-  before_action :faculty, only: [:index,:new, :edit]
+  before_action :faculty, only: [:index,:new, :show, :edit]
 
   def index
     @new_event = Event.new
