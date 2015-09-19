@@ -7,6 +7,12 @@ RSpec.describe EventsController, type: :controller do
       subdomain: "uni"
     )
   end
+  let(:other_organization) do
+    Organization.create!(
+      title: "Other University",
+      subdomain: "ouni"
+    )
+  end
   let(:instructor) do
     User.create!(
       first_name: "Keith",
@@ -22,6 +28,15 @@ RSpec.describe EventsController, type: :controller do
       last_name: "Student",
       email: "student@mail.com",
       organization_id: organization.id,
+      is_student: true,
+    )
+  end
+  let(:other_student) do
+    User.create!(
+      first_name: "Test",
+      last_name: "Student",
+      email: "otherstudent@mail.com",
+      organization_id: other_organization.id,
       is_student: true,
     )
   end
@@ -150,28 +165,59 @@ RSpec.describe EventsController, type: :controller do
   end
 
   context "POST #add_course" do
-    before { post :add_course, organization_id: organization.id, event_id: event.id, id: course.id }
-    it "gets event" do
-      expect(assigns(:event)).to be_a(Event)
+    context "valid #add_course" do
+      before { post :add_course, organization_id: organization.id, event_id: event.id, id: course.id }
+      it "gets event" do
+        expect(assigns(:event)).to be_a(Event)
+      end
+      it "gets course" do
+        expect(assigns(:course)).to be_a(Course)
+      end
+      xit "assigns the courses students to the event" do
+        expect(Event.first.students).to include(course.students)
+      end
     end
-    it "gets course" do
-      expect(assigns(:course)).to be_a(Course)
-    end
-    xit "assigns the courses students to the event" do
-      expect(Event.first.students).to include(course.students)
+    context "invalid #add_course" do
+      before { post :add_course, organization_id: organization.id, event_id: event.id, id: course.id }
+      it "should give an error status" do
+        expect(response.status).to eq 400
+      end
+      it "does not assign a course to the event" do
+        # expect(Course.first.students.count).to be(0)
+      end
     end
   end
 
   context "POST #add_student" do
-    before { post :add_student, organization_id: organization.id, event_id: event.id, id: student.id }
-    it "gets event" do
-      expect(assigns(:event)).to be_a(Event)
+    context "valid #add_student" do
+      before { post :add_student, organization_id: organization.id, event_id: event.id, id: student.id }
+      it "gets event" do
+        expect(assigns(:event)).to be_a(Event)
+      end
+      it "gets student" do
+        expect(assigns(:student)).to be_a(User)
+      end
+      it "assigns the student to the event" do
+        expect(Event.first.students).to include(student)
+      end
     end
-    it "gets student" do
-      expect(assigns(:student)).to be_a(User)
+    context "invalid #add_student - student from another organization" do
+      before { post :add_student, organization_id: organization.id, event_id: event.id, id: other_student.id }
+      it "should give an error status" do
+        expect(response.status).to eq 400
+      end
+      it "does not assign a student to the event" do
+        expect(Event.first.students).to_not include(other_student)
+      end
     end
-    it "assigns the student to the event" do
-      expect(Event.first.students).to include(student)
+    context "invalid #add_student - non existant student" do
+      before { post :add_student, organization_id: organization.id, event_id: event.id, id: 20 }
+      it "should give an error status" do
+        expect(response.status).to eq 400
+      end
+      it "does not assign a student to the event" do
+        expect(Event.first.students.count).to be(0)
+      end
     end
   end
 
