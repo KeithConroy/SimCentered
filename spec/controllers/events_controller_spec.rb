@@ -66,6 +66,23 @@ RSpec.describe EventsController, type: :controller do
     end
   end
 
+  context 'XHR index' do
+    before { xhr :get, :index, organization_id: organization.id, start: DateTime.now, :end => DateTime.now}
+    it "should get index" do
+      expect(response).to be_ok
+      expect(response.header['Content-Type']).to include('application/json')
+    end
+    it "gets events" do
+      expect(assigns(:events)).to be_a(ActiveRecord::Relation)
+    end
+    it "gets calendar_events" do
+      expect(assigns(:calendar_events)).to be_a(Array)
+    end
+    it "assigns a event" do
+      expect(assigns(:new_event)).to be_a(Event)
+    end
+  end
+
   context "POST create" do
     it "saves a new event and redirects" do
       expect{ post :create, event: {title: "Event", instructor_id: instructor.id, organization_id: organization.id}, organization_id: organization.id }.to change{Event.count}.by 1
