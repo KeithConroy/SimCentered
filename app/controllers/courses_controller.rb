@@ -25,7 +25,7 @@ class CoursesController < ApplicationController
     if @course.save
       redirect_to organization_course_path(@organization.id, @course.id)
     else
-      render json: @course.errors.full_messages
+      render json: @course.errors.full_messages, status: 400
     end
   end
 
@@ -39,7 +39,7 @@ class CoursesController < ApplicationController
     if @course.update_attributes(course_params)
       redirect_to organization_course_path(@organization.id, @course.id)
     else
-      render json: @course.errors.full_messages
+      render json: @course.errors.full_messages, status: 400
     end
   end
 

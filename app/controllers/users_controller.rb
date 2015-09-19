@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to organization_user_path(@organization.id, @user.id)
     else
-      render json: @user.errors.full_messages
+      render json: @user.errors.full_messages, status: 400
     end
   end
 
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
     if @user.update_attributes(user_params)
       redirect_to organization_user_path(@organization.id, @user.id)
     else
-      render json: @user.errors.full_messages
+      render json: @user.errors.full_messages, status: 400
     end
   end
 
