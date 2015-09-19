@@ -14,27 +14,27 @@
       <img src="./assets/0.10.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2015-09-18T22:07:10-07:00">2015-09-18T22:07:10-07:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2015-09-18T22:48:32-07:00">2015-09-18T22:48:32-07:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="green">92.64%</span></span>
+    (<span class="covered_percent"><span class="green">93.8%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         2.14
+         2.27
        </span>
     </span> hits/line)
   </h2>
   <a name="AllFiles"></a>
   <div>
     <b>49</b> files in total.
-    <b>924</b> relevant lines. 
-    <span class="green"><b>856</b> lines covered</span> and
-    <span class="red"><b>68</b> lines missed </span>
+    <b>920</b> relevant lines. 
+    <span class="green"><b>863</b> lines covered</span> and
+    <span class="red"><b>57</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -57,7 +57,7 @@
         <td>7</td>
         <td>6</td>
         <td>1</td>
-        <td>20.1</td>
+        <td>20.9</td>
       </tr>
       
       <tr>
@@ -97,7 +97,7 @@
         <td>31</td>
         <td>30</td>
         <td>1</td>
-        <td>2.6</td>
+        <td>3.9</td>
       </tr>
       
       <tr>
@@ -432,12 +432,12 @@
       
       <tr>
         <td class="strong"><a href="#e238cb748fdeb71b12dcc8fe7283351291873d4f" class="src_link" title="spec/controllers/organizations_controller_spec.rb">spec/controllers/organizations_controller_spec.rb</a></td>
-        <td class="yellow strong">84.51 %</td>
-        <td>145</td>
-        <td>71</td>
-        <td>60</td>
-        <td>11</td>
-        <td>1.3</td>
+        <td class="green strong">100.0 %</td>
+        <td>131</td>
+        <td>67</td>
+        <td>67</td>
+        <td>0</td>
+        <td>2.3</td>
       </tr>
       
       <tr>
@@ -642,8 +642,8 @@
           <code class="ruby">  def set_time_zone</code>
         </li>
       
-        <li class="covered" data-hits="136" data-linenumber="13">
-          <span class="hits">136</span>
+        <li class="covered" data-hits="141" data-linenumber="13">
+          <span class="hits">141</span>
           
           <code class="ruby">    Time.zone = @organization.time_zone if @organization</code>
         </li>
@@ -3786,32 +3786,32 @@
           <code class="ruby">  def destroy</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="48">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="8" data-linenumber="48">
+          <span class="hits">8</span>
           
           <code class="ruby">    Course.delete_all(organization_id: @organization.id)</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="49">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="8" data-linenumber="49">
+          <span class="hits">8</span>
           
           <code class="ruby">    Event.delete_all(organization_id: @organization.id)</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="50">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="8" data-linenumber="50">
+          <span class="hits">8</span>
           
           <code class="ruby">    Item.delete_all(organization_id: @organization.id)</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="51">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="8" data-linenumber="51">
+          <span class="hits">8</span>
           
           <code class="ruby">    Room.delete_all(organization_id: @organization.id)</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="52">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="8" data-linenumber="52">
+          <span class="hits">8</span>
           
           <code class="ruby">    User.delete_all(organization_id: @organization.id)</code>
         </li>
@@ -3822,14 +3822,14 @@
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="54">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="8" data-linenumber="54">
+          <span class="hits">8</span>
           
           <code class="ruby">    @organization.destroy</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="55">
-          <span class="hits">3</span>
+        <li class="covered" data-hits="8" data-linenumber="55">
+          <span class="hits">8</span>
           
           <code class="ruby">    redirect_to :root</code>
         </li>
@@ -3864,8 +3864,8 @@
           <code class="ruby">  def find_organization</code>
         </li>
       
-        <li class="covered" data-hits="14" data-linenumber="61">
-          <span class="hits">14</span>
+        <li class="covered" data-hits="19" data-linenumber="61">
+          <span class="hits">19</span>
           
           <code class="ruby">    @organization = Organization.where(id: params[:id]).first</code>
         </li>
@@ -10297,11 +10297,11 @@
         <div class="source_table" id="e238cb748fdeb71b12dcc8fe7283351291873d4f">
   <div class="header">
     <h3>spec/controllers/organizations_controller_spec.rb</h3>
-    <h4><span class="yellow">84.51 %</span> covered</h4>
+    <h4><span class="green">100.0 %</span> covered</h4>
     <div>
-      <b>71</b> relevant lines. 
-      <span class="green"><b>60</b> lines covered</span> and
-      <span class="red"><b>11</b> lines missed.</span>
+      <b>67</b> relevant lines. 
+      <span class="green"><b>67</b> lines covered</span> and
+      <span class="red"><b>0</b> lines missed.</span>
     </div>
   </div>
   
@@ -10332,8 +10332,8 @@
           <code class="ruby">  let(:organization) do</code>
         </li>
       
-        <li class="covered" data-hits="11" data-linenumber="5">
-          <span class="hits">11</span>
+        <li class="covered" data-hits="16" data-linenumber="5">
+          <span class="hits">16</span>
           
           <code class="ruby">    Organization.create!(</code>
         </li>
@@ -10368,8 +10368,8 @@
           <code class="ruby">  let(:instructor) do</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="11">
-          
+        <li class="covered" data-hits="8" data-linenumber="11">
+          <span class="hits">8</span>
           
           <code class="ruby">    User.create!(</code>
         </li>
@@ -10416,268 +10416,268 @@
           <code class="ruby">  end</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="19">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  let(:student) do</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="20">
-          
-          
-          <code class="ruby">    User.create!(</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="21">
-          
-          
-          <code class="ruby">      first_name: &quot;Test&quot;,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="22">
-          
-          
-          <code class="ruby">      last_name: &quot;Student&quot;,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="23">
-          
-          
-          <code class="ruby">      email: &quot;student@mail.com&quot;,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="24">
-          
-          
-          <code class="ruby">      organization_id: organization.id,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="25">
-          
-          
-          <code class="ruby">      is_student: true,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="26">
-          
-          
-          <code class="ruby">    )</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="27">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="28">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  let(:course) do</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="29">
-          
-          
-          <code class="ruby">    Course.create!(</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="30">
-          
-          
-          <code class="ruby">      title: &quot;Test Course&quot;,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="31">
-          
-          
-          <code class="ruby">      instructor_id: instructor.id,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="32">
-          
-          
-          <code class="ruby">      organization_id: organization.id,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="33">
-          
-          
-          <code class="ruby">    )</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="34">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="35">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  let(:room) do</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="36">
-          
-          
-          <code class="ruby">    Room.create!(</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="37">
-          
-          
-          <code class="ruby">      title: &quot;Test Room&quot;,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="38">
-          
-          
-          <code class="ruby">      organization_id: organization.id,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="39">
-          
-          
-          <code class="ruby">    )</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="40">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="41">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  let(:item) do</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="42">
-          
-          
-          <code class="ruby">    Item.create!(</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="43">
-          
-          
-          <code class="ruby">      title: &quot;Test Item&quot;,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="44">
-          
-          
-          <code class="ruby">      quantity: 1,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="45">
-          
-          
-          <code class="ruby">      organization_id: organization.id,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="46">
-          
-          
-          <code class="ruby">    )</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="47">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="48">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  let(:event) do</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="49">
-          
-          
-          <code class="ruby">    Event.create!(</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="50">
-          
-          
-          <code class="ruby">      title: &quot;Test Event&quot;,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="51">
-          
-          
-          <code class="ruby">      instructor_id: instructor.id,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="52">
-          
-          
-          <code class="ruby">      organization_id: organization.id,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="53">
-          
-          
-          <code class="ruby">    )</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="54">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="55">
+        <li class="never" data-hits="" data-linenumber="19">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="56">
+        <li class="covered" data-hits="1" data-linenumber="20">
           <span class="hits">1</span>
           
           <code class="ruby">  context &quot;POST create&quot; do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="57">
+        <li class="covered" data-hits="1" data-linenumber="21">
           <span class="hits">1</span>
           
           <code class="ruby">    it &quot;saves a new organization and redirects&quot; do</code>
         </li>
       
-        <li class="covered" data-hits="4" data-linenumber="58">
+        <li class="covered" data-hits="4" data-linenumber="22">
           <span class="hits">4</span>
           
           <code class="ruby">      expect{ post :create, organization: {title: &quot;New Organization&quot;, subdomain: &quot;norg&quot;, email: &quot;admin@mail.com&quot;} }.to change{Organization.count}.by 1</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="59">
+        <li class="covered" data-hits="1" data-linenumber="23">
           <span class="hits">1</span>
           
           <code class="ruby">      expect(response.status).to eq 302</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="60">
+        <li class="never" data-hits="" data-linenumber="24">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="61">
+        <li class="covered" data-hits="1" data-linenumber="25">
           <span class="hits">1</span>
           
           <code class="ruby">    it &quot;does not saves a new organization with invalid input - no title&quot; do</code>
         </li>
       
-        <li class="covered" data-hits="4" data-linenumber="62">
+        <li class="covered" data-hits="4" data-linenumber="26">
           <span class="hits">4</span>
           
           <code class="ruby">      expect{ post :create, organization: {title: &quot;&quot;, subdomain: &quot;empty&quot;, email: &quot;admin@mail.com&quot;} }.to_not change{Organization.count}</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="27">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="28">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    it &quot;does not saves a new organization with invalid input- no subdomain&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="4" data-linenumber="29">
+          <span class="hits">4</span>
+          
+          <code class="ruby">      expect{ post :create, organization: {title: &quot;organization&quot;, email: &quot;admin@mail.com&quot;} }.to_not change{Organization.count}</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="30">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="31">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="32">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="33">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  context &quot;GET #show&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="3" data-linenumber="34">
+          <span class="hits">3</span>
+          
+          <code class="ruby">    before { get :show, id: organization.id }</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="35">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    it &quot;should get show&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="36">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      expect(response).to be_ok</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="37">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      expect(response).to render_template(&quot;show&quot;)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="38">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="39">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    it &quot;gets organization&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="40">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      expect(assigns(:organization)).to be_a(Organization)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="41">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="42">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="43">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="44">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  context &quot;GET #edit&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="45">
+          <span class="hits">2</span>
+          
+          <code class="ruby">    before { get :edit, id: organization.id }</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="46">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    it &quot;gets organization&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="47">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      expect(assigns(:organization)).to be_a(Organization)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="48">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="49">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="50">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="51">
+          <span class="hits">1</span>
+          
+          <code class="ruby">  context &quot;PUT #update&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="52">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    context &quot;valid update&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="4" data-linenumber="53">
+          <span class="hits">4</span>
+          
+          <code class="ruby">      before { put :update, id: organization.id, organization: {title: &quot;Updated organization&quot;} }</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="54">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      it &quot;gets organization&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="55">
+          <span class="hits">1</span>
+          
+          <code class="ruby">        expect(assigns(:organization)).to be_a(Organization)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="56">
+          
+          
+          <code class="ruby">      end</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="57">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      it &quot;updates the organization&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="58">
+          <span class="hits">1</span>
+          
+          <code class="ruby">        expect(Organization.first.title).to match(/Updated organization/)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="59">
+          
+          
+          <code class="ruby">      end</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="60">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      it &quot;should redirect&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="61">
+          <span class="hits">1</span>
+          
+          <code class="ruby">        expect(response.status).to eq 302</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="62">
+          
+          
+          <code class="ruby">      end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="63">
@@ -10686,316 +10686,316 @@
           <code class="ruby">    end</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="64">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    it &quot;does not saves a new organization with invalid input- no subdomain&quot; do</code>
-        </li>
-      
-        <li class="covered" data-hits="4" data-linenumber="65">
-          <span class="hits">4</span>
-          
-          <code class="ruby">      expect{ post :create, organization: {title: &quot;organization&quot;, email: &quot;admin@mail.com&quot;} }.to_not change{Organization.count}</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="66">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="67">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="68">
+        <li class="never" data-hits="" data-linenumber="64">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="69">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  context &quot;GET #show&quot; do</code>
-        </li>
-      
-        <li class="covered" data-hits="3" data-linenumber="70">
-          <span class="hits">3</span>
-          
-          <code class="ruby">    before { get :show, id: organization.id }</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="71">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    it &quot;should get show&quot; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="72">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      expect(response).to be_ok</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="73">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      expect(response).to render_template(&quot;show&quot;)</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="74">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="75">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    it &quot;gets organization&quot; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="76">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      expect(assigns(:organization)).to be_a(Organization)</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="77">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="78">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="79">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="80">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  context &quot;GET #edit&quot; do</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="81">
-          <span class="hits">2</span>
-          
-          <code class="ruby">    before { get :edit, id: organization.id }</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="82">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    it &quot;gets organization&quot; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="83">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      expect(assigns(:organization)).to be_a(Organization)</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="84">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="85">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="86">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="87">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  context &quot;PUT #update&quot; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="88">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    context &quot;valid update&quot; do</code>
-        </li>
-      
-        <li class="covered" data-hits="4" data-linenumber="89">
-          <span class="hits">4</span>
-          
-          <code class="ruby">      before { put :update, id: organization.id, organization: {title: &quot;Updated organization&quot;} }</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="90">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      it &quot;gets organization&quot; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="91">
-          <span class="hits">1</span>
-          
-          <code class="ruby">        expect(assigns(:organization)).to be_a(Organization)</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="92">
-          
-          
-          <code class="ruby">      end</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="93">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      it &quot;updates the organization&quot; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="94">
-          <span class="hits">1</span>
-          
-          <code class="ruby">        expect(Organization.first.title).to match(/Updated organization/)</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="95">
-          
-          
-          <code class="ruby">      end</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="96">
-          <span class="hits">1</span>
-          
-          <code class="ruby">      it &quot;should redirect&quot; do</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="97">
-          <span class="hits">1</span>
-          
-          <code class="ruby">        expect(response.status).to eq 302</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="98">
-          
-          
-          <code class="ruby">      end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="99">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="100">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="101">
+        <li class="covered" data-hits="1" data-linenumber="65">
           <span class="hits">1</span>
           
           <code class="ruby">    context &quot;invalid update&quot; do</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="102">
+        <li class="covered" data-hits="3" data-linenumber="66">
           <span class="hits">3</span>
           
           <code class="ruby">      before { put :update, id: organization.id, organization: {title: &quot;&quot;} }</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="103">
+        <li class="covered" data-hits="1" data-linenumber="67">
           <span class="hits">1</span>
           
           <code class="ruby">      it &quot;should not update&quot; do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="104">
+        <li class="covered" data-hits="1" data-linenumber="68">
           <span class="hits">1</span>
           
           <code class="ruby">        expect(Organization.first.title).to match(//)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="105">
+        <li class="never" data-hits="" data-linenumber="69">
           
           
           <code class="ruby">      end</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="106">
+        <li class="covered" data-hits="1" data-linenumber="70">
           <span class="hits">1</span>
           
           <code class="ruby">      it &quot;should give an error status&quot; do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="107">
+        <li class="covered" data-hits="1" data-linenumber="71">
           <span class="hits">1</span>
           
           <code class="ruby">        expect(response.status).to eq 400</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="108">
+        <li class="never" data-hits="" data-linenumber="72">
           
           
           <code class="ruby">      end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="109">
+        <li class="never" data-hits="" data-linenumber="73">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="110">
+        <li class="never" data-hits="" data-linenumber="74">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="111">
+        <li class="never" data-hits="" data-linenumber="75">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="112">
+        <li class="covered" data-hits="1" data-linenumber="76">
           <span class="hits">1</span>
           
           <code class="ruby">  context &quot;DELETE #destroy&quot; do</code>
         </li>
       
-        <li class="covered" data-hits="4" data-linenumber="113">
-          <span class="hits">4</span>
+        <li class="covered" data-hits="1" data-linenumber="77">
+          <span class="hits">1</span>
           
-          <code class="ruby">    before { delete :destroy, id: organization.id }</code>
+          <code class="ruby">    before {</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="114">
+        <li class="covered" data-hits="8" data-linenumber="78">
+          <span class="hits">8</span>
+          
+          <code class="ruby">      Course.create!(</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="79">
+          
+          
+          <code class="ruby">        title: &quot;Test Course&quot;,</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="80">
+          
+          
+          <code class="ruby">        instructor_id: instructor.id,</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="81">
+          
+          
+          <code class="ruby">        organization_id: organization.id,</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="82">
+          
+          
+          <code class="ruby">      )</code>
+        </li>
+      
+        <li class="covered" data-hits="8" data-linenumber="83">
+          <span class="hits">8</span>
+          
+          <code class="ruby">      Room.create!(</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="84">
+          
+          
+          <code class="ruby">        title: &quot;Test Room&quot;,</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="85">
+          
+          
+          <code class="ruby">        organization_id: organization.id,</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="86">
+          
+          
+          <code class="ruby">      )</code>
+        </li>
+      
+        <li class="covered" data-hits="8" data-linenumber="87">
+          <span class="hits">8</span>
+          
+          <code class="ruby">      Event.create!(</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="88">
+          
+          
+          <code class="ruby">        title: &quot;Test Event&quot;,</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="89">
+          
+          
+          <code class="ruby">        instructor_id: instructor.id,</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="90">
+          
+          
+          <code class="ruby">        organization_id: organization.id,</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="91">
+          
+          
+          <code class="ruby">      )</code>
+        </li>
+      
+        <li class="covered" data-hits="8" data-linenumber="92">
+          <span class="hits">8</span>
+          
+          <code class="ruby">      Item.create!(</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="93">
+          
+          
+          <code class="ruby">        title: &quot;Test Item&quot;,</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="94">
+          
+          
+          <code class="ruby">        quantity: 1,</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="95">
+          
+          
+          <code class="ruby">        organization_id: organization.id,</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="96">
+          
+          
+          <code class="ruby">      )</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="97">
+          
+          
+          <code class="ruby">    }</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="98">
           <span class="hits">1</span>
           
           <code class="ruby">    it &quot;gets organization&quot; do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="115">
+        <li class="covered" data-hits="1" data-linenumber="99">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      delete :destroy, id: organization.id</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="100">
           <span class="hits">1</span>
           
           <code class="ruby">      expect(assigns(:organization)).to be_a(Organization)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="101">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="102">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    it &quot;destroys the organization&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="4" data-linenumber="103">
+          <span class="hits">4</span>
+          
+          <code class="ruby">      expect{ delete :destroy, id: organization.id }.to change{Organization.count}.from(1).to(0)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="104">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="105">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    it &quot;destroys the organizations courses&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="4" data-linenumber="106">
+          <span class="hits">4</span>
+          
+          <code class="ruby">      expect{ delete :destroy, id: organization.id }.to change{Course.count}.from(1).to(0)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="107">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="108">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    it &quot;destroys the organizations events&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="4" data-linenumber="109">
+          <span class="hits">4</span>
+          
+          <code class="ruby">      expect{ delete :destroy, id: organization.id }.to change{Event.count}.from(1).to(0)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="110">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="111">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    it &quot;destroys the organizations items&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="4" data-linenumber="112">
+          <span class="hits">4</span>
+          
+          <code class="ruby">      expect{ delete :destroy, id: organization.id }.to change{Item.count}.from(1).to(0)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="113">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="114">
+          <span class="hits">1</span>
+          
+          <code class="ruby">    it &quot;destroys the organizations rooms&quot; do</code>
+        </li>
+      
+        <li class="covered" data-hits="4" data-linenumber="115">
+          <span class="hits">4</span>
+          
+          <code class="ruby">      expect{ delete :destroy, id: organization.id }.to change{Room.count}.from(1).to(0)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="116">
@@ -11007,13 +11007,13 @@
         <li class="covered" data-hits="1" data-linenumber="117">
           <span class="hits">1</span>
           
-          <code class="ruby">    it &quot;destroys the organization&quot; do</code>
+          <code class="ruby">    it &quot;destroys the organizations users&quot; do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="118">
-          <span class="hits">1</span>
+        <li class="covered" data-hits="4" data-linenumber="118">
+          <span class="hits">4</span>
           
-          <code class="ruby">      expect(Organization.count).to eq 0</code>
+          <code class="ruby">      expect{ delete :destroy, id: organization.id }.to change{User.count}.from(1).to(0)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="119">
@@ -11025,154 +11025,70 @@
         <li class="covered" data-hits="1" data-linenumber="120">
           <span class="hits">1</span>
           
-          <code class="ruby">    xit &quot;destroys the organizations courses&quot; do</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="121">
-          
-          
-          <code class="ruby">      expect(Course.count).to eq 0</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="122">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="123">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    xit &quot;destroys the organizations events&quot; do</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="124">
-          
-          
-          <code class="ruby">      expect(Event.count).to eq 0</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="125">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="126">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    xit &quot;destroys the organizations items&quot; do</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="127">
-          
-          
-          <code class="ruby">      expect(Item.count).to eq 0</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="128">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="129">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    xit &quot;destroys the organizations rooms&quot; do</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="130">
-          
-          
-          <code class="ruby">      expect(Room.count).to eq 0</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="131">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="132">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    xit &quot;destroys the organizations users&quot; do</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="133">
-          
-          
-          <code class="ruby">      expect(User.count).to eq 0</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="134">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="135">
-          <span class="hits">1</span>
-          
           <code class="ruby">    it &quot;should redirect&quot; do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="136">
+        <li class="covered" data-hits="1" data-linenumber="121">
+          <span class="hits">1</span>
+          
+          <code class="ruby">      delete :destroy, id: organization.id</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="122">
           <span class="hits">1</span>
           
           <code class="ruby">      expect(response.status).to eq 302</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="137">
+        <li class="never" data-hits="" data-linenumber="123">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="138">
+        <li class="never" data-hits="" data-linenumber="124">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="139">
+        <li class="never" data-hits="" data-linenumber="125">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="140">
+        <li class="covered" data-hits="1" data-linenumber="126">
           <span class="hits">1</span>
           
           <code class="ruby">  context &quot;GET #search&quot; do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="141">
+        <li class="covered" data-hits="1" data-linenumber="127">
           <span class="hits">1</span>
           
           <code class="ruby">    before { get :search, phrase: &#39;organization&#39; }</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="142">
+        <li class="covered" data-hits="1" data-linenumber="128">
           <span class="hits">1</span>
           
           <code class="ruby">    it &quot;searches&quot;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="143">
+        <li class="never" data-hits="" data-linenumber="129">
           
           
           <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="144">
+        <li class="never" data-hits="" data-linenumber="130">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="145">
+        <li class="never" data-hits="" data-linenumber="131">
           
           
           <code class="ruby">end</code>
