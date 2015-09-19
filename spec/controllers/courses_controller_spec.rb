@@ -113,29 +113,52 @@ RSpec.describe CoursesController, type: :controller do
   end
 
   context "POST #add_student" do
-    before { post :add_student, organization_id: organization.id, course_id: course.id, id: student.id }
-    it "gets course" do
-      expect(assigns(:course)).to be_a(Course)
+    context "valid #add_student" do
+      before { post :add_student, organization_id: organization.id, course_id: course.id, id: student.id }
+      it "gets course" do
+        expect(assigns(:course)).to be_a(Course)
+      end
+      it "gets student" do
+        expect(assigns(:student)).to be_a(User)
+      end
+      it "assigns the student to the course" do
+        expect(Course.first.students).to include(student)
+      end
     end
-    it "gets student" do
-      expect(assigns(:student)).to be_a(User)
-    end
-    it "assigns the student to the course" do
-      expect(Course.first.students).to include(student)
+    context "invalid #add_student" do
+      before { post :add_student, organization_id: organization.id, course_id: course.id, id: 3 }
+      it "should give an error status" do
+        expect(response.status).to eq 400
+      end
+      it "does not assign a student to the course" do
+        expect(Course.first.students.count).to be(0)
+      end
     end
   end
 
   context "DELETE #remove_student" do
-    before { post :add_student, organization_id: organization.id, course_id: course.id, id: student.id }
-    before { post :remove_student, organization_id: organization.id, course_id: course.id, id: student.id }
-    it "gets course" do
-      expect(assigns(:course)).to be_a(Course)
+    context "valid #remove_student" do
+      before { post :add_student, organization_id: organization.id, course_id: course.id, id: student.id }
+      before { post :remove_student, organization_id: organization.id, course_id: course.id, id: student.id }
+      it "gets course" do
+        expect(assigns(:course)).to be_a(Course)
+      end
+      it "gets student" do
+        expect(assigns(:student)).to be_a(User)
+      end
+      it "remove the student from the course" do
+        expect(Course.first.students).to_not include(student)
+      end
     end
-    it "gets student" do
-      expect(assigns(:student)).to be_a(User)
-    end
-    it "remove the student from the course" do
-      expect(Course.first.students).to_not include(student)
+    context "invalid #remove_student" do
+      before { post :add_student, organization_id: organization.id, course_id: course.id, id: student.id }
+      before { post :remove_student, organization_id: organization.id, course_id: course.id, id: 3 }
+      it "should give an error status" do
+        expect(response.status).to eq 400
+      end
+      it "does not remove a student from the course" do
+        expect(Course.first.students.count).to be(1)
+      end
     end
   end
 

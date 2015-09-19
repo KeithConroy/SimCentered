@@ -86,11 +86,15 @@ class EventsController < ApplicationController
 
   def add_course
     @course = Course.where(id: params[:id]).first
-    @course.students.each do |student|
-      @event.students << student unless @event.students.include?(student)
-    end
-    if @event.save
-      return render :'events/_scheduled_students', layout: false
+    if @course && @course.organization_id == @organization.id
+      @course.students.each do |student|
+        @event.students << student unless @event.students.include?(student)
+      end
+      if @event.save
+        return render :'events/_scheduled_students', layout: false
+      else
+        render json: @event.errors.full_messages, status: 400
+      end
     else
       render json: @event.errors.full_messages, status: 400
     end
@@ -106,29 +110,41 @@ class EventsController < ApplicationController
   # end
 
   def add_student
-    @event.students << @student
-    if @event.save
-      return render :'events/_scheduled_students', layout: false
+    if @student && @student.organization_id == @organization.id
+      @event.students << @student unless @event.students.include?(@student)
+      if @event.save
+        return render :'events/_scheduled_students', layout: false
+      else
+        render json: @event.errors.full_messages, status: 400
+      end
     else
-      render json: @event.errors.full_messages, status: 400
+      render json: "Invalid Student Association", status: 400
     end
   end
 
   def remove_student
-    @event.students.delete(@student)
-    if @event.save
-      render json: {count: @event.students.count}
+    if @event.students.include?(@student)
+      @event.students.delete(@student)
+      if @event.save
+        render json: {count: @event.students.count}
+      else
+        render json: @event.errors.full_messages, status: 400
+      end
     else
-      render json: @event.errors.full_messages, status: 400
+      render json: "Student is not enrolled", status: 400
     end
   end
 
   def add_room
-    @event.rooms << @room
-    if @event.save
-      return render :'events/_scheduled_rooms', layout: false
+    if @room && @room.organization_id == @organization.id
+      @event.rooms << @room unless @event.students.include?(@student)
+      if @event.save
+        return render :'events/_scheduled_rooms', layout: false
+      else
+        render json: @event.errors.full_messages, status: 400
+      end
     else
-      render json: @event.errors.full_messages, status: 400
+      render json: "Invalid Room Association", status: 400
     end
   end
 

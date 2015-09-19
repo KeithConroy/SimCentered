@@ -48,20 +48,26 @@ class CoursesController < ApplicationController
   end
 
   def add_student
-    @course.students << @student unless @course.students.include?(@student)
-    if @course.save
-      return render :'courses/_enrolled_students', layout: false
+    if @student && @student.organization_id == @organization.id
+      @course.students << @student unless @course.students.include?(@student)
+      if @course.save
+        return render :'courses/_enrolled_students', layout: false
+      else
+        render json: @course.errors.full_messages, status: 400
+      end
     else
-      render json: @course.errors.full_messages, status: 400
+      render json: "Invalid Student Association", status: 400
     end
   end
 
   def remove_student
-    @course.students.delete(@student)
-    if @course.save
-      render json: {count: @course.students.count}
+    if @course.students.include?(@student)
+      @course.students.delete(@student)
+      if @course.save
+        render json: {count: @course.students.count}
+      end
     else
-      render json: @course.errors.full_messages, status: 400
+      render json: "Student is not enrolled", status: 400
     end
   end
 
