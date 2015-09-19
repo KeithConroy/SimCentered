@@ -4,5 +4,5 @@ class Course < ActiveRecord::Base
 
   has_and_belongs_to_many :students, class_name: "User"
 
-  validates_presence_of :title
+  validates_presence_of :title, :organization_id
 end

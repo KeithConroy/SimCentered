@@ -56,7 +56,7 @@ RSpec.describe OrganizationsController, type: :controller do
   context "POST create" do
     it "saves a new organization and redirects" do
       expect{ post :create, organization: {title: "New Organization", subdomain: "norg", email: "admin@mail.com"} }.to change{Organization.count}.by 1
-      response.status.should eq 302
+      expect(response.status).to eq 302
     end
     it "does not saves a new organization with invalid input - no title" do
       expect{ post :create, organization: {title: "", subdomain: "empty", email: "admin@mail.com"} }.to_not change{Organization.count}
@@ -69,17 +69,18 @@ RSpec.describe OrganizationsController, type: :controller do
   context "GET #show" do
     before { get :show, id: organization.id }
     it "should get show" do
-      response.should be_ok
+      expect(response).to be_ok
+      expect(response).to render_template("show")
     end
     it "gets organization" do
-      assigns(:organization).should be_a(Organization)
+      expect(assigns(:organization)).to be_a(Organization)
     end
   end
 
   context "GET #edit" do
     before { get :edit, id: organization.id }
     it "gets organization" do
-      assigns(:organization).should be_a(Organization)
+      expect(assigns(:organization)).to be_a(Organization)
     end
   end
 
@@ -87,23 +88,23 @@ RSpec.describe OrganizationsController, type: :controller do
     context "valid update" do
       before { put :update, id: organization.id, organization: {title: "Updated organization"} }
       it "gets organization" do
-        assigns(:organization).should be_a(Organization)
+        expect(assigns(:organization)).to be_a(Organization)
       end
       it "updates the organization" do
-        Organization.first.title.should match(/Updated organization/)
+        expect(Organization.first.title).to match(/Updated organization/)
       end
       it "should redirect" do
-        response.status.should eq 302
+        expect(response.status).to eq 302
       end
     end
 
     context "invalid update" do
       before { put :update, id: organization.id, organization: {title: ""} }
       it "should not update" do
-        Organization.first.title.should match(//)
+        expect(Organization.first.title).to match(//)
       end
       it "should give an error status" do
-        response.status.should eq 400
+        expect(response.status).to eq 400
       end
     end
   end
@@ -111,28 +112,28 @@ RSpec.describe OrganizationsController, type: :controller do
   context "DELETE #destroy" do
     before { delete :destroy, id: organization.id }
     it "gets organization" do
-      assigns(:organization).should be_a(Organization)
+      expect(assigns(:organization)).to be_a(Organization)
     end
     it "destroys the organization" do
-      Organization.count.should eq 0
+      expect(Organization.count).to eq 0
     end
     xit "destroys the organizations courses" do
-      Course.count.should eq 0
+      expect(Course.count).to eq 0
     end
     xit "destroys the organizations events" do
-      Event.count.should eq 0
+      expect(Event.count).to eq 0
     end
     xit "destroys the organizations items" do
-      Item.count.should eq 0
+      expect(Item.count).to eq 0
     end
     xit "destroys the organizations rooms" do
-      Room.count.should eq 0
+      expect(Room.count).to eq 0
     end
     xit "destroys the organizations users" do
-      User.count.should eq 0
+      expect(User.count).to eq 0
     end
     it "should redirect" do
-      response.status.should eq 302
+      expect(response.status).to eq 302
     end
   end
 

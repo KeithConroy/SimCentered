@@ -18,20 +18,21 @@ RSpec.describe RoomsController, type: :controller do
   context 'GET index' do
     before { get :index, organization_id: organization.id }
     it "should get index" do
-      response.should be_ok
+      expect(response).to be_ok
+      expect(response).to render_template("index")
     end
     it "gets rooms" do
-      assigns(:rooms).should be_a(ActiveRecord::Relation)
+      expect(assigns(:rooms)).to be_a(ActiveRecord::Relation)
     end
     it "assigns a room" do
-      assigns(:new_room).should be_a(Room)
+      expect(assigns(:new_room)).to be_a(Room)
     end
   end
 
   context "POST create" do
     it "saves a new room and redirects" do
       expect{ post :create, room: {title: "room", organization_id: organization.id}, organization_id: organization.id }.to change{Room.count}.by 1
-      response.status.should eq 302
+      expect(response.status).to eq 302
     end
     it "does not saves a new room with invalid input - no title" do
       expect{ post :create, room: {title: ""}, organization_id: organization.id }.to_not change{Room.count}
@@ -40,21 +41,19 @@ RSpec.describe RoomsController, type: :controller do
 
   context "GET #show" do
     before { get :show, organization_id: organization.id, id: room.id }
-    it "gets room" do
-      assigns(:room).should be_a(Room)
+    it "should get show" do
+      expect(response).to be_ok
+      expect(response).to render_template("show")
     end
-    # it "assigns students" do
-    #   assigns(:students).should be_a(ActiveRecord::Relation)
-    # end
-    # it "assigns student" do
-    #   assigns(:student).should be_a(User)
-    # end
+    it "gets room" do
+      expect(assigns(:room)).to be_a(Room)
+    end
   end
 
   context "GET #edit" do
     before { get :edit, organization_id: organization.id, id: room.id }
     it "gets room" do
-      assigns(:room).should be_a(Room)
+      expect(assigns(:room)).to be_a(Room)
     end
   end
 
@@ -62,23 +61,23 @@ RSpec.describe RoomsController, type: :controller do
     context "valid update" do
       before { put :update, organization_id: organization.id, id: room.id, room: {title: "Updated room"} }
       it "gets room" do
-        assigns(:room).should be_a(Room)
+        expect(assigns(:room)).to be_a(Room)
       end
       it "updates the room" do
-        Room.first.title.should match(/Updated room/)
+        expect(Room.first.title).to match(/Updated room/)
       end
       it "should redirect" do
-        response.status.should eq 302
+        expect(response.status).to eq 302
       end
     end
 
     context "invalid update" do
       before { put :update, organization_id: organization.id, id: room.id, room: {title: ""} }
       it "should not update" do
-        Room.first.title.should match(//)
+        expect(Room.first.title).to match(//)
       end
       it "should give an error status" do
-        response.status.should eq 400
+        expect(response.status).to eq 400
       end
     end
   end
@@ -86,13 +85,13 @@ RSpec.describe RoomsController, type: :controller do
   context "DELETE #destroy" do
     before { delete :destroy, organization_id: organization.id, id: room.id }
     it "gets room" do
-      assigns(:room).should be_a(Room)
+      expect(assigns(:room)).to be_a(Room)
     end
     it "destroys the room" do
-      Room.count.should eq 0
+      expect(Room.count).to eq 0
     end
     it "should redirect" do
-      response.status.should eq 302
+      expect(response.status).to eq 302
     end
   end
 
