@@ -27,15 +27,15 @@ describe UsersHelper do
   end
   describe "#full_name" do
     it "returns a users full name" do
-      expect(helper.full_name(user)).to eq("Keith Conroy")
+      expect(full_name(user)).to eq("Keith Conroy")
     end
   end
   describe "#status" do
     it "returns a faculty status" do
-      expect(helper.status(user)).to eq("Faculty")
+      expect(status(user)).to eq("Faculty")
     end
     it "returns a student status" do
-      expect(helper.status(student)).to eq("Student")
+      expect(status(student)).to eq("Student")
     end
   end
 end
