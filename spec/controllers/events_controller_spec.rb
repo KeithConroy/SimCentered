@@ -55,20 +55,21 @@ RSpec.describe EventsController, type: :controller do
   context 'GET index' do
     before { get :index, organization_id: organization.id }
     it "should get index" do
-      response.should be_ok
+      expect(response).to be_ok
+      expect(response).to render_template("index")
     end
     it "gets events" do
-      assigns(:events).should be_a(ActiveRecord::Relation)
+      expect(assigns(:events)).to be_a(ActiveRecord::Relation)
     end
     it "assigns a event" do
-      assigns(:new_event).should be_a(Event)
+      expect(assigns(:new_event)).to be_a(Event)
     end
   end
 
   context "POST create" do
     it "saves a new event and redirects" do
       expect{ post :create, event: {title: "Event", instructor_id: instructor.id, organization_id: organization.id}, organization_id: organization.id }.to change{Event.count}.by 1
-      response.status.should eq 302
+      expect(response.status).to eq 302
     end
     it "does not saves a new event with invalid input" do
       expect{ post :create, event: {title: ""}, organization_id: organization.id }.to_not change{Event.count}
@@ -77,21 +78,19 @@ RSpec.describe EventsController, type: :controller do
 
   context "GET #show" do
     before { get :show, organization_id: organization.id, id: event.id }
-    it "gets event" do
-      assigns(:event).should be_a(Event)
+    it "should get show" do
+      expect(response).to be_ok
+      expect(response).to render_template("show")
     end
-    # it "assigns students" do
-    #   assigns(:students).should be_a(ActiveRecord::Relation)
-    # end
-    # it "assigns student" do
-    #   assigns(:student).should be_a(User)
-    # end
+    it "gets event" do
+      expect(assigns(:event)).to be_a(Event)
+    end
   end
 
   context "GET #edit" do
     before { get :edit, organization_id: organization.id, id: event.id }
     it "gets event" do
-      assigns(:event).should be_a(Event)
+      expect(assigns(:event)).to be_a(Event)
     end
   end
 
@@ -99,23 +98,23 @@ RSpec.describe EventsController, type: :controller do
     context "valid update" do
       before { put :update, organization_id: organization.id, id: event.id, event: {title: "Updated Event"} }
       it "gets event" do
-        assigns(:event).should be_a(Event)
+        expect(assigns(:event)).to be_a(Event)
       end
       it "updates the event" do
-        Event.first.title.should match(/Updated Event/)
+        expect(Event.first.title).to match(/Updated Event/)
       end
       it "should redirect" do
-        response.status.should eq 302
+        expect(response.status).to eq 302
       end
     end
 
     context "invalid update" do
       before { put :update, organization_id: organization.id, id: event.id, event: {title: ""} }
       it "should not update" do
-        Event.first.title.should match(//)
+        expect(Event.first.title).to match(//)
       end
       it "should give an error status" do
-        response.status.should eq 400
+        expect(response.status).to eq 400
       end
     end
   end
@@ -123,39 +122,39 @@ RSpec.describe EventsController, type: :controller do
   context "DELETE #destroy" do
     before { delete :destroy, organization_id: organization.id, id: event.id }
     it "gets event" do
-      assigns(:event).should be_a(Event)
+      expect(assigns(:event)).to be_a(Event)
     end
     it "destroys the event" do
-      Event.count.should eq 0
+      expect(Event.count).to eq 0
     end
     it "should redirect" do
-      response.status.should eq 302
+      expect(response.status).to eq 302
     end
   end
 
   context "POST #add_course" do
     before { post :add_course, organization_id: organization.id, event_id: event.id, id: course.id }
     it "gets event" do
-      assigns(:event).should be_a(Event)
+      expect(assigns(:event)).to be_a(Event)
     end
     it "gets course" do
-      assigns(:course).should be_a(Course)
+      expect(assigns(:course)).to be_a(Course)
     end
     xit "assigns the courses students to the event" do
-      Event.first.students.should include(course.students)
+      expect(Event.first.students).to include(course.students)
     end
   end
 
   context "POST #add_student" do
     before { post :add_student, organization_id: organization.id, event_id: event.id, id: student.id }
     it "gets event" do
-      assigns(:event).should be_a(Event)
+      expect(assigns(:event)).to be_a(Event)
     end
     it "gets student" do
-      assigns(:student).should be_a(User)
+      expect(assigns(:student)).to be_a(User)
     end
     it "assigns the student to the event" do
-      Event.first.students.should include(student)
+      expect(Event.first.students).to include(student)
     end
   end
 
@@ -163,26 +162,26 @@ RSpec.describe EventsController, type: :controller do
     before { post :add_student, organization_id: organization.id, event_id: event.id, id: student.id }
     before { post :remove_student, organization_id: organization.id, event_id: event.id, id: student.id }
     it "gets event" do
-      assigns(:event).should be_a(Event)
+      expect(assigns(:event)).to be_a(Event)
     end
     it "gets student" do
-      assigns(:student).should be_a(User)
+      expect(assigns(:student)).to be_a(User)
     end
     it "assigns the student to the event" do
-      Event.first.students.should_not include(student)
+      expect(Event.first.students).to_not include(student)
     end
   end
 
   context "POST #add_room" do
     before { post :add_room, organization_id: organization.id, event_id: event.id, id: room.id }
     it "gets event" do
-      assigns(:event).should be_a(Event)
+      expect(assigns(:event)).to be_a(Event)
     end
     it "gets room" do
-      assigns(:room).should be_a(Room)
+      expect(assigns(:room)).to be_a(Room)
     end
     it "assigns the room to the event" do
-      Event.first.rooms.should include(room)
+      expect(Event.first.rooms).to include(room)
     end
   end
 
@@ -190,26 +189,26 @@ RSpec.describe EventsController, type: :controller do
     before { post :add_room, organization_id: organization.id, event_id: event.id, id: room.id }
     before { post :remove_room, organization_id: organization.id, event_id: event.id, id: room.id }
     it "gets event" do
-      assigns(:event).should be_a(Event)
+      expect(assigns(:event)).to be_a(Event)
     end
     it "gets room" do
-      assigns(:room).should be_a(Room)
+      expect(assigns(:room)).to be_a(Room)
     end
     it "assigns the room to the event" do
-      Event.first.rooms.should_not include(room)
+      expect(Event.first.rooms).to_not include(room)
     end
   end
 
   context "POST #add_item" do
     before { post :add_item, organization_id: organization.id, event_id: event.id, id: item.id }
     it "gets event" do
-      assigns(:event).should be_a(Event)
+      expect(assigns(:event)).to be_a(Event)
     end
     it "gets item" do
-      assigns(:item).should be_a(Item)
+      expect(assigns(:item)).to be_a(Item)
     end
     it "assigns the item to the event" do
-      Event.first.items.should include(item)
+      expect(Event.first.items).to include(item)
     end
   end
 
@@ -217,13 +216,13 @@ RSpec.describe EventsController, type: :controller do
     before { post :add_item, organization_id: organization.id, event_id: event.id, id: item.id }
     before { post :remove_item, organization_id: organization.id, event_id: event.id, id: item.id }
     it "gets event" do
-      assigns(:event).should be_a(Event)
+      expect(assigns(:event)).to be_a(Event)
     end
     it "gets item" do
-      assigns(:item).should be_a(Item)
+      expect(assigns(:item)).to be_a(Item)
     end
     it "assigns the item to the event" do
-      Event.first.items.should_not include(item)
+      expect(Event.first.items).to_not include(item)
     end
   end
 

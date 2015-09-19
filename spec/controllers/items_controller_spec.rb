@@ -17,20 +17,21 @@ RSpec.describe ItemsController, type: :controller do
   context 'GET index' do
     before { get :index, organization_id: organization.id }
     it "should get index" do
-      response.should be_ok
+      expect(response).to be_ok
+      expect(response).to render_template("index")
     end
     it "gets items" do
-      assigns(:items).should be_a(ActiveRecord::Relation)
+      expect(assigns(:items)).to be_a(ActiveRecord::Relation)
     end
     it "assigns a item" do
-      assigns(:new_item).should be_a(Item)
+      expect(assigns(:new_item)).to be_a(Item)
     end
   end
 
   context "POST create" do
     it "saves a new item and redirects" do
       expect{ post :create, item: {title: "item", quantity: 1, organization_id: organization.id}, organization_id: organization.id }.to change{Item.count}.by 1
-      response.status.should eq 302
+      expect(response.status).to eq 302
     end
     it "does not saves a new item with invalid input - no title" do
       expect{ post :create, item: {title: "", quantity: 1}, organization_id: organization.id }.to_not change{Item.count}
@@ -42,21 +43,19 @@ RSpec.describe ItemsController, type: :controller do
 
   context "GET #show" do
     before { get :show, organization_id: organization.id, id: item.id }
-    it "gets item" do
-      assigns(:item).should be_a(Item)
+    it "should get show" do
+      expect(response).to be_ok
+      expect(response).to render_template("show")
     end
-    # it "assigns students" do
-    #   assigns(:students).should be_a(ActiveRecord::Relation)
-    # end
-    # it "assigns student" do
-    #   assigns(:student).should be_a(User)
-    # end
+    it "gets item" do
+      expect(assigns(:item)).to be_a(Item)
+    end
   end
 
   context "GET #edit" do
     before { get :edit, organization_id: organization.id, id: item.id }
     it "gets item" do
-      assigns(:item).should be_a(Item)
+      expect(assigns(:item)).to be_a(Item)
     end
   end
 
@@ -64,23 +63,23 @@ RSpec.describe ItemsController, type: :controller do
     context "valid update" do
       before { put :update, organization_id: organization.id, id: item.id, item: {title: "Updated Item"} }
       it "gets item" do
-        assigns(:item).should be_a(Item)
+        expect(assigns(:item)).to be_a(Item)
       end
       it "updates the item" do
-        Item.first.title.should match(/Updated Item/)
+        expect(Item.first.title).to match(/Updated Item/)
       end
       it "should redirect" do
-        response.status.should eq 302
+        expect(response.status).to eq 302
       end
     end
 
     context "invalid update" do
       before { put :update, organization_id: organization.id, id: item.id, item: {title: ""} }
       it "should not update" do
-        Item.first.title.should match(//)
+        expect(Item.first.title).to match(//)
       end
       it "should give an error status" do
-        response.status.should eq 400
+        expect(response.status).to eq 400
       end
     end
   end
@@ -88,13 +87,13 @@ RSpec.describe ItemsController, type: :controller do
   context "DELETE #destroy" do
     before { delete :destroy, organization_id: organization.id, id: item.id }
     it "gets item" do
-      assigns(:item).should be_a(Item)
+      expect(assigns(:item)).to be_a(Item)
     end
     it "destroys the item" do
-      Item.count.should eq 0
+      expect(Item.count).to eq 0
     end
     it "should redirect" do
-      response.status.should eq 302
+      expect(response.status).to eq 302
     end
   end
 
