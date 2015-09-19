@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  # before_action :find_organization
   before_action :find_user, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -51,10 +50,6 @@ class UsersController < ApplicationController
   end
 
   private
-
-  def find_organization
-    @organization = Organization.where(id: params[:organization_id]).first
-  end
 
   def find_user
     @user = User.where(id: params[:id]).first

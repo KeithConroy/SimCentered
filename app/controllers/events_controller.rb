@@ -1,5 +1,4 @@
 class EventsController < ApplicationController
-  # before_action :find_organization
   before_action :find_event, only: [:show, :edit, :update, :destroy]
 
   before_action :nested_student, only: [:add_student, :remove_student]
@@ -230,10 +229,6 @@ class EventsController < ApplicationController
   end
 
   private
-
-  def find_organization
-    @organization = Organization.where(id: params[:organization_id]).first
-  end
 
   def find_event
     @event = Event.where(id: params[:id]).first
