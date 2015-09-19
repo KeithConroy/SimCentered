@@ -56,7 +56,7 @@ class CoursesController < ApplicationController
         render json: @course.errors.full_messages, status: 400
       end
     else
-      render json: "Invalid Association", status: 400
+      render json: "Invalid Student Association", status: 400
     end
   end
 

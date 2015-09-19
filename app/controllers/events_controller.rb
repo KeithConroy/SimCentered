@@ -118,7 +118,7 @@ class EventsController < ApplicationController
         render json: @event.errors.full_messages, status: 400
       end
     else
-      render json: @event.errors.full_messages, status: 400
+      render json: "Invalid Student Association", status: 400
     end
   end
 
@@ -131,16 +131,20 @@ class EventsController < ApplicationController
         render json: @event.errors.full_messages, status: 400
       end
     else
-      render json: @event.errors.full_messages, status: 400
+      render json: "Student is not enrolled", status: 400
     end
   end
 
   def add_room
-    @event.rooms << @room
-    if @event.save
-      return render :'events/_scheduled_rooms', layout: false
+    if @room && @room.organization_id == @organization.id
+      @event.rooms << @room unless @event.students.include?(@student)
+      if @event.save
+        return render :'events/_scheduled_rooms', layout: false
+      else
+        render json: @event.errors.full_messages, status: 400
+      end
     else
-      render json: @event.errors.full_messages, status: 400
+      render json: "Invalid Room Association", status: 400
     end
   end
 
