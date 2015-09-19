@@ -13,11 +13,11 @@ class EventsController < ApplicationController
   def index
     @new_event = Event.new
     if request.xhr?
-      events = Event.where(organization_id: @organization.id, start: params[:start]..params[:end])
-      events = events.map do |event|
+      @events = Event.where(organization_id: @organization.id, start: params[:start]..params[:end])
+      @calendar_events = @events.map do |event|
         {title: event.title, start: event.start, :end => event.finish, url: "events/#{event.id}"}
       end
-      render json: events
+      render json: @calendar_events
     else
       @events = Event
         .where(organization_id: @organization.id)
