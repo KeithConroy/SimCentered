@@ -1,5 +1,4 @@
 class RoomsController < ApplicationController
-  # before_action :find_organization
   before_action :find_room, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -54,10 +53,6 @@ class RoomsController < ApplicationController
   end
 
   private
-
-  def find_organization
-    @organization = Organization.where(id: params[:organization_id]).first
-  end
 
   def find_room
     @room = Room.where(id: params[:id]).first

@@ -1,5 +1,4 @@
 class CoursesController < ApplicationController
-  # before_action :find_organization
   before_action :find_course, only: [:show, :edit, :update, :destroy]
 
   before_action :relation_variables, only: [:add_student, :remove_student]
@@ -93,10 +92,6 @@ class CoursesController < ApplicationController
   end
 
   private
-
-  def find_organization
-    @organization = Organization.where(id: params[:organization_id]).first
-  end
 
   def find_course
     @course = Course.where(id: params[:id]).first
