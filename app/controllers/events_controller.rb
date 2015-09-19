@@ -12,11 +12,11 @@ class EventsController < ApplicationController
   def index
     @new_event = Event.new
     if request.xhr?
-      events = Event.where(organization_id: @organization.id, start: params[:start]..params[:end])
-      events = events.map do |event|
+      @events = Event.where(organization_id: @organization.id, start: params[:start]..params[:end])
+      @calendar_events = @events.map do |event|
         {title: event.title, start: event.start, :end => event.finish, url: "events/#{event.id}"}
       end
-      render json: events
+      render json: @calendar_events
     else
       @events = Event
         .where(organization_id: @organization.id)
@@ -35,7 +35,7 @@ class EventsController < ApplicationController
     if @event.save
       redirect_to "/organizations/#{@organization.id}/events/#{@event.id}/modify"
     else
-      render json: @event.errors.full_messages
+      render json: @event.errors.full_messages, status: 400
     end
   end
 
@@ -106,7 +106,7 @@ class EventsController < ApplicationController
     if @event.update_attributes(event_params)
       redirect_to organization_event_path(@organization.id, @event.id)
     else
-      render json: @event.errors.full_messages
+      render json: @event.errors.full_messages, status: 400
     end
   end
 
@@ -116,14 +116,16 @@ class EventsController < ApplicationController
   end
 
   def add_course
-    course = Course.where(id: params[:id]).first
-    course.students.each do |student|
+    @course = Course.where(id: params[:id]).first
+    @course.students.each do |student|
       p student.first_name
       @event.students << student unless @event.students.include?(student)
     end
-    @event.save
-    return render :'events/_scheduled_students', layout: false
-    # render json: {user: @user, count: @event.students.count, event: @event.id}
+    if @event.save
+      return render :'events/_scheduled_students', layout: false
+    else
+      render json: @event.errors.full_messages, status: 400
+    end
   end
 
   # def remove_course
@@ -136,42 +138,57 @@ class EventsController < ApplicationController
   # end
 
   def add_student
-    @event.students << @user
-    @event.save
-    return render :'events/_scheduled_students', layout: false
-    # render json: {user: @user, count: @event.students.count, event: @event.id}
+    @event.students << @student
+    if @event.save
+      return render :'events/_scheduled_students', layout: false
+    else
+      render json: @event.errors.full_messages, status: 400
+    end
   end
 
   def remove_student
-    @event.students.delete(@user)
-    @event.save
-    render json: {count: @event.students.count}
+    @event.students.delete(@student)
+    if @event.save
+      render json: {count: @event.students.count}
+    else
+      render json: @event.errors.full_messages, status: 400
+    end
   end
 
   def add_room
     @event.rooms << @room
-    @event.save
-    return render :'events/_scheduled_rooms', layout: false
-    # render json: {room: @room, count: @event.rooms.count, event: @event.id}
+    if @event.save
+      return render :'events/_scheduled_rooms', layout: false
+    else
+      render json: @event.errors.full_messages, status: 400
+    end
   end
 
   def remove_room
     @event.rooms.delete(@room)
-    @event.save
-    render json: {count: @event.rooms.count}
+    if @event.save
+      render json: {count: @event.rooms.count}
+    else
+      render json: @event.errors.full_messages, status: 400
+    end
   end
 
   def add_item
     @event.items << @item
-    @event.save
-    return render :'events/_scheduled_items', layout: false
-    # render json: {item: @item, count: @event.items.count, event: @event.id}
+    if @event.save
+      return render :'events/_scheduled_items', layout: false
+    else
+      render json: @event.errors.full_messages, status: 400
+    end
   end
 
   def remove_item
     @event.items.delete(@item)
-    @event.save
-    render json: {count: @event.items.count}
+    if @event.save
+      render json: {count: @event.items.count}
+    else
+      render json: @event.errors.full_messages, status: 400
+    end
   end
 
   def search
@@ -210,7 +227,7 @@ class EventsController < ApplicationController
     @students = User
       .where(organization_id: @organization.id, is_student: true)
       .where("lower(first_name) LIKE ? OR lower(last_name) LIKE ?", "%#{params[:phrase]}%", "%#{params[:phrase]}%")
-      .order(last_name: :asc).order(first_name: :asc)
+      .order(last_name: :asc, first_name: :asc)
     @students -= @event.students
   end
 
@@ -235,7 +252,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:title, :start, :finish, :instructor_id, :organization_id)
+    params.require(:event).permit(:title, :start, :finish, :instructor_id)
   end
 
   def nested_event
@@ -243,7 +260,7 @@ class EventsController < ApplicationController
   end
 
   def nested_student
-    @user = User.where(id: params[:id]).first
+    @student = User.where(id: params[:id]).first
   end
 
   def nested_room
@@ -257,8 +274,7 @@ class EventsController < ApplicationController
   def faculty
     @users = User
       .where(organization_id: @organization.id, is_student: false)
-      .order(last_name: :asc)
-      .order(first_name: :asc)
+      .order(last_name: :asc, first_name: :asc)
     @faculty = @users.map do |user|
       ["#{user.first_name} #{user.last_name}", user.id]
     end

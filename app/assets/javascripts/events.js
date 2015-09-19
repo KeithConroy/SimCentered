@@ -18,24 +18,7 @@ $(document).on('page:change', function() {
     fixedWeekCount: false,
     dayClick: function(date, jsEvent, view) {
       $('#newEventModal').modal('show');
-
-      var day = date.format('D');
-      var month = date.format('M');
-      var year = date.format('YYYY');
-      var hour = date.format('HH');
-      var minute = date.format('mm');
-
-      $('#event_start_3i option[value="'+ day +'"]').prop('selected', true);
-      $('#event_start_2i option[value="'+ month +'"]').prop('selected', true);
-      $('#event_start_1i option[value="'+ year +'"]').prop('selected', true);
-      $('#event_start_4i option[value="'+ hour +'"]').prop('selected', true);
-      $('#event_start_5i option[value="'+ minute +'"]').prop('selected', true);
-
-      $('#event_finish_3i option[value="'+ day +'"]').prop('selected', true);
-      $('#event_finish_2i option[value="'+ month +'"]').prop('selected', true);
-      $('#event_finish_1i option[value="'+ year +'"]').prop('selected', true);
-      $('#event_finish_4i option[value="'+ hour +'"]').prop('selected', true);
-      $('#event_finish_5i option[value="'+ minute +'"]').prop('selected', true);
+      setModalDate(date);
     },
   })
 
@@ -73,10 +56,32 @@ var bindEvents = function(){
 
   $('#event-search').on('keyup', eventSearch);
 
+  $('body').on('keyup', calendarFlip);
+
   $('.modify-search').on('keyup', modifySearch);
   $('.modify-search').focusin(showResults);
   $('.modify-search').focusout(hideResults);
-}
+};
+
+var setModalDate = function(date) {
+  var day = date.format('D');
+  var month = date.format('M');
+  var year = date.format('YYYY');
+  var hour = date.format('HH');
+  var minute = date.format('mm');
+
+  $('#event_start_3i option[value="'+ day +'"]').prop('selected', true);
+  $('#event_start_2i option[value="'+ month +'"]').prop('selected', true);
+  $('#event_start_1i option[value="'+ year +'"]').prop('selected', true);
+  $('#event_start_4i option[value="'+ hour +'"]').prop('selected', true);
+  $('#event_start_5i option[value="'+ minute +'"]').prop('selected', true);
+
+  $('#event_finish_3i option[value="'+ day +'"]').prop('selected', true);
+  $('#event_finish_2i option[value="'+ month +'"]').prop('selected', true);
+  $('#event_finish_1i option[value="'+ year +'"]').prop('selected', true);
+  $('#event_finish_4i option[value="'+ hour +'"]').prop('selected', true);
+  $('#event_finish_5i option[value="'+ minute +'"]').prop('selected', true);
+};
 
 var addStudent = function(){
   event.preventDefault();
@@ -92,7 +97,7 @@ var addStudent = function(){
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var removeStudent = function(){
   event.preventDefault();
@@ -109,7 +114,7 @@ var removeStudent = function(){
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var addRoom = function(){
   event.preventDefault();
@@ -126,7 +131,7 @@ var addRoom = function(){
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var removeRoom = function(){
   event.preventDefault();
@@ -143,7 +148,7 @@ var removeRoom = function(){
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var addItem = function(){
   event.preventDefault();
@@ -162,7 +167,7 @@ var addItem = function(){
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var removeItem = function(){
   event.preventDefault();
@@ -179,7 +184,7 @@ var removeItem = function(){
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var addCourse = function(){
   event.preventDefault();
@@ -195,7 +200,7 @@ var addCourse = function(){
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var removeCourse = function(){
   event.preventDefault();
@@ -211,7 +216,7 @@ var removeCourse = function(){
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var eventSearch = function(){
   var phrase = $(this).val().toLowerCase();
@@ -224,7 +229,7 @@ var eventSearch = function(){
       $('#events-index').html($(payload));
     });
   }
-}
+};
 
 var modifySearch = function(event){
   var phrase = $(this).val().toLowerCase();
@@ -244,12 +249,21 @@ var modifySearch = function(event){
   } else {
     $('.search-results table').empty();
   };
-}
+};
 
 var showResults = function() {
   $('.search-results').fadeIn(200);
-}
+};
 
 var hideResults = function() {
   $('.search-results').fadeOut(200);
-}
+};
+
+var calendarFlip = function() {
+  if(event.keyCode == 37){
+    $('#calendar').fullCalendar('prev');
+  };
+  if(event.keyCode == 39){
+    $('#calendar').fullCalendar('next');
+  };
+};

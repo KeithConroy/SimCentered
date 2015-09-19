@@ -1,7 +1,7 @@
 class CoursesController < ApplicationController
   before_action :find_course, only: [:show, :edit, :update, :destroy]
 
-  before_action :realation_variables, only: [:add_student, :remove_student]
+  before_action :relation_variables, only: [:add_student, :remove_student]
 
   before_action :faculty, only: [:index, :new, :show, :edit]
 
@@ -24,7 +24,7 @@ class CoursesController < ApplicationController
     if @course.save
       redirect_to organization_course_path(@organization.id, @course.id)
     else
-      render json: @course.errors.full_messages
+      render json: @course.errors.full_messages, status: 400
     end
   end
 
@@ -38,7 +38,7 @@ class CoursesController < ApplicationController
     if @course.update_attributes(course_params)
       redirect_to organization_course_path(@organization.id, @course.id)
     else
-      render json: @course.errors.full_messages
+      render json: @course.errors.full_messages, status: 400
     end
   end
 
@@ -49,16 +49,20 @@ class CoursesController < ApplicationController
 
   def add_student
     @course.students << @student unless @course.students.include?(@student)
-    @course.save
-
-    return render :'courses/_enrolled_students', layout: false
+    if @course.save
+      return render :'courses/_enrolled_students', layout: false
+    else
+      render json: @course.errors.full_messages, status: 400
+    end
   end
 
   def remove_student
     @course.students.delete(@student)
-    @course.save
-
-    render json: {count: @course.students.count}
+    if @course.save
+      render json: {count: @course.students.count}
+    else
+      render json: @course.errors.full_messages, status: 400
+    end
   end
 
   def search
@@ -82,8 +86,7 @@ class CoursesController < ApplicationController
     @students = User
       .where(organization_id: @organization.id, is_student: true)
       .where("lower(first_name) LIKE ? OR lower(last_name) LIKE ?", "%#{params[:phrase]}%", "%#{params[:phrase]}%")
-      .order(last_name: :asc)
-      .order(first_name: :asc)
+      .order(last_name: :asc, first_name: :asc)
 
     @students -= @course.students
   end
@@ -95,21 +98,20 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(:title, :instructor_id, :organization_id)
+    params.require(:course).permit(:title, :instructor_id)
   end
 
   def faculty
     @users = User
       .where(organization_id: @organization.id, is_student: false)
-      .order(last_name: :asc)
-      .order(first_name: :asc)
+      .order(last_name: :asc, first_name: :asc)
 
     @faculty = @users.map do |user|
       ["#{user.first_name} #{user.last_name}", user.id]
     end
   end
 
-  def realation_variables
+  def relation_variables
     @course = Course.where(id: params[:course_id]).first
     @student = User.where(id: params[:id]).first
   end
