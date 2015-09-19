@@ -134,14 +134,16 @@ RSpec.describe CoursesController, type: :controller do
     it "gets student" do
       expect(assigns(:student)).to be_a(User)
     end
-    it "assigns the student to the course" do
+    it "remove the student from the course" do
       expect(Course.first.students).to_not include(student)
     end
   end
 
   context "GET #search" do
     before { get :search, organization_id: organization.id, phrase: 'Course' }
-    it "searches"
+    it "gets courses" do
+      expect(assigns(:courses)).to be_a(ActiveRecord::Relation)
+    end
   end
 
   context "GET #modify_search" do

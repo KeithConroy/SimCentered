@@ -167,7 +167,7 @@ RSpec.describe EventsController, type: :controller do
     it "gets student" do
       expect(assigns(:student)).to be_a(User)
     end
-    it "assigns the student to the event" do
+    it "removes the student from the event" do
       expect(Event.first.students).to_not include(student)
     end
   end
@@ -194,7 +194,7 @@ RSpec.describe EventsController, type: :controller do
     it "gets room" do
       expect(assigns(:room)).to be_a(Room)
     end
-    it "assigns the room to the event" do
+    it "removes the room from the event" do
       expect(Event.first.rooms).to_not include(room)
     end
   end
@@ -221,7 +221,7 @@ RSpec.describe EventsController, type: :controller do
     it "gets item" do
       expect(assigns(:item)).to be_a(Item)
     end
-    it "assigns the item to the event" do
+    it "removes the item from the event" do
       expect(Event.first.items).to_not include(item)
     end
   end
