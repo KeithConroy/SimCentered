@@ -43,38 +43,7 @@ class EventsController < ApplicationController
   end
 
   def modify
-    # available_students
-    # available_rooms
-    # available_items
-
-    # conflicting_events = Event.where("organization_id = ? AND (start BETWEEN ? AND ?) OR (finish BETWEEN ? AND ?)", @organization.id, @event.start, @event.finish, @event.start, @event.finish)
-
-    # find_busy(conflicting_events) unless conflicting_events.empty?
   end
-
-  # def available_students
-  #   @courses = Course
-  #     .where(organization_id: @organization.id)
-  #     .order(title: :asc)
-  #   @students = User
-  #     .where(organization_id: @organization.id, is_student: true)
-  #     .order(last_name: :asc).order(first_name: :asc)
-  #   @students -= @event.students
-  # end
-
-  # def available_rooms
-  #   @rooms = Room
-  #     .where(organization_id: @organization.id)
-  #     .order(title: :asc)
-  #   @rooms -= @event.rooms
-  # end
-
-  # def available_items
-  #   @items = Item
-  #     .where(organization_id: @organization.id)
-  #     .order(title: :asc)
-  #   @items -= @event.items
-  # end
 
   def find_busy(conflicting_events)
     busy_students = []
@@ -118,7 +87,6 @@ class EventsController < ApplicationController
   def add_course
     @course = Course.where(id: params[:id]).first
     @course.students.each do |student|
-      p student.first_name
       @event.students << student unless @event.students.include?(student)
     end
     if @event.save
