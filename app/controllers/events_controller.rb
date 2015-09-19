@@ -122,9 +122,11 @@ class EventsController < ApplicationController
       p student.first_name
       @event.students << student unless @event.students.include?(student)
     end
-    @event.save
-    return render :'events/_scheduled_students', layout: false
-    # render json: {user: @user, count: @event.students.count, event: @event.id}
+    if @event.save
+      return render :'events/_scheduled_students', layout: false
+    else
+      render json: @event.errors.full_messages, status: 400
+    end
   end
 
   # def remove_course
@@ -138,41 +140,56 @@ class EventsController < ApplicationController
 
   def add_student
     @event.students << @student
-    @event.save
-    return render :'events/_scheduled_students', layout: false
-    # render json: {student: @student, count: @event.students.count, event: @event.id}
+    if @event.save
+      return render :'events/_scheduled_students', layout: false
+    else
+      render json: @event.errors.full_messages, status: 400
+    end
   end
 
   def remove_student
     @event.students.delete(@student)
-    @event.save
-    render json: {count: @event.students.count}
+    if @event.save
+      render json: {count: @event.students.count}
+    else
+      render json: @event.errors.full_messages, status: 400
+    end
   end
 
   def add_room
     @event.rooms << @room
-    @event.save
-    return render :'events/_scheduled_rooms', layout: false
-    # render json: {room: @room, count: @event.rooms.count, event: @event.id}
+    if @event.save
+      return render :'events/_scheduled_rooms', layout: false
+    else
+      render json: @event.errors.full_messages, status: 400
+    end
   end
 
   def remove_room
     @event.rooms.delete(@room)
-    @event.save
-    render json: {count: @event.rooms.count}
+    if @event.save
+      render json: {count: @event.rooms.count}
+    else
+      render json: @event.errors.full_messages, status: 400
+    end
   end
 
   def add_item
     @event.items << @item
-    @event.save
-    return render :'events/_scheduled_items', layout: false
-    # render json: {item: @item, count: @event.items.count, event: @event.id}
+    if @event.save
+      return render :'events/_scheduled_items', layout: false
+    else
+      render json: @event.errors.full_messages, status: 400
+    end
   end
 
   def remove_item
     @event.items.delete(@item)
-    @event.save
-    render json: {count: @event.items.count}
+    if @event.save
+      render json: {count: @event.items.count}
+    else
+      render json: @event.errors.full_messages, status: 400
+    end
   end
 
   def search

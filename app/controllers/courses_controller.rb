@@ -50,16 +50,20 @@ class CoursesController < ApplicationController
 
   def add_student
     @course.students << @student unless @course.students.include?(@student)
-    @course.save
+    if @course.save
+      return render :'courses/_enrolled_students', layout: false
+    else
 
-    return render :'courses/_enrolled_students', layout: false
+    end
   end
 
   def remove_student
     @course.students.delete(@student)
-    @course.save
+    if @course.save
+      render json: {count: @course.students.count}
+    else
 
-    render json: {count: @course.students.count}
+    end
   end
 
   def search
