@@ -16,42 +16,6 @@ RSpec.describe OrganizationsController, type: :controller do
       is_student: false,
     )
   end
-  let(:student) do
-    User.create!(
-      first_name: "Test",
-      last_name: "Student",
-      email: "student@mail.com",
-      organization_id: organization.id,
-      is_student: true,
-    )
-  end
-  let(:course) do
-    Course.create!(
-      title: "Test Course",
-      instructor_id: instructor.id,
-      organization_id: organization.id,
-    )
-  end
-  let(:room) do
-    Room.create!(
-      title: "Test Room",
-      organization_id: organization.id,
-    )
-  end
-  let(:item) do
-    Item.create!(
-      title: "Test Item",
-      quantity: 1,
-      organization_id: organization.id,
-    )
-  end
-  let(:event) do
-    Event.create!(
-      title: "Test Event",
-      instructor_id: instructor.id,
-      organization_id: organization.id,
-    )
-  end
 
   context "POST create" do
     it "saves a new organization and redirects" do
@@ -110,29 +74,51 @@ RSpec.describe OrganizationsController, type: :controller do
   end
 
   context "DELETE #destroy" do
-    before { delete :destroy, id: organization.id }
+    before {
+      Course.create!(
+        title: "Test Course",
+        instructor_id: instructor.id,
+        organization_id: organization.id,
+      )
+      Room.create!(
+        title: "Test Room",
+        organization_id: organization.id,
+      )
+      Event.create!(
+        title: "Test Event",
+        instructor_id: instructor.id,
+        organization_id: organization.id,
+      )
+      Item.create!(
+        title: "Test Item",
+        quantity: 1,
+        organization_id: organization.id,
+      )
+    }
     it "gets organization" do
+      delete :destroy, id: organization.id
       expect(assigns(:organization)).to be_a(Organization)
     end
     it "destroys the organization" do
-      expect(Organization.count).to eq 0
+      expect{ delete :destroy, id: organization.id }.to change{Organization.count}.from(1).to(0)
     end
-    xit "destroys the organizations courses" do
-      expect(Course.count).to eq 0
+    it "destroys the organizations courses" do
+      expect{ delete :destroy, id: organization.id }.to change{Course.count}.from(1).to(0)
     end
-    xit "destroys the organizations events" do
-      expect(Event.count).to eq 0
+    it "destroys the organizations events" do
+      expect{ delete :destroy, id: organization.id }.to change{Event.count}.from(1).to(0)
     end
-    xit "destroys the organizations items" do
-      expect(Item.count).to eq 0
+    it "destroys the organizations items" do
+      expect{ delete :destroy, id: organization.id }.to change{Item.count}.from(1).to(0)
     end
-    xit "destroys the organizations rooms" do
-      expect(Room.count).to eq 0
+    it "destroys the organizations rooms" do
+      expect{ delete :destroy, id: organization.id }.to change{Room.count}.from(1).to(0)
     end
-    xit "destroys the organizations users" do
-      expect(User.count).to eq 0
+    it "destroys the organizations users" do
+      expect{ delete :destroy, id: organization.id }.to change{User.count}.from(1).to(0)
     end
     it "should redirect" do
+      delete :destroy, id: organization.id
       expect(response.status).to eq 302
     end
   end
