@@ -228,7 +228,7 @@ class EventsController < ApplicationController
     @students = User
       .where(organization_id: @organization.id, is_student: true)
       .where("lower(first_name) LIKE ? OR lower(last_name) LIKE ?", "%#{params[:phrase]}%", "%#{params[:phrase]}%")
-      .order(last_name: :asc).order(first_name: :asc)
+      .order(last_name: :asc, first_name: :asc)
     @students -= @event.students
   end
 
@@ -257,7 +257,7 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params.require(:event).permit(:title, :start, :finish, :instructor_id, :organization_id)
+    params.require(:event).permit(:title, :start, :finish, :instructor_id)
   end
 
   def nested_event
@@ -279,8 +279,7 @@ class EventsController < ApplicationController
   def faculty
     @users = User
       .where(organization_id: @organization.id, is_student: false)
-      .order(last_name: :asc)
-      .order(first_name: :asc)
+      .order(last_name: :asc, first_name: :asc)
     @faculty = @users.map do |user|
       ["#{user.first_name} #{user.last_name}", user.id]
     end
