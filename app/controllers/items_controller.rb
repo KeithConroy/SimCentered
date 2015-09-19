@@ -22,7 +22,7 @@ class ItemsController < ApplicationController
     if @item.save
       redirect_to organization_item_path(@organization.id, @item.id)
     else
-      render json: @item.errors.full_messages
+      render json: @item.errors.full_messages, status: 400
     end
   end
 
@@ -36,7 +36,7 @@ class ItemsController < ApplicationController
     if @item.update_attributes(item_params)
       redirect_to organization_item_path(@organization.id, @item.id)
     else
-      render json: @item.errors.full_messages
+      render json: @item.errors.full_messages, status: 400
     end
   end
 

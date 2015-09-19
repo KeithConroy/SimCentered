@@ -36,7 +36,7 @@ class EventsController < ApplicationController
     if @event.save
       redirect_to "/organizations/#{@organization.id}/events/#{@event.id}/modify"
     else
-      render json: @event.errors.full_messages
+      render json: @event.errors.full_messages, status: 400
     end
   end
 
@@ -107,7 +107,7 @@ class EventsController < ApplicationController
     if @event.update_attributes(event_params)
       redirect_to organization_event_path(@organization.id, @event.id)
     else
-      render json: @event.errors.full_messages
+      render json: @event.errors.full_messages, status: 400
     end
   end
 
@@ -117,8 +117,8 @@ class EventsController < ApplicationController
   end
 
   def add_course
-    course = Course.where(id: params[:id]).first
-    course.students.each do |student|
+    @course = Course.where(id: params[:id]).first
+    @course.students.each do |student|
       p student.first_name
       @event.students << student unless @event.students.include?(student)
     end
@@ -137,14 +137,14 @@ class EventsController < ApplicationController
   # end
 
   def add_student
-    @event.students << @user
+    @event.students << @student
     @event.save
     return render :'events/_scheduled_students', layout: false
-    # render json: {user: @user, count: @event.students.count, event: @event.id}
+    # render json: {student: @student, count: @event.students.count, event: @event.id}
   end
 
   def remove_student
-    @event.students.delete(@user)
+    @event.students.delete(@student)
     @event.save
     render json: {count: @event.students.count}
   end
@@ -248,7 +248,7 @@ class EventsController < ApplicationController
   end
 
   def nested_student
-    @user = User.where(id: params[:id]).first
+    @student = User.where(id: params[:id]).first
   end
 
   def nested_room

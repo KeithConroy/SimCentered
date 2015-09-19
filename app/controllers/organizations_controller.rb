@@ -21,7 +21,7 @@ class OrganizationsController < ApplicationController
       )
       redirect_to organization_path(@organization.id)
     else
-      render json: @organization.errors.full_messages
+      render json: @organization.errors.full_messages, status: 400
     end
   end
 
@@ -40,7 +40,7 @@ class OrganizationsController < ApplicationController
     if @organization.update_attributes(organization_params)
       redirect_to @organization
     else
-      render json: @organization.errors.full_messages
+      render json: @organization.errors.full_messages, status: 400
     end
   end
 
