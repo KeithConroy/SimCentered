@@ -25,10 +25,6 @@ class OrganizationsController < ApplicationController
   end
 
   def show
-    p "*"*80
-    p params
-    params[:id] = current_user.organization_id
-    @organization = Organization.last
     @event = Event.new()
     @events = Event
       .where(organization_id: @organization.id)
