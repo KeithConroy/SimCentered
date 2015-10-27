@@ -1,6 +1,6 @@
 class WelcomeController < ApplicationController
   def index
-    # @organization = Organization.new
+    @organization = Organization.new
   end
 
   def community

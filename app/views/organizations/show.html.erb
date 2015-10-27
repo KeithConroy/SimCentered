@@ -55,7 +55,7 @@
         <h4 class="modal-title" id="myModalLabel">Edit Organization</h4>
       </div>
       <div class="modal-body">
-        <%= bootstrap_form_for @organization, layout: :horizontal, control_col: "col-sm-9", url: organization_path(@organization) do |f| %>
+        <%= bootstrap_form_for @organization, layout: :horizontal, control_col: "col-sm-9", url: organization_path do |f| %>
           <%= f.text_field :title, label: "Organization Name" %>
           <%= f.text_field :subdomain %>
           <%= f.time_zone_select :time_zone, nil, :default => "Pacific Time (US & Canada)"%>
