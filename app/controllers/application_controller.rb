@@ -6,10 +6,9 @@ class ApplicationController < ActionController::Base
   before_filter :find_organization, :set_time_zone
 
   def find_organization
-    if params[:organization_id]
-      @organization = Organization.where(id: params[:organization_id]).first
-    else
-      @organization = Organization.where(id: params[:id]).first
+    @organization = Organization.where(id: current_user.organization_id).first if current_user
+    if params[:organization_id] && params[:organization_id].to_i != @organization.id
+      render file: "public/401.html", status: :unauthorized
     end
   end
 

@@ -55,7 +55,10 @@ class ItemsController < ApplicationController
   private
 
   def find_item
-    @item = Item.where(id: params[:id]).first
+    @item = Item.where(organization_id: @organization.id, id: params[:id]).first
+    unless @item
+      render file: "public/404.html"
+    end
   end
 
   def item_params

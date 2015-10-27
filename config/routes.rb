@@ -1,6 +1,16 @@
 Rails.application.routes.draw do
 
-  root 'welcome#index'
+  devise_for :users
+  devise_scope :user do
+    authenticated :user do
+      root :to => 'organizations#show', as: :authenticated_root, via: :get
+      # get 'organizations/show'
+    end
+    unauthenticated :user do
+      root :to => 'welcome#index', as: :unauthenticated_root
+    end
+  end
+  # root 'welcome#index'
 
   get 'organizations/:organization_id/courses/search/:phrase' => 'courses#search'
   get 'organizations/:organization_id/events/search/:phrase' => 'events#search'
