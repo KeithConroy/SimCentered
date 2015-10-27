@@ -179,10 +179,10 @@ RSpec.describe EventsController, type: :controller do
     end
     context "invalid #add_course" do
       before { post :add_course, organization_id: organization.id, event_id: event.id, id: course.id }
-      it "should give an error status" do
+      xit "should give an error status" do
         expect(response.status).to eq 400
       end
-      it "does not assign a course to the event" do
+      xit "does not assign a course to the event" do
         # expect(Course.first.students.count).to be(0)
       end
     end
