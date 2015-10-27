@@ -33,7 +33,7 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
     @event.organization_id = @organization.id
     if @event.save
-      redirect_to "/organizations/#{@organization.id}/events/#{@event.id}/modify"
+      redirect_to "/organizations/#{@organization.id}/events/#{@event.id}"
     else
       render json: @event.errors.full_messages, status: 400
     end
