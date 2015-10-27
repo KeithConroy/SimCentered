@@ -93,7 +93,7 @@ var addStudent = function(){
     url: url,
     type: 'post'
   }).done(function(data) {
-    $('#scheduled-students').html($(data));
+    $('#scheduled-students').append($(data));
   }).fail(function() {
       console.log('error');
   });
