@@ -56,10 +56,7 @@ class UsersController < ApplicationController
   private
 
   def find_user
-    @user = User.where(organization_id: @organization.id, id: params[:id]).first
-    unless @user
-      render file: "public/404.html"
-    end
+    @user = User.where(id: params[:id]).first
   end
 
   def user_params

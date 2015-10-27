@@ -14,8 +14,3 @@
  *= require rails_bootstrap_forms
  *= require_self
  */
-
-.error {
-  text-align: center;
-  margin-top: 15%;
-}
