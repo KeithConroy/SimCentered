@@ -16,6 +16,9 @@ RSpec.describe CoursesController, type: :controller do
       is_student: false,
     )
   end
+  before(:all) do
+    sign_in instructor
+  end
   let(:student) do
     User.create!(
       first_name: "Test",
