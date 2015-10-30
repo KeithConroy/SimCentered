@@ -14,10 +14,11 @@ RSpec.describe CoursesController, type: :controller do
       email: "keith@mail.com",
       organization_id: organization.id,
       is_student: false,
+      password: "12345678"
     )
   end
-  before(:all) do
-    sign_in instructor
+  before(:each) do
+    # sign_in instructor
   end
   let(:student) do
     User.create!(
@@ -38,6 +39,7 @@ RSpec.describe CoursesController, type: :controller do
   context 'GET index' do
     before { get :index, organization_id: organization.id }
     it "should get index" do
+      # sign_in instructor
       expect(response).to be_ok
       expect(response).to render_template("index")
     end
