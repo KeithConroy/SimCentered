@@ -20,6 +20,7 @@ class EventsController < ApplicationController
     else
       @events = Event
         .where(organization_id: @organization.id)
+        .where("start > ?", DateTime.now)
         .order(start: :asc)
         .paginate(page: params[:page], per_page: 15)
     end
@@ -113,7 +114,8 @@ class EventsController < ApplicationController
     if @student && @student.organization_id == @organization.id
       @event.students << @student unless @event.students.include?(@student)
       if @event.save
-        return render :'events/_scheduled_students', layout: false
+        # return render :'events/_scheduled_students', layout: false
+        return render :'events/_scheduled_student', layout: false
       else
         render json: @event.errors.full_messages, status: 400
       end

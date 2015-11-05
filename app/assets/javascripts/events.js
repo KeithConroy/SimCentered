@@ -59,7 +59,7 @@ var bindEvents = function(){
   $('body').on('keyup', calendarFlip);
 
   $('.modify-search').on('keyup', modifySearch);
-  $('.modify-search').focusin(showResults);
+  // $('.modify-search').focusin(showResults);
   $('.modify-search').focusout(hideResults);
 };
 
@@ -93,7 +93,7 @@ var addStudent = function(){
     url: url,
     type: 'post'
   }).done(function(data) {
-    $('#scheduled-students').html($(data));
+    $('#scheduled-students').append($(data));
   }).fail(function() {
       console.log('error');
   });
@@ -243,11 +243,13 @@ var modifySearch = function(event){
   if (phrase) {
     $.get(eventId + '/modify_search/' + phrase).success(function(payload) {
       $('.search-results table').html($(payload));
+      showResults();
       // $('.search-results tr:first')
       // add hover to first element
     });
   } else {
     $('.search-results table').empty();
+    hideResults();
   };
 };
 
