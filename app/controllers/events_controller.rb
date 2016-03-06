@@ -7,20 +7,20 @@ class EventsController < ApplicationController
 
   before_action :nested_event, only: [:modify, :add_course, :remove_course, :add_student, :remove_student, :add_room, :remove_room, :add_item, :remove_item, :modify_search]
 
-  before_action :faculty, only: [:index,:new, :show, :edit]
+  before_action :faculty, only: [:index, :new, :show, :edit]
 
   def index
     @new_event = Event.new
     if request.xhr?
       @events = Event.where(organization_id: @organization.id, start: params[:start]..params[:end])
       @calendar_events = @events.map do |event|
-        {title: event.title, start: event.start, :end => event.finish, url: "events/#{event.id}"}
+        { title: event.title, start: event.start, :end => event.finish, url: "events/#{event.id}" }
       end
       render json: @calendar_events
     else
       @events = Event
         .where(organization_id: @organization.id)
-        .where("start > ?", DateTime.now)
+        .where('start > ?', DateTime.now)
         .order(start: :asc)
         .paginate(page: params[:page], per_page: 15)
     end
@@ -65,7 +65,7 @@ class EventsController < ApplicationController
   def mark_busy(full_array, busy_array)
     busy_array.flatten!.uniq!
     full_array.each do |object|
-      busy_array.include?(object) ? object.busy = true : object.busy = false
+      object.busy = busy_array.include?(object)
     end
   end
 
@@ -92,7 +92,7 @@ class EventsController < ApplicationController
         @event.students << student unless @event.students.include?(student)
       end
       if @event.save
-        return render :'events/_scheduled_students', layout: false
+        render :'events/_scheduled_students', layout: false
       else
         render json: @event.errors.full_messages, status: 400
       end
@@ -114,13 +114,13 @@ class EventsController < ApplicationController
     if @student && @student.organization_id == @organization.id
       @event.students << @student unless @event.students.include?(@student)
       if @event.save
-        # return render :'events/_scheduled_students', layout: false
-        return render :'events/_scheduled_student', layout: false
+        # render :'events/_scheduled_students', layout: false
+        render :'events/_scheduled_student', layout: false
       else
         render json: @event.errors.full_messages, status: 400
       end
     else
-      render json: "Invalid Student Association", status: 400
+      render json: 'Invalid Student Association', status: 400
     end
   end
 
@@ -128,12 +128,12 @@ class EventsController < ApplicationController
     if @event.students.include?(@student)
       @event.students.delete(@student)
       if @event.save
-        render json: {count: @event.students.count}
+        render json: { count: @event.students.count }
       else
         render json: @event.errors.full_messages, status: 400
       end
     else
-      render json: "Student is not enrolled", status: 400
+      render json: 'Student is not enrolled', status: 400
     end
   end
 
@@ -141,19 +141,19 @@ class EventsController < ApplicationController
     if @room && @room.organization_id == @organization.id
       @event.rooms << @room unless @event.students.include?(@student)
       if @event.save
-        return render :'events/_scheduled_rooms', layout: false
+        render :'events/_scheduled_rooms', layout: false
       else
         render json: @event.errors.full_messages, status: 400
       end
     else
-      render json: "Invalid Room Association", status: 400
+      render json: 'Invalid Room Association', status: 400
     end
   end
 
   def remove_room
     @event.rooms.delete(@room)
     if @event.save
-      render json: {count: @event.rooms.count}
+      render json: { count: @event.rooms.count }
     else
       render json: @event.errors.full_messages, status: 400
     end
@@ -162,7 +162,7 @@ class EventsController < ApplicationController
   def add_item
     @event.items << @item
     if @event.save
-      return render :'events/_scheduled_items', layout: false
+      render :'events/_scheduled_items', layout: false
     else
       render json: @event.errors.full_messages, status: 400
     end
@@ -171,7 +171,7 @@ class EventsController < ApplicationController
   def remove_item
     @event.items.delete(@item)
     if @event.save
-      render json: {count: @event.items.count}
+      render json: { count: @event.items.count }
     else
       render json: @event.errors.full_messages, status: 400
     end
@@ -186,47 +186,47 @@ class EventsController < ApplicationController
         .paginate(page: 1, per_page: 15)
     else
       @events = Event
-        .where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%")
+        .where('organization_id = ? AND lower(title) LIKE ?', @organization.id, "%#{phrase}%")
         .order(start: :asc)
         .paginate(page: 1, per_page: 15)
     end
-    return render :'events/_all_events', layout: false
+    render :'events/_all_events', layout: false
   end
 
   def modify_search
-    @phrase = params[:phrase]
-    search_available_students
-    search_available_rooms
-    search_available_items
+    sql_phrase = "%#{params[:phrase]}%"
+    search_available_students(sql_phrase)
+    search_available_rooms(sql_phrase)
+    search_available_items(sql_phrase)
 
-    conflicting_events = Event.where("organization_id = ? AND (start BETWEEN ? AND ?) OR (finish BETWEEN ? AND ?)", @organization.id, @event.start, @event.finish, @event.start, @event.finish)
+    conflicting_events = Event.where('organization_id = ? AND (start BETWEEN ? AND ?) OR (finish BETWEEN ? AND ?)', @organization.id, @event.start, @event.finish, @event.start, @event.finish)
 
     find_busy(conflicting_events) unless conflicting_events.empty?
 
-    return render :'events/_modify_search', layout: false
+    render :'events/_modify_search', layout: false
   end
 
-  def search_available_students
+  def search_available_students(sql_phrase)
     @courses = Course
-      .where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%")
+      .where('organization_id = ? AND lower(title) LIKE ?', @organization.id, sql_phrase)
       .order(title: :asc)
     @students = User
       .where(organization_id: @organization.id, is_student: true)
-      .where("lower(first_name) LIKE ? OR lower(last_name) LIKE ?", "%#{params[:phrase]}%", "%#{params[:phrase]}%")
+      .where('lower(first_name) LIKE ? OR lower(last_name) LIKE ?', sql_phrase, sql_phrase)
       .order(last_name: :asc, first_name: :asc)
     @students -= @event.students
   end
 
-  def search_available_rooms
+  def search_available_rooms(sql_phrase)
     @rooms = Room
-      .where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%")
+      .where('organization_id = ? AND lower(title) LIKE ?', @organization.id, sql_phrase)
       .order(title: :asc)
     @rooms -= @event.rooms
   end
 
-  def search_available_items
+  def search_available_items(sql_phrase)
     @items = Item
-      .where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%")
+      .where('organization_id = ? AND lower(title) LIKE ?', @organization.id, sql_phrase)
       .order(title: :asc)
     @items -= @event.items
   end

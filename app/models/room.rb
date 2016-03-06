@@ -1,5 +1,4 @@
 class Room < ActiveRecord::Base
-
   attr_accessor :busy
 
   belongs_to :organization

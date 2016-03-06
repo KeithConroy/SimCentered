@@ -1,5 +1,4 @@
 class OrganizationsController < ApplicationController
-
   def index
   end
 
@@ -12,9 +11,9 @@ class OrganizationsController < ApplicationController
     if @organization.save
       @admin = User.create!(
         first_name: organization_params[:subdomain],
-        last_name: "Admin",
+        last_name: 'Admin',
         email: organization_params[:email],
-        password: "",
+        password: '',
         is_student: false,
         organization_id: @organization.id
       )
@@ -25,7 +24,7 @@ class OrganizationsController < ApplicationController
   end
 
   def show
-    @event = Event.new()
+    @event = Event.new
     @events = Event
       .where(organization_id: @organization.id)
       .where('start BETWEEN ? AND ?', DateTime.now.beginning_of_day, DateTime.now.end_of_day)

@@ -12,7 +12,7 @@ class CoursesController < ApplicationController
       .order(title: :asc)
       .paginate(page: params[:page], per_page: 15)
 
-    return render :'courses/_all_courses', layout: false if request.xhr?
+    render :'courses/_all_courses', layout: false if request.xhr?
   end
 
   def new
@@ -51,47 +51,45 @@ class CoursesController < ApplicationController
     if @student && @student.organization_id == @organization.id
       @course.students << @student unless @course.students.include?(@student)
       if @course.save
-        return render :'courses/_enrolled_students', layout: false
+        render :'courses/_enrolled_students', layout: false
       else
         render json: @course.errors.full_messages, status: 400
       end
     else
-      render json: "Invalid Student Association", status: 400
+      render json: 'Invalid Student Association', status: 400
     end
   end
 
   def remove_student
     if @course.students.include?(@student)
       @course.students.delete(@student)
-      if @course.save
-        render json: {count: @course.students.count}
-      end
+      render json: { count: @course.students.count } if @course.save
     else
-      render json: "Student is not enrolled", status: 400
+      render json: 'Student is not enrolled', status: 400
     end
   end
 
   def search
     @courses = Course
-      .where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%")
+      .where('organization_id = ? AND lower(title) LIKE ?', @organization.id, "%#{params[:phrase]}%")
       .order(title: :asc)
       .paginate(page: 1, per_page: 15)
 
-    return render :'courses/_all_courses', layout: false
+    render :'courses/_all_courses', layout: false
   end
 
   def modify_search
     @course = Course.where(id: params[:course_id]).first
-    @phrase = params[:phrase]
-    search_available_students
+    sql_phrase = "%#{params[:phrase]}%"
+    search_available_students(sql_phrase)
 
-    return render :'courses/_modify_search', layout: false
+    render :'courses/_modify_search', layout: false
   end
 
-  def search_available_students
+  def search_available_students(sql_phrase)
     @students = User
       .where(organization_id: @organization.id, is_student: true)
-      .where("lower(first_name) LIKE ? OR lower(last_name) LIKE ?", "%#{params[:phrase]}%", "%#{params[:phrase]}%")
+      .where('lower(first_name) LIKE ? OR lower(last_name) LIKE ?', sql_phrase, sql_phrase)
       .order(last_name: :asc, first_name: :asc)
 
     @students -= @course.students
@@ -121,5 +119,4 @@ class CoursesController < ApplicationController
     @course = Course.where(id: params[:course_id]).first
     @student = User.where(id: params[:id]).first
   end
-
 end

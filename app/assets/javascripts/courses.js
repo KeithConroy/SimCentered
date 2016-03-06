@@ -5,7 +5,7 @@ $(document).on('page:change', function() {
   $('#course-search').on('keyup', courseSearch);
 
   $('.modify-course-search').on('keyup', modifyCourseSearch);
-  $('.modify-course-search').focusin(showResults);
+  // $('.modify-course-search').focusin(showResults);
   $('.modify-course-search').focusout(hideResults);
 
 });
@@ -67,11 +67,13 @@ var modifyCourseSearch = function(event){
   if (phrase) {
     $.get(courseId + '/modify_search/' + phrase).success(function(payload) {
       $('.search-results table').html($(payload));
+      showResults();
       // $('.search-results tr:first')
       // add hover to first element
     });
   } else {
     $('.search-results table').empty();
+    hideResults();
   };
 }
 
