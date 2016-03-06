@@ -82,7 +82,7 @@ class EventsController < ApplicationController
 
   def destroy
     @event.destroy
-    redirect_to(:action => 'index')
+    redirect_to(action: 'index')
   end
 
   def add_course
