@@ -3,8 +3,8 @@ class ItemsController < ApplicationController
 
   def index
     @new_item = Item.new
-    @items = Item
-      .where(organization_id: @organization.id)
+    @items = Item.list(@organization.id, params[:page])
+      .local(@organization.id)
       .order(title: :asc)
       .paginate(page: params[:page], per_page: 15)
 
@@ -46,8 +46,7 @@ class ItemsController < ApplicationController
 
   def search
     @items = Item
-      .where('organization_id = ? AND lower(title) LIKE ?', @organization.id, "%#{params[:phrase]}%")
-      .order(title: :asc)
+      .search(@organization.id, params[:phrase])
       .paginate(page: 1, per_page: 15)
     render :'items/_all_items', layout: false
   end

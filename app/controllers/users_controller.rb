@@ -3,10 +3,7 @@ class UsersController < ApplicationController
 
   def index
     @new_user = User.new
-    @users = User
-      .where(organization_id: @organization.id)
-      .order(last_name: :asc, first_name: :asc)
-      .paginate(page: params[:page], per_page: 15)
+    @users = User.list(@organization.id, params[:page])
 
     render :'users/_all_users', layout: false if request.xhr?
   end
@@ -45,12 +42,7 @@ class UsersController < ApplicationController
   end
 
   def search
-    sql_phrase = "%#{params[:phrase]}%"
-    @users = User
-      .where('organization_id = ? AND lower(first_name) LIKE ? OR lower(last_name) LIKE ?', @organization.id, sql_phrase, sql_phrase)
-      .order(last_name: :asc, first_name: :asc)
-      .paginate(page: 1, per_page: 15)
-
+    @users = User.search_all(@organization.id, params[:phrase])
     render :'users/_all_users', layout: false
   end
 
