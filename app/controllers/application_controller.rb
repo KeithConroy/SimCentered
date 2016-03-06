@@ -6,11 +6,8 @@ class ApplicationController < ActionController::Base
   before_filter :find_organization, :set_time_zone
 
   def find_organization
-    if params[:organization_id]
-      @organization = Organization.where(id: params[:organization_id]).first
-    else
-      @organization = Organization.where(id: params[:id]).first
-    end
+    params_id = params[:organization_id] || params[:id]
+    @organization = Organization.where(id: params_id).first
   end
 
   def set_time_zone

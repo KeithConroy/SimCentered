@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-
   attr_accessor :busy
 
   belongs_to :organization
