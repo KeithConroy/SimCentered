@@ -63,5 +63,6 @@ group :development, :test do
   gem 'spring'
 
   gem 'rubocop', '~> 0.37.2', require: false
+  gem 'bullet'
 end
 
