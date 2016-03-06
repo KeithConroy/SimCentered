@@ -41,7 +41,7 @@ class ItemsController < ApplicationController
 
   def destroy
     @item.destroy
-    redirect_to(:action => 'index')
+    redirect_to(action: 'index')
   end
 
   def search

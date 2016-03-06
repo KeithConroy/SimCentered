@@ -41,7 +41,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    redirect_to(:action => 'index')
+    redirect_to(action: 'index')
   end
 
   def search

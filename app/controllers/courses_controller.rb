@@ -44,7 +44,7 @@ class CoursesController < ApplicationController
 
   def destroy
     @course.destroy
-    redirect_to(:action => 'index')
+    redirect_to(action: 'index')
   end
 
   def add_student
