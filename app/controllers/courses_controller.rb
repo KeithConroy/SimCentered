@@ -63,8 +63,7 @@ class CoursesController < ApplicationController
   def remove_student
     if @course.students.include?(@student)
       @course.students.delete(@student)
-      if @course.save
-        render json: { count: @course.students.count }
+      render json: { count: @course.students.count } if @course.save
     else
       render json: 'Student is not enrolled', status: 400
     end
