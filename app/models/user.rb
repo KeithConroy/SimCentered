@@ -37,4 +37,15 @@ class User < ActiveRecord::Base
       .order(last_name: :asc, first_name: :asc)
       .paginate(page: 1, per_page: 15)
   end
+
+  def self.create_admin(organization_id, subdomain, email)
+    create!(
+      first_name: subdomain,
+      last_name: 'Admin',
+      email: email,
+      password: '',
+      is_student: false,
+      organization_id: organization_id
+    )
+  end
 end
