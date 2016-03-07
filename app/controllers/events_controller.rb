@@ -12,17 +12,10 @@ class EventsController < ApplicationController
   def index
     @new_event = Event.new
     if request.xhr?
-      @events = Event.where(organization_id: @organization.id, start: params[:start]..params[:end])
-      @calendar_events = @events.map do |event|
-        { title: event.title, start: event.start, :end => event.finish, url: "events/#{event.id}" }
-      end
+      @calendar_events = Event.list_json(@organization.id, params[:start], params[:end])
       render json: @calendar_events
     else
-      @events = Event
-        .where(organization_id: @organization.id)
-        .where('start > ?', DateTime.now)
-        .order(start: :asc)
-        .paginate(page: params[:page], per_page: 15)
+      @events = Event.list(@organization.id, params[:page])
     end
   end
 
@@ -178,56 +171,41 @@ class EventsController < ApplicationController
   end
 
   def search
-    phrase = params[:phrase]
-    if phrase == '`'
-      @events = Event
-        .where(organization_id: @organization.id)
-        .order(start: :asc)
-        .paginate(page: 1, per_page: 15)
+    if params[:phrase] == '`'
+      @events = Event.empty_search(@organization.id)
     else
-      @events = Event
-        .where('organization_id = ? AND lower(title) LIKE ?', @organization.id, "%#{phrase}%")
-        .order(start: :asc)
-        .paginate(page: 1, per_page: 15)
+      @events = Event.search(@organization.id, params[:phrase])
     end
     render :'events/_all_events', layout: false
   end
 
   def modify_search
-    sql_phrase = "%#{params[:phrase]}%"
-    search_available_students(sql_phrase)
-    search_available_rooms(sql_phrase)
-    search_available_items(sql_phrase)
-
-    conflicting_events = Event.where('organization_id = ? AND (start BETWEEN ? AND ?) OR (finish BETWEEN ? AND ?)', @organization.id, @event.start, @event.finish, @event.start, @event.finish)
-
+    search_all
+    conflicting_events = Event.conflicting(@organization.id, @event)
     find_busy(conflicting_events) unless conflicting_events.empty?
 
     render :'events/_modify_search', layout: false
   end
 
-  def search_available_students(sql_phrase)
-    @courses = Course
-      .where('organization_id = ? AND lower(title) LIKE ?', @organization.id, sql_phrase)
-      .order(title: :asc)
-    @students = User
-      .where(organization_id: @organization.id, is_student: true)
-      .where('lower(first_name) LIKE ? OR lower(last_name) LIKE ?', sql_phrase, sql_phrase)
-      .order(last_name: :asc, first_name: :asc)
+  def search_all
+    search_available_students
+    search_available_rooms
+    search_available_items
+  end
+
+  def search_available_students
+    @courses = Course.search(@organization.id, params[:phrase])
+    @students = User.search_students(@organization.id, params[:phrase])
     @students -= @event.students
   end
 
-  def search_available_rooms(sql_phrase)
-    @rooms = Room
-      .where('organization_id = ? AND lower(title) LIKE ?', @organization.id, sql_phrase)
-      .order(title: :asc)
+  def search_available_rooms
+    @rooms = Room.search(@organization.id, params[:phrase])
     @rooms -= @event.rooms
   end
 
-  def search_available_items(sql_phrase)
-    @items = Item
-      .where('organization_id = ? AND lower(title) LIKE ?', @organization.id, sql_phrase)
-      .order(title: :asc)
+  def search_available_items
+    @items = Item.search(@organization.id, params[:phrase])
     @items -= @event.items
   end
 
@@ -258,10 +236,8 @@ class EventsController < ApplicationController
   end
 
   def faculty
-    @users = User
-      .where(organization_id: @organization.id, is_student: false)
-      .order(last_name: :asc, first_name: :asc)
-    @faculty = @users.map do |user|
+    faculty = User.faculty(@organization.id)
+    @faculty = faculty.map do |user|
       ["#{user.first_name} #{user.last_name}", user.id]
     end
   end

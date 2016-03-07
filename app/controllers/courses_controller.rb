@@ -1,16 +1,11 @@
 class CoursesController < ApplicationController
   before_action :find_course, only: [:show, :edit, :update, :destroy]
-
   before_action :relation_variables, only: [:add_student, :remove_student]
-
   before_action :faculty, only: [:index, :new, :show, :edit]
 
   def index
     @new_course = Course.new
-    @courses = Course
-      .where(organization_id: @organization.id)
-      .order(title: :asc)
-      .paginate(page: params[:page], per_page: 15)
+    @courses = Course.list(@organization.id, params[:page])
 
     render :'courses/_all_courses', layout: false if request.xhr?
   end
@@ -70,28 +65,18 @@ class CoursesController < ApplicationController
   end
 
   def search
-    @courses = Course
-      .where('organization_id = ? AND lower(title) LIKE ?', @organization.id, "%#{params[:phrase]}%")
-      .order(title: :asc)
-      .paginate(page: 1, per_page: 15)
-
+    @courses = Course.search(@organization.id, params[:phrase])
     render :'courses/_all_courses', layout: false
   end
 
   def modify_search
     @course = Course.where(id: params[:course_id]).first
-    sql_phrase = "%#{params[:phrase]}%"
-    search_available_students(sql_phrase)
-
+    search_available_students
     render :'courses/_modify_search', layout: false
   end
 
-  def search_available_students(sql_phrase)
-    @students = User
-      .where(organization_id: @organization.id, is_student: true)
-      .where('lower(first_name) LIKE ? OR lower(last_name) LIKE ?', sql_phrase, sql_phrase)
-      .order(last_name: :asc, first_name: :asc)
-
+  def search_available_students
+    @students = User.search_students(@organization.id, params[:phrase])
     @students -= @course.students
   end
 
@@ -106,11 +91,8 @@ class CoursesController < ApplicationController
   end
 
   def faculty
-    @users = User
-      .where(organization_id: @organization.id, is_student: false)
-      .order(last_name: :asc, first_name: :asc)
-
-    @faculty = @users.map do |user|
+    faculty = User.faculty(@organization.id)
+    @faculty = faculty.map do |user|
       ["#{user.first_name} #{user.last_name}", user.id]
     end
   end
