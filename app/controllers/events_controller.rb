@@ -1,11 +1,9 @@
 class EventsController < ApplicationController
-  before_action :find_event, only: [:show, :edit, :update, :destroy]
+  before_action :find_event, only: [:show, :edit, :update, :destroy, :modify_search, :add_student, :remove_student, :add_course, :remove_course, :add_room, :remove_room, :add_item, :remove_item]
 
-  before_action :nested_student, only: [:add_student, :remove_student]
-  before_action :nested_room, only: [:add_room, :remove_room]
-  before_action :nested_item, only: [:add_item, :remove_item]
-
-  before_action :nested_event, only: [:modify, :add_course, :remove_course, :add_student, :remove_student, :add_room, :remove_room, :add_item, :remove_item, :modify_search]
+  before_action :find_student, only: [:add_student, :remove_student]
+  before_action :find_room, only: [:add_room, :remove_room]
+  before_action :find_item, only: [:add_item, :remove_item]
 
   before_action :faculty, only: [:index, :new, :show, :edit]
 
@@ -27,16 +25,13 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
     @event.organization_id = @organization.id
     if @event.save
-      redirect_to "/organizations/#{@organization.id}/events/#{@event.id}"
+      redirect_to organization_event_path(@organization.id, @event.id)
     else
       render json: @event.errors.full_messages, status: 400
     end
   end
 
   def show
-  end
-
-  def modify
   end
 
   def find_busy(conflicting_events)
@@ -79,7 +74,7 @@ class EventsController < ApplicationController
   end
 
   def add_course
-    @course = Course.where(id: params[:id]).first
+    @course = Course.where(id: params[:course_id]).first
     if @course && @course.organization_id == @organization.id
       @course.students.each do |student|
         @event.students << student unless @event.students.include?(student)
@@ -107,7 +102,6 @@ class EventsController < ApplicationController
     if @student && @student.organization_id == @organization.id
       @event.students << @student unless @event.students.include?(@student)
       if @event.save
-        # render :'events/_scheduled_students', layout: false
         render :'events/_scheduled_student', layout: false
       else
         render json: @event.errors.full_messages, status: 400
@@ -219,20 +213,16 @@ class EventsController < ApplicationController
     params.require(:event).permit(:title, :start, :finish, :instructor_id)
   end
 
-  def nested_event
-    @event = Event.where(id: params[:event_id]).first
+  def find_student
+    @student = User.where(id: params[:student_id]).first
   end
 
-  def nested_student
-    @student = User.where(id: params[:id]).first
+  def find_room
+    @room = Room.where(id: params[:room_id]).first
   end
 
-  def nested_room
-    @room = Room.where(id: params[:id]).first
-  end
-
-  def nested_item
-    @item = Item.where(id: params[:id]).first
+  def find_item
+    @item = Item.where(id: params[:item_id]).first
   end
 
   def faculty

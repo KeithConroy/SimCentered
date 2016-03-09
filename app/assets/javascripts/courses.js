@@ -12,17 +12,19 @@ $(document).on('page:change', function() {
 
 var addStudentCourse = function(){
   event.preventDefault();
-  debugger
+
   var url = $(this).attr('href');
+  var studentId = $(this).attr('data-student-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { student_id: studentId },
     type: 'post'
   }).done(function(data) {
-    $('#student-count').text(data.count);
+    $('#scheduled-students').append($(data));
   }).fail(function() {
-      console.log('error');
+    console.log('error');
   });
 }
 
@@ -30,22 +32,24 @@ var removeStudentCourse = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var studentId = $(this).attr('data-student-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { student_id: studentId },
     type: 'delete'
   }).done(function(data) {
-    $('#student-count').text(data.count);
+    // $('#student-count').text(data.count);
   }).fail(function() {
-      console.log('error');
+    console.log('error');
   });
 }
 
 var courseSearch = function(){
   var phrase = $(this).val().toLowerCase();
   if (phrase) {
-    $.get('courses/search/'+phrase).success(function(payload) {
+    $.get('courses/search', { phrase: phrase }).success(function(payload) {
       $('#courses-index').html($(payload));
     });
   } else {
@@ -65,7 +69,7 @@ var modifyCourseSearch = function(event){
   };
 
   if (phrase) {
-    $.get(courseId + '/modify_search/' + phrase).success(function(payload) {
+    $.get(courseId + '/modify_search', { phrase: phrase }).success(function(payload) {
       $('.search-results table').html($(payload));
       showResults();
       // $('.search-results tr:first')

@@ -87,10 +87,12 @@ var addStudent = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var studentId = $(this).attr('data-student-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { student_id: studentId },
     type: 'post'
   }).done(function(data) {
     $('#scheduled-students').append($(data));
@@ -103,10 +105,12 @@ var removeStudent = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var studentId = $(this).attr('data-student-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { student_id: studentId },
     type: 'delete'
   }).done(function(data) {
     // $('#available-students').html($(data));
@@ -120,10 +124,12 @@ var addRoom = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var roomId = $(this).attr('data-room-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { room_id: roomId },
     type: 'post'
   }).done(function(data) {
     $('#scheduled-rooms').html($(data));
@@ -137,10 +143,12 @@ var removeRoom = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var roomId = $(this).attr('data-room-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { room_id: roomId },
     type: 'delete'
   }).done(function(data) {
     // $('#available-rooms').html($(data));
@@ -156,10 +164,12 @@ var addItem = function(){
   alert('Quantity?')
 
   var url = $(this).attr('href');
+  var itemId = $(this).attr('data-item-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { item_id: itemId },
     type: 'post'
   }).done(function(data) {
     $('#scheduled-items').html($(data));
@@ -173,10 +183,12 @@ var removeItem = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var itemId = $(this).attr('data-item-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { item_id: itemId },
     type: 'delete'
   }).done(function(data) {
     // $('#available-items').html($(data));
@@ -190,10 +202,12 @@ var addCourse = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var courseId = $(this).attr('data-course-id');
   // this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { course_id: courseId },
     type: 'post'
   }).done(function(data) {
     $('#scheduled-students').html($(data));
@@ -221,7 +235,7 @@ var removeCourse = function(){
 var eventSearch = function(){
   var phrase = $(this).val().toLowerCase();
   if (phrase) {
-    $.get('events/search/'+phrase).success(function(payload) {
+    $.get('events/search', { phrase: phrase }).success(function(payload) {
       $('#events-index').html($(payload));
     });
   } else {
@@ -241,7 +255,7 @@ var modifySearch = function(event){
   };
 
   if (phrase) {
-    $.get(eventId + '/modify_search/' + phrase).success(function(payload) {
+    $.get(eventId + '/modify_search', { phrase: phrase }).success(function(payload) {
       $('.search-results table').html($(payload));
       showResults();
       // $('.search-results tr:first')

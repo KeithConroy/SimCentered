@@ -7,7 +7,7 @@ $(document).on('page:change', function() {
 var userSearch = function(){
   var phrase = $(this).val().toLowerCase();
   if (phrase) {
-    $.get('users/search/'+phrase).success(function(payload) {
+    $.get('users/search', { phrase: phrase }).success(function(payload) {
       $('#users-index').html($(payload));
     });
   } else {
