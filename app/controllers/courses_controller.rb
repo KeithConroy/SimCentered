@@ -1,6 +1,6 @@
 class CoursesController < ApplicationController
-  before_action :find_course, only: [:show, :edit, :update, :destroy]
-  before_action :relation_variables, only: [:add_student, :remove_student]
+  before_action :find_course, only: [:show, :edit, :update, :destroy, :modify_search, :add_student, :remove_student]
+  before_action :find_student, only: [:add_student, :remove_student]
   before_action :faculty, only: [:index, :new, :show, :edit]
 
   def index
@@ -46,7 +46,8 @@ class CoursesController < ApplicationController
     if @student && @student.organization_id == @organization.id
       @course.students << @student unless @course.students.include?(@student)
       if @course.save
-        render :'courses/_enrolled_students', layout: false
+        # render :'courses/_enrolled_students', layout: false
+        render :'courses/_enrolled_student', layout: false
       else
         render json: @course.errors.full_messages, status: 400
       end
@@ -70,7 +71,6 @@ class CoursesController < ApplicationController
   end
 
   def modify_search
-    @course = Course.where(id: params[:course_id]).first
     search_available_students
     render :'courses/_modify_search', layout: false
   end
@@ -97,8 +97,7 @@ class CoursesController < ApplicationController
     end
   end
 
-  def relation_variables
-    @course = Course.where(id: params[:course_id]).first
-    @student = User.where(id: params[:id]).first
+  def find_student
+    @student = User.where(id: params[:student_id]).first
   end
 end
