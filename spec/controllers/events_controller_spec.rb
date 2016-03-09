@@ -87,8 +87,8 @@ RSpec.describe EventsController, type: :controller do
       expect(response).to be_ok
       expect(response.header['Content-Type']).to include('application/json')
     end
-    it "gets events" do
-      expect(assigns(:events)).to be_a(ActiveRecord::Relation)
+    it "calls Event.list_json" do
+      expect(Event).to respond_to(:list_json).with(3).argument
     end
     it "gets calendar_events" do
       expect(assigns(:calendar_events)).to be_a(Array)
@@ -166,7 +166,7 @@ RSpec.describe EventsController, type: :controller do
 
   context "POST #add_course" do
     context "valid #add_course" do
-      before { post :add_course, organization_id: organization.id, event_id: event.id, id: course.id }
+      before { post :add_course, organization_id: organization.id, id: event.id, course_id: course.id }
       it "gets event" do
         expect(assigns(:event)).to be_a(Event)
       end
@@ -178,7 +178,7 @@ RSpec.describe EventsController, type: :controller do
       end
     end
     context "invalid #add_course" do
-      before { post :add_course, organization_id: organization.id, event_id: event.id, id: course.id }
+      before { post :add_course, organization_id: organization.id, id: event.id, course_id: course.id }
       xit "should give an error status" do
         expect(response.status).to eq 400
       end
@@ -190,7 +190,7 @@ RSpec.describe EventsController, type: :controller do
 
   context "POST #add_student" do
     context "valid #add_student" do
-      before { post :add_student, organization_id: organization.id, event_id: event.id, id: student.id }
+      before { post :add_student, organization_id: organization.id, id: event.id, student_id: student.id }
       it "gets event" do
         expect(assigns(:event)).to be_a(Event)
       end
@@ -202,7 +202,7 @@ RSpec.describe EventsController, type: :controller do
       end
     end
     context "invalid #add_student - student from another organization" do
-      before { post :add_student, organization_id: organization.id, event_id: event.id, id: other_student.id }
+      before { post :add_student, organization_id: organization.id, id: event.id, student_id: other_student.id }
       it "should give an error status" do
         expect(response.status).to eq 400
       end
@@ -211,7 +211,7 @@ RSpec.describe EventsController, type: :controller do
       end
     end
     context "invalid #add_student - non existant student" do
-      before { post :add_student, organization_id: organization.id, event_id: event.id, id: 20 }
+      before { post :add_student, organization_id: organization.id, id: event.id, student_id: 20 }
       it "should give an error status" do
         expect(response.status).to eq 400
       end
@@ -222,8 +222,8 @@ RSpec.describe EventsController, type: :controller do
   end
 
   context "DELETE #remove_student" do
-    before { post :add_student, organization_id: organization.id, event_id: event.id, id: student.id }
-    before { post :remove_student, organization_id: organization.id, event_id: event.id, id: student.id }
+    before { post :add_student, organization_id: organization.id, id: event.id, student_id: student.id }
+    before { post :remove_student, organization_id: organization.id, id: event.id, student_id: student.id }
     it "gets event" do
       expect(assigns(:event)).to be_a(Event)
     end
@@ -236,7 +236,7 @@ RSpec.describe EventsController, type: :controller do
   end
 
   context "POST #add_room" do
-    before { post :add_room, organization_id: organization.id, event_id: event.id, id: room.id }
+    before { post :add_room, organization_id: organization.id, id: event.id, room_id: room.id }
     it "gets event" do
       expect(assigns(:event)).to be_a(Event)
     end
@@ -249,8 +249,8 @@ RSpec.describe EventsController, type: :controller do
   end
 
   context "DELETE #remove_room" do
-    before { post :add_room, organization_id: organization.id, event_id: event.id, id: room.id }
-    before { post :remove_room, organization_id: organization.id, event_id: event.id, id: room.id }
+    before { post :add_room, organization_id: organization.id, id: event.id, room_id: room.id }
+    before { post :remove_room, organization_id: organization.id, id: event.id, room_id: room.id }
     it "gets event" do
       expect(assigns(:event)).to be_a(Event)
     end
@@ -263,7 +263,7 @@ RSpec.describe EventsController, type: :controller do
   end
 
   context "POST #add_item" do
-    before { post :add_item, organization_id: organization.id, event_id: event.id, id: item.id }
+    before { post :add_item, organization_id: organization.id, id: event.id, item_id: item.id }
     it "gets event" do
       expect(assigns(:event)).to be_a(Event)
     end
@@ -276,8 +276,8 @@ RSpec.describe EventsController, type: :controller do
   end
 
   context "DELETE #remove_item" do
-    before { post :add_item, organization_id: organization.id, event_id: event.id, id: item.id }
-    before { post :remove_item, organization_id: organization.id, event_id: event.id, id: item.id }
+    before { post :add_item, organization_id: organization.id, id: event.id, item_id: item.id }
+    before { post :remove_item, organization_id: organization.id, id: event.id, item_id: item.id }
     it "gets event" do
       expect(assigns(:event)).to be_a(Event)
     end

@@ -114,7 +114,7 @@ RSpec.describe CoursesController, type: :controller do
 
   context "POST #add_student" do
     context "valid #add_student" do
-      before { post :add_student, organization_id: organization.id, course_id: course.id, id: student.id }
+      before { post :add_student, organization_id: organization.id, id: course.id, student_id: student.id }
       it "gets course" do
         expect(assigns(:course)).to be_a(Course)
       end
@@ -126,7 +126,7 @@ RSpec.describe CoursesController, type: :controller do
       end
     end
     context "invalid #add_student" do
-      before { post :add_student, organization_id: organization.id, course_id: course.id, id: 3 }
+      before { post :add_student, organization_id: organization.id, id: course.id, student_id: 3 }
       it "should give an error status" do
         expect(response.status).to eq 400
       end
@@ -138,8 +138,8 @@ RSpec.describe CoursesController, type: :controller do
 
   context "DELETE #remove_student" do
     context "valid #remove_student" do
-      before { post :add_student, organization_id: organization.id, course_id: course.id, id: student.id }
-      before { post :remove_student, organization_id: organization.id, course_id: course.id, id: student.id }
+      before { post :add_student, organization_id: organization.id, id: course.id, student_id: student.id }
+      before { post :remove_student, organization_id: organization.id, id: course.id, student_id: student.id }
       it "gets course" do
         expect(assigns(:course)).to be_a(Course)
       end
@@ -151,8 +151,8 @@ RSpec.describe CoursesController, type: :controller do
       end
     end
     context "invalid #remove_student" do
-      before { post :add_student, organization_id: organization.id, course_id: course.id, id: student.id }
-      before { post :remove_student, organization_id: organization.id, course_id: course.id, id: 3 }
+      before { post :add_student, organization_id: organization.id, id: course.id, student_id: student.id }
+      before { post :remove_student, organization_id: organization.id, id: course.id, student_id: 3 }
       it "should give an error status" do
         expect(response.status).to eq 400
       end
