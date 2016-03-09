@@ -64,5 +64,7 @@ group :development, :test do
 
   gem 'rubocop', '~> 0.37.2', require: false
 
+  gem 'brakeman', require: false
+
 end
 
