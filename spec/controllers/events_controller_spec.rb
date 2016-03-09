@@ -76,6 +76,9 @@ RSpec.describe EventsController, type: :controller do
     it "gets events" do
       expect(assigns(:events)).to be_a(ActiveRecord::Relation)
     end
+    it "calls Event.list" do
+      expect(Event).to respond_to(:list).with(2).argument
+    end
     it "assigns a event" do
       expect(assigns(:new_event)).to be_a(Event)
     end
@@ -290,7 +293,47 @@ RSpec.describe EventsController, type: :controller do
   end
 
   context "GET #search" do
-    before { get :search, organization_id: organization.id, phrase: 'event' }
+    before { post :create, event: {title: "Event", instructor_id: instructor.id, organization_id: organization.id}, organization_id: organization.id }
+    before { post :create, event: {title: "Session", instructor_id: instructor.id, organization_id: organization.id}, organization_id: organization.id }
+    before { post :create, event: {title: "Party", instructor_id: instructor.id, organization_id: organization.id}, organization_id: organization.id }
+
+    context 'valid search: full title match' do
+      before { get :search, organization_id: organization.id, phrase: 'event' }
+      it "calls Event.search" do
+        expect(Event).to respond_to(:search).with(2).argument
+      end
+      it "gets events" do
+        expect(assigns(:events)).to be_a(ActiveRecord::Relation)
+      end
+      it "finds a match" do
+        expect(assigns(:events)).not_to be_empty
+        expect(assigns(:events).length).to eq(1)
+        expect(assigns(:events).first.title).to eq("Event")
+      end
+    end
+    context 'valid search: partial match' do
+      before { get :search, organization_id: organization.id, phrase: 'e' }
+      it "finds two matches" do
+        expect(assigns(:events).length).to eq(2)
+        expect(assigns(:events).first.title).to eq("Event")
+        expect(assigns(:events).last.title).to eq("Session")
+      end
+    end
+    context 'invalid search' do
+      before { get :search, organization_id: organization.id, phrase: 'abc' }
+      it "returns empty" do
+        expect(assigns(:events)).to be_empty
+      end
+    end
+    context 'empty search' do
+      before { get :search, organization_id: organization.id }
+      it "calls Event.empty_search" do
+        expect(Event).to respond_to(:empty_search).with(1).argument
+      end
+      it "gets events" do
+        expect(assigns(:events)).to be_a(ActiveRecord::Relation)
+      end
+    end
   end
 
   context "GET #modify_search" do
