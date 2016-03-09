@@ -165,10 +165,10 @@ class EventsController < ApplicationController
   end
 
   def search
-    if params[:phrase] == '`'
-      @events = Event.empty_search(@organization.id)
-    else
+    if params[:phrase]
       @events = Event.search(@organization.id, params[:phrase])
+    else
+      @events = Event.empty_search(@organization.id)
     end
     render :'events/_all_events', layout: false
   end
@@ -180,6 +180,8 @@ class EventsController < ApplicationController
 
     render :'events/_modify_search', layout: false
   end
+
+  private
 
   def search_all
     search_available_students
@@ -202,8 +204,6 @@ class EventsController < ApplicationController
     @items = Item.search(@organization.id, params[:phrase])
     @items -= @event.items
   end
-
-  private
 
   def find_event
     @event = Event.where(id: params[:id]).first

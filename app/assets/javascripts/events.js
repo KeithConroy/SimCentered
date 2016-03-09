@@ -239,7 +239,7 @@ var eventSearch = function(){
       $('#events-index').html($(payload));
     });
   } else {
-    $.get('events/search/`').success(function(payload) {
+    $.get('events/search').success(function(payload) {
       $('#events-index').html($(payload));
     });
   }
