@@ -20,11 +20,11 @@ $(document).on('page:change', function() {
       $('#newEventModal').modal('show');
       setModalDate(date);
     },
-  })
+  });
 
   $(function () {
     $('[data-toggle="tooltip"]').tooltip();
-  })
+  });
 
   $('#newEventModal').on('hidden.bs.modal', function(){
     $(this).find('form')[0].reset();
@@ -161,7 +161,7 @@ var removeRoom = function(){
 var addItem = function(){
   event.preventDefault();
 
-  alert('Quantity?')
+  alert('Quantity?');
 
   var url = $(this).attr('href');
   var itemId = $(this).attr('data-item-id');
@@ -252,7 +252,7 @@ var modifySearch = function(event){
   if(event.keyCode == 13){
     $('.search-results a:first').click();
     // $(this).val('');
-  };
+  }
 
   if (phrase) {
     $.get(eventId + '/modify_search', { phrase: phrase }).success(function(payload) {
@@ -264,7 +264,7 @@ var modifySearch = function(event){
   } else {
     $('.search-results table').empty();
     hideResults();
-  };
+  }
 };
 
 var showResults = function() {
@@ -278,8 +278,8 @@ var hideResults = function() {
 var calendarFlip = function() {
   if(event.keyCode == 37){
     $('#calendar').fullCalendar('prev');
-  };
+  }
   if(event.keyCode == 39){
     $('#calendar').fullCalendar('next');
-  };
+  }
 };

@@ -15,4 +15,4 @@ var itemSearch = function(){
       $('#items-index').html($(payload));
     });
   }
-}
+};
