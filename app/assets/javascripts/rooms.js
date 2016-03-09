@@ -15,4 +15,4 @@ var roomSearch = function(){
       $('#rooms-index').html($(payload));
     });
   }
-}
+};

@@ -26,7 +26,7 @@ var addStudentCourse = function(){
   }).fail(function() {
     console.log('error');
   });
-}
+};
 
 var removeStudentCourse = function(){
   event.preventDefault();
@@ -44,7 +44,7 @@ var removeStudentCourse = function(){
   }).fail(function() {
     console.log('error');
   });
-}
+};
 
 var courseSearch = function(){
   var phrase = $(this).val().toLowerCase();
@@ -57,7 +57,7 @@ var courseSearch = function(){
       $('#courses-index').html($(payload));
     });
   }
-}
+};
 
 var modifyCourseSearch = function(event){
   var phrase = $(this).val().toLowerCase();
@@ -66,7 +66,7 @@ var modifyCourseSearch = function(event){
   if(event.keyCode == 13){
     $('.search-results a:first').click();
     // $(this).val('');
-  };
+  }
 
   if (phrase) {
     $.get(courseId + '/modify_search', { phrase: phrase }).success(function(payload) {
@@ -78,13 +78,13 @@ var modifyCourseSearch = function(event){
   } else {
     $('.search-results table').empty();
     hideResults();
-  };
-}
+  }
+};
 
 var showResults = function() {
   $('.search-results').fadeIn(200);
-}
+};
 
 var hideResults = function() {
   $('.search-results').fadeOut(200);
-}
+};

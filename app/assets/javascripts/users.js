@@ -15,4 +15,4 @@ var userSearch = function(){
       $('#users-index').html($(payload));
     });
   }
-}
+};
