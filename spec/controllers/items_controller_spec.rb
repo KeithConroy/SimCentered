@@ -98,8 +98,44 @@ RSpec.describe ItemsController, type: :controller do
   end
 
   context "GET #search" do
-    before { get :search, organization_id: organization.id, phrase: 'item' }
-    it "searches"
+    before { post :create, item: {title: "SimMan", quantity: 1}, organization_id: organization.id }
+    before { post :create, item: {title: "SimMan 3G", quantity: 1}, organization_id: organization.id }
+    before { post :create, item: {title: "Gloves", quantity: 1}, organization_id: organization.id }
+
+    context 'valid search: full title match' do
+      before { get :search, organization_id: organization.id, phrase: 'simman 3g' }
+      it "calls Item.search" do
+        expect(Item).to respond_to(:search).with(2).argument
+      end
+      it "gets items" do
+        expect(assigns(:items)).to be_a(ActiveRecord::Relation)
+      end
+      it "finds a match" do
+        expect(assigns(:items)).not_to be_empty
+        expect(assigns(:items).length).to eq(1)
+        expect(assigns(:items).first.title).to eq("SimMan 3G")
+      end
+    end
+    context 'valid search: partial match' do
+      before { get :search, organization_id: organization.id, phrase: 'simMan' }
+      it "finds two matches" do
+        expect(assigns(:items).length).to eq(2)
+        expect(assigns(:items).first.title).to eq("SimMan")
+        expect(assigns(:items).last.title).to eq("SimMan 3G")
+      end
+    end
+    context 'invalid search' do
+      before { get :search, organization_id: organization.id, phrase: 'abc' }
+      it "returns empty" do
+        expect(assigns(:items)).to be_empty
+      end
+    end
+    context 'empty search' do
+      before { get :search, organization_id: organization.id }
+      it "gets all items" do
+        expect(assigns(:items).length).to eq(3)
+      end
+    end
   end
 
 end

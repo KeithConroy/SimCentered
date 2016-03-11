@@ -101,6 +101,18 @@ RSpec.describe EventsController, type: :controller do
     end
   end
 
+  context 'GET new' do
+    before { get :new, organization_id: organization.id }
+    it "should get new" do
+      expect(response).to be_ok
+      expect(response).to render_template("new")
+    end
+    it "gets event" do
+      expect(Event).to respond_to(:new)
+      expect(assigns(:event)).to be_a(Event)
+    end
+  end
+
   context "POST create" do
     it "saves a new event and redirects" do
       expect{ post :create, event: {title: "Event", instructor_id: instructor.id, organization_id: organization.id}, organization_id: organization.id }.to change{Event.count}.by 1
@@ -327,17 +339,15 @@ RSpec.describe EventsController, type: :controller do
     end
     context 'empty search' do
       before { get :search, organization_id: organization.id }
-      it "calls Event.empty_search" do
-        expect(Event).to respond_to(:empty_search).with(1).argument
-      end
-      it "gets events" do
-        expect(assigns(:events)).to be_a(ActiveRecord::Relation)
+      it "gets all events" do
+        expect(assigns(:events).length).to eq(3)
       end
     end
   end
 
   context "GET #modify_search" do
     before { get :modify_search, organization_id: organization.id, event_id: event.id, phrase: 'event' }
+    it "modify searches"
   end
 end
 
