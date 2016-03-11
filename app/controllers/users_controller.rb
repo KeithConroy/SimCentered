@@ -42,7 +42,7 @@ class UsersController < ApplicationController
   end
 
   def search
-    @users = User.search_all(@organization.id, params[:phrase])
+    @users = User.search(@organization.id, params[:phrase])
     render :'users/_all_users', layout: false
   end
 

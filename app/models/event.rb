@@ -39,12 +39,6 @@ class Event < ActiveRecord::Base
       .paginate(page: 1, per_page: 15)
   end
 
-  def self.empty_search(organization_id)
-    local(organization_id)
-      .order(start: :asc)
-      .paginate(page: 1, per_page: 15)
-  end
-
   def self.today(organization_id)
     local(organization_id)
       .where('start BETWEEN ? AND ?', DateTime.now.beginning_of_day, DateTime.now.end_of_day)

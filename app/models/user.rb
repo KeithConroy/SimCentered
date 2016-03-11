@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
       .order(last_name: :asc, first_name: :asc)
   end
 
-  def self.search_all(organization_id, phrase)
+  def self.search(organization_id, phrase)
     local(organization_id)
       .where('lower(first_name) LIKE ? OR lower(last_name) LIKE ?', "%#{phrase}%", "%#{phrase}%")
       .order(last_name: :asc, first_name: :asc)

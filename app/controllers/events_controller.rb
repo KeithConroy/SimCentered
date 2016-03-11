@@ -165,11 +165,7 @@ class EventsController < ApplicationController
   end
 
   def search
-    if params[:phrase]
-      @events = Event.search(@organization.id, params[:phrase])
-    else
-      @events = Event.empty_search(@organization.id)
-    end
+    @events = Event.search(@organization.id, params[:phrase])
     render :'events/_all_events', layout: false
   end
 

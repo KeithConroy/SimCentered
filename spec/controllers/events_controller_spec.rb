@@ -327,11 +327,8 @@ RSpec.describe EventsController, type: :controller do
     end
     context 'empty search' do
       before { get :search, organization_id: organization.id }
-      it "calls Event.empty_search" do
-        expect(Event).to respond_to(:empty_search).with(1).argument
-      end
-      it "gets events" do
-        expect(assigns(:events)).to be_a(ActiveRecord::Relation)
+      it "gets all events" do
+        expect(assigns(:events).length).to eq(3)
       end
     end
   end

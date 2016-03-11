@@ -163,9 +163,43 @@ RSpec.describe CoursesController, type: :controller do
   end
 
   context "GET #search" do
-    before { get :search, organization_id: organization.id, phrase: 'Course' }
-    it "gets courses" do
-      expect(assigns(:courses)).to be_a(ActiveRecord::Relation)
+    before { post :create, course: {title: "Course A"}, organization_id: organization.id }
+    before { post :create, course: {title: "Course 101"}, organization_id: organization.id }
+    before { post :create, course: {title: "Patient History"}, organization_id: organization.id }
+
+    context 'valid search: full title match' do
+      before { get :search, organization_id: organization.id, phrase: 'course a' }
+      it "calls Course.search" do
+        expect(Course).to respond_to(:search).with(2).argument
+      end
+      it "gets courses" do
+        expect(assigns(:courses)).to be_a(ActiveRecord::Relation)
+      end
+      it "finds a match" do
+        expect(assigns(:courses)).not_to be_empty
+        expect(assigns(:courses).length).to eq(1)
+        expect(assigns(:courses).first.title).to eq("Course A")
+      end
+    end
+    context 'valid search: partial match' do
+      before { get :search, organization_id: organization.id, phrase: 'course' }
+      it "finds two matches" do
+        expect(assigns(:courses).length).to eq(2)
+        expect(assigns(:courses).first.title).to eq("Course 101")
+        expect(assigns(:courses).last.title).to eq("Course A")
+      end
+    end
+    context 'invalid search' do
+      before { get :search, organization_id: organization.id, phrase: 'abc' }
+      it "returns empty" do
+        expect(assigns(:courses)).to be_empty
+      end
+    end
+    context 'empty search' do
+      before { get :search, organization_id: organization.id }
+      it "gets all courses" do
+        expect(assigns(:courses).length).to eq(3)
+      end
     end
   end
 
