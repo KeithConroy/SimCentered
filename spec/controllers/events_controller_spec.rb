@@ -101,6 +101,18 @@ RSpec.describe EventsController, type: :controller do
     end
   end
 
+  context 'GET new' do
+    before { get :new, organization_id: organization.id }
+    it "should get new" do
+      expect(response).to be_ok
+      expect(response).to render_template("new")
+    end
+    it "gets event" do
+      expect(Event).to respond_to(:new)
+      expect(assigns(:event)).to be_a(Event)
+    end
+  end
+
   context "POST create" do
     it "saves a new event and redirects" do
       expect{ post :create, event: {title: "Event", instructor_id: instructor.id, organization_id: organization.id}, organization_id: organization.id }.to change{Event.count}.by 1
@@ -335,6 +347,7 @@ RSpec.describe EventsController, type: :controller do
 
   context "GET #modify_search" do
     before { get :modify_search, organization_id: organization.id, event_id: event.id, phrase: 'event' }
+    it "modify searches"
   end
 end
 
