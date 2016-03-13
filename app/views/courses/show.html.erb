@@ -32,7 +32,7 @@
         <input id="<%= @course.id %>" type="text" class="form-control search-n-go modify-course-search" placeholder="Add Students">
       </div>
       <div class="search-results">
-        <table class="table table-hover">
+        <table class="table table-hover modify-search">
         </table>
       </div>
     </div>
@@ -41,15 +41,14 @@
   <!-- Nav tabs -->
   <div class='col-md-6'>
 
-
     <!-- Tab panes -->
-        <div class="panel panel-default">
-            <div class="display-table">
-              <table id="scheduled-students" class="table table-condensed table-hover">
-                <%= render 'enrolled_students' %>
-              </table>
-            </div>
+    <div class="panel panel-default">
+        <div class="display-table">
+          <table id="scheduled-students" class="table table-condensed table-hover">
+            <%= render 'enrolled_students' %>
+          </table>
         </div>
+    </div>
 
   </div>
 </div>
