@@ -28,7 +28,6 @@ Rails.application.routes.draw do
 
         get 'modify_search'
       end
-
       get 'search', on: :collection
     end
 

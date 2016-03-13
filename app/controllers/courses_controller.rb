@@ -78,11 +78,6 @@ class CoursesController < ApplicationController
     render :'courses/_modify_search', layout: false
   end
 
-  def search_available_students
-    @students = User.search_students(@organization.id, params[:phrase])
-    @students -= @course.students
-  end
-
   private
 
   def find_course
@@ -102,5 +97,10 @@ class CoursesController < ApplicationController
 
   def find_student
     @student = User.where(id: params[:student_id]).first
+  end
+
+  def search_available_students
+    @students = User.search_students(@organization.id, params[:phrase])
+    @students -= @course.students
   end
 end
