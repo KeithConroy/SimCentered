@@ -1,10 +1,10 @@
 class EventsController < ApplicationController
   before_action :find_event, only: [
-    :show, :edit, :update, :destroy,
-    :modify_search, :add_student,
-    :remove_student, :add_course,
-    :remove_course, :add_room,
-    :remove_room, :add_item, :remove_item
+    :show, :edit, :update, :destroy, :modify_search,
+    :add_student, :remove_student,
+    :add_course, :remove_course,
+    :add_room, :remove_room,
+    :add_item, :remove_item
   ]
 
   before_action :find_course, only: [:add_course, :remove_course]
@@ -138,6 +138,7 @@ class EventsController < ApplicationController
   def add_item
     @event.items << @item
     if @event.save
+      deduct_quantity(@event, @item) if @item.disposable
       render :'events/_scheduled_items', layout: false
     else
       render json: @event.errors.full_messages, status: 400
@@ -145,8 +146,10 @@ class EventsController < ApplicationController
   end
 
   def remove_item
+    quantity = @event.scheduled_items.where(item_id: @item.id).first.quantity
     @event.items.delete(@item)
     if @event.save
+      credit_quantity(@item, quantity) if @item.disposable
       render json: { count: @event.items.count }
     else
       render json: @event.errors.full_messages, status: 400
@@ -209,6 +212,19 @@ class EventsController < ApplicationController
     course.students.each do |student|
       event.students.delete(student)
     end
+  end
+
+  def deduct_quantity(event, item)
+    scheduled_item = event.scheduled_items.where(item_id: item.id).first
+    scheduled_item.quantity = params[:quantity]
+    scheduled_item.save
+    item.quantity -= scheduled_item.quantity
+    item.save
+  end
+
+  def credit_quantity(item, credit)
+    item.quantity += credit
+    item.save
   end
 
   def search_all

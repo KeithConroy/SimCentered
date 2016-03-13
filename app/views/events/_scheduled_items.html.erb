@@ -7,7 +7,7 @@
         <td><%= item.title %></td>
         <% if item.disposable %>
           <td>
-            <%= item.quantity %>
+            <%= @event.scheduled_items.where(item_id: item.id).first.quantity %>
           </td>
         <% else %>
           <td></td>

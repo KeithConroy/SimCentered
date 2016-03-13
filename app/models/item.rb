@@ -2,6 +2,8 @@ class Item < ActiveRecord::Base
   attr_accessor :busy
 
   belongs_to :organization
+  has_many :scheduled_items
+  has_many :events, through: :scheduled_items
 
   validates_presence_of :title, :quantity, :organization_id
 
