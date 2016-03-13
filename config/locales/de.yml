@@ -77,12 +77,12 @@ de:
     faculty: "Faculty(:de)"
     create_new: "Create a New User(:de)"
     are_you_sure: "Are you sure you want to delete this user?(:de)"
-  search: "Search(:de)"
+  search: "suchen"
   busy: "Busy(:de)"
   in_use: "In Use(:de)"
   crud:
-    edit: "Edit(:de)"
-    delete: "Delete(:de)"
+    edit: "Bearbeiten"
+    delete: "Löschen"
   download:
     self: "Download(:de)"
     as_excel: "as Excel(:de)"
