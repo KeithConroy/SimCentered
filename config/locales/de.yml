@@ -1,0 +1,70 @@
+
+de:
+  nav:
+    schedule: "Zeitplan"
+    calendar: "Kalender"
+    manage: "Verwalten"
+    sc_pulse: "SC Pulse(:de)"
+    profile: "Profile(:de)"
+  welcome:
+    about: "About(:de)"
+    contact: "Contact(:de)"
+    pricing: "Pricing(:de)"
+    faq: "FAQ(:de)"
+  sessions:
+    sign_up: "Sign Up(:de)"
+    sign_in: "Sign In(:de)"
+    log_out: "Log Out(:de)"
+  org:
+    name: "Organization Name(:de)"
+    admin_email: "Admin Email(:de)"
+    create_new: "Create a New Account(:de)"
+  courses:
+    self: "Courses(:de)"
+    course: "Course(:de)"
+    edit: "Edit Course(:de)"
+    instructor: "Instructor(:de)"
+    create_new: "Create a New Course(:de)"
+  events:
+    self: "Events(:de)"
+    event: "Event(:de)"
+    edit: "Edit Event(:de)"
+    all_events: "All Events(:de)"
+    new: "New Event(:de)"
+    start: "Start(:de)"
+    end: "End(:de)"
+    create_new: "Create a New Event(:de)"
+  inventory:
+    self: "Inventory(:de)"
+    item: "Item(:de)"
+    edit: "Edit Item(:de)"
+    quantity: "Quantity(:de)"
+    disposable: "Disposable?(:de)"
+    usage_report: "Usage Report(:de)"
+    create_new: "Create a New Item(:de)"
+  rooms:
+    self: "Rooms(:de)"
+    room: "Room(:de)"
+    edit: "Edit Room(:de)"
+    number: "Number(:de)"
+    building: "Building(:de)"
+    create_new: "Create a New Room(:de)"
+  users:
+    self: "Users(:de)"
+    edit: "Edit User(:de)"
+    name: "Name(:de)"
+    email: "Email(:de)"
+    status: "Status(:de)"
+    student: "Student(:de)"
+    faculty: "Faculty(:de)"
+    create_new: "Create a New User(:de)"
+  search: "Search(:de)"
+  crud:
+    edit: "Edit(:de)"
+    delete: "Delete(:de)"
+  download:
+    self: "Download(:de)"
+    as_excel: "as Excel(:de)"
+    as_pdf: "as PDF(:de)"
+
+

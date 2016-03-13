@@ -1,23 +1,70 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  nav:
+    schedule: "Schedule"
+    calendar: "Calendar"
+    manage: "Manage"
+    sc_pulse: "SC Pulse"
+    profile: "Profile"
+  welcome:
+    about: "About"
+    contact: "Contact"
+    pricing: "Pricing"
+    faq: "FAQ"
+  sessions:
+    sign_up: "Sign Up"
+    sign_in: "Sign In"
+    log_out: "Log Out"
+  org:
+    name: "Organization Name"
+    admin_email: "Admin Email"
+    create_new: "Create a New Account"
+  courses:
+    self: "Courses"
+    course: "Course"
+    edit: "Edit Course"
+    instructor: "Instructor"
+    create_new: "Create a New Course"
+  events:
+    self: "Events"
+    event: "Event"
+    edit: "Edit Event"
+    all_events: "All Events"
+    new: "New Event"
+    start: "Start"
+    end: "End"
+    create_new: "Create a New Event"
+  inventory:
+    self: "Inventory"
+    item: "Item"
+    edit: "Edit Item"
+    quantity: "Quantity"
+    disposable: "Disposable?"
+    usage_report: "Usage Report"
+    create_new: "Create a New Item"
+  rooms:
+    self: "Rooms"
+    room: "Room"
+    edit: "Edit Room"
+    number: "Number"
+    building: "Building"
+    create_new: "Create a New Room"
+  users:
+    self: "Users"
+    edit: "Edit User"
+    name: "Name"
+    email: "Email"
+    status: "Status"
+    student: "Student"
+    faculty: "Faculty"
+    create_new: "Create a New User"
+  search: "Search"
+  crud:
+    edit: "Edit"
+    delete: "Delete"
+  download:
+    self: "Download"
+    as_excel: "as Excel"
+    as_pdf: "as PDF"
+
+
