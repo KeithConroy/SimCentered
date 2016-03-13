@@ -59,10 +59,10 @@
       </div>
       <div class="modal-body">
         <%= bootstrap_form_for @new_event, layout: :horizontal, control_col: "col-sm-9", url: organization_events_path do |f| %>
-          <%= f.text_field :title %>
+          <%= f.text_field :title, label: t('events.event') %>
           <%= f.select(:instructor_id, @faculty) %>
-          <%= f.datetime_select :start, :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
-          <%= f.datetime_select :finish, :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
+          <%= f.datetime_select :start, label: t('events.start'), :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
+          <%= f.datetime_select :finish, label: t('events.end'), :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
           <%= f.submit %>
         <% end %>
       </div>

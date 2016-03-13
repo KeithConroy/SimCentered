@@ -36,9 +36,9 @@
       </div>
       <div class="modal-body">
         <%= bootstrap_form_for @item, layout: :horizontal, control_col: "col-sm-9", url: organization_item_path do |f| %>
-          <%= f.text_field :title %>
-          <%= f.text_field :quantity %>
-          <%= f.check_box :disposable %>
+          <%= f.text_field :title, label: t('inventory.item') %>
+          <%= f.text_field :quantity, label: t('inventory.quantity') %>
+          <%= f.check_box :disposable, label: t('inventory.disposable') %>
           <%= f.submit %>
         <% end %>
       </div>
