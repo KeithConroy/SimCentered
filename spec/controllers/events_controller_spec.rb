@@ -386,7 +386,7 @@ RSpec.describe EventsController, type: :controller do
     end
     it 'calls Course.search' do
       expect(Course).to respond_to(:search).with(2).argument
-      expect(assigns(:courses)).to be_a(ActiveRecord::Relation)
+      expect(assigns(:courses)).to be_a(Array)
     end
     it 'calls User.search_students' do
       expect(User).to respond_to(:search_students).with(2).argument
