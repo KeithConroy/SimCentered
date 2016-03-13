@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     resources :events do
       member do
         post 'add_course'
-        # delete 'remove_course'
+        delete 'remove_course'
 
         post 'add_student'
         delete 'remove_student'

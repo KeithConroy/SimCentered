@@ -210,7 +210,7 @@ var addCourse = function(){
     data: { course_id: courseId },
     type: 'post'
   }).done(function(data) {
-    $('#scheduled-students').html($(data));
+    $('#scheduled-courses').html($(data));
   }).fail(function() {
       console.log('error');
   });
@@ -220,13 +220,15 @@ var removeCourse = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var courseId = $(this).attr('data-course-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { course_id: courseId },
     type: 'delete'
   }).done(function(data) {
-    // $('#Course-count').text(data.count);
+    $('#scheduled-courses').html($(data));
   }).fail(function() {
       console.log('error');
   });

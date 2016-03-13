@@ -43,6 +43,11 @@
   <div class='col-md-6'>
     <ul id="modifyTabs" class="nav nav-tabs nav-justified" role="tablist" style="margin-bottom: 30px;">
       <li role="presentation" class="active">
+        <a href="#courses" aria-controls="courses" role="tab" data-toggle="tab">
+          Courses - <span class=""><%= @event.courses.count %></span>
+        </a>
+      </li>
+      <li role="presentation">
         <a href="#students" aria-controls="students" role="tab" data-toggle="tab">
           Students - <span class=""><%= @event.students.count %></span>
         </a>
@@ -61,7 +66,16 @@
 
     <!-- Tab panes -->
     <div class="tab-content">
-      <div role="tabpanel" class="tab-pane active" id="students">
+      <div role="tabpanel" class="tab-pane active" id="courses">
+        <div class="panel panel-default">
+            <div class="display-table">
+              <table id="scheduled-courses" class="table table-condensed table-hover">
+                <%= render 'scheduled_courses' %>
+              </table>
+            </div>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="students">
         <div class="panel panel-default">
             <div class="display-table">
               <table id="scheduled-students" class="table table-condensed table-hover">
