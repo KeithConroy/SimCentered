@@ -7,6 +7,7 @@ class EventsController < ApplicationController
     :remove_room, :add_item, :remove_item
   ]
 
+  before_action :find_course, only: [:add_course, :remove_course]
   before_action :find_student, only: [:add_student, :remove_student]
   before_action :find_room, only: [:add_room, :remove_room]
   before_action :find_item, only: [:add_item, :remove_item]
@@ -59,13 +60,11 @@ class EventsController < ApplicationController
   end
 
   def add_course
-    @course = Course.where(id: params[:course_id]).first
     if @course && @course.organization_id == @organization.id
-      @course.students.each do |student|
-        @event.students << student unless @event.students.include?(student)
-      end
+      @event.courses << @course unless @event.students.include?(@student)
+      add_courses_students(@event, @course)
       if @event.save
-        render :'events/_scheduled_students', layout: false
+        render :'events/_scheduled_courses', layout: false
       else
         render json: @event.errors.full_messages, status: 400
       end
@@ -74,14 +73,19 @@ class EventsController < ApplicationController
     end
   end
 
-  # def remove_course
-  #   course = Course.where(id: params[:id])
-  #   course.students.each do |student|
-  #     @event.courses.delete(student)
-  #   end
-  #   @event.save
-  #   render json: {user: @user, count: @event.courses.count, event: @event.id}
-  # end
+  def remove_course
+    if @event.courses.include?(@course)
+      @event.courses.delete(@course)
+      remove_courses_students(@event, @course)
+      if @event.save
+        render :'events/_scheduled_courses', layout: false
+      else
+        render json: @event.errors.full_messages, status: 400
+      end
+    else
+      render json: 'Course is not enrolled', status: 400
+    end
+  end
 
   def add_student
     if @student && @student.organization_id == @organization.id
@@ -172,6 +176,10 @@ class EventsController < ApplicationController
     params.require(:event).permit(:title, :start, :finish, :instructor_id)
   end
 
+  def find_course
+    @course = Course.where(id: params[:course_id]).first
+  end
+
   def find_student
     @student = User.where(id: params[:student_id]).first
   end
@@ -191,14 +199,31 @@ class EventsController < ApplicationController
     end
   end
 
+  def add_courses_students(event, course)
+    course.students.each do |student|
+      event.students << student unless event.students.include?(student)
+    end
+  end
+
+  def remove_courses_students(event, course)
+    course.students.each do |student|
+      event.students.delete(student)
+    end
+  end
+
   def search_all
+    search_available_courses
     search_available_students
     search_available_rooms
     search_available_items
   end
 
-  def search_available_students
+  def search_available_courses
     @courses = Course.search(@organization.id, params[:phrase])
+    @courses -= @event.courses
+  end
+
+  def search_available_students
     @students = User.search_students(@organization.id, params[:phrase])
     @students -= @event.students
   end
