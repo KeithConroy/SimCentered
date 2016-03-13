@@ -51,6 +51,9 @@ group :development, :test do
   gem 'sqlite3'
   # Rspec testing framework
   gem 'rspec-rails', '~> 3.0'
+
+  gem "factory_girl_rails", "~> 4.0"
+  gem 'database_cleaner', '~> 1.5', '>= 1.5.1'
   # Why not
   gem "nyan-cat-formatter"
   # Code coverage analysis
