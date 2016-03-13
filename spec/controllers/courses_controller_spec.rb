@@ -204,7 +204,14 @@ RSpec.describe CoursesController, type: :controller do
   end
 
   context "GET #modify_search" do
-    before { get :modify_search, organization_id: organization.id, course_id: course.id, phrase: 'Course' }
-    it "modify searches"
+    before { get :modify_search, organization_id: organization.id, id: course.id, phrase: 'course' }
+    it 'gets appropriate response' do
+      expect(response).to be_ok
+      expect(response).to render_template("courses/_modify_search")
+    end
+    it 'calls User.search_students' do
+      expect(User).to respond_to(:search_students).with(2).argument
+      expect(assigns(:students)).to be_a(Array)
+    end
   end
 end

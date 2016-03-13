@@ -9,7 +9,11 @@ class OrganizationsController < ApplicationController
   def create
     @organization = Organization.new(organization_params)
     if @organization.save
-      @admin = User.create_admin(@organization.id, organization_params[:subdomain], organization_params[:email])
+      @admin = User.create_admin(
+        @organization.id,
+        organization_params[:subdomain],
+        organization_params[:email]
+      )
       redirect_to organization_path(@organization.id)
     else
       render json: @organization.errors.full_messages, status: 400

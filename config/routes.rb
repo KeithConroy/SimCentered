@@ -1,9 +1,7 @@
 Rails.application.routes.draw do
-
   root 'welcome#index'
 
   resources :organizations do
-
     resources :courses do
       member do
         post 'add_student'
@@ -15,7 +13,6 @@ Rails.application.routes.draw do
     end
 
     resources :events do
-
       member do
         post 'add_course'
         # delete 'remove_course'
@@ -31,7 +28,6 @@ Rails.application.routes.draw do
 
         get 'modify_search'
       end
-
       get 'search', on: :collection
     end
 
@@ -44,7 +40,6 @@ Rails.application.routes.draw do
     resources :users do
       get 'search', on: :collection
     end
-
   end
 
   get '/about' => 'welcome#about'
@@ -53,5 +48,4 @@ Rails.application.routes.draw do
   get '/faq' => 'welcome#faq'
 
   get '/organizations/:id/community' => 'welcome#community'
-
 end

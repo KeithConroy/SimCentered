@@ -1,5 +1,11 @@
 class EventsController < ApplicationController
-  before_action :find_event, only: [:show, :edit, :update, :destroy, :modify_search, :add_student, :remove_student, :add_course, :remove_course, :add_room, :remove_room, :add_item, :remove_item]
+  before_action :find_event, only: [
+    :show, :edit, :update, :destroy,
+    :modify_search, :add_student,
+    :remove_student, :add_course,
+    :remove_course, :add_room,
+    :remove_room, :add_item, :remove_item
+  ]
 
   before_action :find_student, only: [:add_student, :remove_student]
   before_action :find_room, only: [:add_room, :remove_room]
@@ -10,7 +16,9 @@ class EventsController < ApplicationController
   def index
     @new_event = Event.new
     if request.xhr?
-      @calendar_events = Event.list_json(@organization.id, params[:start], params[:end])
+      @calendar_events = Event.list_json(
+        @organization.id, params[:start], params[:end]
+      )
       render json: @calendar_events
     else
       @events = Event.list(@organization.id, params[:page])
@@ -32,29 +40,6 @@ class EventsController < ApplicationController
   end
 
   def show
-  end
-
-  def find_busy(conflicting_events)
-    busy_students = []
-    busy_rooms = []
-    busy_items = []
-
-    conflicting_events.each do |event|
-      busy_students << event.students
-      busy_rooms << event.rooms
-      busy_items << event.items
-    end
-
-    mark_busy(@students, busy_students) unless busy_students.empty?
-    mark_busy(@rooms, busy_rooms) unless busy_rooms.empty?
-    mark_busy(@items, busy_items) unless busy_items.empty?
-  end
-
-  def mark_busy(full_array, busy_array)
-    busy_array.flatten!.uniq!
-    full_array.each do |object|
-      object.busy = busy_array.include?(object)
-    end
   end
 
   def edit
@@ -179,28 +164,6 @@ class EventsController < ApplicationController
 
   private
 
-  def search_all
-    search_available_students
-    search_available_rooms
-    search_available_items
-  end
-
-  def search_available_students
-    @courses = Course.search(@organization.id, params[:phrase])
-    @students = User.search_students(@organization.id, params[:phrase])
-    @students -= @event.students
-  end
-
-  def search_available_rooms
-    @rooms = Room.search(@organization.id, params[:phrase])
-    @rooms -= @event.rooms
-  end
-
-  def search_available_items
-    @items = Item.search(@organization.id, params[:phrase])
-    @items -= @event.items
-  end
-
   def find_event
     @event = Event.where(id: params[:id]).first
   end
@@ -225,6 +188,51 @@ class EventsController < ApplicationController
     faculty = User.faculty(@organization.id)
     @faculty = faculty.map do |user|
       ["#{user.first_name} #{user.last_name}", user.id]
+    end
+  end
+
+  def search_all
+    search_available_students
+    search_available_rooms
+    search_available_items
+  end
+
+  def search_available_students
+    @courses = Course.search(@organization.id, params[:phrase])
+    @students = User.search_students(@organization.id, params[:phrase])
+    @students -= @event.students
+  end
+
+  def search_available_rooms
+    @rooms = Room.search(@organization.id, params[:phrase])
+    @rooms -= @event.rooms
+  end
+
+  def search_available_items
+    @items = Item.search(@organization.id, params[:phrase])
+    @items -= @event.items
+  end
+
+  def find_busy(conflicting_events)
+    busy_students = []
+    busy_rooms = []
+    busy_items = []
+
+    conflicting_events.each do |event|
+      busy_students << event.students
+      busy_rooms << event.rooms
+      busy_items << event.items
+    end
+
+    mark_busy(@students, busy_students) unless busy_students.empty?
+    mark_busy(@rooms, busy_rooms) unless busy_rooms.empty?
+    mark_busy(@items, busy_items) unless busy_items.empty?
+  end
+
+  def mark_busy(full_array, busy_array)
+    busy_array.flatten!.uniq!
+    full_array.each do |object|
+      object.busy = busy_array.include?(object)
     end
   end
 end

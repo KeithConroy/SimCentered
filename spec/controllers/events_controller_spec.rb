@@ -22,11 +22,29 @@ RSpec.describe EventsController, type: :controller do
       is_student: false,
     )
   end
+  let(:other_instructor) do
+    User.create!(
+      first_name: "Keith",
+      last_name: "Conroy",
+      email: "other_keith@mail.com",
+      organization_id: other_organization.id,
+      is_student: false,
+    )
+  end
   let(:student) do
     User.create!(
       first_name: "Test",
       last_name: "Student",
       email: "student@mail.com",
+      organization_id: organization.id,
+      is_student: true,
+    )
+  end
+  let(:student2) do
+    User.create!(
+      first_name: "Test",
+      last_name: "Student2",
+      email: "student2@mail.com",
       organization_id: organization.id,
       is_student: true,
     )
@@ -45,6 +63,13 @@ RSpec.describe EventsController, type: :controller do
       title: "Test Course",
       instructor_id: instructor.id,
       organization_id: organization.id,
+    )
+  end
+  let(:other_course) do
+    Course.create!(
+      title: "Test Course",
+      instructor_id: other_instructor.id,
+      organization_id: other_organization.id,
     )
   end
   let(:room) do
@@ -181,6 +206,8 @@ RSpec.describe EventsController, type: :controller do
 
   context "POST #add_course" do
     context "valid #add_course" do
+      before { course.students << student}
+      before { course.students << student2}
       before { post :add_course, organization_id: organization.id, id: event.id, course_id: course.id }
       it "gets event" do
         expect(assigns(:event)).to be_a(Event)
@@ -188,17 +215,20 @@ RSpec.describe EventsController, type: :controller do
       it "gets course" do
         expect(assigns(:course)).to be_a(Course)
       end
-      xit "assigns the courses students to the event" do
-        expect(Event.first.students).to include(course.students)
+      it "assigns the courses students to the event" do
+        expect(Event.first.students).to include(student)
+        expect(Event.first.students).to include(student2)
       end
     end
     context "invalid #add_course" do
-      before { post :add_course, organization_id: organization.id, id: event.id, course_id: course.id }
-      xit "should give an error status" do
+      before { other_course.students << other_student }
+      before { post :add_course, organization_id: organization.id, id: event.id, course_id: other_course.id }
+      it "should give an error status" do
         expect(response.status).to eq 400
       end
-      xit "does not assign a course to the event" do
-        # expect(Course.first.students.count).to be(0)
+      it "does not assign a course to the event" do
+        expect(event.students.count).to be(0)
+        expect(event.students).to_not include(other_student)
       end
     end
   end
@@ -346,8 +376,30 @@ RSpec.describe EventsController, type: :controller do
   end
 
   context "GET #modify_search" do
-    before { get :modify_search, organization_id: organization.id, event_id: event.id, phrase: 'event' }
-    it "modify searches"
+    before { get :modify_search, organization_id: organization.id, id: event.id, phrase: 'event' }
+    it 'gets appropriate response' do
+      expect(response).to be_ok
+      expect(response).to render_template("events/_modify_search")
+    end
+    it 'calls Event.conflicting' do
+      expect(Event).to respond_to(:conflicting).with(2).argument
+    end
+    it 'calls Course.search' do
+      expect(Course).to respond_to(:search).with(2).argument
+      expect(assigns(:courses)).to be_a(ActiveRecord::Relation)
+    end
+    it 'calls User.search_students' do
+      expect(User).to respond_to(:search_students).with(2).argument
+      expect(assigns(:students)).to be_a(Array)
+    end
+    it 'calls Room.search' do
+      expect(Room).to respond_to(:search).with(2).argument
+      expect(assigns(:rooms)).to be_a(Array)
+    end
+    it 'calls Item.search' do
+      expect(Item).to respond_to(:search).with(2).argument
+      expect(assigns(:items)).to be_a(Array)
+    end
   end
 end
 

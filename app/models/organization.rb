@@ -4,7 +4,8 @@ class Organization < ActiveRecord::Base
   validates_presence_of :title, :subdomain
   validates_uniqueness_of :title, :subdomain
 
-  before_destroy :delete_courses, :delete_events, :delete_rooms, :delete_items, :delete_users
+  before_destroy :delete_courses, :delete_events,
+    :delete_rooms, :delete_items, :delete_users
 
   private
 

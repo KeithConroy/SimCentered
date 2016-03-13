@@ -2,3 +2,11 @@ Style/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 Style/Documentation:
   Enabled: false
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+AllCops:
+  Exclude:
+    - 'spec/**/*'
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'bin/**/*'

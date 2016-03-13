@@ -1,10 +1,3 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
 Organization.create(title: "SimCentered University")
 Organization.create(title: "SimCentered Nursing")
 User.create(first_name: "Keith", last_name: "Conroy", email: "keith@mail.com", password: "123", organization_id: 1)
@@ -29,7 +22,7 @@ end
 
 10.times do |num|
   Room.create(
-    title: "Exam Room #{num+1}",
+    title: "Exam Room #{num + 1}",
     number: Faker::Number.number(3),
     building: Faker::Company.name,
     organization_id: 1
@@ -38,7 +31,7 @@ end
 
 10.times do |num|
   Room.create(
-    title: "Exam Room #{num+1}",
+    title: "Exam Room #{num + 1}",
     number: Faker::Number.number(3),
     building: Faker::Company.name,
     organization_id: 2

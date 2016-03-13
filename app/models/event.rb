@@ -23,13 +23,21 @@ class Event < ActiveRecord::Base
   def self.list_json(organization_id, start, finish)
     events = local(organization_id).where(start: start..finish)
     events.map do |event|
-      { title: event.title, start: event.start, :end => event.finish, url: "events/#{event.id}" }
+      {
+        title: event.title,
+        start: event.start,
+        :end => event.finish,
+        url: "events/#{event.id}"
+      }
     end
   end
 
   def self.conflicting(organization_id, event)
     local(organization_id)
-      .where('(start BETWEEN ? AND ?) OR (finish BETWEEN ? AND ?)', event.start, event.finish, event.start, event.finish)
+      .where(
+        '(start BETWEEN ? AND ?) OR (finish BETWEEN ? AND ?)',
+        event.start, event.finish, event.start, event.finish
+      )
   end
 
   def self.search(organization_id, phrase)
@@ -41,7 +49,10 @@ class Event < ActiveRecord::Base
 
   def self.today(organization_id)
     local(organization_id)
-      .where('start BETWEEN ? AND ?', DateTime.now.beginning_of_day, DateTime.now.end_of_day)
+      .where(
+        'start BETWEEN ? AND ?',
+        DateTime.now.beginning_of_day, DateTime.now.end_of_day
+      )
       .order(start: :asc)
   end
 

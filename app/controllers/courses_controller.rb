@@ -1,5 +1,8 @@
 class CoursesController < ApplicationController
-  before_action :find_course, only: [:show, :edit, :update, :destroy, :modify_search, :add_student, :remove_student]
+  before_action :find_course, only: [
+    :show, :edit, :update, :destroy,
+    :modify_search, :add_student, :remove_student
+  ]
   before_action :find_student, only: [:add_student, :remove_student]
   before_action :faculty, only: [:index, :new, :show, :edit]
 
@@ -75,11 +78,6 @@ class CoursesController < ApplicationController
     render :'courses/_modify_search', layout: false
   end
 
-  def search_available_students
-    @students = User.search_students(@organization.id, params[:phrase])
-    @students -= @course.students
-  end
-
   private
 
   def find_course
@@ -99,5 +97,10 @@ class CoursesController < ApplicationController
 
   def find_student
     @student = User.where(id: params[:student_id]).first
+  end
+
+  def search_available_students
+    @students = User.search_students(@organization.id, params[:phrase])
+    @students -= @course.students
   end
 end
