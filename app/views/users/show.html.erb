@@ -9,7 +9,7 @@
   <small>
   <span class="pull-right">
     <a href="#" class="header-icon-right" data-toggle="modal" data-target="#editUserModal">
-      Edit <i class="fa fa-pencil"></i>
+      <%= t('crud.edit') %> <i class="fa fa-pencil"></i>
     </a>
     <%= link_to t('crud.delete'), organization_user_path(@user.organization_id, @user.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'header-icon-right' %>
   </span>

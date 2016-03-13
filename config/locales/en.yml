@@ -19,6 +19,9 @@ en:
     name: "Organization Name"
     admin_email: "Admin Email"
     create_new: "Create a New Account"
+    edit: "Edit Organization"
+    are_you_sure: "Are you sure? This will delete your entire account including Events, Users, Courses, Rooms and Inventory."
+    subdomain: "Subdomain"
   courses:
     self: "Courses"
     course: "Course"
@@ -39,6 +42,7 @@ en:
     create_new: "Create a New Event"
     are_you_sure: "Are you sure you want to delete this event?"
     add_all: "Add Courses, Students, Rooms and Inventory"
+    todays: "Today's Events"
   inventory:
     self: "Inventory"
     item: "Item"
