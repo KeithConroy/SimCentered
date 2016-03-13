@@ -22,7 +22,7 @@ class OrganizationsController < ApplicationController
 
   def show
     @event = Event.new
-    @events = Event.today(@organization.id)
+    @todays_events = Event.today(@organization.id)
   end
 
   def edit

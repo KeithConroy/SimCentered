@@ -274,3 +274,13 @@ input[type="submit"] {
   text-align: center;
   margin-bottom: 30px;
 }
+
+table>tbody>tr>td.none-added {
+  color: #B2B2B2;
+}
+
+table.table-condensed>tbody>tr>td.none-added {
+  padding: 20px 0;
+}
+
+
