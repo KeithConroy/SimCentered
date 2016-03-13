@@ -161,7 +161,10 @@ var removeRoom = function(){
 var addItem = function(){
   event.preventDefault();
 
-  alert('Quantity?');
+  var quantity = 1;
+  if($(this).attr('data-item-disposable') === "true"){
+    quantity = prompt("Quantity?", "1");
+  }
 
   var url = $(this).attr('href');
   var itemId = $(this).attr('data-item-id');
@@ -169,7 +172,7 @@ var addItem = function(){
 
   $.ajax({
     url: url,
-    data: { item_id: itemId },
+    data: { item_id: itemId, quantity: quantity },
     type: 'post'
   }).done(function(data) {
     $('#scheduled-items').html($(data));

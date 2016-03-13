@@ -5,7 +5,8 @@ class Event < ActiveRecord::Base
   has_and_belongs_to_many :courses
   has_and_belongs_to_many :students, class_name: 'User'
   has_and_belongs_to_many :rooms
-  has_and_belongs_to_many :items
+  has_many :scheduled_items
+  has_many :items, through: :scheduled_items
 
   validates_presence_of :title, :organization_id
   validate :same_organization
