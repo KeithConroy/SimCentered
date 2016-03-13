@@ -11,7 +11,7 @@
     <td><i class="fa fa-user-md"></i> <%= full_name(student) %></td>
     <td class="icon">
       <% if student.busy %>
-        <i class="fa fa-ban busy" data-toggle="tooltip" data-placement="left" title="Busy"></i>
+        <i class="fa fa-ban busy" data-toggle="tooltip" data-placement="left" title="<%= t('busy') %>"></i>
       <% else %>
         <a href="<%= @event.id %>/add_student" data-student-id="<%= student.id %>" class="add-student">
           <i class="fa fa-plus"></i>
@@ -26,7 +26,7 @@
     <td><i class="fa fa-hospital-o"></i> <%= room.title %></td>
     <td class="icon">
       <% if room.busy %>
-        <i class="fa fa-ban busy" data-toggle="tooltip" data-placement="left" title="In Use"></i>
+        <i class="fa fa-ban busy" data-toggle="tooltip" data-placement="left" title="<%= t('in_use') %>"></i>
       <% else %>
         <a href="<%= @event.id %>/add_room" data-room-id="<%= room.id %>" class="add-room">
           <i class="fa fa-plus"></i>
@@ -42,7 +42,7 @@
 
     <td class="icon">
       <% if item.busy %>
-        <i class="fa fa-ban busy" data-toggle="tooltip" data-placement="left" title="In Use"></i>
+        <i class="fa fa-ban busy" data-toggle="tooltip" data-placement="left" title="<%= t('in_use') %>"></i>
       <% else %>
         <a href="<%= @event.id %>/add_item" data-item-id="<%= item.id %>" class="add-item">
           <i class="fa fa-plus"></i>

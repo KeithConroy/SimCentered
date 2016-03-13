@@ -9,17 +9,17 @@
   <small>
   <span class="pull-right">
     <a href="#" class="header-icon-right" data-toggle="modal" data-target="#editEventModal">
-      Edit <i class="fa fa-pencil"></i>
+      <%= t('crud.edit') %> <i class="fa fa-pencil"></i>
     </a>
-    <%= link_to t('crud.delete'), organization_event_path(@event.organization_id, @event.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'header-icon-right' %>
+    <%= link_to t('crud.delete'), organization_event_path(@event.organization_id, @event.id), method: :delete, data: { confirm: t('events.are_you_sure') }, class: 'header-icon-right' %>
   </span>
   </small>
 </h2>
 
 <div class="row col-md-12 details">
-  <h4>Instructor: <small><%= full_name(@event.instructor) if @event.instructor %></small></h4>
-  <h4>Start Time: <small><%= @event.start.strftime("%a %b %e, %g @ %l:%M %p %Z") %></small></h4>
-  <h4>End Time: <small><%= @event.finish.strftime("%a %b %e, %g @ %l:%M %p %Z") %></small></h4>
+  <h4><%= t('events.instructor') %>: <small><%= full_name(@event.instructor) if @event.instructor %></small></h4>
+  <h4><%= t('events.start') %>: <small><%= @event.start.strftime("%a %b %e, %g @ %l:%M %p %Z") %></small></h4>
+  <h4><%= t('events.end') %>: <small><%= @event.finish.strftime("%a %b %e, %g @ %l:%M %p %Z") %></small></h4>
 </div>
 
 <div class="row col-md-12">
@@ -30,7 +30,7 @@
         <i class="fa fa-search"></i>
       </label>
       <div class="form-group">
-        <input id="<%= @event.id %>" type="text" class="form-control search-n-go modify-search" placeholder="Add Courses, Students, Rooms and Inventory">
+        <input id="<%= @event.id %>" type="text" class="form-control search-n-go modify-search" placeholder="<%= t('events.add_all') %>">
       </div>
       <div class="search-results">
         <table class="table table-hover modify-search">
@@ -44,22 +44,22 @@
     <ul id="modifyTabs" class="nav nav-tabs nav-justified" role="tablist" style="margin-bottom: 30px;">
       <li role="presentation" class="active">
         <a href="#courses" aria-controls="courses" role="tab" data-toggle="tab">
-          Courses - <span class=""><%= @event.courses.count %></span>
+          <%= t('courses.self') %> - <span class=""><%= @event.courses.count %></span>
         </a>
       </li>
       <li role="presentation">
         <a href="#students" aria-controls="students" role="tab" data-toggle="tab">
-          Students - <span class=""><%= @event.students.count %></span>
+          <%= t('users.students') %> - <span class=""><%= @event.students.count %></span>
         </a>
       </li>
       <li role="presentation">
         <a href="#rooms" aria-controls="rooms" role="tab" data-toggle="tab">
-          Rooms - <span class=""><%= @event.rooms.count %></span>
+          <%= t('rooms.self') %> - <span class=""><%= @event.rooms.count %></span>
         </a>
       </li>
       <li role="presentation">
         <a href="#items" aria-controls="items" role="tab" data-toggle="tab">
-          Inventory - <span class=""><%= @event.items.count %></span>
+          <%= t('inventory.self') %> - <span class=""><%= @event.items.count %></span>
         </a>
       </li>
     </ul>
@@ -113,7 +113,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Edit Event</h4>
+        <h4 class="modal-title" id="myModalLabel"><%= t('events.edit') %></h4>
       </div>
       <div class="modal-body">
         <%= bootstrap_form_for @event, layout: :horizontal, control_col: "col-sm-9", url: organization_event_path do |f| %>

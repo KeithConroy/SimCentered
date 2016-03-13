@@ -1,4 +1,4 @@
-<h2 class="page-header">Edit Event</h2>
+<h2 class="page-header"><%= t('events.edit') %></h2>
 
 <%= bootstrap_form_for @event, layout: :horizontal, control_col: "col-sm-9", url: organization_event_path do |f| %>
   <%= f.text_field :title %>
