@@ -1,5 +1,11 @@
 class EventsController < ApplicationController
-  before_action :find_event, only: [:show, :edit, :update, :destroy, :modify_search, :add_student, :remove_student, :add_course, :remove_course, :add_room, :remove_room, :add_item, :remove_item]
+  before_action :find_event, only: [
+    :show, :edit, :update, :destroy,
+    :modify_search, :add_student,
+    :remove_student, :add_course,
+    :remove_course, :add_room,
+    :remove_room, :add_item, :remove_item
+  ]
 
   before_action :find_student, only: [:add_student, :remove_student]
   before_action :find_room, only: [:add_room, :remove_room]
@@ -10,7 +16,9 @@ class EventsController < ApplicationController
   def index
     @new_event = Event.new
     if request.xhr?
-      @calendar_events = Event.list_json(@organization.id, params[:start], params[:end])
+      @calendar_events = Event.list_json(
+        @organization.id, params[:start], params[:end]
+      )
       render json: @calendar_events
     else
       @events = Event.list(@organization.id, params[:page])

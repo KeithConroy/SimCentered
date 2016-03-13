@@ -27,13 +27,19 @@ class User < ActiveRecord::Base
   def self.search_students(organization_id, phrase)
     local(organization_id)
       .where(is_student: true)
-      .where('lower(first_name) LIKE ? OR lower(last_name) LIKE ?', "%#{phrase}%", "%#{phrase}%")
+      .where(
+        'lower(first_name) LIKE ? OR lower(last_name) LIKE ?',
+        "%#{phrase}%", "%#{phrase}%"
+      )
       .order(last_name: :asc, first_name: :asc)
   end
 
   def self.search(organization_id, phrase)
     local(organization_id)
-      .where('lower(first_name) LIKE ? OR lower(last_name) LIKE ?', "%#{phrase}%", "%#{phrase}%")
+      .where(
+        'lower(first_name) LIKE ? OR lower(last_name) LIKE ?',
+        "%#{phrase}%", "%#{phrase}%"
+      )
       .order(last_name: :asc, first_name: :asc)
       .paginate(page: 1, per_page: 15)
   end

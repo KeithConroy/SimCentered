@@ -1,5 +1,8 @@
 class CoursesController < ApplicationController
-  before_action :find_course, only: [:show, :edit, :update, :destroy, :modify_search, :add_student, :remove_student]
+  before_action :find_course, only: [
+    :show, :edit, :update, :destroy,
+    :modify_search, :add_student, :remove_student
+  ]
   before_action :find_student, only: [:add_student, :remove_student]
   before_action :faculty, only: [:index, :new, :show, :edit]
 
