@@ -3,7 +3,7 @@
   <td><%= link_to course.title, organization_course_path(course.organization_id, course.id) %></td>
   <td><%= full_name(course.instructor) %></td>
 
-  <td class='icon'><%= link_to organization_course_path(course.organization_id, course.id), method: :delete, data: { confirm: 'Are you sure you want to delete this course?' }, class: "glyphicon" do %>
+  <td class='icon'><%= link_to organization_course_path(course.organization_id, course.id), method: :delete, data: { confirm: t('courses.are_you_sure') }, class: "glyphicon" do %>
     <i class="fa fa-trash-o fa-lg"></i>
   <% end %>
   </td>

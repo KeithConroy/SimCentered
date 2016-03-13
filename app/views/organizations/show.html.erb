@@ -7,7 +7,7 @@
     <a href="#" class="header-icon-right" data-toggle="modal" data-target="#editOrganizationModal">
       Edit <i class="fa fa-pencil"></i>
     </a>
-    <%= link_to 'Delete', organization_path(@organization), method: :delete, data: { confirm: 'Are you sure? This will delete your entire account including Events, Users, Courses, Rooms and Inventory.' }, class: 'header-icon-right' %>
+    <%= link_to t('crud.delete'), organization_path(@organization), method: :delete, data: { confirm: 'Are you sure? This will delete your entire account including Events, Users, Courses, Rooms and Inventory.' }, class: 'header-icon-right' %>
   </span>
   </small>
 </h2>
@@ -23,7 +23,7 @@
           <th>Start</th>
           <th>End</th>
           <th class='icon'>Edit</th>
-          <th class='icon'>Delete</th>
+          <th class='icon'><%= t('crud.delete') %></th>
         </tr>
       </thead>
       <tbody>
