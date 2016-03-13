@@ -4,7 +4,7 @@
   <td><%= room.number %></td>
   <td><%= room.building %></td>
 
-  <td class='icon'><%= link_to organization_room_path(room.organization_id, room.id), method: :delete, data: { confirm: 'Are you sure you want to delete this room?' }, class: "glyphicon" do %>
+  <td class='icon'><%= link_to organization_room_path(room.organization_id, room.id), method: :delete, data: { confirm: t('rooms.are_you_sure') }, class: "glyphicon" do %>
     <i class="fa fa-trash-o fa-lg"></i>
   <% end %>
   </td>
