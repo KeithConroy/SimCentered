@@ -1,7 +1,5 @@
 $(document).on('users:loaded', function() {
-
   $('#user-search').on('keyup', userSearch);
-
 });
 
 var userSearch = function(){
