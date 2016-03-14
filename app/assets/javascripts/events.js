@@ -7,7 +7,7 @@ $(document).on('page:change', function() {
   // });
 
   $('#calendar').fullCalendar({
-    events: '/organizations/1/events',
+    events: '/organizations/' + organizationId + '/events',
     eventLimit: true,
     // timezone: 'local',  #this displays events in the browsers time zone
     header: {

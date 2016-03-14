@@ -54,6 +54,10 @@ class ItemsController < ApplicationController
     render :'items/_all_items', layout: false
   end
 
+  def heatmap
+
+  end
+
   private
 
   def find_item
