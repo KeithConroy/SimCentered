@@ -1,4 +1,4 @@
-$(document).on('page:change', function() {
+$(document).on('rooms:loaded', function() {
 
   $('#room-search').on('keyup', roomSearch);
 

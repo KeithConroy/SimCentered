@@ -1,30 +1,6 @@
-$(document).on('page:change', function() {
+$(document).on('events:loaded', function() {
 
   bindEvents();
-
-  // $(".clicker").on("click", function(){
-  //   $(this).next().slideToggle();
-  // });
-
-  $('#calendar').fullCalendar({
-    events: '/organizations/1/events',
-    eventLimit: true,
-    // timezone: 'local',  #this displays events in the browsers time zone
-    header: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'month,agendaWeek,agendaDay'
-    },
-    fixedWeekCount: false,
-    dayClick: function(date, jsEvent, view) {
-      $('#newEventModal').modal('show');
-      setModalDate(date);
-    },
-  });
-
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-  });
 
   $('#newEventModal').on('hidden.bs.modal', function(){
     $(this).find('form')[0].reset();
@@ -39,6 +15,24 @@ $(document).on('page:change', function() {
   //   modal.find('.modal-body').text('Are you sure you want to delete the event: ' + title + '?')
   // });
 
+});
+
+$(document).on('events#index:loaded', function(){
+  $('#calendar').fullCalendar({
+    events: '/organizations/' + organizationId + '/events',
+    eventLimit: true,
+    // timezone: 'local',  #this displays events in the browsers time zone
+    header: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'month,agendaWeek,agendaDay'
+    },
+    fixedWeekCount: false,
+    dayClick: function(date, jsEvent, view) {
+      $('#newEventModal').modal('show');
+      setModalDate(date);
+    },
+  });
 });
 
 var bindEvents = function(){
@@ -59,7 +53,6 @@ var bindEvents = function(){
   $('body').on('keyup', calendarFlip);
 
   $('.modify-search').on('keyup', modifySearch);
-  // $('.modify-search').focusin(showResults);
   $('.modify-search').focusout(hideResults);
 };
 
@@ -256,7 +249,6 @@ var modifySearch = function(event){
 
   if(event.keyCode == 13){
     $('.search-results a:first').click();
-    // $(this).val('');
   }
 
   if (phrase) {

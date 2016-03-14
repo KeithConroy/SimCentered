@@ -1,11 +1,11 @@
-$(document).on('page:change', function() {
+$(document).on('courses:loaded', function() {
 
   $("body").on('click', ".add-student-course", addStudentCourse);
   $("body").on('click', ".remove-student-course", removeStudentCourse);
+
   $('#course-search').on('keyup', courseSearch);
 
   $('.modify-course-search').on('keyup', modifyCourseSearch);
-  // $('.modify-course-search').focusin(showResults);
   $('.modify-course-search').focusout(hideResults);
 
 });
@@ -65,7 +65,6 @@ var modifyCourseSearch = function(event){
 
   if(event.keyCode == 13){
     $('.search-results a:first').click();
-    // $(this).val('');
   }
 
   if (phrase) {
