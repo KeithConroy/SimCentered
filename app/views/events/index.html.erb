@@ -4,53 +4,57 @@
   var organizationId = <%= @organization.id %>;
 </script>
 
-<h2 class="page-header">Calendar
-  <small>
-  <span class="pull-right">
-    <a href="#" class="header-icon-right" data-toggle="modal" data-target="#newEventModal">
-      <i class="fa fa-plus fa-lg"></i>
-    </a>
-  </span>
-  </small>
-</h2>
-
-<div id='calendar'></div>
-
-<h2 class="page-header">All Events
-  <small>
-    <div id="search-parent">
-      <label for="search">
-        <i class="fa fa-search"></i>
-      </label>
-      <div class="form-group">
-        <input id="event-search" type="text" class="form-control search" placeholder="Search">
-      </div>
-    </div>
+<div class="row box no-min">
+  <h2 class="page-header">Calendar
+    <small>
     <span class="pull-right">
       <a href="#" class="header-icon-right" data-toggle="modal" data-target="#newEventModal">
         <i class="fa fa-plus fa-lg"></i>
       </a>
     </span>
-  </small>
-</h2>
+    </small>
+  </h2>
 
-<%= will_paginate @events %>
+  <div id='calendar'></div>
+</div>
 
-<div class="panel panel-default">
-  <div class="table-responsive">
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>Event</th>
-          <th>Start</th>
-          <th>End</th>
-          <th class='icon'>Delete</th>
-        </tr>
-      </thead>
-      <tbody id="events-index">
-        <%= render 'all_events' %>
-      </tbody>
-    </table>
+<div class="row box no-min">
+  <h2 class="page-header">All Events
+    <small>
+      <div id="search-parent">
+        <label for="search">
+          <i class="fa fa-search"></i>
+        </label>
+        <div class="form-group">
+          <input id="event-search" type="text" class="form-control search" placeholder="Search">
+        </div>
+      </div>
+      <span class="pull-right">
+        <a href="#" class="header-icon-right" data-toggle="modal" data-target="#newEventModal">
+          <i class="fa fa-plus fa-lg"></i>
+        </a>
+      </span>
+    </small>
+  </h2>
+
+  <%= will_paginate @events %>
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Start</th>
+            <th>End</th>
+            <th class='icon'>Delete</th>
+          </tr>
+        </thead>
+        <tbody id="events-index">
+          <%= render 'all_events' %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 

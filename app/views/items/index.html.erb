@@ -1,51 +1,53 @@
 <% content_for :title, "Inventory" %>
 
-<h2 class="page-header"><i class="fa fa-barcode"></i> Inventory
-  <small>
-    <div id="search-parent">
-      <label for="search">
-        <i class="fa fa-search"></i>
-      </label>
-      <div class="form-group">
-        <input id="item-search" type="text" class="form-control search" placeholder="Search">
+<div class="row box">
+  <h2 class="page-header"><i class="fa fa-barcode"></i> Inventory
+    <small>
+      <div id="search-parent">
+        <label for="search">
+          <i class="fa fa-search"></i>
+        </label>
+        <div class="form-group">
+          <input id="item-search" type="text" class="form-control search" placeholder="Search">
+        </div>
       </div>
+      <span class="pull-right">
+        <a href="#" class="header-icon-right" data-toggle="modal" data-target="#newItemModal">
+          <i class="fa fa-plus fa-lg"></i>
+        </a>
+      </span>
+    </small>
+  </h2>
+
+  <%= will_paginate @items %>
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Item &nbsp;<i class="fa fa-sort"></i></th>
+            <th>Quantity</th>
+            <th>Disposable?</th>
+            <th class='icon'>Delete</th>
+          </tr>
+        </thead>
+        <tbody id="items-index">
+          <%= render 'all_items' %>
+        </tbody>
+      </table>
     </div>
-    <span class="pull-right">
-      <a href="#" class="header-icon-right" data-toggle="modal" data-target="#newItemModal">
-        <i class="fa fa-plus fa-lg"></i>
-      </a>
-    </span>
-  </small>
-</h2>
-
-<%= will_paginate @items %>
-
-<div class="panel panel-default">
-  <div class="table-responsive">
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>Item &nbsp;<i class="fa fa-sort"></i></th>
-          <th>Quantity</th>
-          <th>Disposable?</th>
-          <th class='icon'>Delete</th>
-        </tr>
-      </thead>
-      <tbody id="items-index">
-        <%= render 'all_items' %>
-      </tbody>
-    </table>
   </div>
-</div>
 
-<div id="download" class="btn-group pull-right">
-  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Download <i class="fa fa-download"></i>
-  </button>
-  <ul class="dropdown-menu">
-    <li><a href="#">... as Excel <i class="fa fa-file-excel-o fa-lg"></i></a></li>
-    <li><a href="#">... as PDF <i class="fa fa-file-pdf-o fa-lg"></i></a></li>
-  </ul>
+  <div id="download" class="btn-group pull-right">
+    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Download <i class="fa fa-download"></i>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a href="#">... as Excel <i class="fa fa-file-excel-o fa-lg"></i></a></li>
+      <li><a href="#">... as PDF <i class="fa fa-file-pdf-o fa-lg"></i></a></li>
+    </ul>
+  </div>
 </div>
 
 <div class="modal fade" id="newItemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

@@ -1,40 +1,42 @@
 <% content_for :title, "Users" %>
 
-<h2 class="page-header"><i class="fa fa-user-md"></i> Users
-  <small>
-    <div id="search-parent">
-      <label for="search">
-        <i class="fa fa-search"></i>
-      </label>
-      <div class="form-group">
-        <input id="user-search" type="text" class="form-control search" placeholder="Search">
+<div class="row box">
+  <h2 class="page-header"><i class="fa fa-user-md"></i> Users
+    <small>
+      <div id="search-parent">
+        <label for="search">
+          <i class="fa fa-search"></i>
+        </label>
+        <div class="form-group">
+          <input id="user-search" type="text" class="form-control search" placeholder="Search">
+        </div>
       </div>
+      <span class="pull-right">
+        <a href="#" class="header-icon-right" data-toggle="modal" data-target="#newUserModal">
+          <i class="fa fa-plus fa-lg"></i>
+        </a>
+      </span>
+    </small>
+  </h2>
+
+  <%= will_paginate @users %>
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Name &nbsp;<i class="fa fa-sort"></i></th>
+            <th>Email</th>
+            <th>Status &nbsp;<i class="fa fa-sort"></i></th>
+            <th class='icon'>Delete</th>
+          </tr>
+        </thead>
+        <tbody id="users-index">
+          <%= render 'all_users' %>
+        </tbody>
+      </table>
     </div>
-    <span class="pull-right">
-      <a href="#" class="header-icon-right" data-toggle="modal" data-target="#newUserModal">
-        <i class="fa fa-plus fa-lg"></i>
-      </a>
-    </span>
-  </small>
-</h2>
-
-<%= will_paginate @users %>
-
-<div class="panel panel-default">
-  <div class="table-responsive">
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>Name &nbsp;<i class="fa fa-sort"></i></th>
-          <th>Email</th>
-          <th>Status &nbsp;<i class="fa fa-sort"></i></th>
-          <th class='icon'>Delete</th>
-        </tr>
-      </thead>
-      <tbody id="users-index">
-        <%= render 'all_users' %>
-      </tbody>
-    </table>
   </div>
 </div>
 

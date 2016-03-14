@@ -1,40 +1,42 @@
 <% content_for :title, "Rooms" %>
 
-<h2 class="page-header"><i class="fa fa-hospital-o"></i> Rooms
-  <small>
-    <div id="search-parent">
-      <label for="search">
-        <i class="fa fa-search"></i>
-      </label>
-      <div class="form-group">
-        <input id="room-search" type="text" class="form-control search" placeholder="Search">
+<div class="row box">
+  <h2 class="page-header"><i class="fa fa-hospital-o"></i> Rooms
+    <small>
+      <div id="search-parent">
+        <label for="search">
+          <i class="fa fa-search"></i>
+        </label>
+        <div class="form-group">
+          <input id="room-search" type="text" class="form-control search" placeholder="Search">
+        </div>
       </div>
+      <span class="pull-right">
+        <a href="#" class="header-icon-right" data-toggle="modal" data-target="#newRoomModal">
+          <i class="fa fa-plus fa-lg"></i>
+        </a>
+      </span>
+    </small>
+  </h2>
+
+  <%= will_paginate @rooms %>
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Room &nbsp;<i class="fa fa-sort"></i></th>
+            <th>Number &nbsp;<i class="fa fa-sort"></i></th>
+            <th>Building &nbsp;<i class="fa fa-sort"></i></th>
+            <th class='icon'>Delete</th>
+          </tr>
+        </thead>
+        <tbody id="rooms-index">
+          <%= render 'all_rooms' %>
+        </tbody>
+      </table>
     </div>
-    <span class="pull-right">
-      <a href="#" class="header-icon-right" data-toggle="modal" data-target="#newRoomModal">
-        <i class="fa fa-plus fa-lg"></i>
-      </a>
-    </span>
-  </small>
-</h2>
-
-<%= will_paginate @rooms %>
-
-<div class="panel panel-default">
-  <div class="table-responsive">
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th>Room &nbsp;<i class="fa fa-sort"></i></th>
-          <th>Number &nbsp;<i class="fa fa-sort"></i></th>
-          <th>Building &nbsp;<i class="fa fa-sort"></i></th>
-          <th class='icon'>Delete</th>
-        </tr>
-      </thead>
-      <tbody id="rooms-index">
-        <%= render 'all_rooms' %>
-      </tbody>
-    </table>
   </div>
 </div>
 

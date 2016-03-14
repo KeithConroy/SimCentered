@@ -1,39 +1,41 @@
 <% content_for :title, "Courses" %>
 
-<h2 class="page-header"><i class="fa fa-users"></i> Courses
-  <small>
-    <div id="search-parent">
-      <label for="search">
-        <i class="fa fa-search"></i>
-      </label>
-      <div class="form-group">
-        <input id="course-search" type="text" class="form-control search" placeholder="Search">
+<div class="row box">
+  <h2 class="page-header"><i class="fa fa-users"></i> Courses
+    <small>
+      <div id="search-parent">
+        <label for="search">
+          <i class="fa fa-search"></i>
+        </label>
+        <div class="form-group">
+          <input id="course-search" type="text" class="form-control search" placeholder="Search">
+        </div>
       </div>
+      <span class="pull-right">
+        <a href="#" class="header-icon-right" data-toggle="modal" data-target="#newCourseModal">
+          <i class="fa fa-plus fa-lg"></i>
+        </a>
+      </span>
+    </small>
+  </h2>
+
+  <%= will_paginate @courses %>
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr>
+            <th>Course &nbsp;<i class="fa fa-sort"></i></th>
+            <th>Instructor &nbsp;<i class="fa fa-sort"></i></th>
+            <th class='icon'>Delete</th>
+          </tr>
+        </thead>
+        <tbody id="courses-index">
+          <%= render 'all_courses' %>
+        </tbody>
+      </table>
     </div>
-    <span class="pull-right">
-      <a href="#" class="header-icon-right" data-toggle="modal" data-target="#newCourseModal">
-        <i class="fa fa-plus fa-lg"></i>
-      </a>
-    </span>
-  </small>
-</h2>
-
-<%= will_paginate @courses %>
-
-<div class="panel panel-default">
-  <div class="table-responsive">
-    <table class="table table-hover table-striped">
-      <thead>
-        <tr>
-          <th>Course &nbsp;<i class="fa fa-sort"></i></th>
-          <th>Instructor &nbsp;<i class="fa fa-sort"></i></th>
-          <th class='icon'>Delete</th>
-        </tr>
-      </thead>
-      <tbody id="courses-index">
-        <%= render 'all_courses' %>
-      </tbody>
-    </table>
   </div>
 </div>
 

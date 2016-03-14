@@ -1,70 +1,72 @@
 <% content_for :title, "#{full_name(@user)}" %>
 
-<h2 class="page-header">
-  <%= link_to organization_users_path(@organization), class: "back" do %>
-    <i class="fa fa-angle-double-left fa-lg"></i>
-  <% end %>
-  <i class="fa fa-user-md"></i>
-  <%= full_name(@user) %>
-  <small>
-  <span class="pull-right">
-    <a href="#" class="header-icon-right" data-toggle="modal" data-target="#editUserModal">
-      Edit <i class="fa fa-pencil"></i>
-    </a>
-    <%= link_to 'Delete', organization_user_path(@user.organization_id, @user.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'header-icon-right' %>
-  </span>
-  </small>
-</h2>
+<div class="row box">
+  <h2 class="page-header">
+    <%= link_to organization_users_path(@organization), class: "back" do %>
+      <i class="fa fa-angle-double-left fa-lg"></i>
+    <% end %>
+    <i class="fa fa-user-md"></i>
+    <%= full_name(@user) %>
+    <small>
+    <span class="pull-right">
+      <a href="#" class="header-icon-right" data-toggle="modal" data-target="#editUserModal">
+        Edit <i class="fa fa-pencil"></i>
+      </a>
+      <%= link_to 'Delete', organization_user_path(@user.organization_id, @user.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'header-icon-right' %>
+    </span>
+    </small>
+  </h2>
 
-<div class="row col-md-12 details">
-  <h4>User Type: <small><%= status(@user) %></small></h4>
-  <h4>Email: <small><%= @user.email %></small></h4>
-</div>
+  <div class="row col-md-12 details">
+    <h4>User Type: <small><%= status(@user) %></small></h4>
+    <h4>Email: <small><%= @user.email %></small></h4>
+  </div>
 
-<div id="selected-students" class="col-md-6">
-  <div class="panel panel-default">
-    <div class="panel-heading clearfix">
-      <div class="panel-title pull-left"> Courses - <span id="student-count"><%= @user.courses.count %></span></div>
-    </div>
-    <div class="display-table">
-      <table id="scheduled-students" class="table table-condensed">
-        <!-- <thead>
-          <tr>
-            <th>Name</th>
-          </tr>
-        </thead> -->
-        <tbody>
-          <% @user.courses.each do |course| %>
-          <tr>
-            <td><%= link_to course.title, organization_course_path(course.organization_id, course.id) %></td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
+  <div id="selected-students" class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <div class="panel-title pull-left"> Courses - <span id="student-count"><%= @user.courses.count %></span></div>
+      </div>
+      <div class="display-table">
+        <table id="scheduled-students" class="table table-condensed">
+          <!-- <thead>
+            <tr>
+              <th>Name</th>
+            </tr>
+          </thead> -->
+          <tbody>
+            <% @user.courses.each do |course| %>
+            <tr>
+              <td><%= link_to course.title, organization_course_path(course.organization_id, course.id) %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
 
-<div id="selected-students" class="col-md-6">
-  <div class="panel panel-default">
-    <div class="panel-heading clearfix">
-      <div class="panel-title pull-left"> Events - <span id="student-count"><%= @user.events.count %></span></div>
-    </div>
-    <div class="display-table">
-      <table id="scheduled-students" class="table table-condensed">
-        <!-- <thead>
-          <tr>
-            <th>Name</th>
-          </tr>
-        </thead> -->
-        <tbody>
-          <% @user.events.each do |event| %>
-          <tr>
-            <td><%= link_to event.title, organization_event_path(event.organization_id, event.id) %></td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
+  <div id="selected-students" class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <div class="panel-title pull-left"> Events - <span id="student-count"><%= @user.events.count %></span></div>
+      </div>
+      <div class="display-table">
+        <table id="scheduled-students" class="table table-condensed">
+          <!-- <thead>
+            <tr>
+              <th>Name</th>
+            </tr>
+          </thead> -->
+          <tbody>
+            <% @user.events.each do |event| %>
+            <tr>
+              <td><%= link_to event.title, organization_event_path(event.organization_id, event.id) %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
