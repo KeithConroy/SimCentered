@@ -23,7 +23,7 @@
 </div>
 
 <div class="row col-md-12">
-  <div class="col-md-6">
+  <!-- <div class="col-md-6"> -->
 
     <div id="search-n-go-parent">
       <label for="search">
@@ -38,9 +38,9 @@
       </div>
     </div>
 
-  </div>
+  <!-- </div> -->
   <!-- Nav tabs -->
-  <div class='col-md-6'>
+  <div class='col-md-6' style="display: none;">
     <ul id="modifyTabs" class="nav nav-tabs nav-justified" role="tablist" style="margin-bottom: 30px;">
       <li role="presentation" class="active">
         <a href="#courses" aria-controls="courses" role="tab" data-toggle="tab">
@@ -105,6 +105,179 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+<!-- Make all rows partials, to be sent back to ajax for appending -->
+<!-- not sure how that works with pagination -->
+
+<div>
+  <h3 class="page-header">
+    Courses
+  </h3>
+
+  <% #will_paginate @students %>
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Course</th>
+            <th class="icon">Remove</th>
+          </tr>
+        </thead>
+        <tbody id="events-index">
+          <% if @event.courses.empty? %>
+            <tr>
+              <td class="none-added">No courses have been added</td>
+              <td></td>
+            </tr>
+          <% else %>
+            <% @event.courses.each do |course| %>
+              <tr>
+                <td>
+                  <%= course.title %>
+                </td>
+                <td class="icon">
+                  <a href="<%= @event.id %>/remove_course" data-course-id="<%= course.id %>" class="remove-course">
+                    <i class="fa fa-minus"></i>
+                  </a>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div>
+  <h3 class="page-header">
+    Students
+  </h3>
+
+  <% #will_paginate @students %>
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th class="icon">Remove</th>
+          </tr>
+        </thead>
+        <tbody id="events-index">
+          <% if @event.students.empty? %>
+            <tr>
+              <td class="none-added">No students have been added</td>
+              <td></td>
+            </tr>
+          <% else %>
+            <% @event.students.each do |student| %>
+              <tr>
+                <td>
+                  <%= full_name(student) %>
+                </td>
+                <td class="icon">
+                  <a href="<%= @event.id %>/remove_student" data-student-id="<%= student.id %>" class="remove-student">
+                    <i class="fa fa-minus"></i>
+                  </a>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div>
+  <h3 class="page-header">
+    Rooms
+  </h3>
+
+  <% #will_paginate @students %>
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Room</th>
+            <th class="icon">Remove</th>
+          </tr>
+        </thead>
+        <tbody id="events-index">
+          <% if @event.rooms.empty? %>
+            <tr>
+              <td class="none-added">No rooms have been added</td>
+              <td></td>
+            </tr>
+          <% else %>
+            <% @event.rooms.each do |room| %>
+              <tr>
+                <td>
+                  <%= room.title %>
+                </td>
+                <td class="icon">
+                  <a href="<%= @event.id %>/remove_room" data-room-id="<%= room.id %>" class="remove-room">
+                    <i class="fa fa-minus"></i>
+                  </a>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div>
+  <h3 class="page-header">
+    Items
+  </h3>
+
+  <% #will_paginate @students %>
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th class="icon">Remove</th>
+          </tr>
+        </thead>
+        <tbody id="events-index">
+          <% if @event.items.empty? %>
+            <tr>
+              <td class="none-added">No items have been added</td>
+              <td></td>
+              <td></td>
+            </tr>
+          <% else %>
+            <% @event.items.each do |item| %>
+              <tr>
+                <td>
+                  <%= item.title %>
+                </td>
+                <td class="icon">
+                  <a href="<%= @event.id %>/remove_item" data-item-id="<%= item.id %>" class="remove-item">
+                    <i class="fa fa-minus"></i>
+                  </a>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
