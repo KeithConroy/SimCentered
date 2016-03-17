@@ -27,6 +27,11 @@ class CoursesController < ApplicationController
   end
 
   def show
+    @events = @course.events
+      .where('start > ?', DateTime.now)
+      .paginate(page: 1, per_page: 10)
+    @students = @course.students
+      .paginate(page: params[:page], per_page: 10)
   end
 
   def edit

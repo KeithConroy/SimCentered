@@ -26,6 +26,9 @@ class RoomsController < ApplicationController
   end
 
   def show
+    @events = @room.events
+      .where('start > ?', DateTime.now)
+      .paginate(page: 1, per_page: 10)
   end
 
   def edit

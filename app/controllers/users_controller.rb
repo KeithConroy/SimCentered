@@ -23,6 +23,9 @@ class UsersController < ApplicationController
   end
 
   def show
+    @events = @user.events
+      .where('start > ?', DateTime.now)
+      .paginate(page: 1, per_page: 10)
   end
 
   def edit

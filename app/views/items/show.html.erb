@@ -34,6 +34,7 @@
   </h3>
 
   <%= will_paginate @events %>
+
   <div class="panel panel-default">
     <div class="table-responsive">
       <table class="table table-striped table-hover">
@@ -48,15 +49,26 @@
           </tr>
         </thead>
         <tbody id="events-index">
-          <% @events.each do |event| %>
+          <% if @events.empty? %>
             <tr>
-              <td><%= link_to event.title, organization_event_path(event.organization_id, event.id) %></td>
-              <td><%= event.start.strftime("%b %e @ %l:%M %p") %></td>
-              <td><%= event.finish.strftime("%b %e @ %l:%M %p") %></td>
+              <td class="none-added">Nothing scheduled</td>
+              <td></td>
+              <td></td>
               <% if @item.disposable %>
-                <td><%= @item.scheduled_items.where(event_id: event.id).first.quantity %></td>
+                <td></td>
               <% end %>
             </tr>
+          <% else %>
+            <% @events.each do |event| %>
+              <tr>
+                <td><%= link_to event.title, organization_event_path(event.organization_id, event.id) %></td>
+                <td><%= event.start.strftime("%b %e @ %l:%M %p") %></td>
+                <td><%= event.finish.strftime("%b %e @ %l:%M %p") %></td>
+                <% if @item.disposable %>
+                  <td><%= @item.scheduled_items.where(event_id: event.id).first.quantity %></td>
+                <% end %>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>
