@@ -64,7 +64,7 @@ class EventsController < ApplicationController
       @event.courses << @course unless @event.students.include?(@student)
       add_courses_students(@event, @course)
       if @event.save
-        render :'events/_scheduled_courses', layout: false
+        render :'events/_scheduled_course', layout: false, locals: { course: @course }
       else
         render json: @event.errors.full_messages, status: 400
       end
@@ -78,7 +78,7 @@ class EventsController < ApplicationController
       @event.courses.delete(@course)
       remove_courses_students(@event, @course)
       if @event.save
-        render :'events/_scheduled_courses', layout: false
+        render json: { count: @event.courses.count }
       else
         render json: @event.errors.full_messages, status: 400
       end
@@ -91,7 +91,7 @@ class EventsController < ApplicationController
     if @student && @student.organization_id == @organization.id
       @event.students << @student unless @event.students.include?(@student)
       if @event.save
-        render :'events/_scheduled_student', layout: false
+        render :'events/_scheduled_student', layout: false, locals: { student: @student }
       else
         render json: @event.errors.full_messages, status: 400
       end
@@ -117,7 +117,7 @@ class EventsController < ApplicationController
     if @room && @room.organization_id == @organization.id
       @event.rooms << @room unless @event.students.include?(@student)
       if @event.save
-        render :'events/_scheduled_rooms', layout: false
+        render :'events/_scheduled_room', layout: false, locals: { room: @room }
       else
         render json: @event.errors.full_messages, status: 400
       end
@@ -139,7 +139,7 @@ class EventsController < ApplicationController
     @event.items << @item
     if @event.save
       deduct_quantity(@event, @item) if @item.disposable
-      render :'events/_scheduled_items', layout: false
+      render :'events/_scheduled_item', layout: false, locals: { item: @item }
     else
       render json: @event.errors.full_messages, status: 400
     end

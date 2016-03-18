@@ -88,7 +88,8 @@ var addStudent = function(){
     data: { student_id: studentId },
     type: 'post'
   }).done(function(data) {
-    $('#scheduled-students').append($(data));
+    $('#event-show-students').find('.none-added').parent().hide()
+    $('#event-show-students').append($(data));
   }).fail(function() {
       console.log('error');
   });
@@ -99,15 +100,17 @@ var removeStudent = function(){
 
   var url = $(this).attr('href');
   var studentId = $(this).attr('data-student-id');
-  this.closest("tr").remove();
 
   $.ajax({
     url: url,
     data: { student_id: studentId },
     type: 'delete'
   }).done(function(data) {
-    // $('#available-students').html($(data));
-    // $('#student-count').text(data.count);
+    if(data.count === 0){
+      $('#event-show-students').find('.none-added').parent().show()
+    }
+    var student = this.data.match( /\d+/g );
+    $("a[data-student-id='"+student+"']").closest("tr").remove();
   }).fail(function() {
       console.log('error');
   });
@@ -125,8 +128,8 @@ var addRoom = function(){
     data: { room_id: roomId },
     type: 'post'
   }).done(function(data) {
-    $('#scheduled-rooms').html($(data));
-    // $('#room-count').text(data.count);
+    $('#event-show-rooms').find('.none-added').parent().hide()
+    $('#event-show-rooms').append($(data));
   }).fail(function() {
       console.log('error');
   });
@@ -137,15 +140,17 @@ var removeRoom = function(){
 
   var url = $(this).attr('href');
   var roomId = $(this).attr('data-room-id');
-  this.closest("tr").remove();
 
   $.ajax({
     url: url,
     data: { room_id: roomId },
     type: 'delete'
   }).done(function(data) {
-    // $('#available-rooms').html($(data));
-    // $('#room-count').text(data.count);
+    if(data.count === 0){
+      $('#event-show-rooms').find('.none-added').parent().show()
+    }
+    var room = this.data.match( /\d+/g );
+    $("a[data-room-id='"+room+"']").closest("tr").remove();
   }).fail(function() {
       console.log('error');
   });
@@ -168,8 +173,8 @@ var addItem = function(){
     data: { item_id: itemId, quantity: quantity },
     type: 'post'
   }).done(function(data) {
-    $('#scheduled-items').html($(data));
-    // $('#item-count').text(data.count);
+    $('#event-show-items').find('.none-added').parent().hide()
+    $('#event-show-items').append($(data));
   }).fail(function() {
       console.log('error');
   });
@@ -180,15 +185,17 @@ var removeItem = function(){
 
   var url = $(this).attr('href');
   var itemId = $(this).attr('data-item-id');
-  this.closest("tr").remove();
 
   $.ajax({
     url: url,
     data: { item_id: itemId },
     type: 'delete'
   }).done(function(data) {
-    // $('#available-items').html($(data));
-    // $('#item-count').text(data.count);
+    if(data.count === 0){
+      $('#event-show-items').find('.none-added').parent().show()
+    }
+    var item = this.data.match( /\d+/g );
+    $("a[data-item-id='"+item+"']").closest("tr").remove();
   }).fail(function() {
       console.log('error');
   });
@@ -206,7 +213,8 @@ var addCourse = function(){
     data: { course_id: courseId },
     type: 'post'
   }).done(function(data) {
-    $('#scheduled-courses').html($(data));
+    $('#event-show-courses').find('.none-added').parent().hide()
+    $('#event-show-courses').append($(data));
   }).fail(function() {
       console.log('error');
   });
@@ -217,14 +225,17 @@ var removeCourse = function(){
 
   var url = $(this).attr('href');
   var courseId = $(this).attr('data-course-id');
-  this.closest("tr").remove();
 
   $.ajax({
     url: url,
     data: { course_id: courseId },
     type: 'delete'
   }).done(function(data) {
-    $('#scheduled-courses').html($(data));
+    if(data.count === 0){
+      $('#event-show-courses').find('.none-added').parent().show()
+    }
+    var course = this.data.match( /\d+/g );
+    $("a[data-course-id='"+course+"']").closest("tr").remove();
   }).fail(function() {
       console.log('error');
   });

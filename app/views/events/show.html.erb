@@ -23,93 +23,19 @@
 </div>
 
 <div class="row col-md-12">
-  <!-- <div class="col-md-6"> -->
-
-    <div id="search-n-go-parent">
-      <label for="search">
-        <i class="fa fa-search"></i>
-      </label>
-      <div class="form-group">
-        <input id="<%= @event.id %>" type="text" class="form-control search-n-go modify-search" placeholder="Add Courses, Students, Rooms and Inventory">
-      </div>
-      <div class="search-results">
-        <table class="table table-hover modify-search">
-        </table>
-      </div>
+  <div id="search-n-go-parent">
+    <label for="search">
+      <i class="fa fa-search"></i>
+    </label>
+    <div class="form-group">
+      <input id="<%= @event.id %>" type="text" class="form-control search-n-go modify-search" placeholder="Add Courses, Students, Rooms and Inventory">
     </div>
-
-  <!-- </div> -->
-  <!-- Nav tabs -->
-  <div class='col-md-6' style="display: none;">
-    <ul id="modifyTabs" class="nav nav-tabs nav-justified" role="tablist" style="margin-bottom: 30px;">
-      <li role="presentation" class="active">
-        <a href="#courses" aria-controls="courses" role="tab" data-toggle="tab">
-          Courses - <span class=""><%= @event.courses.count %></span>
-        </a>
-      </li>
-      <li role="presentation">
-        <a href="#students" aria-controls="students" role="tab" data-toggle="tab">
-          Students - <span class=""><%= @event.students.count %></span>
-        </a>
-      </li>
-      <li role="presentation">
-        <a href="#rooms" aria-controls="rooms" role="tab" data-toggle="tab">
-          Rooms - <span class=""><%= @event.rooms.count %></span>
-        </a>
-      </li>
-      <li role="presentation">
-        <a href="#items" aria-controls="items" role="tab" data-toggle="tab">
-          Inventory - <span class=""><%= @event.items.count %></span>
-        </a>
-      </li>
-    </ul>
-
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <div role="tabpanel" class="tab-pane active" id="courses">
-        <div class="panel panel-default">
-            <div class="display-table">
-              <table id="scheduled-courses" class="table table-condensed table-hover">
-                <%= render 'scheduled_courses' %>
-              </table>
-            </div>
-        </div>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="students">
-        <div class="panel panel-default">
-            <div class="display-table">
-              <table id="scheduled-students" class="table table-condensed table-hover">
-                <%= render 'scheduled_students' %>
-              </table>
-            </div>
-        </div>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="rooms">
-        <div class="panel panel-default">
-
-            <div class="display-table">
-              <table id="scheduled-rooms" class="table table-condensed">
-                <%= render 'scheduled_rooms' %>
-              </table>
-            </div>
-        </div>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="items">
-        <div class="panel panel-default">
-            <div class="display-table">
-              <table id="scheduled-items" class="table table-condensed">
-                <%= render 'scheduled_items' %>
-              </table>
-            </div>
-        </div>
-      </div>
+    <div class="search-results">
+      <table class="table table-hover modify-search">
+      </table>
     </div>
-
   </div>
 </div>
-
-<!-- Make all rows partials, to be sent back to ajax for appending -->
-<!-- not sure how that works with pagination -->
 
 <div>
   <h3 class="page-header">
@@ -127,25 +53,13 @@
             <th class="icon">Remove</th>
           </tr>
         </thead>
-        <tbody id="events-index">
-          <% if @event.courses.empty? %>
-            <tr>
-              <td class="none-added">No courses have been added</td>
-              <td></td>
-            </tr>
-          <% else %>
-            <% @event.courses.each do |course| %>
-              <tr>
-                <td>
-                  <%= course.title %>
-                </td>
-                <td class="icon">
-                  <a href="<%= @event.id %>/remove_course" data-course-id="<%= course.id %>" class="remove-course">
-                    <i class="fa fa-minus"></i>
-                  </a>
-                </td>
-              </tr>
-            <% end %>
+        <tbody id="event-show-courses">
+          <tr style="<%= "display: none;" unless @event.courses.empty? %>">
+            <td class="none-added">No courses have been added</td>
+            <td class="icon"></td>
+          </tr>
+          <% @event.courses.each do |course| %>
+            <%= render partial: 'scheduled_course', locals: { course: course } %>
           <% end %>
         </tbody>
       </table>
@@ -169,25 +83,13 @@
             <th class="icon">Remove</th>
           </tr>
         </thead>
-        <tbody id="events-index">
-          <% if @event.students.empty? %>
-            <tr>
-              <td class="none-added">No students have been added</td>
-              <td></td>
-            </tr>
-          <% else %>
-            <% @event.students.each do |student| %>
-              <tr>
-                <td>
-                  <%= full_name(student) %>
-                </td>
-                <td class="icon">
-                  <a href="<%= @event.id %>/remove_student" data-student-id="<%= student.id %>" class="remove-student">
-                    <i class="fa fa-minus"></i>
-                  </a>
-                </td>
-              </tr>
-            <% end %>
+        <tbody id="event-show-students">
+          <tr style="<%= "display: none;" unless @event.students.empty? %>">
+            <td class="none-added">No students have been added</td>
+            <td class="icon"></td>
+          </tr>
+          <% @event.students.each do |student| %>
+            <%= render partial: 'scheduled_student', locals: { student: student } %>
           <% end %>
         </tbody>
       </table>
@@ -211,25 +113,13 @@
             <th class="icon">Remove</th>
           </tr>
         </thead>
-        <tbody id="events-index">
-          <% if @event.rooms.empty? %>
-            <tr>
-              <td class="none-added">No rooms have been added</td>
-              <td></td>
-            </tr>
-          <% else %>
-            <% @event.rooms.each do |room| %>
-              <tr>
-                <td>
-                  <%= room.title %>
-                </td>
-                <td class="icon">
-                  <a href="<%= @event.id %>/remove_room" data-room-id="<%= room.id %>" class="remove-room">
-                    <i class="fa fa-minus"></i>
-                  </a>
-                </td>
-              </tr>
-            <% end %>
+        <tbody id="event-show-rooms">
+          <tr style="<%= "display: none;" unless @event.rooms.empty? %>">
+            <td class="none-added">No rooms have been added</td>
+            <td class="icon"></td>
+          </tr>
+          <% @event.rooms.each do |room| %>
+            <%= render partial: 'scheduled_room', locals: { room: room } %>
           <% end %>
         </tbody>
       </table>
@@ -254,26 +144,14 @@
             <th class="icon">Remove</th>
           </tr>
         </thead>
-        <tbody id="events-index">
-          <% if @event.items.empty? %>
-            <tr>
-              <td class="none-added">No items have been added</td>
-              <td></td>
-              <td></td>
-            </tr>
-          <% else %>
-            <% @event.items.each do |item| %>
-              <tr>
-                <td>
-                  <%= item.title %>
-                </td>
-                <td class="icon">
-                  <a href="<%= @event.id %>/remove_item" data-item-id="<%= item.id %>" class="remove-item">
-                    <i class="fa fa-minus"></i>
-                  </a>
-                </td>
-              </tr>
-            <% end %>
+        <tbody id="event-show-items">
+          <tr style="<%= "display: none;" unless @event.items.empty? %>">
+            <td class="none-added">No items have been added</td>
+            <td></td>
+            <td class="icon"></td>
+          </tr>
+          <% @event.items.each do |item| %>
+            <%= render partial: 'scheduled_item', locals: { item: item } %>
           <% end %>
         </tbody>
       </table>

@@ -55,7 +55,7 @@ class CoursesController < ApplicationController
       @course.students << @student unless @course.students.include?(@student)
       if @course.save
         # render :'courses/_enrolled_students', layout: false
-        render :'courses/_enrolled_student', layout: false
+        render :'courses/_enrolled_student', layout: false, locals: { student: @student }
       else
         render json: @course.errors.full_messages, status: 400
       end
