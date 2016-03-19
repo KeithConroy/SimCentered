@@ -215,11 +215,16 @@ RSpec.describe EventsController, type: :controller do
       it "gets course" do
         expect(assigns(:course)).to be_a(Course)
       end
+      it "assigns the course to the event" do
+        expect(Event.first.courses).to include(course)
+        expect(course.events).to include(Event.first)
+      end
       it "assigns the courses students to the event" do
         expect(Event.first.students).to include(student)
         expect(Event.first.students).to include(student2)
       end
     end
+
     context "invalid #add_course" do
       before { other_course.students << other_student }
       before { post :add_course, organization_id: organization.id, id: event.id, course_id: other_course.id }
@@ -227,6 +232,10 @@ RSpec.describe EventsController, type: :controller do
         expect(response.status).to eq 400
       end
       it "does not assign a course to the event" do
+        expect(event.courses.count).to be(0)
+        expect(event.courses).to_not include(other_course)
+      end
+      it "does not assign course's students to the event" do
         expect(event.students.count).to be(0)
         expect(event.students).to_not include(other_student)
       end
@@ -246,6 +255,7 @@ RSpec.describe EventsController, type: :controller do
         expect(Event.first.students).to include(student)
       end
     end
+
     context "invalid #add_student - student from another organization" do
       before { post :add_student, organization_id: organization.id, id: event.id, student_id: other_student.id }
       it "should give an error status" do
@@ -255,6 +265,7 @@ RSpec.describe EventsController, type: :controller do
         expect(Event.first.students).to_not include(other_student)
       end
     end
+
     context "invalid #add_student - non existant student" do
       before { post :add_student, organization_id: organization.id, id: event.id, student_id: 20 }
       it "should give an error status" do
