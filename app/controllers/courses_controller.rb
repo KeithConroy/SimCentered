@@ -81,7 +81,10 @@ class CoursesController < ApplicationController
   private
 
   def find_course
-    @course = Course.where(id: params[:id]).first
+    @course = Course.where(organization_id: @organization.id, id: params[:id]).first
+    unless @course
+      render file: "public/404.html"
+    end
   end
 
   def course_params

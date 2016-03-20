@@ -172,7 +172,10 @@ class EventsController < ApplicationController
   private
 
   def find_event
-    @event = Event.where(id: params[:id]).first
+    @event = Event.where(organization_id: @organization.id, id: params[:id]).first
+    unless @event
+      render file: "public/404.html"
+    end
   end
 
   def event_params
