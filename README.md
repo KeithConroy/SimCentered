@@ -1,4 +1,4 @@
-# SC-Rails
+# SimCentered
 An online management system used for scheduling events and tracking inventory
 
 ## Overview
@@ -7,4 +7,3 @@ Organinzations will create an account which will be accessible by a unique subdo
 ## Testing
 `rspec` to run testing suite
 
-`open coverage/index.html` to see test coverage

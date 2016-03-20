@@ -94,10 +94,45 @@ RSpec.describe RoomsController, type: :controller do
   end
 
   context "GET #search" do
-    before { get :search, organization_id: organization.id, phrase: 'room' }
-    it "searches"
-  end
+    before { post :create, room: {title: "Room 100", organization_id: organization.id}, organization_id: organization.id }
+    before { post :create, room: {title: "Room 101", organization_id: organization.id}, organization_id: organization.id }
+    before { post :create, room: {title: "L&D", organization_id: organization.id}, organization_id: organization.id }
 
+    context 'valid search: full title match' do
+      before { get :search, organization_id: organization.id, phrase: 'room 100' }
+      it "calls Room.search" do
+        expect(Room).to respond_to(:search).with(2).argument
+      end
+      it "gets rooms" do
+        expect(assigns(:rooms)).to be_a(ActiveRecord::Relation)
+      end
+      it "finds a match" do
+        expect(assigns(:rooms)).not_to be_empty
+        expect(assigns(:rooms).length).to eq(1)
+        expect(assigns(:rooms).first.title).to eq("Room 100")
+      end
+    end
+    context 'valid search: partial match' do
+      before { get :search, organization_id: organization.id, phrase: 'room' }
+      it "finds two matches" do
+        expect(assigns(:rooms).length).to eq(2)
+        expect(assigns(:rooms).first.title).to eq("Room 100")
+        expect(assigns(:rooms).last.title).to eq("Room 101")
+      end
+    end
+    context 'invalid search' do
+      before { get :search, organization_id: organization.id, phrase: 'abc' }
+      it "returns empty" do
+        expect(assigns(:rooms)).to be_empty
+      end
+    end
+    context 'empty search' do
+      before { get :search, organization_id: organization.id }
+      it "gets all rooms" do
+        expect(assigns(:rooms).length).to eq(3)
+      end
+    end
+  end
 end
 
 

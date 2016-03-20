@@ -3,12 +3,9 @@ class UsersController < ApplicationController
 
   def index
     @new_user = User.new
-    @users = User
-      .where(organization_id: @organization.id)
-      .order(last_name: :asc, first_name: :asc)
-      .paginate(page: params[:page], per_page: 15)
+    @users = User.list(@organization.id, params[:page])
 
-    return render :'users/_all_users', layout: false if request.xhr?
+    render :'users/_all_users', layout: false if request.xhr?
   end
 
   def new
@@ -41,16 +38,12 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    redirect_to(:action => 'index')
+    redirect_to(action: 'index')
   end
 
   def search
-    @users = User
-      .where("organization_id = ? AND lower(first_name) LIKE ? OR lower(last_name) LIKE ?", @organization.id, "%#{params[:phrase]}%", "%#{params[:phrase]}%")
-      .order(last_name: :asc, first_name: :asc)
-      .paginate(page: 1, per_page: 15)
-
-    return render :'users/_all_users', layout: false
+    @users = User.search(@organization.id, params[:phrase])
+    render :'users/_all_users', layout: false
   end
 
   private
@@ -63,7 +56,8 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :is_student, :password)
+    params.require(:user).permit(
+      :first_name, :last_name, :email, :is_student, :password
+    )
   end
-
 end

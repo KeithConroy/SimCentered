@@ -102,8 +102,46 @@ RSpec.describe UsersController, type: :controller do
   end
 
   context "GET #search" do
-    before { get :search, organization_id: organization.id, phrase: 'user' }
-    it "searches"
+    before { post :create, user: {first_name: "Keith", last_name: "Conroy", email: "kc@mail.com", organization_id: organization.id, is_student: false }, organization_id: organization.id }
+    before { post :create, user: {first_name: "Lauren", last_name: "Conroy", email: "lc@mail.com", organization_id: organization.id, is_student: false }, organization_id: organization.id }
+    before { post :create, user: {first_name: "Sandi", last_name: "Conroy", email: "sc@mail.com", organization_id: organization.id, is_student: false }, organization_id: organization.id }
+    before { post :create, user: {first_name: "John", last_name: "Smith", email: "js@mail.com", organization_id: organization.id, is_student: false }, organization_id: organization.id }
+
+    context 'valid search: full title match' do
+      before { get :search, organization_id: organization.id, phrase: 'keith' }
+      it "calls User.search" do
+        expect(User).to respond_to(:search).with(2).argument
+      end
+      it "gets users" do
+        expect(assigns(:users)).to be_a(ActiveRecord::Relation)
+      end
+      it "finds a match" do
+        expect(assigns(:users)).not_to be_empty
+        expect(assigns(:users).length).to eq(1)
+        expect(assigns(:users).first.first_name).to eq("Keith")
+      end
+    end
+    context 'valid search: partial match' do
+      before { get :search, organization_id: organization.id, phrase: 'conroy' }
+      it "finds two matches" do
+        expect(assigns(:users).length).to eq(3)
+        expect(assigns(:users).first.first_name).to eq("Keith")
+        expect(assigns(:users)[1].first_name).to eq("Lauren")
+        expect(assigns(:users).last.first_name).to eq("Sandi")
+      end
+    end
+    context 'invalid search' do
+      before { get :search, organization_id: organization.id, phrase: 'abc' }
+      it "returns empty" do
+        expect(assigns(:users)).to be_empty
+      end
+    end
+    context 'empty search' do
+      before { get :search, organization_id: organization.id }
+      it "gets all users" do
+        expect(assigns(:users).length).to eq(4)
+      end
+    end
   end
 
 end

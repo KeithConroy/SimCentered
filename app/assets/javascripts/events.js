@@ -1,30 +1,6 @@
-$(document).on('page:change', function() {
+$(document).on('events:loaded', function() {
 
   bindEvents();
-
-  // $(".clicker").on("click", function(){
-  //   $(this).next().slideToggle();
-  // });
-
-  $('#calendar').fullCalendar({
-    events: '/organizations/1/events',
-    eventLimit: true,
-    // timezone: 'local',  #this displays events in the browsers time zone
-    header: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'month,agendaWeek,agendaDay'
-    },
-    fixedWeekCount: false,
-    dayClick: function(date, jsEvent, view) {
-      $('#newEventModal').modal('show');
-      setModalDate(date);
-    },
-  })
-
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-  })
 
   $('#newEventModal').on('hidden.bs.modal', function(){
     $(this).find('form')[0].reset();
@@ -39,6 +15,24 @@ $(document).on('page:change', function() {
   //   modal.find('.modal-body').text('Are you sure you want to delete the event: ' + title + '?')
   // });
 
+});
+
+$(document).on('events#index:loaded', function(){
+  $('#calendar').fullCalendar({
+    events: '/organizations/' + organizationId + '/events',
+    eventLimit: true,
+    // timezone: 'local',  #this displays events in the browsers time zone
+    header: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'month,agendaWeek,agendaDay'
+    },
+    fixedWeekCount: false,
+    dayClick: function(date, jsEvent, view) {
+      $('#newEventModal').modal('show');
+      setModalDate(date);
+    },
+  });
 });
 
 var bindEvents = function(){
@@ -59,7 +53,6 @@ var bindEvents = function(){
   $('body').on('keyup', calendarFlip);
 
   $('.modify-search').on('keyup', modifySearch);
-  $('.modify-search').focusin(showResults);
   $('.modify-search').focusout(hideResults);
 };
 
@@ -87,13 +80,15 @@ var addStudent = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var studentId = $(this).attr('data-student-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { student_id: studentId },
     type: 'post'
   }).done(function(data) {
-    $('#scheduled-students').html($(data));
+    $('#scheduled-students').append($(data));
   }).fail(function() {
       console.log('error');
   });
@@ -103,10 +98,12 @@ var removeStudent = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var studentId = $(this).attr('data-student-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { student_id: studentId },
     type: 'delete'
   }).done(function(data) {
     // $('#available-students').html($(data));
@@ -120,10 +117,12 @@ var addRoom = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var roomId = $(this).attr('data-room-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { room_id: roomId },
     type: 'post'
   }).done(function(data) {
     $('#scheduled-rooms').html($(data));
@@ -137,10 +136,12 @@ var removeRoom = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var roomId = $(this).attr('data-room-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { room_id: roomId },
     type: 'delete'
   }).done(function(data) {
     // $('#available-rooms').html($(data));
@@ -153,13 +154,18 @@ var removeRoom = function(){
 var addItem = function(){
   event.preventDefault();
 
-  alert('Quantity?')
+  var quantity = 1;
+  if($(this).attr('data-item-disposable') === "true"){
+    quantity = prompt("Quantity?", "1");
+  }
 
   var url = $(this).attr('href');
+  var itemId = $(this).attr('data-item-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { item_id: itemId, quantity: quantity },
     type: 'post'
   }).done(function(data) {
     $('#scheduled-items').html($(data));
@@ -173,10 +179,12 @@ var removeItem = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var itemId = $(this).attr('data-item-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { item_id: itemId },
     type: 'delete'
   }).done(function(data) {
     // $('#available-items').html($(data));
@@ -190,13 +198,15 @@ var addCourse = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var courseId = $(this).attr('data-course-id');
   // this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { course_id: courseId },
     type: 'post'
   }).done(function(data) {
-    $('#scheduled-students').html($(data));
+    $('#scheduled-courses').html($(data));
   }).fail(function() {
       console.log('error');
   });
@@ -206,13 +216,15 @@ var removeCourse = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var courseId = $(this).attr('data-course-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { course_id: courseId },
     type: 'delete'
   }).done(function(data) {
-    // $('#Course-count').text(data.count);
+    $('#scheduled-courses').html($(data));
   }).fail(function() {
       console.log('error');
   });
@@ -221,11 +233,11 @@ var removeCourse = function(){
 var eventSearch = function(){
   var phrase = $(this).val().toLowerCase();
   if (phrase) {
-    $.get('events/search/'+phrase).success(function(payload) {
+    $.get('events/search', { phrase: phrase }).success(function(payload) {
       $('#events-index').html($(payload));
     });
   } else {
-    $.get('events/search/`').success(function(payload) {
+    $.get('events/search').success(function(payload) {
       $('#events-index').html($(payload));
     });
   }
@@ -237,18 +249,19 @@ var modifySearch = function(event){
 
   if(event.keyCode == 13){
     $('.search-results a:first').click();
-    // $(this).val('');
-  };
+  }
 
   if (phrase) {
-    $.get(eventId + '/modify_search/' + phrase).success(function(payload) {
+    $.get(eventId + '/modify_search', { phrase: phrase }).success(function(payload) {
       $('.search-results table').html($(payload));
+      showResults();
       // $('.search-results tr:first')
       // add hover to first element
     });
   } else {
     $('.search-results table').empty();
-  };
+    hideResults();
+  }
 };
 
 var showResults = function() {
@@ -262,8 +275,8 @@ var hideResults = function() {
 var calendarFlip = function() {
   if(event.keyCode == 37){
     $('#calendar').fullCalendar('prev');
-  };
+  }
   if(event.keyCode == 39){
     $('#calendar').fullCalendar('next');
-  };
+  }
 };

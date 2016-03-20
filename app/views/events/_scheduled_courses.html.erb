@@ -1,0 +1,16 @@
+<tbody>
+  <% if @event.courses.empty? %>
+    <tr><td class="none-added">No courses have been added</td></tr>
+  <% else %>
+    <% @event.courses.each do |course| %>
+      <tr>
+        <td><%= course.title %></td>
+        <td class="icon">
+          <a href="<%= @event.id %>/remove_course" data-course-id="<%= course.id %>" class="remove-course">
+            <i class="fa fa-minus"></i>
+          </a>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+</tbody>

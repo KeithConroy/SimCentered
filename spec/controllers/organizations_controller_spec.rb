@@ -122,9 +122,4 @@ RSpec.describe OrganizationsController, type: :controller do
     end
   end
 
-  context "GET #search" do
-    before { get :search, phrase: 'organization' }
-    it "searches"
-  end
-
 end

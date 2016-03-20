@@ -3,12 +3,12 @@ class RoomsController < ApplicationController
 
   def index
     @new_room = Room.new
-    @rooms = Room
+    @rooms = Room.list(@organization.id, params[:page])
       .where(organization_id: @organization.id)
       .order(title: :asc)
       .paginate(page: params[:page], per_page: 15)
 
-    return render :'rooms/_all_rooms', layout: false if request.xhr?
+    render :'rooms/_all_rooms', layout: false if request.xhr?
   end
 
   def new
@@ -41,15 +41,14 @@ class RoomsController < ApplicationController
 
   def destroy
     @room.destroy
-    redirect_to(:action => 'index')
+    redirect_to(action: 'index')
   end
 
   def search
     @rooms = Room
-      .where("organization_id = ? AND lower(title) LIKE ?", @organization.id, "%#{params[:phrase]}%")
-      .order(title: :asc)
+      .search(@organization.id, params[:phrase])
       .paginate(page: 1, per_page: 15)
-    return render :'rooms/_all_rooms', layout: false
+    render :'rooms/_all_rooms', layout: false
   end
 
   private

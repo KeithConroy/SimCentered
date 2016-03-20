@@ -18,3 +18,5 @@
 
 # Ignore SimpleCov files
 coverage/
+
+report/

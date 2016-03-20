@@ -1,12 +1,16 @@
 <tbody>
-  <% @course.students.each do |student| %>
-  <tr>
-    <td><%= link_to full_name(student), organization_user_path(student.organization_id, student.id) %></td>
-    <td class="icon">
-      <a href="<%= @course.id %>/remove_student/<%= student.id %>" class="remove-student">
-        <i class="fa fa-minus"></i>
-      </a>
-    </td>
-  </tr>
+  <% if @course.students.empty? %>
+    <tr><td class="none-added">No students have been added</td></tr>
+  <% else %>
+    <% @course.students.each do |student| %>
+      <tr>
+        <td><%= link_to full_name(student), organization_user_path(student.organization_id, student.id) %></td>
+        <td class="icon">
+          <a href="<%= @course.id %>/remove_student" data-student-id="<%= student.id %>" class="remove-student">
+            <i class="fa fa-minus"></i>
+          </a>
+        </td>
+      </tr>
+    <% end %>
   <% end %>
 </tbody>
