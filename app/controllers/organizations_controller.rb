@@ -14,7 +14,7 @@ class OrganizationsController < ApplicationController
         first_name: organization_params[:subdomain],
         last_name: "Admin",
         email: organization_params[:email],
-        password: "",
+        password: "12345678",
         is_student: false,
         organization_id: @organization.id
       )
@@ -51,7 +51,8 @@ class OrganizationsController < ApplicationController
     User.delete_all(organization_id: @organization.id)
 
     @organization.destroy
-    redirect_to :root
+    sign_out current_user
+    redirect_to 'welcome#index', as: :unauthenticated_root
   end
 
   private

@@ -1,11 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
+  login_admin
   let(:organization) do
-    Organization.create!(
-      title: "University",
-      subdomain: "uni"
-    )
+    Organization.first
   end
   let(:user) do
     User.create!(
@@ -14,6 +12,7 @@ RSpec.describe UsersController, type: :controller do
       email: "keith@mail.com",
       organization_id: organization.id,
       is_student: false,
+      password: "12345678"
     )
   end
   context 'GET index' do
@@ -32,7 +31,7 @@ RSpec.describe UsersController, type: :controller do
 
   context "POST create" do
     it "saves a new user and redirects" do
-      expect{ post :create, user: {first_name: "New", last_name: "User", email: "NU@mail.com", organization_id: organization.id, is_student: false }, organization_id: organization.id }.to change{User.count}.by 1
+      expect{ post :create, user: {first_name: "New", last_name: "User", email: "NU@mail.com", organization_id: organization.id, is_student: false, password: "12345678" }, organization_id: organization.id }.to change{User.count}.by 1
       expect(response.status).to eq 302
     end
     it "does not saves a new user with invalid input - no first_name" do
@@ -71,7 +70,7 @@ RSpec.describe UsersController, type: :controller do
         expect(assigns(:user)).to be_a(User)
       end
       it "updates the user" do
-        expect(User.first.first_name).to match(/Updated User/)
+        expect(User.last.first_name).to match(/Updated User/)
       end
       it "should redirect" do
         expect(response.status).to eq 302
@@ -95,7 +94,7 @@ RSpec.describe UsersController, type: :controller do
       expect(assigns(:user)).to be_a(User)
     end
     it "destroys the user" do
-      expect(User.count).to eq 0
+      expect(User.count).to eq 1
     end
     it "should redirect" do
       expect(response.status).to eq 302

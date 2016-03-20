@@ -1,11 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe EventsController, type: :controller do
+  login_admin
   let(:organization) do
-    Organization.create!(
-      title: "University",
-      subdomain: "uni"
-    )
+    Organization.first
   end
   let(:other_organization) do
     Organization.create!(
@@ -20,6 +18,7 @@ RSpec.describe EventsController, type: :controller do
       email: "keith@mail.com",
       organization_id: organization.id,
       is_student: false,
+      password: "12345678"
     )
   end
   let(:student) do
@@ -29,6 +28,7 @@ RSpec.describe EventsController, type: :controller do
       email: "student@mail.com",
       organization_id: organization.id,
       is_student: true,
+      password: "12345678"
     )
   end
   let(:other_student) do
@@ -38,6 +38,7 @@ RSpec.describe EventsController, type: :controller do
       email: "otherstudent@mail.com",
       organization_id: other_organization.id,
       is_student: true,
+      password: "12345678"
     )
   end
   let(:course) do
@@ -178,7 +179,7 @@ RSpec.describe EventsController, type: :controller do
       end
     end
     context "invalid #add_course" do
-      before { post :add_course, organization_id: organization.id, event_id: event.id, id: course.id }
+      before { post :add_course, organization_id: organization.id, event_id: event.id, id: 42 }
       it "should give an error status" do
         expect(response.status).to eq 400
       end

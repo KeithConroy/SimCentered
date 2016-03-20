@@ -1,11 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe OrganizationsController, type: :controller do
+  login_admin
   let(:organization) do
-    Organization.create!(
-      title: "University",
-      subdomain: "uni"
-    )
+    Organization.first
   end
   let(:instructor) do
     User.create!(
@@ -14,19 +12,20 @@ RSpec.describe OrganizationsController, type: :controller do
       email: "keith@mail.com",
       organization_id: organization.id,
       is_student: false,
+      password: "12345678"
     )
   end
 
   context "POST create" do
     it "saves a new organization and redirects" do
-      expect{ post :create, organization: {title: "New Organization", subdomain: "norg", email: "admin@mail.com"} }.to change{Organization.count}.by 1
+      expect{ post :create, organization: {title: "New Organization", subdomain: "norg", email: "new_org_admin@mail.com"} }.to change{Organization.count}.by 1
       expect(response.status).to eq 302
     end
     it "does not saves a new organization with invalid input - no title" do
-      expect{ post :create, organization: {title: "", subdomain: "empty", email: "admin@mail.com"} }.to_not change{Organization.count}
+      expect{ post :create, organization: {title: "", subdomain: "empty", email: "new_org_admin@mail.com"} }.to_not change{Organization.count}
     end
     it "does not saves a new organization with invalid input- no subdomain" do
-      expect{ post :create, organization: {title: "organization", email: "admin@mail.com"} }.to_not change{Organization.count}
+      expect{ post :create, organization: {title: "organization", email: "new_org_admin@mail.com"} }.to_not change{Organization.count}
     end
   end
 
@@ -115,7 +114,7 @@ RSpec.describe OrganizationsController, type: :controller do
       expect{ delete :destroy, id: organization.id }.to change{Room.count}.from(1).to(0)
     end
     it "destroys the organizations users" do
-      expect{ delete :destroy, id: organization.id }.to change{User.count}.from(1).to(0)
+      expect{ delete :destroy, id: organization.id }.to change{User.count}.from(2).to(0)
     end
     it "should redirect" do
       delete :destroy, id: organization.id
