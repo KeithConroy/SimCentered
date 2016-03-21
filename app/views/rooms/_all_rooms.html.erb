@@ -1,0 +1,22 @@
+<% if @rooms.empty? %>
+  <tr>
+    <td class="none-added">No rooms have been added</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+<% else %>
+  <% @rooms.each do |room| %>
+    <tr>
+      <td><%= link_to room.title, organization_room_path(room.organization_id, room.id) %></td>
+      <td><%= room.number %></td>
+      <td><%= room.building %></td>
+
+      <td class='icon'>
+        <%= link_to organization_room_path(room.organization_id, room.id), method: :delete, data: { confirm: 'Are you sure you want to delete this room?' } do %>
+          <i class="fa fa-trash-o fa-lg"></i>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+<% end %>

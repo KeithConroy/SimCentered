@@ -1,16 +1,19 @@
 class CoursesController < ApplicationController
-  before_action :find_course, only: [:show, :edit, :update, :destroy]
-
-  before_action :realtion_variables, only: [:add_student, :remove_student]
-
-  before_action :faculty, only: [:new, :edit]
+  before_action :find_course, only: [
+    :show, :edit, :update, :destroy, :modify_search,
+    :add_student, :remove_student
+  ]
+  before_action :find_student, only: [:add_student, :remove_student]
+  before_action :faculty, only: [:index, :new, :show, :edit]
 
   def index
-    @courses = Course.where(organization_id: @organization.id).order(title: :asc)
+    @new_course = Course.new
+    @courses = Course.list(@organization.id, params[:page])
+
+    render :'courses/_all_courses', layout: false if request.xhr?
   end
 
   def new
-    @course = Course.new
   end
 
   def create
@@ -19,13 +22,11 @@ class CoursesController < ApplicationController
     if @course.save
       redirect_to @course
     else
-      render json: "no"
+      render json: @course.errors.full_messages, status: 400
     end
   end
 
   def show
-    @students = User.where(organization_id: @organization.id, is_student: true).order(last_name: :asc).order(first_name: :asc)
-    @students -= @course.students
   end
 
   def edit
@@ -35,47 +36,74 @@ class CoursesController < ApplicationController
     if @course.update_attributes(course_params)
       redirect_to @course
     else
-
+      render json: @course.errors.full_messages, status: 400
     end
   end
 
   def destroy
     @course.destroy
-    redirect_to(:action => 'index')
+    redirect_to(action: 'index')
   end
 
   def add_student
-    @course.students << @student
-    @course.save
-    render json: {student: @student, count: @course.students.count, course: @course.id}
+    if @student && @student.organization_id == @organization.id
+      @course.students << @student unless @course.students.include?(@student)
+      if @course.save
+        # render :'courses/_enrolled_students', layout: false
+        render :'courses/_enrolled_student', layout: false
+      else
+        render json: @course.errors.full_messages, status: 400
+      end
+    else
+      render json: 'Invalid Student Association', status: 400
+    end
   end
 
   def remove_student
-    @course.students.delete(@student)
-    @course.save
-    render json: {student: @student, count: @course.students.count, course: @course.id}
+    if @course.students.include?(@student)
+      @course.students.delete(@student)
+      render json: { count: @course.students.count } if @course.save
+    else
+      render json: 'Student is not enrolled', status: 400
+    end
+  end
+
+  def search
+    @courses = Course.search(@organization.id, params[:phrase])
+    render :'courses/_all_courses', layout: false
+  end
+
+  def modify_search
+    search_available_students
+    render :'courses/_modify_search', layout: false
   end
 
   private
 
   def find_course
-    @course = Course.where(id: params[:id]).first
+    @course = Course.where(organization_id: @organization.id, id: params[:id]).first
+    unless @course
+      render file: "public/404.html"
+    end
   end
 
   def course_params
-    params.require(:course).permit(:title, :instructor_id, :organization_id)
+    params.require(:course).permit(:title, :instructor_id)
   end
 
   def faculty
-    @users = User.where(organization_id: @organization.id, is_student: false).order(last_name: :asc).order(first_name: :asc)
-    @faculty = @users.map do |user|
+    faculty = User.faculty(@organization.id)
+    @faculty = faculty.map do |user|
       ["#{user.first_name} #{user.last_name}", user.id]
     end
   end
 
-  def realtion_variables
-    @course = Course.where(id: params[:course_id]).first
-    @student = User.where(id: params[:id]).first
+  def find_student
+    @student = User.where(id: params[:student_id]).first
   end
 
+  def search_available_students
+    @students = User.search_students(@organization.id, params[:phrase])
+    @students -= @course.students
+  end
 end

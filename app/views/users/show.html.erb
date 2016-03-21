@@ -1,23 +1,32 @@
+<% content_for :title, "#{full_name(@user)}" %>
+
 <h2 class="page-header">
   <%= link_to users_path, class: "back" do %>
-    <i class="fa fa-angle-double-left"></i>
+    <i class="fa fa-angle-double-left fa-lg"></i>
   <% end %>
+  <i class="fa fa-user-md"></i>
   <%= full_name(@user) %>
-  <small> - <%= status(@user) %> <%= @user.email %>
+  <small>
   <span class="pull-right">
-    <%= link_to 'Edit', edit_user_path(@user.id) %>
-    <%= link_to 'Delete', user_path(@user.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+    <a href="#" class="header-icon-right" data-toggle="modal" data-target="#editUserModal">
+      Edit <i class="fa fa-pencil"></i>
+    </a>
+    <%= link_to 'Delete', user_path(@user.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'header-icon-right' %>
   </span>
   </small>
 </h2>
 
+<div class="row col-md-12 details">
+  <h4>User Type: <small><%= status(@user) %></small></h4>
+  <h4>Email: <small><%= @user.email %></small></h4>
+</div>
 
 <div id="selected-students" class="col-md-6">
   <div class="panel panel-default">
     <div class="panel-heading clearfix">
       <div class="panel-title pull-left"> Courses - <span id="student-count"><%= @user.courses.count %></span></div>
     </div>
-    <div class="event-students-table">
+    <div class="display-table">
       <table id="scheduled-students" class="table table-condensed">
         <!-- <thead>
           <tr>
@@ -41,7 +50,7 @@
     <div class="panel-heading clearfix">
       <div class="panel-title pull-left"> Events - <span id="student-count"><%= @user.events.count %></span></div>
     </div>
-    <div class="event-students-table">
+    <div class="display-table">
       <table id="scheduled-students" class="table table-condensed">
         <!-- <thead>
           <tr>
@@ -56,6 +65,27 @@
           <% end %>
         </tbody>
       </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit User</h4>
+      </div>
+      <div class="modal-body">
+        <%= bootstrap_form_for @user, layout: :horizontal, control_col: "col-sm-9", url: organization_user_path do |f| %>
+          <%= f.text_field :first_name %>
+          <%= f.text_field :last_name %>
+          <%= f.email_field :email %>
+          <%= f.check_box :is_student, label: "Student?" %>
+          <%= f.password_field :password %>
+          <%= f.submit %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

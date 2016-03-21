@@ -2,7 +2,10 @@ class UsersController < ApplicationController
   before_action :find_user, only: [:show, :edit, :update, :destroy]
 
   def index
-    @users = User.where(organization_id: @organization.id).order(last_name: :asc).order(first_name: :asc)
+    @new_user = User.new
+    @users = User.list(@organization.id, params[:page])
+
+    render :'users/_all_users', layout: false if request.xhr?
   end
 
   def new
@@ -15,7 +18,7 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to @user
     else
-      render json: "no"
+      render json: @user.errors.full_messages, status: 400
     end
   end
 
@@ -29,22 +32,32 @@ class UsersController < ApplicationController
     if @user.update_attributes(user_params)
       redirect_to @user
     else
-
+      render json: @user.errors.full_messages, status: 400
     end
   end
 
   def destroy
     @user.destroy
-    redirect_to(:action => 'index')
+    redirect_to(action: 'index')
+  end
+
+  def search
+    @users = User.search(@organization.id, params[:phrase])
+    render :'users/_all_users', layout: false
   end
 
   private
 
   def find_user
-    @user = User.where(id: params[:id]).first
+    @user = User.where(organization_id: @organization.id, id: params[:id]).first
+    unless @user
+      render file: "public/404.html"
+    end
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :is_student, :password)
+    params.require(:user).permit(
+      :first_name, :last_name, :email, :is_student, :password
+    )
   end
 end

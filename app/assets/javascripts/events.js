@@ -1,6 +1,41 @@
-$(document).on('page:change', function() {
+$(document).on('events:loaded', function() {
 
   bindEvents();
+
+  $('#newEventModal').on('hidden.bs.modal', function(){
+    $(this).find('form')[0].reset();
+  });
+
+  // $('#deleteEventModal').on('show.bs.modal', function (event) {
+  //   var button = $(event.relatedTarget)
+  //   var title = button.data('event-title')
+  //   var id = button.data('event-id')
+  //   var modal = $(this)
+  //   // modal.find('.modal-title').text('Delete ' + title)
+  //   modal.find('.modal-body').text('Are you sure you want to delete the event: ' + title + '?')
+  // });
+
+});
+
+$(document).on('events#index:loaded', function(){
+  $('#calendar').fullCalendar({
+    events: '/organizations/' + organizationId + '/events',
+    eventLimit: true,
+    // timezone: 'local',  #this displays events in the browsers time zone
+    header: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'month,agendaWeek,agendaDay'
+    },
+    fixedWeekCount: false,
+    dayClick: function(date, jsEvent, view) {
+      $('#newEventModal').modal('show');
+      setModalDate(date);
+    },
+  });
+});
+
+var bindEvents = function(){
   $("body").on('click', ".add-course", addCourse);
   $("body").on('click', ".remove-course", removeCourse);
 
@@ -13,213 +48,235 @@ $(document).on('page:change', function() {
   $("body").on('click', ".add-item", addItem);
   $("body").on('click', ".remove-item", removeItem);
 
-  $(".clicker").on("click", function(){
-    $(this).next().slideToggle();
-  });
+  $('#event-search').on('keyup', eventSearch);
 
-  $('#calendar').fullCalendar({
-    header: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'month,agendaWeek,agendaDay'
-    },
-    dayClick: function(date, jsEvent, view) {
+  $('body').on('keyup', calendarFlip);
 
-        alert('Clicked on: ' + date.format() +
-          '; Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY +
-          '; Current view: ' + view.name);
+  $('.modify-search').on('keyup', modifySearch);
+  $('.modify-search').focusout(hideResults);
+};
 
-    },
-    eventLimit: true,
-        // put your options and callbacks here
-    events: '/events'
-  })
+var setModalDate = function(date) {
+  var day = date.format('D');
+  var month = date.format('M');
+  var year = date.format('YYYY');
+  var hour = date.format('HH');
+  var minute = date.format('mm');
 
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
-});
+  $('#event_start_3i option[value="'+ day +'"]').prop('selected', true);
+  $('#event_start_2i option[value="'+ month +'"]').prop('selected', true);
+  $('#event_start_1i option[value="'+ year +'"]').prop('selected', true);
+  $('#event_start_4i option[value="'+ hour +'"]').prop('selected', true);
+  $('#event_start_5i option[value="'+ minute +'"]').prop('selected', true);
 
-var bindEvents = function(){
-  $('body').on('click', '#schedule-students', showStudentSelector);
-  $('body').on('click', '#schedule-rooms', showRoomSelector);
-  $('body').on('click', '#schedule-items', showItemSelector);
-}
-
-var showStudentSelector = function(){
-  event.preventDefault();
-  hideAll();
-  $('#student-selector').show();
-  $('#selected-students').show();
-  $('body').on('click', '#schedule-students', showOnlySelected);
-}
-
-var showRoomSelector = function(){
-  event.preventDefault();
-  hideAll();
-  $('#room-selector').show();
-  $('#selected-rooms').show();
-  $('body').on('click', '#schedule-rooms', showOnlySelected);
-}
-
-var showItemSelector = function(){
-  event.preventDefault();
-  hideAll();
-  $('#item-selector').show();
-  $('#selected-items').show();
-  $('body').on('click', '#schedule-items', showOnlySelected);
-}
-
-var showOnlySelected = function(){
-  event.preventDefault();
-
-  bindEvents();
-
-  $('#student-selector').hide();
-  $('#room-selector').hide();
-  $('#item-selector').hide();
-
-  $('#selected-students').show();
-  $('#selected-rooms').show();
-  $('#selected-items').show();
-}
-
-var hideAll = function(){
-  event.preventDefault();
-
-  $('#student-selector').hide();
-  $('#room-selector').hide();
-  $('#item-selector').hide();
-
-  $('#selected-students').hide();
-  $('#selected-rooms').hide();
-  $('#selected-items').hide();
-}
+  $('#event_finish_3i option[value="'+ day +'"]').prop('selected', true);
+  $('#event_finish_2i option[value="'+ month +'"]').prop('selected', true);
+  $('#event_finish_1i option[value="'+ year +'"]').prop('selected', true);
+  $('#event_finish_4i option[value="'+ hour +'"]').prop('selected', true);
+  $('#event_finish_5i option[value="'+ minute +'"]').prop('selected', true);
+};
 
 var addStudent = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var studentId = $(this).attr('data-student-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { student_id: studentId },
     type: 'post'
   }).done(function(data) {
-    $('#student-count').text(data.count);
+    $('#scheduled-students').append($(data));
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var removeStudent = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var studentId = $(this).attr('data-student-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { student_id: studentId },
     type: 'delete'
   }).done(function(data) {
-    $('#student-count').text(data.count);
+    // $('#available-students').html($(data));
+    // $('#student-count').text(data.count);
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var addRoom = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var roomId = $(this).attr('data-room-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { room_id: roomId },
     type: 'post'
   }).done(function(data) {
-    $('#room-count').text(data.count);
+    $('#scheduled-rooms').html($(data));
+    // $('#room-count').text(data.count);
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var removeRoom = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var roomId = $(this).attr('data-room-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { room_id: roomId },
     type: 'delete'
   }).done(function(data) {
-    $('#room-count').text(data.count);
+    // $('#available-rooms').html($(data));
+    // $('#room-count').text(data.count);
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var addItem = function(){
   event.preventDefault();
 
+  var quantity = 1;
+  if($(this).attr('data-item-disposable') === "true"){
+    quantity = prompt("Quantity?", "1");
+  }
+
   var url = $(this).attr('href');
+  var itemId = $(this).attr('data-item-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { item_id: itemId, quantity: quantity },
     type: 'post'
   }).done(function(data) {
-    $('#item-count').text(data.count);
+    $('#scheduled-items').html($(data));
+    // $('#item-count').text(data.count);
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var removeItem = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var itemId = $(this).attr('data-item-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { item_id: itemId },
     type: 'delete'
   }).done(function(data) {
-    $('#item-count').text(data.count);
+    // $('#available-items').html($(data));
+    // $('#item-count').text(data.count);
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var addCourse = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
-  this.closest("tr").remove();
+  var courseId = $(this).attr('data-course-id');
+  // this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { course_id: courseId },
     type: 'post'
   }).done(function(data) {
-    $('#student-count').text(data.count);
+    $('#scheduled-courses').html($(data));
   }).fail(function() {
       console.log('error');
   });
-}
+};
 
 var removeCourse = function(){
   event.preventDefault();
 
   var url = $(this).attr('href');
+  var courseId = $(this).attr('data-course-id');
   this.closest("tr").remove();
 
   $.ajax({
     url: url,
+    data: { course_id: courseId },
     type: 'delete'
   }).done(function(data) {
-    // $('#Course-count').text(data.count);
+    $('#scheduled-courses').html($(data));
   }).fail(function() {
       console.log('error');
   });
-}
+};
+
+var eventSearch = function(){
+  var phrase = $(this).val().toLowerCase();
+  if (phrase) {
+    $.get('events/search', { phrase: phrase }).success(function(payload) {
+      $('#events-index').html($(payload));
+    });
+  } else {
+    $.get('events/search').success(function(payload) {
+      $('#events-index').html($(payload));
+    });
+  }
+};
+
+var modifySearch = function(event){
+  var phrase = $(this).val().toLowerCase();
+  var eventId = $(this).attr('id');
+
+  if(event.keyCode == 13){
+    $('.search-results a:first').click();
+  }
+
+  if (phrase) {
+    $.get(eventId + '/modify_search', { phrase: phrase }).success(function(payload) {
+      $('.search-results table').html($(payload));
+      showResults();
+      // $('.search-results tr:first')
+      // add hover to first element
+    });
+  } else {
+    $('.search-results table').empty();
+    hideResults();
+  }
+};
+
+var showResults = function() {
+  $('.search-results').fadeIn(200);
+};
+
+var hideResults = function() {
+  $('.search-results').fadeOut(200);
+};
+
+var calendarFlip = function() {
+  if(event.keyCode == 37){
+    $('#calendar').fullCalendar('prev');
+  }
+  if(event.keyCode == 39){
+    $('#calendar').fullCalendar('next');
+  }
+};

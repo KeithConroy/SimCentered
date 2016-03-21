@@ -2,7 +2,13 @@ class RoomsController < ApplicationController
   before_action :find_room, only: [:show, :edit, :update, :destroy]
 
   def index
-    @rooms = Room.where(organization_id: @organization.id).order(title: :asc)
+    @new_room = Room.new
+    @rooms = Room.list(@organization.id, params[:page])
+      .where(organization_id: @organization.id)
+      .order(title: :asc)
+      .paginate(page: params[:page], per_page: 15)
+
+    render :'rooms/_all_rooms', layout: false if request.xhr?
   end
 
   def new
@@ -15,7 +21,7 @@ class RoomsController < ApplicationController
     if @room.save
       redirect_to @room
     else
-      render json: "no"
+      render json: @room.errors.full_messages, status: 400
     end
   end
 
@@ -29,19 +35,29 @@ class RoomsController < ApplicationController
     if @room.update_attributes(room_params)
       redirect_to @room
     else
-
+      render json: @room.errors.full_messages, status: 400
     end
   end
 
   def destroy
     @room.destroy
-    redirect_to(:action => 'index')
+    redirect_to(action: 'index')
+  end
+
+  def search
+    @rooms = Room
+      .search(@organization.id, params[:phrase])
+      .paginate(page: 1, per_page: 15)
+    render :'rooms/_all_rooms', layout: false
   end
 
   private
 
   def find_room
-    @room = Room.where(id: params[:id]).first
+    @room = Room.where(organization_id: @organization.id, id: params[:id]).first
+    unless @room
+      render file: "public/404.html"
+    end
   end
 
   def room_params

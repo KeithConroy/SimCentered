@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.event-students-table {
+.display-table {
   height: 350px;
   overflow: scroll;
 }
@@ -14,7 +14,7 @@
 #calendar {
   border-radius: 10px;
   background-color: #ffffff;
-  padding: 2% 5% 5% 5%;
+  padding: 2% 5% 1% 5%;
 }
 
 tr.dropdown-row {
@@ -23,4 +23,16 @@ tr.dropdown-row {
 
 .busy {
   color: #ce2727;
+}
+
+table {
+  text-align: center;
+}
+
+th {
+  text-align: center;
+}
+
+#calendar table {
+  text-align: left;
 }

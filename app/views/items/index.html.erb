@@ -1,55 +1,38 @@
+<% content_for :title, "Inventory" %>
+
 <h2 class="page-header"><i class="fa fa-barcode"></i> Inventory
   <small>
-  <span class="pull-right">
-    <%= link_to new_item_path(@item), class: "btn btn-default" do %>
-      <i class="fa fa-plus"></i>
-    <% end %>
-  </span>
+    <div id="search-parent">
+      <label for="search">
+        <i class="fa fa-search"></i>
+      </label>
+      <div class="form-group">
+        <input id="item-search" type="text" class="form-control search" placeholder="Search">
+      </div>
+    </div>
+    <span class="pull-right">
+      <a href="#" class="header-icon-right" data-toggle="modal" data-target="#newItemModal">
+        <i class="fa fa-plus fa-lg"></i>
+      </a>
+    </span>
   </small>
 </h2>
 
-<div id="search-parent">
-  <label for="search">
-    <i class="fa fa-search"></i>
-  </label>
-  <div class="form-group">
-    <input type="text" class="form-control search" placeholder="Search">
-  </div>
-</div>
+<%= will_paginate @items %>
 
 <div class="panel panel-default">
   <div class="table-responsive">
-    <table class="table table-hover">
+    <table class="table table-striped table-hover">
       <thead>
         <tr>
           <th>Item &nbsp;<i class="fa fa-sort"></i></th>
           <th>Quantity</th>
           <th>Disposable?</th>
-          <th class='icon'>Edit</th>
           <th class='icon'>Delete</th>
         </tr>
       </thead>
-      <tbody>
-        <% @items.each do |item| %>
-        <tr>
-          <td><%= link_to item.title, item_path(item.id) %></td>
-          <td><%= item.quantity %></td>
-          <td>
-            <% if item.disposable %>
-              <i class="glyphicon glyphicon-ok"></i>
-            <% else %>
-            <% end %>
-          </td>
-          <td class='icon'><%= link_to edit_item_path(item.id), class: "glyphicon" do %>
-            <i class="fa fa-pencil-square-o fa-lg"></i>
-          <% end %>
-          </td>
-          <td class='icon'><%= link_to item_path(item.id), method: :delete, data: { confirm: 'Are you sure you want to delete this item?' }, class: "glyphicon" do %>
-            <i class="fa fa-trash-o fa-lg"></i>
-          <% end %>
-          </td>
-        </tr>
-        <% end %>
+      <tbody id="items-index">
+        <%= render 'all_items' %>
       </tbody>
     </table>
   </div>
@@ -60,7 +43,26 @@
     Download <i class="fa fa-download"></i>
   </button>
   <ul class="dropdown-menu">
-    <li><a href="">... as Excel <i class="fa fa-file-excel-o fa-lg"></i></a></li>
-    <li><a href="">... as PDF <i class="fa fa-file-pdf-o fa-lg"></i></a></li>
+    <li><a href="#">... as Excel <i class="fa fa-file-excel-o fa-lg"></i></a></li>
+    <li><a href="#">... as PDF <i class="fa fa-file-pdf-o fa-lg"></i></a></li>
   </ul>
+</div>
+
+<div class="modal fade" id="newItemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Create a New Item</h4>
+      </div>
+      <div class="modal-body">
+        <%= bootstrap_form_for @new_item, layout: :horizontal, control_col: "col-sm-9", url: organization_items_path do |f| %>
+          <%= f.text_field :title %>
+          <%= f.text_field :quantity %>
+          <%= f.check_box :disposable %>
+          <%= f.submit %>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,66 +1,72 @@
+<% content_for :title, "#{@course.title}" %>
+
 <h2 class="page-header">
   <%= link_to courses_path, class: "back" do %>
-    <i class="fa fa-angle-double-left"></i>
+    <i class="fa fa-angle-double-left fa-lg"></i>
   <% end %>
+  <i class="fa fa-users"></i>
   <%= @course.title %>
   <small>
   <span class="pull-right">
-    <%= link_to 'Edit', edit_course_path(@course.id) %>
-    <%= link_to 'Delete', course_path(@course.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+    <a href="#" class="header-icon-right" data-toggle="modal" data-target="#editCourseModal">
+      Edit <i class="fa fa-pencil"></i>
+    </a>
+    <%= link_to 'Delete', course_path(@course.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'header-icon-right' %>
   </span>
   </small>
 </h2>
 
-<p>Instructor: <%= full_name(@course.instructor) if @course.instructor %></p>
-
-<div id="student-selector" class="col-md-8">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <div class="panel-title">Students</div>
-    </div>
-    <div class="event-students-table">
-      <table id="available-students" class="table table-hover">
-        <!-- <thead>
-          <tr>
-            <th>Name</th>
-          </tr>
-        </thead> -->
-        <tbody>
-          <% @students.each do |student| %>
-          <tr>
-            <td><%= full_name(student) %></td>
-            <td><a href="<%= @course.id %>/add_student/<%= student.id %>" class="add-student-course"><i class="fa fa-plus"></i></a></td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div class="row col-md-12 details">
+  <h4>Instructor: <small><%= full_name(@course.instructor) if @course.instructor %></small></h4>
 </div>
-<div id="selected-students" class="col-md-4">
-  <div class="panel panel-default">
-    <div class="panel-heading clearfix">
-      <div class="panel-title pull-left"> Enrolled Students - <span id="student-count"><%= @course.students.count %></span></div>
-      <div class="pull-right">
-        <a id="schedule-students" href="#"><i class="glyphicon glyphicon-option-horizontal" data-toggle="tooltip" data-placement="top" title="Add"></i></a>
+
+
+<div class="row col-md-12">
+  <div class="col-md-6">
+
+    <div id="search-n-go-parent">
+      <label for="search">
+        <i class="fa fa-search"></i>
+      </label>
+      <div class="form-group">
+        <input id="<%= @course.id %>" type="text" class="form-control search-n-go modify-course-search" placeholder="Add Students">
+      </div>
+      <div class="search-results">
+        <table class="table table-hover modify-search">
+        </table>
       </div>
     </div>
-    <div class="event-students-table">
-      <table id="scheduled-students" class="table table-condensed">
-        <!-- <thead>
-          <tr>
-            <th>Name</th>
-          </tr>
-        </thead> -->
-        <tbody>
-          <% @course.students.each do |student| %>
-          <tr>
-            <td><%= full_name(student) %></td>
-            <td><a href="<%= @course.id %>/remove_student/<%= student.id %>" class="remove-student-course"><i class="fa fa-minus"></i></a></td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
+
+  </div>
+  <!-- Nav tabs -->
+  <div class='col-md-6'>
+
+    <!-- Tab panes -->
+    <div class="panel panel-default">
+        <div class="display-table">
+          <table id="scheduled-students" class="table table-condensed table-hover">
+            <%= render 'enrolled_students' %>
+          </table>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal fade" id="editCourseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Course</h4>
+      </div>
+      <div class="modal-body">
+        <%= bootstrap_form_for @course, layout: :horizontal, control_col: "col-sm-9", url: organization_course_path do |f| %>
+          <%= f.text_field :title %>
+          <%= f.select(:instructor_id, @faculty) %>
+          <%= f.submit %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

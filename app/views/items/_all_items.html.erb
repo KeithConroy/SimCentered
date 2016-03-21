@@ -1,0 +1,26 @@
+<% if @items.empty? %>
+  <tr>
+    <td class="none-added">No inventory items have been added</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+<% else %>
+  <% @items.each do |item| %>
+    <tr>
+      <td><%= link_to item.title, organization_item_path(item.organization_id, item.id) %></td>
+      <td><%= item.quantity %></td>
+      <td>
+        <% if item.disposable %>
+          <i class="fa fa-check fa-lg"></i>
+        <% end %>
+      </td>
+
+      <td class='icon'>
+        <%= link_to organization_item_path(item.organization_id, item.id), method: :delete, data: { confirm: 'Are you sure you want to delete this item?' } do %>
+          <i class="fa fa-trash-o fa-lg"></i>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+<% end %>

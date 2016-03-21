@@ -1,75 +1,128 @@
+<% content_for :title, "#{@event.title}" %>
+
 <h2 class="page-header">
   <%= link_to events_path, class: "back" do %>
-    <i class="fa fa-angle-double-left"></i>
+    <i class="fa fa-angle-double-left fa-lg"></i>
   <% end %>
+  <i class="fa fa-calendar"></i>
   <%= @event.title %>
-  <small> - <%= @event.start.strftime("%B %e, %Y at %l:%M %p %Z") %>
+  <small>
   <span class="pull-right">
-    <%= link_to 'Edit', edit_event_path(@event.id) %>
-    <%= link_to 'Delete', event_path(@event.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+    <a href="#" class="header-icon-right" data-toggle="modal" data-target="#editEventModal">
+      Edit <i class="fa fa-pencil"></i>
+    </a>
+    <%= link_to 'Delete', event_path(@event.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'header-icon-right' %>
   </span>
   </small>
 </h2>
 
-<p>Instructor: <%= full_name(@event.instructor) if @event.instructor %></p>
-<p><a href="<%= @event.id %>/modify">Modify</a></p>
+<div class="row col-md-12 details">
+  <h4>Instructor: <small><%= full_name(@event.instructor) if @event.instructor %></small></h4>
+  <h4>Start Time: <small><%= @event.start.strftime("%a %b %e, %g @ %l:%M %p %Z") %></small></h4>
+  <h4>End Time: <small><%= @event.finish.strftime("%a %b %e, %g @ %l:%M %p %Z") %></small></h4>
+</div>
 
 <div class="row col-md-12">
-  <div id="selected-students" class="col-md-4">
-    <div class="panel panel-default">
-      <div class="panel-heading clearfix">
-        <div class="panel-title pull-left"> Scheduled Students - <span id="student-count"><%= @event.students.count %></span>
+  <div class="col-md-6">
+
+    <div id="search-n-go-parent">
+      <label for="search">
+        <i class="fa fa-search"></i>
+      </label>
+      <div class="form-group">
+        <input id="<%= @event.id %>" type="text" class="form-control search-n-go modify-search" placeholder="Add Courses, Students, Rooms and Inventory">
+      </div>
+      <div class="search-results">
+        <table class="table table-hover modify-search">
+        </table>
+      </div>
+    </div>
+
+  </div>
+  <!-- Nav tabs -->
+  <div class='col-md-6'>
+    <ul id="modifyTabs" class="nav nav-tabs nav-justified" role="tablist" style="margin-bottom: 30px;">
+      <li role="presentation" class="active">
+        <a href="#courses" aria-controls="courses" role="tab" data-toggle="tab">
+          Courses - <span class=""><%= @event.courses.count %></span>
+        </a>
+      </li>
+      <li role="presentation">
+        <a href="#students" aria-controls="students" role="tab" data-toggle="tab">
+          Students - <span class=""><%= @event.students.count %></span>
+        </a>
+      </li>
+      <li role="presentation">
+        <a href="#rooms" aria-controls="rooms" role="tab" data-toggle="tab">
+          Rooms - <span class=""><%= @event.rooms.count %></span>
+        </a>
+      </li>
+      <li role="presentation">
+        <a href="#items" aria-controls="items" role="tab" data-toggle="tab">
+          Inventory - <span class=""><%= @event.items.count %></span>
+        </a>
+      </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="courses">
+        <div class="panel panel-default">
+            <div class="display-table">
+              <table id="scheduled-courses" class="table table-condensed table-hover">
+                <%= render 'scheduled_courses' %>
+              </table>
+            </div>
         </div>
       </div>
-      <div class="event-students-table">
-        <table id="scheduled-students" class="table table-condensed">
-          <tbody>
-            <% @event.students.each do |student| %>
-            <tr>
-              <td><%= full_name(student) %></td>
-            </tr>
-            <% end %>
-          </tbody>
-        </table>
+      <div role="tabpanel" class="tab-pane" id="students">
+        <div class="panel panel-default">
+            <div class="display-table">
+              <table id="scheduled-students" class="table table-condensed table-hover">
+                <%= render 'scheduled_students' %>
+              </table>
+            </div>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="rooms">
+        <div class="panel panel-default">
+
+            <div class="display-table">
+              <table id="scheduled-rooms" class="table table-condensed">
+                <%= render 'scheduled_rooms' %>
+              </table>
+            </div>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="items">
+        <div class="panel panel-default">
+            <div class="display-table">
+              <table id="scheduled-items" class="table table-condensed">
+                <%= render 'scheduled_items' %>
+              </table>
+            </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div id="selected-rooms" class="col-md-4">
-    <div class="panel panel-default">
-      <div class="panel-heading clearfix">
-        <div class="panel-title pull-left"> Scheduled Rooms - <span id="room-count"><%= @event.rooms.count %></span></div>
-      </div>
-      <div class="event-students-table">
-        <table class="table table-condensed">
-          <tbody>
-            <% @event.rooms.each do |room| %>
-            <tr>
-              <td><%= room.title %></td>
-            </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
+</div>
 
-  <div id="selected-items" class="col-md-4">
-    <div class="panel panel-default">
-      <div class="panel-heading clearfix">
-        <div class="panel-title pull-left"> Scheduled Inventory - <span id="item-count"><%= @event.items.count %></span></div>
+<div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Event</h4>
       </div>
-      <div class="event-students-table">
-        <table class="table table-condensed">
-          <tbody>
-            <% @event.items.each do |item| %>
-            <tr>
-              <td><%= item.title %></td>
-              <td><%= item.quantity %></td>
-            </tr>
-            <% end %>
-          </tbody>
-        </table>
+      <div class="modal-body">
+        <%= bootstrap_form_for @event, layout: :horizontal, control_col: "col-sm-9", url: organization_event_path do |f| %>
+          <%= f.text_field :title %>
+          <%= f.select(:instructor_id, @faculty) %>
+          <%= f.datetime_select :start, :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
+          <%= f.datetime_select :finish, :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
+          <%= f.submit %>
+        <% end %>
       </div>
     </div>
   </div>

@@ -1,7 +1,6 @@
 class OrganizationsController < ApplicationController
 
   def index
-
   end
 
   def new
@@ -11,23 +10,20 @@ class OrganizationsController < ApplicationController
   def create
     @organization = Organization.new(organization_params)
     if @organization.save
-      @admin = User.create!(
-        first_name: organization_params[:subdomain],
-        last_name: "Admin",
-        email: organization_params[:email],
-        password: "",
-        is_student: false,
-        organization_id: @organization.id
+      @admin = User.create_admin(
+        @organization.id,
+        organization_params[:subdomain],
+        organization_params[:email]
       )
       redirect_to root_url(subdomain: @organization.subdomain)
     else
-      render json: "no"
+      render json: @organization.errors.full_messages, status: 400
     end
   end
 
   def show
-    @event = Event.new()
-    @events = Event.where(organization_id: @organization.id).where('start BETWEEN ? AND ?', DateTime.now.beginning_of_day, DateTime.now.end_of_day).order(start: :asc)
+    @event = Event.new
+    @todays_events = Event.today(@organization.id)
   end
 
   def edit
@@ -37,16 +33,19 @@ class OrganizationsController < ApplicationController
     if @organization.update_attributes(organization_params)
       redirect_to root_url(subdomain: @organization.subdomain)
     else
-
+      render json: @organization.errors.full_messages, status: 400
     end
   end
 
   def destroy
+    @organization.destroy
+    sign_out current_user
+    redirect_to 'welcome#index', as: :unauthenticated_root
   end
 
   private
 
   def organization_params
-    params.require(:organization).permit(:title, :subdomain, :email)
+    params.require(:organization).permit(:title, :subdomain, :time_zone, :email)
   end
 end

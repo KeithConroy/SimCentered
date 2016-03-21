@@ -1,9 +1,13 @@
+<% content_for :title, "#{@organization.title}" %>
+
 <h2 class="page-header">
   <%= @organization.title %>
   <small>
   <span class="pull-right">
-    <%= link_to 'Edit', edit_organization_path(@organization) %>
-    <%= link_to 'Delete', organization_path(@organization), method: :delete, data: { confirm: 'Are you sure?' } %>
+    <a href="#" class="header-icon-right" data-toggle="modal" data-target="#editOrganizationModal">
+      Edit <i class="fa fa-pencil"></i>
+    </a>
+    <%= link_to 'Delete', organization_path(@organization), method: :delete, data: { confirm: 'Are you sure? This will delete your entire account including Events, Users, Courses, Rooms and Inventory.' }, class: 'header-icon-right' %>
   </span>
   </small>
 </h2>
@@ -12,7 +16,7 @@
 
 <div class="panel panel-default">
   <div class="table-responsive">
-    <table class="table table-hover">
+    <table class="table table-striped table-hover">
       <thead>
         <tr>
           <th>Event</th>
@@ -23,22 +27,53 @@
         </tr>
       </thead>
       <tbody>
-        <% @events.each do |event| %>
-        <tr>
-          <td><%= link_to event.title, event_path(event.id) %></td>
-          <td><%= event.start.strftime("%m-%e-%g %l:%M %p") %></td>
-          <td><%= event.end.strftime("%m-%e-%g %l:%M %p") %></td>
-          <td class='icon'><%= link_to edit_event_path(event.id), class: "glyphicon" do %>
-            <i class="fa fa-pencil-square-o fa-lg"></i>
+        <% if @todays_events.empty? %>
+          <tr>
+            <td class="none-added">No events are scheduled for today</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        <% else %>
+          <% @todays_events.each do |event| %>
+            <tr>
+              <td><%= link_to event.title, event_path(event.id) %></td>
+              <td><%= event.start.strftime("%b %e @ %l:%M %p") %></td>
+              <td><%= event.finish.strftime("%b %e @ %l:%M %p") %></td>
+              <td class='icon'>
+                <%= link_to edit_event_path(event.id) do %>
+                  <i class="fa fa-pencil-square-o fa-lg"></i>
+                <% end %>
+              </td>
+              <td class='icon'>
+                <%= link_to event_path(event.id), method: :delete, data: { confirm: 'Are you sure you want to delete this event?' } do %>
+                  <i class="fa fa-trash-o fa-lg"></i>
+                <% end %>
+              </td>
+            </tr>
           <% end %>
-          </td>
-          <td class='icon'><%= link_to event_path(event.id), method: :delete, data: { confirm: 'Are you sure you want to delete this event?' }, class: "glyphicon" do %>
-            <i class="fa fa-trash-o fa-lg"></i>
-          <% end %>
-          </td>
-        </tr>
         <% end %>
       </tbody>
     </table>
+  </div>
+</div>
+
+<div class="modal fade" id="editOrganizationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Organization</h4>
+      </div>
+      <div class="modal-body">
+        <%= bootstrap_form_for @organization, layout: :horizontal, control_col: "col-sm-9", url: organization_path(@organization) do |f| %>
+          <%= f.text_field :title, label: "Organization Name" %>
+          <%= f.text_field :subdomain %>
+          <%= f.time_zone_select :time_zone, nil, :default => "Pacific Time (US & Canada)"%>
+          <%= f.submit %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

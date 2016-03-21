@@ -4,10 +4,6 @@ module UsersHelper
   end
 
   def status(user)
-    if user.is_student
-      "Student"
-    else
-      "Faculty"
-    end
+    user.is_student ? 'Student' : 'Faculty'
   end
 end
