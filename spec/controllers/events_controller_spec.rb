@@ -256,6 +256,12 @@ RSpec.describe EventsController, type: :controller do
     it "assigns the item to the event" do
       expect(Event.first.items).to include(item)
     end
+    it "deducts the scheduled quantity from item quantity" do
+      expect(Event.first.items.first.quantity).to eq(99)
+    end
+    it "sets the scheduled_items quantity" do
+      expect(Event.first.scheduled_items.first.quantity).to eq(1)
+    end
   end
 
   context "DELETE #remove_item" do
@@ -269,6 +275,9 @@ RSpec.describe EventsController, type: :controller do
     end
     it "removes the item from the event" do
       expect(Event.first.items).to_not include(item)
+    end
+    it "credits the scheduled quantity to item quantity" do
+      expect(item.quantity).to eq(100)
     end
   end
 
