@@ -4,13 +4,11 @@ Rails.application.routes.draw do
   devise_scope :user do
     authenticated :user do
       root :to => 'organizations#show', as: :authenticated_root, via: :get
-      # get 'organizations/show'
     end
     unauthenticated :user do
       root :to => 'welcome#index', as: :unauthenticated_root
     end
   end
-  # root 'welcome#index'
 
   resources :organizations do
     resources :courses do

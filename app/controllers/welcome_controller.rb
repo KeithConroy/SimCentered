@@ -4,7 +4,5 @@ class WelcomeController < ApplicationController
   end
 
   def community
-    @organization = Organization.where(id: params[:id]).first
-    @organizations = Organization.all
   end
 end
