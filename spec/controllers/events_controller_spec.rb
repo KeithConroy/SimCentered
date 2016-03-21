@@ -2,99 +2,23 @@ require 'rails_helper'
 
 RSpec.describe EventsController, type: :controller do
   login_admin
-  let(:organization) do
-    Organization.first
-  end
-  let(:other_organization) do
-    Organization.create!(
-      title: "Other University",
-      subdomain: "ouni"
-    )
-  end
-  let(:instructor) do
-    User.create!(
-      first_name: "Keith",
-      last_name: "Conroy",
-      email: "keith@mail.com",
-      organization_id: organization.id,
-      is_student: false,
-      password: "12345678"
-    )
-  end
-  let(:other_instructor) do
-    User.create!(
-      first_name: "Keith",
-      last_name: "Conroy",
-      email: "other_keith@mail.com",
-      organization_id: other_organization.id,
-      is_student: false,
-      password: "12345678"
-    )
-  end
-  let(:student) do
-    User.create!(
-      first_name: "Test",
-      last_name: "Student",
-      email: "student@mail.com",
-      organization_id: organization.id,
-      is_student: true,
-      password: "12345678"
-    )
-  end
-  let(:student2) do
-    User.create!(
-      first_name: "Test",
-      last_name: "Student2",
-      email: "student2@mail.com",
-      organization_id: organization.id,
-      is_student: true,
-      password: "12345678"
-    )
-  end
-  let(:other_student) do
-    User.create!(
-      first_name: "Test",
-      last_name: "Student",
-      email: "otherstudent@mail.com",
-      organization_id: other_organization.id,
-      is_student: true,
-      password: "12345678"
-    )
-  end
-  let(:course) do
-    Course.create!(
-      title: "Test Course",
-      instructor_id: instructor.id,
-      organization_id: organization.id,
-    )
-  end
-  let(:other_course) do
-    Course.create!(
-      title: "Test Course",
-      instructor_id: other_instructor.id,
-      organization_id: other_organization.id,
-    )
-  end
-  let(:room) do
-    Room.create!(
-      title: "Test Room",
-      organization_id: organization.id,
-    )
-  end
-  let(:item) do
-    Item.create!(
-      title: "Test Item",
-      quantity: 1,
-      organization_id: organization.id,
-    )
-  end
-  let(:event) do
-    Event.create!(
-      title: "Test Event",
-      instructor_id: instructor.id,
-      organization_id: organization.id,
-    )
-  end
+
+  let(:organization){ Organization.first }
+  let(:other_organization){ create(:other_org) }
+
+  let(:instructor){ create(:instructor, organization_id: organization.id) }
+  let(:other_instructor){ create(:other_instructor, organization_id: other_organization.id) }
+  let(:student){ create(:student, organization_id: organization.id) }
+  let(:student2){ create(:student2, organization_id: organization.id) }
+  let(:other_student){ create(:other_student, organization_id: other_organization.id) }
+
+  let(:course){ create(:course, instructor_id: instructor.id, organization_id: organization.id)}
+  let(:other_course){ create(:course, instructor_id: other_instructor.id, organization_id: other_organization.id)}
+
+  let(:room){ create(:room, organization_id: organization.id)}
+  let(:item){ create(:disposable_item, organization_id: organization.id) }
+  let(:event){ create(:event, instructor_id: instructor.id, organization_id: organization.id) }
+
   context 'GET index' do
     before { get :index, organization_id: organization.id }
     it "should get index" do
@@ -322,7 +246,7 @@ RSpec.describe EventsController, type: :controller do
   end
 
   context "POST #add_item" do
-    before { post :add_item, organization_id: organization.id, id: event.id, item_id: item.id }
+    before { post :add_item, organization_id: organization.id, id: event.id, item_id: item.id, quantity: 1 }
     it "gets event" do
       expect(assigns(:event)).to be_a(Event)
     end
@@ -335,7 +259,7 @@ RSpec.describe EventsController, type: :controller do
   end
 
   context "DELETE #remove_item" do
-    before { post :add_item, organization_id: organization.id, id: event.id, item_id: item.id }
+    before { post :add_item, organization_id: organization.id, id: event.id, item_id: item.id, quantity: 1 }
     before { post :remove_item, organization_id: organization.id, id: event.id, item_id: item.id }
     it "gets event" do
       expect(assigns(:event)).to be_a(Event)
