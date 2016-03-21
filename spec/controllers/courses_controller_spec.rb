@@ -2,36 +2,12 @@ require 'rails_helper'
 
 RSpec.describe CoursesController, type: :controller do
   login_admin
-  let(:organization) do
-    Organization.first
-  end
-  let(:instructor) do
-    User.create!(
-      first_name: "Keith",
-      last_name: "Conroy",
-      email: "keith@mail.com",
-      organization_id: organization.id,
-      is_student: false,
-      password: "12345678"
-    )
-  end
-  let(:student) do
-    User.create!(
-      first_name: "Test",
-      last_name: "Student",
-      email: "student@mail.com",
-      organization_id: organization.id,
-      is_student: true,
-      password: "12345678"
-    )
-  end
-  let(:course) do
-    Course.create!(
-      title: "Test Course",
-      instructor_id: instructor.id,
-      organization_id: organization.id,
-    )
-  end
+
+  let(:organization){ Organization.first }
+  let(:instructor){ create(:instructor, organization_id: organization.id) }
+  let(:student){ create(:student, organization_id: organization.id) }
+  let(:course){ create(:course, instructor_id: instructor.id, organization_id: organization.id)}
+
   context 'GET index' do
     before { get :index, organization_id: organization.id }
     it "should get index" do

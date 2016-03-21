@@ -2,19 +2,9 @@ require 'rails_helper'
 
 RSpec.describe OrganizationsController, type: :controller do
   login_admin
-  let(:organization) do
-    Organization.first
-  end
-  let(:instructor) do
-    User.create!(
-      first_name: "Keith",
-      last_name: "Conroy",
-      email: "keith@mail.com",
-      organization_id: organization.id,
-      is_student: false,
-      password: "12345678"
-    )
-  end
+
+  let(:organization){ Organization.first }
+  let(:instructor){ create(:instructor, organization_id: organization.id) }
 
   context "POST create" do
     it "saves a new organization and redirects" do
