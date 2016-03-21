@@ -61,7 +61,7 @@
         <h4 class="modal-title" id="myModalLabel">Edit Course</h4>
       </div>
       <div class="modal-body">
-        <%= bootstrap_form_for @course, layout: :horizontal, control_col: "col-sm-9", url: organization_course_path do |f| %>
+        <%= bootstrap_form_for @course, layout: :horizontal, control_col: "col-sm-9", url: course_path do |f| %>
           <%= f.text_field :title %>
           <%= f.select(:instructor_id, @faculty) %>
           <%= f.submit %>

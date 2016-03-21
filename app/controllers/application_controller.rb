@@ -6,10 +6,10 @@ class ApplicationController < ActionController::Base
   before_filter :find_organization, :set_time_zone
 
   def find_organization
-    if request.subdomain != 'www'
-      redirect_to root_url(subdomain: 'www')
-    end
-    @organization = Organization.where(subdomain: request.subdomain).first
+    # if request.subdomain != 'www'
+    #   redirect_to root_url(subdomain: 'www')
+    # end
+    # @organization = Organization.where(subdomain: request.subdomain).first
 
     @organization = Organization.where(id: current_user.organization_id).first if current_user
     if params[:organization_id] && params[:organization_id].to_i != @organization.id

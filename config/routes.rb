@@ -4,59 +4,58 @@ Rails.application.routes.draw do
   devise_scope :user do
     authenticated :user do
       root :to => 'organizations#show', as: :authenticated_root, via: :get
-      # get 'organizations/show'
     end
     unauthenticated :user do
       root :to => 'welcome#index', as: :unauthenticated_root
     end
   end
-  # root 'welcome#index'
 
-  resources :organizations do
-    resources :courses do
-      member do
-        post 'add_student'
-        delete 'remove_student'
+  resources :organizations
 
-        get 'modify_search'
-      end
-      get 'search', on: :collection
+  resources :courses do
+    member do
+      post 'add_student'
+      delete 'remove_student'
+
+      get 'modify_search'
     end
-
-    resources :events do
-      member do
-        post 'add_course'
-        delete 'remove_course'
-
-        post 'add_student'
-        delete 'remove_student'
-
-        post 'add_room'
-        delete 'remove_room'
-
-        post 'add_item'
-        delete 'remove_item'
-
-        get 'modify_search'
-      end
-      get 'search', on: :collection
-    end
-
-    resources :items do
-      get 'search', on: :collection
-    end
-    resources :rooms do
-      get 'search', on: :collection
-    end
-    resources :users do
-      get 'search', on: :collection
-    end
+    get 'search', on: :collection
   end
+
+  resources :events do
+    member do
+      post 'add_course'
+      delete 'remove_course'
+
+      post 'add_student'
+      delete 'remove_student'
+
+      post 'add_room'
+      delete 'remove_room'
+
+      post 'add_item'
+      delete 'remove_item'
+
+      get 'modify_search'
+    end
+    get 'search', on: :collection
+  end
+
+  resources :items do
+    get 'search', on: :collection
+  end
+  resources :rooms do
+    get 'search', on: :collection
+  end
+  resources :users do
+    get 'search', on: :collection
+  end
+  # end
 
   get '/about' => 'welcome#about'
   get '/contact' => 'welcome#contact'
   get '/pricing' => 'welcome#pricing'
   get '/faq' => 'welcome#faq'
 
-  get '/organizations/:id/community' => 'welcome#community'
+  get '/community' => 'welcome#community'
 end

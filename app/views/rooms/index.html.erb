@@ -46,7 +46,7 @@
         <h4 class="modal-title" id="myModalLabel">Create a New Room</h4>
       </div>
       <div class="modal-body">
-        <%= bootstrap_form_for @new_room, layout: :horizontal, control_col: "col-sm-9", url: organization_rooms_path do |f| %>
+        <%= bootstrap_form_for @new_room, layout: :horizontal, control_col: "col-sm-9", url: rooms_path do |f| %>
           <%= f.text_field :title %>
           <%= f.text_field :number %>
           <%= f.text_field :building %>

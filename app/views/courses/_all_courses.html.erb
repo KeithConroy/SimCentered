@@ -7,11 +7,11 @@
 <% else %>
   <% @courses.each do |course| %>
     <tr>
-      <td><%= link_to course.title, organization_course_path(course.organization_id, course.id) %></td>
+      <td><%= link_to course.title, course_path(course.id) %></td>
       <td><%= full_name(course.instructor) %></td>
 
       <td class='icon'>
-        <%= link_to organization_course_path(course.organization_id, course.id), method: :delete, data: { confirm: 'Are you sure you want to delete this course?' } do %>
+        <%= link_to course_path(course.id), method: :delete, data: { confirm: 'Are you sure you want to delete this course?' } do %>
           <i class="fa fa-trash-o fa-lg"></i>
         <% end %>
       </td>

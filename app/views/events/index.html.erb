@@ -1,9 +1,5 @@
 <% content_for :title, "Events" %>
 
-<script>
-  var organizationId = <%= @organization.id %>;
-</script>
-
 <h2 class="page-header">Calendar
   <small>
   <span class="pull-right">
@@ -62,7 +58,7 @@
         <h4 class="modal-title" id="myModalLabel">Create a New Event</h4>
       </div>
       <div class="modal-body">
-        <%= bootstrap_form_for @new_event, layout: :horizontal, control_col: "col-sm-9", url: organization_events_path do |f| %>
+        <%= bootstrap_form_for @new_event, layout: :horizontal, control_col: "col-sm-9", url: events_path do |f| %>
           <%= f.text_field :title %>
           <%= f.select(:instructor_id, @faculty) %>
           <%= f.datetime_select :start, :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>

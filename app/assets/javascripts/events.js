@@ -19,7 +19,7 @@ $(document).on('events:loaded', function() {
 
 $(document).on('events#index:loaded', function(){
   $('#calendar').fullCalendar({
-    events: '/organizations/' + organizationId + '/events',
+    events: '/events',
     eventLimit: true,
     // timezone: 'local',  #this displays events in the browsers time zone
     header: {

@@ -77,7 +77,7 @@
         <h4 class="modal-title" id="myModalLabel">Edit User</h4>
       </div>
       <div class="modal-body">
-        <%= bootstrap_form_for @user, layout: :horizontal, control_col: "col-sm-9", url: organization_user_path do |f| %>
+        <%= bootstrap_form_for @user, layout: :horizontal, control_col: "col-sm-9", url: user_path do |f| %>
           <%= f.text_field :first_name %>
           <%= f.text_field :last_name %>
           <%= f.email_field :email %>

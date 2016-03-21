@@ -50,7 +50,7 @@
         <tbody id="events-index">
           <% @events.each do |event| %>
             <tr>
-              <td><%= link_to event.title, organization_event_path(event.organization_id, event.id) %></td>
+              <td><%= link_to event.title, event_path(event.id) %></td>
               <td><%= event.start.strftime("%b %e @ %l:%M %p") %></td>
               <td><%= event.finish.strftime("%b %e @ %l:%M %p") %></td>
               <% if @item.disposable %>
@@ -85,7 +85,7 @@
         <h4 class="modal-title" id="myModalLabel">Edit Item</h4>
       </div>
       <div class="modal-body">
-        <%= bootstrap_form_for @item, layout: :horizontal, control_col: "col-sm-9", url: organization_item_path do |f| %>
+        <%= bootstrap_form_for @item, layout: :horizontal, control_col: "col-sm-9", url: item_path do |f| %>
           <%= f.text_field :title %>
           <%= f.text_field :quantity %>
           <%= f.check_box :disposable %>
