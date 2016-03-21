@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :organizations
+  resources :organizations, only: [:new, :edit, :show]
 
   resources :courses do
     member do
