@@ -14,6 +14,7 @@ describe UsersHelper do
       email: "keith@mail.com",
       organization_id: organization.id,
       is_student: false,
+      password: "12345678"
     )
   end
   let(:student) do
@@ -23,6 +24,7 @@ describe UsersHelper do
       email: "student@mail.com",
       organization_id: organization.id,
       is_student: true,
+      password: "12345678"
     )
   end
   describe "#full_name" do

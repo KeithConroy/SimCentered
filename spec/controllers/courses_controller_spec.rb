@@ -1,11 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe CoursesController, type: :controller do
+  login_admin
   let(:organization) do
-    Organization.create!(
-      title: "University",
-      subdomain: "uni"
-    )
+    Organization.first
   end
   let(:instructor) do
     User.create!(
@@ -14,6 +12,7 @@ RSpec.describe CoursesController, type: :controller do
       email: "keith@mail.com",
       organization_id: organization.id,
       is_student: false,
+      password: "12345678"
     )
   end
   let(:student) do
@@ -23,6 +22,7 @@ RSpec.describe CoursesController, type: :controller do
       email: "student@mail.com",
       organization_id: organization.id,
       is_student: true,
+      password: "12345678"
     )
   end
   let(:course) do
@@ -126,7 +126,7 @@ RSpec.describe CoursesController, type: :controller do
       end
     end
     context "invalid #add_student" do
-      before { post :add_student, organization_id: organization.id, id: course.id, student_id: 3 }
+      before { post :add_student, organization_id: organization.id, id: course.id, student_id: 42 }
       it "should give an error status" do
         expect(response.status).to eq 400
       end
@@ -152,7 +152,7 @@ RSpec.describe CoursesController, type: :controller do
     end
     context "invalid #remove_student" do
       before { post :add_student, organization_id: organization.id, id: course.id, student_id: student.id }
-      before { post :remove_student, organization_id: organization.id, id: course.id, student_id: 3 }
+      before { post :remove_student, organization_id: organization.id, id: course.id, student_id: 42 }
       it "should give an error status" do
         expect(response.status).to eq 400
       end

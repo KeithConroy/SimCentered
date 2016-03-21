@@ -1,11 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe ItemsController, type: :controller do
+  login_admin
   let(:organization) do
-    Organization.create!(
-      title: "University",
-      subdomain: "uni"
-    )
+    Organization.first
   end
   let(:item) do
     Item.create!(

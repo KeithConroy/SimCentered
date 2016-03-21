@@ -14,6 +14,7 @@ RSpec.describe Event, type: :model do
       email: "keith@mail.com",
       organization_id: organization.id,
       is_student: false,
+      password: "12345678"
     )
   end
   let(:event) do

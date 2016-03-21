@@ -1,11 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe RoomsController, type: :controller do
+  login_admin
   let(:organization) do
-    Organization.create!(
-      title: "University",
-      subdomain: "uni"
-    )
+    Organization.first
   end
   let(:room) do
     Room.create!(
