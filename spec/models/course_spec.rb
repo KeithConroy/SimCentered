@@ -14,6 +14,7 @@ RSpec.describe Course, type: :model do
       email: "keith@mail.com",
       organization_id: organization.id,
       is_student: false,
+      password: "12345678"
     )
   end
   let(:course) do
@@ -43,6 +44,7 @@ RSpec.describe Course, type: :model do
       email: "keith2@mail.com",
       organization_id: organization2.id,
       is_student: false,
+      password: "12345678"
     )
   end
   let(:course2) do

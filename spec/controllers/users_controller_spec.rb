@@ -102,10 +102,10 @@ RSpec.describe UsersController, type: :controller do
   end
 
   context "GET #search" do
-    before { post :create, user: {first_name: "Keith", last_name: "Conroy", email: "kc@mail.com", organization_id: organization.id, is_student: false }, organization_id: organization.id }
-    before { post :create, user: {first_name: "Lauren", last_name: "Conroy", email: "lc@mail.com", organization_id: organization.id, is_student: false }, organization_id: organization.id }
-    before { post :create, user: {first_name: "Sandi", last_name: "Conroy", email: "sc@mail.com", organization_id: organization.id, is_student: false }, organization_id: organization.id }
-    before { post :create, user: {first_name: "John", last_name: "Smith", email: "js@mail.com", organization_id: organization.id, is_student: false }, organization_id: organization.id }
+    before { post :create, user: {first_name: "Keith", last_name: "Conroy", email: "kc@mail.com", organization_id: organization.id, is_student: false, password: "12345678" }, organization_id: organization.id }
+    before { post :create, user: {first_name: "Lauren", last_name: "Conroy", email: "lc@mail.com", organization_id: organization.id, is_student: false, password: "12345678" }, organization_id: organization.id }
+    before { post :create, user: {first_name: "Sandi", last_name: "Conroy", email: "sc@mail.com", organization_id: organization.id, is_student: false, password: "12345678" }, organization_id: organization.id }
+    before { post :create, user: {first_name: "John", last_name: "Smith", email: "js@mail.com", organization_id: organization.id, is_student: false, password: "12345678" }, organization_id: organization.id }
 
     context 'valid search: full title match' do
       before { get :search, organization_id: organization.id, phrase: 'keith' }
@@ -139,7 +139,7 @@ RSpec.describe UsersController, type: :controller do
     context 'empty search' do
       before { get :search, organization_id: organization.id }
       it "gets all users" do
-        expect(assigns(:users).length).to eq(4)
+        expect(assigns(:users).length).to eq(5)
       end
     end
   end

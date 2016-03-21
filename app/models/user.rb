@@ -10,8 +10,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :events
   has_and_belongs_to_many :courses
 
-  validates_presence_of :first_name, :last_name, :email, :organization_id
-  validates_uniqueness_of :email
+  validates_presence_of :first_name, :last_name, :organization_id
 
   def self.local(organization_id)
     where(organization_id: organization_id)

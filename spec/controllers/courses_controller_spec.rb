@@ -3,11 +3,6 @@ require 'rails_helper'
 RSpec.describe CoursesController, type: :controller do
   login_admin
   let(:organization) do
-    # Organization.create!(
-    #   title: "University",
-    #   subdomain: "uni"
-    # )
-    # create(:organization)
     Organization.first
   end
   let(:instructor) do
@@ -19,9 +14,6 @@ RSpec.describe CoursesController, type: :controller do
       is_student: false,
       password: "12345678"
     )
-  end
-  before(:each) do
-    # sign_in instructor
   end
   let(:student) do
     User.create!(
@@ -43,7 +35,6 @@ RSpec.describe CoursesController, type: :controller do
   context 'GET index' do
     before { get :index, organization_id: organization.id }
     it "should get index" do
-      # sign_in instructor
       expect(response).to be_ok
       expect(response).to render_template("index")
     end
@@ -135,7 +126,7 @@ RSpec.describe CoursesController, type: :controller do
       end
     end
     context "invalid #add_student" do
-      before { post :add_student, organization_id: organization.id, course_id: course.id, id: 42 }
+      before { post :add_student, organization_id: organization.id, id: course.id, student_id: 42 }
       it "should give an error status" do
         expect(response.status).to eq 400
       end
@@ -160,8 +151,8 @@ RSpec.describe CoursesController, type: :controller do
       end
     end
     context "invalid #remove_student" do
-      before { post :add_student, organization_id: organization.id, course_id: course.id, id: student.id }
-      before { post :remove_student, organization_id: organization.id, course_id: course.id, id: 42 }
+      before { post :add_student, organization_id: organization.id, id: course.id, student_id: student.id }
+      before { post :remove_student, organization_id: organization.id, id: course.id, student_id: 42 }
       it "should give an error status" do
         expect(response.status).to eq 400
       end

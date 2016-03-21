@@ -14,6 +14,7 @@ RSpec.describe User, type: :model do
       email: "keith@mail.com",
       organization_id: organization.id,
       is_student: false,
+      password: "12345678"
     )
   end
   context 'validation' do
@@ -22,6 +23,7 @@ RSpec.describe User, type: :model do
         last_name: "Conroy",
         email: "keith@mail.com",
         organization_id: organization.id,
+        password: "12345678"
       )
       user.valid?
       expect(user.errors[:first_name].size).to eq(1)
@@ -31,6 +33,7 @@ RSpec.describe User, type: :model do
         first_name: "Keith",
         email: "keith@mail.com",
         organization_id: organization.id,
+        password: "12345678"
       )
       user.valid?
       expect(user.errors[:last_name].size).to eq(1)
@@ -40,18 +43,32 @@ RSpec.describe User, type: :model do
         first_name: "Keith",
         last_name: "Conroy",
         organization_id: organization.id,
+        password: "12345678"
       )
       user.valid?
       expect(user.errors[:email].size).to eq(1)
+      expect(user.errors[:email][0]).to eq("can't be blank")
     end
     it "fails validation with no organization_id" do
       user = User.new(
         first_name: "Keith",
         last_name: "Conroy",
         email: "keith@mail.com",
+        password: "12345678"
       )
       user.valid?
       expect(user.errors[:organization_id].size).to eq(1)
+    end
+    it "fails validation with no password" do
+      user = User.new(
+        first_name: "Keith",
+        last_name: "Conroy",
+        email: "keith@mail.com",
+        organization_id: organization.id,
+      )
+      user.valid?
+      expect(user.errors[:password].size).to eq(1)
+      expect(user.errors[:password][0]).to eq("can't be blank")
     end
     it "fails validation with duplicate email" do
       user.save
@@ -63,6 +80,7 @@ RSpec.describe User, type: :model do
       )
       user2.valid?
       expect(user2.errors[:email].size).to eq(1)
+      expect(user2.errors[:email][0]).to eq("has already been taken")
     end
   end
 end

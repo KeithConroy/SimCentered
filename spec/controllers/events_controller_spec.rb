@@ -28,6 +28,7 @@ RSpec.describe EventsController, type: :controller do
       email: "other_keith@mail.com",
       organization_id: other_organization.id,
       is_student: false,
+      password: "12345678"
     )
   end
   let(:student) do
@@ -47,6 +48,7 @@ RSpec.describe EventsController, type: :controller do
       email: "student2@mail.com",
       organization_id: organization.id,
       is_student: true,
+      password: "12345678"
     )
   end
   let(:other_student) do
