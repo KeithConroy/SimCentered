@@ -1,3 +1,28 @@
 // Place all the styles related to the items controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#cal-heatmap {
+  width: 650px;
+  margin: 40px auto 0 auto;
+  .q1 {
+    background-color: #fcdcc2;
+    fill: #fcdcc2;
+  }
+  .q2 {
+    background-color: #fcc392;
+    fill: #fcc392;
+  }
+  .q3 {
+    background-color: #fcaa62;
+    fill: #fcaa62;
+  }
+  .q4 {
+    background-color: #ff922d;
+    fill: #ff922d;
+  }
+  .q5 {
+    background-color: #FF7C00;
+    fill: #FF7C00;
+  }
+}
