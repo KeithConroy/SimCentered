@@ -178,3 +178,25 @@
     </div>
   </div>
 </div>
+
+<script id="scheduled_student" type="text/x-handlebars-template">
+  <tr>
+    <td>{{name}}</td>
+    <td class="icon">
+      <a href="{{eventId}}/remove_student" data-student-id="{{studentId}}" class="remove-student">
+        <i class="fa fa-minus"></i>
+      </a>
+    </td>
+  </tr>
+</script>
+
+<script id="scheduled_course" type="text/x-handlebars-template">
+  <tr>
+    <td>{{title}}</td>
+    <td class="icon">
+      <a href="{{eventId}}/remove_course" data-course-id="{{courseId}}" class="remove-course">
+        <i class="fa fa-minus"></i>
+      </a>
+    </td>
+  </tr>
+</script>
