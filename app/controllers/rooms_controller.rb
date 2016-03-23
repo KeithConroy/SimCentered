@@ -26,6 +26,9 @@ class RoomsController < ApplicationController
   end
 
   def show
+    @events = @room.events
+      .where('start > ?', DateTime.now)
+      .paginate(page: 1, per_page: 10)
   end
 
   def edit
@@ -54,7 +57,10 @@ class RoomsController < ApplicationController
   private
 
   def find_room
-    @room = Room.where(id: params[:id]).first
+    @room = Room.where(organization_id: @organization.id, id: params[:id]).first
+    unless @room
+      render file: "public/404.html"
+    end
   end
 
   def room_params

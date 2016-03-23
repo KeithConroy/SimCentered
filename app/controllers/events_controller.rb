@@ -1,10 +1,10 @@
 class EventsController < ApplicationController
   before_action :find_event, only: [
-    :show, :edit, :update, :destroy,
-    :modify_search, :add_student,
-    :remove_student, :add_course,
-    :remove_course, :add_room,
-    :remove_room, :add_item, :remove_item
+    :show, :edit, :update, :destroy, :modify_search,
+    :add_student, :remove_student,
+    :add_course, :remove_course,
+    :add_room, :remove_room,
+    :add_item, :remove_item
   ]
 
   before_action :find_course, only: [:add_course, :remove_course]
@@ -13,6 +13,8 @@ class EventsController < ApplicationController
   before_action :find_item, only: [:add_item, :remove_item]
 
   before_action :faculty, only: [:index, :new, :show, :edit]
+
+  include UsersHelper
 
   def index
     @new_event = Event.new
@@ -64,7 +66,17 @@ class EventsController < ApplicationController
       @event.courses << @course unless @event.students.include?(@student)
       add_courses_students(@event, @course)
       if @event.save
-        render :'events/_scheduled_courses', layout: false
+        # render :'events/_scheduled_course', layout: false, locals: { course: @course }
+        courseJson = { title: @course.title, courseId: @course.id, eventId: @event.id }
+        studentsJson = @course.students.map do |student|
+          {
+            name: full_name(student),
+            studentId: student.id,
+            eventId: @event.id
+          }
+        end
+
+        render json: {course: courseJson, students: studentsJson}
       else
         render json: @event.errors.full_messages, status: 400
       end
@@ -78,7 +90,11 @@ class EventsController < ApplicationController
       @event.courses.delete(@course)
       remove_courses_students(@event, @course)
       if @event.save
-        render :'events/_scheduled_courses', layout: false
+        render json: {
+          count: @event.courses.count,
+          courseId: @course.id,
+          studentIds: @course.students.map {|student| student.id }
+        }
       else
         render json: @event.errors.full_messages, status: 400
       end
@@ -91,7 +107,7 @@ class EventsController < ApplicationController
     if @student && @student.organization_id == @organization.id
       @event.students << @student unless @event.students.include?(@student)
       if @event.save
-        render :'events/_scheduled_student', layout: false
+        render :'events/_scheduled_student', layout: false, locals: { student: @student }
       else
         render json: @event.errors.full_messages, status: 400
       end
@@ -104,7 +120,10 @@ class EventsController < ApplicationController
     if @event.students.include?(@student)
       @event.students.delete(@student)
       if @event.save
-        render json: { count: @event.students.count }
+        render json: {
+          count: @event.students.count,
+          studentId: @student.id
+        }
       else
         render json: @event.errors.full_messages, status: 400
       end
@@ -117,7 +136,7 @@ class EventsController < ApplicationController
     if @room && @room.organization_id == @organization.id
       @event.rooms << @room unless @event.students.include?(@student)
       if @event.save
-        render :'events/_scheduled_rooms', layout: false
+        render :'events/_scheduled_room', layout: false, locals: { room: @room }
       else
         render json: @event.errors.full_messages, status: 400
       end
@@ -129,7 +148,10 @@ class EventsController < ApplicationController
   def remove_room
     @event.rooms.delete(@room)
     if @event.save
-      render json: { count: @event.rooms.count }
+      render json: {
+        count: @event.rooms.count,
+        roomId: @room.id
+      }
     else
       render json: @event.errors.full_messages, status: 400
     end
@@ -138,16 +160,22 @@ class EventsController < ApplicationController
   def add_item
     @event.items << @item
     if @event.save
-      render :'events/_scheduled_items', layout: false
+      deduct_quantity(@event, @item) if @item.disposable
+      render :'events/_scheduled_item', layout: false, locals: { item: @item }
     else
       render json: @event.errors.full_messages, status: 400
     end
   end
 
   def remove_item
+    quantity = @event.scheduled_items.where(item_id: @item.id).first.quantity
     @event.items.delete(@item)
     if @event.save
-      render json: { count: @event.items.count }
+      credit_quantity(@item, quantity) if @item.disposable
+      render json: {
+        count: @event.items.count,
+        itemId: @item.id
+      }
     else
       render json: @event.errors.full_messages, status: 400
     end
@@ -169,7 +197,10 @@ class EventsController < ApplicationController
   private
 
   def find_event
-    @event = Event.where(id: params[:id]).first
+    @event = Event.where(organization_id: @organization.id, id: params[:id]).first
+    unless @event
+      render file: "public/404.html"
+    end
   end
 
   def event_params
@@ -209,6 +240,19 @@ class EventsController < ApplicationController
     course.students.each do |student|
       event.students.delete(student)
     end
+  end
+
+  def deduct_quantity(event, item)
+    scheduled_item = event.scheduled_items.where(item_id: item.id).first
+    scheduled_item.quantity = params[:quantity]
+    scheduled_item.save
+    item.quantity -= scheduled_item.quantity
+    item.save
+  end
+
+  def credit_quantity(item, credit)
+    item.quantity += credit
+    item.save
   end
 
   def search_all

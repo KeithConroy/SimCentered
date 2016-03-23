@@ -27,20 +27,32 @@
         </tr>
       </thead>
       <tbody>
-        <% @events.each do |event| %>
-        <tr>
-          <td><%= link_to event.title, organization_event_path(event.organization_id, event.id) %></td>
-          <td><%= event.start.strftime("%b %e @ %l:%M %p") %></td>
-          <td><%= event.finish.strftime("%b %e @ %l:%M %p") %></td>
-          <td class='icon'><%= link_to edit_organization_event_path(event.organization_id, event.id), class: "glyphicon" do %>
-            <i class="fa fa-pencil-square-o fa-lg"></i>
+        <% if @todays_events.empty? %>
+          <tr>
+            <td class="none-added">No events are scheduled for today</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        <% else %>
+          <% @todays_events.each do |event| %>
+            <tr>
+              <td><%= link_to event.title, organization_event_path(event.organization_id, event.id) %></td>
+              <td><%= event.start.strftime("%b %e @ %l:%M %p") %></td>
+              <td><%= event.finish.strftime("%b %e @ %l:%M %p") %></td>
+              <td class='icon'>
+                <%= link_to edit_organization_event_path(event.organization_id, event.id) do %>
+                  <i class="fa fa-pencil-square-o fa-lg"></i>
+                <% end %>
+              </td>
+              <td class='icon'>
+                <%= link_to organization_event_path(event.organization_id, event.id), method: :delete, data: { confirm: t('events.are_you_sure') } do %>
+                  <i class="fa fa-trash-o fa-lg"></i>
+                <% end %>
+              </td>
+            </tr>
           <% end %>
-          </td>
-          <td class='icon'><%= link_to organization_event_path(event.organization_id, event.id), method: :delete, data: { confirm: t('events.are_you_sure') }, class: "glyphicon" do %>
-            <i class="fa fa-trash-o fa-lg"></i>
-          <% end %>
-          </td>
-        </tr>
         <% end %>
       </tbody>
     </table>
@@ -55,7 +67,7 @@
         <h4 class="modal-title" id="myModalLabel"><%= t('org.edit') %></h4>
       </div>
       <div class="modal-body">
-        <%= bootstrap_form_for @organization, layout: :horizontal, control_col: "col-sm-9", url: organization_path do |f| %>
+        <%= bootstrap_form_for @organization, layout: :horizontal, control_col: "col-sm-9", url: organization_path(@organization) do |f| %>
           <%= f.text_field :title, label: t('org.name') %>
           <%= f.text_field :subdomain, label: t('org.subdomain') %>
           <%= f.time_zone_select :time_zone, nil, :default => "Pacific Time (US & Canada)"%>

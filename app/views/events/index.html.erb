@@ -1,5 +1,9 @@
 <% content_for :title, t('events.self') %>
 
+<script>
+  var organizationId = <%= @organization.id %>;
+</script>
+
 <h2 class="page-header"><%= t('nav.calendar') %>
   <small>
   <span class="pull-right">

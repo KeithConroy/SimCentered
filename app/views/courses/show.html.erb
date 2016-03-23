@@ -20,36 +20,90 @@
   <h4><%= t('courses.instructor') %>: <small><%= full_name(@course.instructor) if @course.instructor %></small></h4>
 </div>
 
-
 <div class="row col-md-12">
-  <div class="col-md-6">
 
-    <div id="search-n-go-parent">
-      <label for="search">
-        <i class="fa fa-search"></i>
-      </label>
-      <div class="form-group">
-        <input id="<%= @course.id %>" type="text" class="form-control search-n-go modify-course-search" placeholder="<%= t('courses.add_students') %>">
-      </div>
-      <div class="search-results">
-        <table class="table table-hover modify-search">
-        </table>
-      </div>
+  <div id="search-n-go-parent">
+    <label for="search">
+      <i class="fa fa-search"></i>
+    </label>
+    <div class="form-group">
+      <input id="<%= @course.id %>" type="text" class="form-control search-n-go modify-course-search" placeholder="<%= t('courses.add_students') %>">
     </div>
-
+    <div class="search-results">
+      <table class="table table-hover modify-search">
+      </table>
+    </div>
   </div>
-  <!-- Nav tabs -->
-  <div class='col-md-6'>
+</div>
 
-    <!-- Tab panes -->
-    <div class="panel panel-default">
-        <div class="display-table">
-          <table id="scheduled-students" class="table table-condensed table-hover">
-            <%= render 'enrolled_students' %>
-          </table>
-        </div>
+<div>
+  <h3 class="page-header">
+    Students
+  </h3>
+
+  <% #will_paginate @students %>
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Email</th>
+            <th class="icon">Remove</th>
+          </tr>
+        </thead>
+        <tbody id="course-show-students">
+          <tr style="<%= "display: none;" unless @course.students.empty? %>">
+            <td class="none-added">No students have been added</td>
+            <td></td>
+            <td class="icon"></td>
+          </tr>
+          <% @course.students.each do |student| %>
+            <%= render partial: 'enrolled_student', locals: { student: student } %>
+          <% end %>
+        </tbody>
+      </table>
     </div>
+  </div>
+</div>
 
+<div>
+  <h3 class="page-header">
+    Course Schedule
+  </h3>
+
+  <%= will_paginate @events %>
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Start</th>
+            <th>End</th>
+          </tr>
+        </thead>
+        <tbody id="events-index">
+          <% if @events.empty? %>
+            <tr>
+              <td class="none-added">Nothing scheduled</td>
+              <td></td>
+              <td></td>
+            </tr>
+          <% else %>
+            <% @events.each do |event| %>
+              <tr>
+                <td><%= link_to event.title, organization_event_path(event.organization_id, event.id) %></td>
+                <td><%= event.start.strftime("%b %e @ %l:%M %p") %></td>
+                <td><%= event.finish.strftime("%b %e @ %l:%M %p") %></td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 

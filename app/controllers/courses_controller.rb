@@ -1,7 +1,7 @@
 class CoursesController < ApplicationController
   before_action :find_course, only: [
-    :show, :edit, :update, :destroy,
-    :modify_search, :add_student, :remove_student
+    :show, :edit, :update, :destroy, :modify_search,
+    :add_student, :remove_student
   ]
   before_action :find_student, only: [:add_student, :remove_student]
   before_action :faculty, only: [:index, :new, :show, :edit]
@@ -27,6 +27,11 @@ class CoursesController < ApplicationController
   end
 
   def show
+    @events = @course.events
+      .where('start > ?', DateTime.now)
+      .paginate(page: 1, per_page: 10)
+    @students = @course.students
+      .paginate(page: params[:page], per_page: 10)
   end
 
   def edit
@@ -50,7 +55,7 @@ class CoursesController < ApplicationController
       @course.students << @student unless @course.students.include?(@student)
       if @course.save
         # render :'courses/_enrolled_students', layout: false
-        render :'courses/_enrolled_student', layout: false
+        render :'courses/_enrolled_student', layout: false, locals: { student: @student }
       else
         render json: @course.errors.full_messages, status: 400
       end
@@ -81,7 +86,10 @@ class CoursesController < ApplicationController
   private
 
   def find_course
-    @course = Course.where(id: params[:id]).first
+    @course = Course.where(organization_id: @organization.id, id: params[:id]).first
+    unless @course
+      render file: "public/404.html"
+    end
   end
 
   def course_params

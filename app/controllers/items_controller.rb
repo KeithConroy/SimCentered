@@ -26,6 +26,9 @@ class ItemsController < ApplicationController
   end
 
   def show
+    @events = @item.events
+      .where('start > ?', DateTime.now)
+      .paginate(page: 1, per_page: 10)
   end
 
   def edit
@@ -54,7 +57,10 @@ class ItemsController < ApplicationController
   private
 
   def find_item
-    @item = Item.where(id: params[:id]).first
+    @item = Item.where(organization_id: @organization.id, id: params[:id]).first
+    unless @item
+      render file: "public/404.html"
+    end
   end
 
   def item_params

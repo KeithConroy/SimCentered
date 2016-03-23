@@ -23,6 +23,9 @@ class UsersController < ApplicationController
   end
 
   def show
+    @events = @user.events
+      .where('start > ?', DateTime.now)
+      .paginate(page: 1, per_page: 10)
   end
 
   def edit
@@ -49,7 +52,10 @@ class UsersController < ApplicationController
   private
 
   def find_user
-    @user = User.where(id: params[:id]).first
+    @user = User.where(organization_id: @organization.id, id: params[:id]).first
+    unless @user
+      render file: "public/404.html"
+    end
   end
 
   def user_params

@@ -22,7 +22,7 @@ class OrganizationsController < ApplicationController
 
   def show
     @event = Event.new
-    @events = Event.today(@organization.id)
+    @todays_events = Event.today(@organization.id)
   end
 
   def edit
@@ -38,7 +38,8 @@ class OrganizationsController < ApplicationController
 
   def destroy
     @organization.destroy
-    redirect_to :root
+    sign_out current_user
+    redirect_to 'welcome#index', as: :unauthenticated_root
   end
 
   private

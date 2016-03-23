@@ -1,11 +1,11 @@
-$(document).on('page:change', function() {
+$(document).on('courses:loaded', function() {
 
   $("body").on('click', ".add-student-course", addStudentCourse);
   $("body").on('click', ".remove-student-course", removeStudentCourse);
+
   $('#course-search').on('keyup', courseSearch);
 
   $('.modify-course-search').on('keyup', modifyCourseSearch);
-  // $('.modify-course-search').focusin(showResults);
   $('.modify-course-search').focusout(hideResults);
 
 });
@@ -22,7 +22,8 @@ var addStudentCourse = function(){
     data: { student_id: studentId },
     type: 'post'
   }).done(function(data) {
-    $('#scheduled-students').append($(data));
+    $('#course-show-students').find('.none-added').parent().hide()
+    $('#course-show-students').append($(data));
   }).fail(function() {
     console.log('error');
   });
@@ -33,14 +34,17 @@ var removeStudentCourse = function(){
 
   var url = $(this).attr('href');
   var studentId = $(this).attr('data-student-id');
-  this.closest("tr").remove();
 
   $.ajax({
     url: url,
     data: { student_id: studentId },
     type: 'delete'
   }).done(function(data) {
-    // $('#student-count').text(data.count);
+    if(data.count === 0){
+      $('#course-show-students').find('.none-added').parent().show()
+    }
+    var student = this.data.match( /\d+/g );
+    $("a[data-student-id='"+student+"']").closest("tr").remove();
   }).fail(function() {
     console.log('error');
   });
@@ -65,7 +69,6 @@ var modifyCourseSearch = function(event){
 
   if(event.keyCode == 13){
     $('.search-results a:first').click();
-    // $(this).val('');
   }
 
   if (phrase) {
