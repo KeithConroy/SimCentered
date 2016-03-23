@@ -42,6 +42,7 @@ Rails.application.routes.draw do
 
     resources :items do
       get 'search', on: :collection
+      get 'heatmap', on: :member
     end
     resources :rooms do
       get 'search', on: :collection

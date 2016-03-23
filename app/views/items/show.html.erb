@@ -1,5 +1,9 @@
 <% content_for :title, "#{@item.title}" %>
 
+<script>
+  var itemId = <%= @item.id %>;
+</script>
+
 <h2 class="page-header">
   <%= link_to organization_items_path(@organization), class: "back" do %>
     <i class="fa fa-angle-double-left fa-lg"></i>
@@ -87,6 +91,7 @@
       </span>
     </small>
   </h3>
+  <div id="cal-heatmap"></div>
 </div>
 
 <div class="modal fade" id="editItemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
