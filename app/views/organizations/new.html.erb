@@ -1,9 +1,9 @@
-<h2 class="page-header">Create a New Account</h2>
+<h2 class="page-header"><%= t('org.create_new') %></h2>
 
 <%= bootstrap_form_for @organization, layout: :horizontal, control_col: "col-sm-9", url: organizations_path do |f| %>
-  <%= f.text_field :title, label: "Organization Name" %>
-  <%= f.text_field :subdomain %>
-  <%= f.email_field :email, label: "Admin Email" %>
+  <%= f.text_field :title, label: t('org.name') %>
+  <%= f.text_field :subdomain, label: t('org.subdomain') %>
+  <%= f.email_field :email, label: t('org.admin_email') %>
   <%= f.time_zone_select :time_zone, nil, :default => "Pacific Time (US & Canada)"%>
   <%= f.submit %>
 <% end %>

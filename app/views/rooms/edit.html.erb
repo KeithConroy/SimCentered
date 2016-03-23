@@ -1,9 +1,9 @@
-<h2 class="page-header">Edit Room</h2>
+<h2 class="page-header"><%= t('rooms.edit') %></h2>
 
 <%= bootstrap_form_for @room, layout: :horizontal, control_col: "col-sm-9", url: organization_room_path do |f| %>
   <%= f.text_field :title %>
-  <%= f.text_field :number %>
-  <%= f.text_field :building %>
-  <%= f.text_area :description %>
+  <%= f.text_field :number, label: t('rooms.number') %>
+  <%= f.text_field :building, label: t('rooms.building') %>
+  <%= f.text_area :description, label: t('rooms.description') %>
   <%= f.submit %>
 <% end %>

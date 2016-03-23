@@ -1,19 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe ItemsController, type: :controller do
-  let(:organization) do
-    Organization.create!(
-      title: "University",
-      subdomain: "uni"
-    )
-  end
-  let(:item) do
-    Item.create!(
-      title: "Test Item",
-      quantity: 1,
-      organization_id: organization.id,
-    )
-  end
+  login_admin
+
+  let(:organization){ Organization.first }
+  let(:item){ create(:disposable_item, organization_id: organization.id) }
+
   context 'GET index' do
     before { get :index, organization_id: organization.id }
     it "should get index" do

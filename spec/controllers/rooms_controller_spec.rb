@@ -1,20 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe RoomsController, type: :controller do
-  let(:organization) do
-    Organization.create!(
-      title: "University",
-      subdomain: "uni"
-    )
-  end
-  let(:room) do
-    Room.create!(
-      title: "Test Room",
-      number: "308",
-      building: "Forum",
-      organization_id: organization.id,
-    )
-  end
+  login_admin
+
+  let(:organization){ Organization.first }
+  let(:room){ create(:room, organization_id: organization.id) }
+
   context 'GET index' do
     before { get :index, organization_id: organization.id }
     it "should get index" do

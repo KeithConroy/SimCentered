@@ -1,6 +1,6 @@
 <tbody>
   <% if @course.students.empty? %>
-    <tr><td class="none-added">No students have been added</td></tr>
+    <tr><td class="none-added"><%= t('users.none_added_students') %></td></tr>
   <% else %>
     <% @course.students.each do |student| %>
       <tr>

@@ -15,4 +15,6 @@
 //= require turbolinks
 //= require moment.js
 //= require fullcalendar.js
+//= require handlebars
+//= require pace.min.js
 //= require_tree .

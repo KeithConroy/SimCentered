@@ -1,30 +1,10 @@
 require 'rails_helper'
 
 describe UsersHelper do
-  let(:organization) do
-    Organization.create!(
-      title: "University",
-      subdomain: "uni"
-    )
-  end
-  let(:user) do
-    User.create!(
-      first_name: "Keith",
-      last_name: "Conroy",
-      email: "keith@mail.com",
-      organization_id: organization.id,
-      is_student: false,
-    )
-  end
-  let(:student) do
-    User.create!(
-      first_name: "Test",
-      last_name: "Student",
-      email: "student@mail.com",
-      organization_id: organization.id,
-      is_student: true,
-    )
-  end
+  let(:organization){ create(:organization) }
+  let(:user){ create(:instructor, organization_id: organization.id) }
+  let(:student){ create(:student, organization_id: organization.id) }
+
   describe "#full_name" do
     it "returns a users full name" do
       expect(full_name(user)).to eq("Keith Conroy")

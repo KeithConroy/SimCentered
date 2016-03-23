@@ -1,8 +1,8 @@
-<h2 class="page-header">Edit Organization</h2>
+<h2 class="page-header"><%= t('org.edit') %></h2>
 
 <%= bootstrap_form_for @organization, layout: :horizontal, control_col: "col-sm-9", url: organization_path do |f| %>
-  <%= f.text_field :title, label: "Organization Name" %>
-  <%= f.text_field :subdomain %>
+  <%= f.text_field :title, label: t('org.name') %>
+  <%= f.text_field :subdomain, label: t('org.subdomain') %>
   <%= f.time_zone_select :time_zone, nil, :default => "Pacific Time (US & Canada)"%>
   <%= f.submit %>
 <% end %>

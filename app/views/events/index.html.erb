@@ -1,9 +1,10 @@
-<% content_for :title, "Events" %>
+<% content_for :title, t('events.self') %>
+
 <script>
   var organizationId = <%= @organization.id %>;
 </script>
 
-<h2 class="page-header">Calendar
+<h2 class="page-header"><%= t('nav.calendar') %>
   <small>
   <span class="pull-right">
     <a href="#" class="header-icon-right" data-toggle="modal" data-target="#newEventModal">
@@ -15,14 +16,14 @@
 
 <div id='calendar'></div>
 
-<h2 class="page-header">All Events
+<h2 class="page-header"><%= t('events.all_events') %>
   <small>
     <div id="search-parent">
       <label for="search">
         <i class="fa fa-search"></i>
       </label>
       <div class="form-group">
-        <input id="event-search" type="text" class="form-control search" placeholder="Search">
+        <input id="event-search" type="text" class="form-control search" placeholder="<%= t('search') %>">
       </div>
     </div>
     <span class="pull-right">
@@ -40,10 +41,10 @@
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th>Event</th>
-          <th>Start</th>
-          <th>End</th>
-          <th class='icon'>Delete</th>
+          <th><%= t('events.event') %></th>
+          <th><%= t('events.start') %></th>
+          <th><%= t('events.end') %></th>
+          <th class='icon'><%= t('crud.delete') %></th>
         </tr>
       </thead>
       <tbody id="events-index">
@@ -58,14 +59,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Create a New Event</h4>
+        <h4 class="modal-title" id="myModalLabel"><%= t('events.create_new') %></h4>
       </div>
       <div class="modal-body">
         <%= bootstrap_form_for @new_event, layout: :horizontal, control_col: "col-sm-9", url: organization_events_path do |f| %>
-          <%= f.text_field :title %>
+          <%= f.text_field :title, label: t('events.event') %>
           <%= f.select(:instructor_id, @faculty) %>
-          <%= f.datetime_select :start, :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
-          <%= f.datetime_select :finish, :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
+          <%= f.datetime_select :start, label: t('events.start'), :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
+          <%= f.datetime_select :finish, label: t('events.end'), :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
           <%= f.submit %>
         <% end %>
       </div>
@@ -78,7 +79,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">Edit Event</h4>
+        <h4 class="modal-title" id="exampleModalLabel"><%= t('events.edit') %></h4>
       </div>
       <div class="modal-body">
 

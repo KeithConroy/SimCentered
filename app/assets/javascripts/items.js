@@ -1,6 +1,6 @@
-$(document).on('page:change', function() {
-
+$(document).on('items:loaded', function() {
   $('#item-search').on('keyup', itemSearch);
+
   initializeHeatMap();
 });
 
