@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :find_item, only: [:show, :edit, :update, :destroy]
+  before_action :find_item, only: [:show, :edit, :update, :destroy, :heatmap]
 
   def index
     @new_item = Item.new
@@ -55,7 +55,28 @@ class ItemsController < ApplicationController
   end
 
   def heatmap
-
+    history = @item.scheduled_items.select do |entry|
+      Event.where(id: entry.event_id).first.start < DateTime.now
+    end
+    heatmapJson = {}
+    if @item.disposable
+      history.each do |entry|
+        event = Event.where(id: entry.event_id).first
+        timestamp = event.start.to_i.to_s
+        value = entry.quantity
+        heatmapJson[timestamp] = value
+      end
+      heatmapName = ['item used', 'items used']
+    else
+      history.each do |entry|
+        event = Event.where(id: entry.event_id).first
+        timestamp = event.start.to_i.to_s
+        value = (event.finish.to_i - event.start.to_i)/3600.0
+        heatmapJson[timestamp] = value
+      end
+      heatmapName = ['hour', 'hours']
+    end
+    render json: {data: heatmapJson, name: heatmapName}
   end
 
   private
