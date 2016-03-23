@@ -29,7 +29,7 @@
       <tbody>
         <% if @todays_events.empty? %>
           <tr>
-            <td class="none-added">No events are scheduled for today</td>
+            <td class="none-added"><%= t('events.none_today') %></td>
             <td></td>
             <td></td>
             <td></td>
