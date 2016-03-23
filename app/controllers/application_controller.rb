@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_filter :find_organization, :set_time_zone, :authenticate_user!
+  before_filter :find_organization, :set_time_zone, :set_locale, :authenticate_user!
 
   def find_organization
     @organization = Organization.where(id: current_user.organization_id).first if current_user
@@ -16,5 +16,9 @@ class ApplicationController < ActionController::Base
 
   def set_time_zone
     Time.zone = @organization.time_zone if @organization
+  end
+
+  def set_locale
+    I18n.locale = params[:locale].to_sym if params[:locale]
   end
 end
