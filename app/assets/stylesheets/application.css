@@ -12,5 +12,11 @@
  *
  *= require_tree .
  *= require rails_bootstrap_forms
+ *= require pace
  *= require_self
  */
+
+.error {
+  text-align: center;
+  margin-top: 15%;
+}

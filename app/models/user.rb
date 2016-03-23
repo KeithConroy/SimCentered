@@ -1,12 +1,16 @@
 class User < ActiveRecord::Base
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
+
   attr_accessor :busy
 
   belongs_to :organization
   has_and_belongs_to_many :events
   has_and_belongs_to_many :courses
 
-  validates_presence_of :first_name, :last_name, :email, :organization_id
-  validates_uniqueness_of :email
+  validates_presence_of :first_name, :last_name, :organization_id
 
   def self.local(organization_id)
     where(organization_id: organization_id)
@@ -49,7 +53,7 @@ class User < ActiveRecord::Base
       first_name: subdomain,
       last_name: 'Admin',
       email: email,
-      password: '',
+      password: '12345678',
       is_student: false,
       organization_id: organization_id
     )

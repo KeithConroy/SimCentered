@@ -1,97 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe EventsController, type: :controller do
-  let(:organization) do
-    Organization.create!(
-      title: "University",
-      subdomain: "uni"
-    )
-  end
-  let(:other_organization) do
-    Organization.create!(
-      title: "Other University",
-      subdomain: "ouni"
-    )
-  end
-  let(:instructor) do
-    User.create!(
-      first_name: "Keith",
-      last_name: "Conroy",
-      email: "keith@mail.com",
-      organization_id: organization.id,
-      is_student: false,
-    )
-  end
-  let(:other_instructor) do
-    User.create!(
-      first_name: "Keith",
-      last_name: "Conroy",
-      email: "other_keith@mail.com",
-      organization_id: other_organization.id,
-      is_student: false,
-    )
-  end
-  let(:student) do
-    User.create!(
-      first_name: "Test",
-      last_name: "Student",
-      email: "student@mail.com",
-      organization_id: organization.id,
-      is_student: true,
-    )
-  end
-  let(:student2) do
-    User.create!(
-      first_name: "Test",
-      last_name: "Student2",
-      email: "student2@mail.com",
-      organization_id: organization.id,
-      is_student: true,
-    )
-  end
-  let(:other_student) do
-    User.create!(
-      first_name: "Test",
-      last_name: "Student",
-      email: "otherstudent@mail.com",
-      organization_id: other_organization.id,
-      is_student: true,
-    )
-  end
-  let(:course) do
-    Course.create!(
-      title: "Test Course",
-      instructor_id: instructor.id,
-      organization_id: organization.id,
-    )
-  end
-  let(:other_course) do
-    Course.create!(
-      title: "Test Course",
-      instructor_id: other_instructor.id,
-      organization_id: other_organization.id,
-    )
-  end
-  let(:room) do
-    Room.create!(
-      title: "Test Room",
-      organization_id: organization.id,
-    )
-  end
-  let(:item) do
-    Item.create!(
-      title: "Test Item",
-      quantity: 1,
-      organization_id: organization.id,
-    )
-  end
-  let(:event) do
-    Event.create!(
-      title: "Test Event",
-      instructor_id: instructor.id,
-      organization_id: organization.id,
-    )
-  end
+  login_admin
+
+  let(:organization){ Organization.first }
+  let(:other_organization){ create(:other_org) }
+
+  let(:instructor){ create(:instructor, organization_id: organization.id) }
+  let(:other_instructor){ create(:other_instructor, organization_id: other_organization.id) }
+  let(:student){ create(:student, organization_id: organization.id) }
+  let(:student2){ create(:student2, organization_id: organization.id) }
+  let(:other_student){ create(:other_student, organization_id: other_organization.id) }
+
+  let(:course){ create(:course, instructor_id: instructor.id, organization_id: organization.id)}
+  let(:other_course){ create(:course, instructor_id: other_instructor.id, organization_id: other_organization.id)}
+
+  let(:room){ create(:room, organization_id: organization.id)}
+  let(:item){ create(:disposable_item, organization_id: organization.id) }
+  let(:event){ create(:event, instructor_id: instructor.id, organization_id: organization.id) }
+
   context 'GET index' do
     before { get :index, organization_id: organization.id }
     it "should get index" do
@@ -215,11 +142,16 @@ RSpec.describe EventsController, type: :controller do
       it "gets course" do
         expect(assigns(:course)).to be_a(Course)
       end
+      it "assigns the course to the event" do
+        expect(Event.first.courses).to include(course)
+        expect(course.events).to include(Event.first)
+      end
       it "assigns the courses students to the event" do
         expect(Event.first.students).to include(student)
         expect(Event.first.students).to include(student2)
       end
     end
+
     context "invalid #add_course" do
       before { other_course.students << other_student }
       before { post :add_course, organization_id: organization.id, id: event.id, course_id: other_course.id }
@@ -227,6 +159,10 @@ RSpec.describe EventsController, type: :controller do
         expect(response.status).to eq 400
       end
       it "does not assign a course to the event" do
+        expect(event.courses.count).to be(0)
+        expect(event.courses).to_not include(other_course)
+      end
+      it "does not assign course's students to the event" do
         expect(event.students.count).to be(0)
         expect(event.students).to_not include(other_student)
       end
@@ -246,6 +182,7 @@ RSpec.describe EventsController, type: :controller do
         expect(Event.first.students).to include(student)
       end
     end
+
     context "invalid #add_student - student from another organization" do
       before { post :add_student, organization_id: organization.id, id: event.id, student_id: other_student.id }
       it "should give an error status" do
@@ -255,6 +192,7 @@ RSpec.describe EventsController, type: :controller do
         expect(Event.first.students).to_not include(other_student)
       end
     end
+
     context "invalid #add_student - non existant student" do
       before { post :add_student, organization_id: organization.id, id: event.id, student_id: 20 }
       it "should give an error status" do
@@ -308,7 +246,7 @@ RSpec.describe EventsController, type: :controller do
   end
 
   context "POST #add_item" do
-    before { post :add_item, organization_id: organization.id, id: event.id, item_id: item.id }
+    before { post :add_item, organization_id: organization.id, id: event.id, item_id: item.id, quantity: 1 }
     it "gets event" do
       expect(assigns(:event)).to be_a(Event)
     end
@@ -318,10 +256,16 @@ RSpec.describe EventsController, type: :controller do
     it "assigns the item to the event" do
       expect(Event.first.items).to include(item)
     end
+    it "deducts the scheduled quantity from item quantity" do
+      expect(Event.first.items.first.quantity).to eq(99)
+    end
+    it "sets the scheduled_items quantity" do
+      expect(Event.first.scheduled_items.first.quantity).to eq(1)
+    end
   end
 
   context "DELETE #remove_item" do
-    before { post :add_item, organization_id: organization.id, id: event.id, item_id: item.id }
+    before { post :add_item, organization_id: organization.id, id: event.id, item_id: item.id, quantity: 1 }
     before { post :remove_item, organization_id: organization.id, id: event.id, item_id: item.id }
     it "gets event" do
       expect(assigns(:event)).to be_a(Event)
@@ -331,6 +275,9 @@ RSpec.describe EventsController, type: :controller do
     end
     it "removes the item from the event" do
       expect(Event.first.items).to_not include(item)
+    end
+    it "credits the scheduled quantity to item quantity" do
+      expect(item.quantity).to eq(100)
     end
   end
 
