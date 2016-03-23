@@ -29,6 +29,8 @@ gem 'will_paginate'
 
 gem 'hirb'
 
+gem 'handlebars_assets'
+
 gem 'devise'
 
 # Use ActiveModel has_secure_password

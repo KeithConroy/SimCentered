@@ -23,88 +23,139 @@
 </div>
 
 <div class="row col-md-12">
-  <div class="col-md-6">
-
-    <div id="search-n-go-parent">
-      <label for="search">
-        <i class="fa fa-search"></i>
-      </label>
-      <div class="form-group">
-        <input id="<%= @event.id %>" type="text" class="form-control search-n-go modify-search" placeholder="Add Courses, Students, Rooms and Inventory">
-      </div>
-      <div class="search-results">
-        <table class="table table-hover modify-search">
-        </table>
-      </div>
+  <div id="search-n-go-parent">
+    <label for="search">
+      <i class="fa fa-search"></i>
+    </label>
+    <div class="form-group">
+      <input id="<%= @event.id %>" type="text" class="form-control search-n-go modify-search" placeholder="Add Courses, Students, Rooms and Inventory">
     </div>
-
+    <div class="search-results">
+      <table class="table table-hover modify-search">
+      </table>
+    </div>
   </div>
-  <!-- Nav tabs -->
-  <div class='col-md-6'>
-    <ul id="modifyTabs" class="nav nav-tabs nav-justified" role="tablist" style="margin-bottom: 30px;">
-      <li role="presentation" class="active">
-        <a href="#courses" aria-controls="courses" role="tab" data-toggle="tab">
-          Courses - <span class=""><%= @event.courses.count %></span>
-        </a>
-      </li>
-      <li role="presentation">
-        <a href="#students" aria-controls="students" role="tab" data-toggle="tab">
-          Students - <span class=""><%= @event.students.count %></span>
-        </a>
-      </li>
-      <li role="presentation">
-        <a href="#rooms" aria-controls="rooms" role="tab" data-toggle="tab">
-          Rooms - <span class=""><%= @event.rooms.count %></span>
-        </a>
-      </li>
-      <li role="presentation">
-        <a href="#items" aria-controls="items" role="tab" data-toggle="tab">
-          Inventory - <span class=""><%= @event.items.count %></span>
-        </a>
-      </li>
-    </ul>
+</div>
 
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <div role="tabpanel" class="tab-pane active" id="courses">
-        <div class="panel panel-default">
-            <div class="display-table">
-              <table id="scheduled-courses" class="table table-condensed table-hover">
-                <%= render 'scheduled_courses' %>
-              </table>
-            </div>
-        </div>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="students">
-        <div class="panel panel-default">
-            <div class="display-table">
-              <table id="scheduled-students" class="table table-condensed table-hover">
-                <%= render 'scheduled_students' %>
-              </table>
-            </div>
-        </div>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="rooms">
-        <div class="panel panel-default">
+<div>
+  <h3 class="page-header">
+    Courses
+  </h3>
 
-            <div class="display-table">
-              <table id="scheduled-rooms" class="table table-condensed">
-                <%= render 'scheduled_rooms' %>
-              </table>
-            </div>
-        </div>
-      </div>
-      <div role="tabpanel" class="tab-pane" id="items">
-        <div class="panel panel-default">
-            <div class="display-table">
-              <table id="scheduled-items" class="table table-condensed">
-                <%= render 'scheduled_items' %>
-              </table>
-            </div>
-        </div>
-      </div>
+  <% #will_paginate @students %>
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Course</th>
+            <th class="icon">Remove</th>
+          </tr>
+        </thead>
+        <tbody id="event-show-courses">
+          <tr style="<%= "display: none;" unless @event.courses.empty? %>">
+            <td class="none-added">No courses have been added</td>
+            <td class="icon"></td>
+          </tr>
+          <% @event.courses.each do |course| %>
+            <%= render partial: 'scheduled_course', locals: { course: course } %>
+          <% end %>
+        </tbody>
+      </table>
     </div>
+  </div>
+</div>
 
+<div>
+  <h3 class="page-header">
+    Students
+  </h3>
+
+  <% #will_paginate @students %>
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th class="icon">Remove</th>
+          </tr>
+        </thead>
+        <tbody id="event-show-students">
+          <tr style="<%= "display: none;" unless @event.students.empty? %>">
+            <td class="none-added">No students have been added</td>
+            <td class="icon"></td>
+          </tr>
+          <% @event.students.each do |student| %>
+            <%= render partial: 'scheduled_student', locals: { student: student } %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div>
+  <h3 class="page-header">
+    Rooms
+  </h3>
+
+  <% #will_paginate @students %>
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Room</th>
+            <th class="icon">Remove</th>
+          </tr>
+        </thead>
+        <tbody id="event-show-rooms">
+          <tr style="<%= "display: none;" unless @event.rooms.empty? %>">
+            <td class="none-added">No rooms have been added</td>
+            <td class="icon"></td>
+          </tr>
+          <% @event.rooms.each do |room| %>
+            <%= render partial: 'scheduled_room', locals: { room: room } %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div>
+  <h3 class="page-header">
+    Items
+  </h3>
+
+  <% #will_paginate @students %>
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th class="icon">Remove</th>
+          </tr>
+        </thead>
+        <tbody id="event-show-items">
+          <tr style="<%= "display: none;" unless @event.items.empty? %>">
+            <td class="none-added">No items have been added</td>
+            <td></td>
+            <td class="icon"></td>
+          </tr>
+          <% @event.items.each do |item| %>
+            <%= render partial: 'scheduled_item', locals: { item: item } %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -127,3 +178,25 @@
     </div>
   </div>
 </div>
+
+<script id="scheduled_student" type="text/x-handlebars-template">
+  <tr>
+    <td>{{name}}</td>
+    <td class="icon">
+      <a href="{{eventId}}/remove_student" data-student-id="{{studentId}}" class="remove-student">
+        <i class="fa fa-minus"></i>
+      </a>
+    </td>
+  </tr>
+</script>
+
+<script id="scheduled_course" type="text/x-handlebars-template">
+  <tr>
+    <td>{{title}}</td>
+    <td class="icon">
+      <a href="{{eventId}}/remove_course" data-course-id="{{courseId}}" class="remove-course">
+        <i class="fa fa-minus"></i>
+      </a>
+    </td>
+  </tr>
+</script>

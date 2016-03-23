@@ -23,6 +23,45 @@
   <h4>Description: <small><%= @room.description %></small></h4>
 </div>
 
+<div>
+  <h3 class="page-header">
+    Room Schedule
+  </h3>
+
+  <%= will_paginate @events %>
+
+  <div class="panel panel-default">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Start</th>
+            <th>End</th>
+          </tr>
+        </thead>
+        <tbody id="events-index">
+          <% if @events.empty? %>
+            <tr>
+              <td class="none-added">Nothing scheduled</td>
+              <td></td>
+              <td></td>
+            </tr>
+          <% else %>
+            <% @events.each do |event| %>
+              <tr>
+                <td><%= link_to event.title, organization_event_path(event.organization_id, event.id) %></td>
+                <td><%= event.start.strftime("%b %e @ %l:%M %p") %></td>
+                <td><%= event.finish.strftime("%b %e @ %l:%M %p") %></td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="editRoomModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
