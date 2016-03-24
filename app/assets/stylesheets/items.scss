@@ -3,8 +3,11 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #cal-heatmap {
-  width: 650px;
+  width: 800px;
   margin: 40px auto 0 auto;
+  .graph {
+    shape-rendering: auto;
+  }
   .q1 {
     background-color: #fcdcc2;
     fill: #fcdcc2;
@@ -24,5 +27,8 @@
   .q5 {
     background-color: #FF7C00;
     fill: #FF7C00;
+  }
+  rect.now {
+    stroke: #0096b5;
   }
 }

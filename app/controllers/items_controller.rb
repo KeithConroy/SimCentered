@@ -67,6 +67,7 @@ class ItemsController < ApplicationController
         heatmapJson[timestamp] = value
       end
       heatmapName = ['item used', 'items used']
+      legend = [20,40,60,80]
     else
       history.each do |entry|
         event = Event.where(id: entry.event_id).first
@@ -75,8 +76,9 @@ class ItemsController < ApplicationController
         heatmapJson[timestamp] = value
       end
       heatmapName = ['hour', 'hours']
+      legend = [2,4,6,8]
     end
-    render json: {data: heatmapJson, name: heatmapName}
+    render json: { data: heatmapJson, name: heatmapName, legend: legend }
   end
 
   private
