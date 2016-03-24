@@ -22,40 +22,31 @@ var itemSearch = function(){
 var getHeatmapData = function(){
   var heatmapData;
   $.get(itemId + '/heatmap').success(function(payload) {
-    // heatmapData = payload;
-    // console.log(payload);
     initializeHeatmap(payload)
   });
-  // var cal = new CalHeatMap();
-  // cal.init({
-  //   domain: "year",
-  //   subDomain: "day",
-  //   data: heatmapData,
-  //   cellSize: 10,
-  //   range: 1,
-  //   // legend: [20, 40, 60, 80]
-  // });
 };
 
 var initializeHeatmap = function(heatmap) {
   var cal = new CalHeatMap();
+  var date = new Date();
+  date.setMonth(date.getMonth() - 5);
   cal.init({
-    domain: "year",
-    subDomain: "day",
+    domain: "month",
+    subDomain: "x_day",
+    domainGutter: 15,
+    domainDynamicDimension: false,
     weekStartOnMonday: false,
     data: heatmap.data,
+    start: date,
+    highlight: "now",
     itemName: heatmap.name,
-    cellSize: 10,
-    range: 1,
+    cellSize: 15,
+    cellRadius: 2,
+    range: 6,
     legendHorizontalPosition: "right",
-    legendMargin: [-10, 0, 0, 0],
-    // legendColors: {
-    //   min: "#E9EAED",
-    //   max: "#0096b5",
-    //   empty: "white",
-    //   base: "white",
-    // },
-    // legendColors: ["#E9EAED", "#0096b5"],
-    // legend: [20, 40, 60, 80]
+    legend: heatmap.legend,
+    label: {
+      position: "top"
+    }
   });
 }
