@@ -1,4 +1,5 @@
 class RoomsController < ApplicationController
+  before_action :authenticate_user!
   before_action :find_room, only: [:show, :edit, :update, :destroy]
 
   def index

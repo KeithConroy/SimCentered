@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+  before_action :authenticate_user!
   before_action :find_item, only: [:show, :edit, :update, :destroy, :heatmap]
 
   def index

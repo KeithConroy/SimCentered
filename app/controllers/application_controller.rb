@@ -3,7 +3,9 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_filter :find_organization, :set_time_zone, :set_locale, :authenticate_user!
+  before_filter :find_organization, :set_time_zone, :set_locale
+
+  private
 
   def find_organization
     @organization = Organization.where(id: current_user.organization_id).first if current_user
