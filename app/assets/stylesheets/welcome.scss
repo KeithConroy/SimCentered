@@ -1,14 +1,3 @@
-// Place all the styles related to the welcome controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
-.jumbotron {
-  /*color: #ffffff;*/
-  margin-top: 50px;
-/*  background-image: url('doctor.jpg');
-  background-size: 100%;
-*/}
-
 
 #welcome {
   position: relative;
@@ -36,41 +25,44 @@
   font-size: 1.5em;
 }
 
-.scheduling {
+#about {
   width: 100%;
-  margin: 0;
-  padding: 200px 20px;
-  background-color: white;
+  background-color: #f79e18;
+  color: white;
+  padding: 50px 50px;
+}
+
+.scheduling {
+  padding: 50px 0;
 }
 
 .inventory {
-  width: 100%;
-  margin: 0;
-  padding: 200px 20px;
-  background-color: #f79e18;
-  color: white;
+  padding: 50px 0;
   text-align: right;
 }
 
 .assessment {
-  width: 100%;
-  margin: 0;
-  padding: 200px 20px;
-  background-color: white;
+  padding: 50px 0;
 }
 
 .organizations {
   width: 100%;
   margin: 0;
   padding: 200px 20px;
-  // background-color: #E9EAED;
   text-align: center;
 }
 
-#about, #pricing, #contact, #faq {
+#pricing, #contact, #faq {
+  min-height: 110%;
   background-color: white;
-  padding: 50px 100px;
+  padding: 25px 100px 50px 100px;
 }
+
+#faq {
+  min-height: 110%;
+  background-color: #f79e18;
+}
+
 /*!
  * Start Bootstrap - Modern Business HTML Template (http://startbootstrap.com)
  * Code licensed under the Apache License v2.0.
@@ -137,6 +129,9 @@ footer {
   a {
     color: white;
     text-decoration: underline;
+  }
+  p {
+    margin: 0;
   }
 }
 .footer {

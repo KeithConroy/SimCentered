@@ -52,10 +52,5 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/about' => 'welcome#about'
-  get '/contact' => 'welcome#contact'
-  get '/pricing' => 'welcome#pricing'
-  get '/faq' => 'welcome#faq'
-
   get '/organizations/:id/community' => 'welcome#community'
 end
