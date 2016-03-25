@@ -5,7 +5,7 @@
   <small>
   <span class="pull-right">
     <a href="#" class="header-icon-right" data-toggle="modal" data-target="#editOrganizationModal">
-      <%= t('crud.edit') %> <i class="fa fa-pencil"></i>
+      <i class="fa fa-pencil fa-lg" data-toggle="tooltip" data-placement="left" title="<%= t('crud.edit') %>"></i>
     </a>
     <%= link_to t('crud.delete'), organization_path(@organization), method: :delete, data: { confirm: t('org.are_you_sure') }, class: 'header-icon-right' %>
   </span>
