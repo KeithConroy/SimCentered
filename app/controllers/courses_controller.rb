@@ -1,5 +1,4 @@
 class CoursesController < ApplicationController
-  before_action :authenticate_user!
   before_action :find_course, only: [
     :show, :edit, :update, :destroy, :modify_search,
     :add_student, :remove_student
