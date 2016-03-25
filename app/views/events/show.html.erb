@@ -9,9 +9,11 @@
   <small>
   <span class="pull-right">
     <a href="#" class="header-icon-right" data-toggle="modal" data-target="#editEventModal">
-      <%= t('crud.edit') %> <i class="fa fa-pencil"></i>
+      <i class="fa fa-pencil fa-lg" data-toggle="tooltip" data-placement="left" title="<%= t('crud.edit') %>"></i>
     </a>
-    <%= link_to t('crud.delete'), organization_event_path(@event.organization_id, @event.id), method: :delete, data: { confirm: t('events.are_you_sure') }, class: 'header-icon-right' %>
+    <%= link_to organization_event_path(@event.organization_id, @event.id), method: :delete, data: { confirm: t('events.are_you_sure') }, class: 'header-icon-right' do %>
+        <i class="fa fa-trash fa-lg" data-toggle="tooltip" data-placement="right" title="<%= t('crud.delete') %>"></i>
+      <% end %>
   </span>
   </small>
 </h2>
