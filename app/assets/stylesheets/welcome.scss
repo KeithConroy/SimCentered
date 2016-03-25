@@ -9,6 +9,68 @@
   background-size: 100%;
 */}
 
+
+#welcome {
+  position: relative;
+  height: 100%;
+  z-index: 5;
+  &::before {
+    content: ' ';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 50px;
+    left: 0;
+    background: url('doctor.jpg') no-repeat top center;
+    background-size: cover;
+    will-change: transform;
+    z-index: -5;
+  }
+}
+
+.top {
+  width: 40%;
+  height: 80%;
+  margin: 100px 0 30px 20%;
+  text-shadow: 2px 2px #E8E8E8;
+  font-size: 1.5em;
+}
+
+.scheduling {
+  width: 100%;
+  margin: 0;
+  padding: 200px 20px;
+  background-color: white;
+}
+
+.inventory {
+  width: 100%;
+  margin: 0;
+  padding: 200px 20px;
+  background-color: #f79e18;
+  color: white;
+  text-align: right;
+}
+
+.assessment {
+  width: 100%;
+  margin: 0;
+  padding: 200px 20px;
+  background-color: white;
+}
+
+.organizations {
+  width: 100%;
+  margin: 0;
+  padding: 200px 20px;
+  // background-color: #E9EAED;
+  text-align: center;
+}
+
+#about, #pricing, #contact, #faq {
+  background-color: white;
+  padding: 50px 100px;
+}
 /*!
  * Start Bootstrap - Modern Business HTML Template (http://startbootstrap.com)
  * Code licensed under the Apache License v2.0.
@@ -41,47 +103,6 @@ body {
     opacity: 0.8;
 }
 
-/* Home Page Carousel */
-
-header.carousel {
-    height: 50%;
-}
-
-header.carousel .item,
-header.carousel .item.active,
-header.carousel .carousel-inner {
-    height: 100%;
-}
-
-header.carousel .fill {
-    width: 100%;
-    height: 100%;
-    background-position: center;
-    background-size: cover;
-}
-/* Carousel base class */
-.carousel {
-  height: 500px;
-  margin-bottom: 60px;
-}
-/* Since positioning the image, we need to help out the caption */
-.carousel-caption {
-  z-index: 10;
-}
-
-/* Declare heights because of positioning of img element */
-.carousel .item {
-  height: 500px;
-  background-color: #777;
-}
-.carousel-inner > .item > img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-width: 100%;
-  height: 500px;
-}
-
 /* 404 Page Styles */
 
 .error-404 {
@@ -110,7 +131,13 @@ header.carousel .fill {
 /* Footer Styles */
 
 footer {
-    margin: 10px 0;
+  padding: 10px 30px;
+  background-color: #0096b5;
+  color: white;
+  a {
+    color: white;
+    text-decoration: underline;
+  }
 }
 .footer {
   position: absolute;
