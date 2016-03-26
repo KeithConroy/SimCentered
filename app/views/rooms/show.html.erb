@@ -1,5 +1,9 @@
 <% content_for :title, "#{@room.title}" %>
 
+<script>
+  var roomId = <%= @room.id %>;
+</script>
+
 <h2 class="page-header">
   <%= link_to organization_rooms_path(@organization), class: "back" do %>
     <i class="fa fa-angle-double-left fa-lg"></i>
@@ -62,6 +66,13 @@
       </table>
     </div>
   </div>
+</div>
+
+<div>
+  <h3 class="page-header">
+    <%= t('inventory.usage_history') %>
+  </h3>
+  <div id="cal-heatmap"></div>
 </div>
 
 <div class="modal fade" id="editRoomModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
