@@ -51,7 +51,7 @@ $dropDown       : true;
     > .active {
       > a, > a:hover, > a:focus {
         color: $colHighlight;
-        background-color: $bgHighlight; }}
+        background-color: $colDefault; }}
     > .open {
       > a, > a:hover, > a:focus {
         color: $colHighlight;
@@ -78,7 +78,7 @@ $dropDown       : true;
     > .active {
       > a, > a:hover, > a:focus {
         color: $colHighlight;
-        background-color: $bgHighlight; }}}
+        background-color: $colDefault; }}}
 }
 
 .nav>li>a:hover {

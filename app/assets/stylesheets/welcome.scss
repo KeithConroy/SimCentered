@@ -30,6 +30,9 @@
   background-color: #f79e18;
   color: white;
   padding: 50px 50px;
+  i {
+    font-size: 15em;
+  }
 }
 
 .scheduling {
@@ -181,11 +184,6 @@ footer {
   }
 }
 
-@media (min-width: 992px) {
-  .featurette-heading {
-    margin-top: 120px;
-  }
-}
 /* CUSTOMIZE THE NAVBAR
 -------------------------------------------------- */
 
