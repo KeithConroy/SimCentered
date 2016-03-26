@@ -1,0 +1,78 @@
+// Place all the styles related to the cameras controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#player {
+  width: 90%;
+  height: 400px;
+  margin: auto;
+  background-color: black;
+  padding: 0;
+}
+
+#live-cameras {
+  text-align: center;
+  ul {
+    width: 100%;
+    list-style: none;
+    max-height: 400px;
+    overflow: scroll;
+    background-color: #E9EAED;
+    padding: 10px;
+    border-radius: 10px;
+    li {
+      width: 100%;
+    }
+  }
+}
+
+.camera-buttons {
+  text-align: center;
+  margin: 5%;
+}
+
+#ptz-controls {
+  height: 100%;
+  opacity: 0.5;
+  padding: 0;
+  #pan-left {
+    height: 100%;
+    text-align: left;
+  }
+  #pan-right {
+    height: 100%;
+    text-align: right;
+  }
+  #pan-up {
+    width: 100%;
+    height: 50%;
+    i {
+      position: relative;
+      top: -75px;
+    }
+  }
+  #pan-down {
+    width: 100%;
+    height: 50%;
+    i {
+      position: relative;
+      top: 75px;
+    }
+  }
+  #center {
+    height: 100%;
+  }
+  button {
+    background: transparent;
+    border: none;
+    &:hover {
+      border: 1px dotted grey;
+    }
+  }
+}
+
+#zoom-controls {
+  i {
+    margin-top: 108px;
+  }
+}

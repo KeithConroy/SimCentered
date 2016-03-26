@@ -1,0 +1,52 @@
+<h2 class="page-header">
+  Live
+</h2>
+
+<div class="row col-md-12">
+  <div id="live-cameras" class="col-md-3">
+    <ul class="nav nav-pills" role="tablist">
+      <% @rooms.each_with_index do |room, index| %>
+        <li role="presentation" <%= "class=active" if index == 0 %>><a href="#room-<%= room.id %>" aria-controls="profile" role="tab" data-toggle="tab"><%= room.title %></a></li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="col-md-9">
+    <div class="row">
+    <div id="player" class="col-md-11">
+      <div id="ptz-controls" class="col-md-12">
+        <button id="pan-left" class="col-md-3">
+          <i class="fa fa-angle-left fa-5x"></i>
+        </button>
+        <div id="center" class="col-md-6">
+          <button id="pan-up" class="row">
+            <i class="fa fa-angle-up fa-5x"></i>
+          </button>
+          <button id="pan-down" class="row">
+            <i class="fa fa-angle-down fa-5x"></i>
+          </button>
+        </div>
+        <button id="pan-right" class="col-md-3">
+          <i class="fa fa-angle-right fa-5x"></i>
+        </button>
+      </div>
+    </div>
+    <div id="zoom-controls" class="col-md-1">
+      <a href="#"><i class="fa fa-search-plus fa-3x"></i></a><br>
+      <a href="#"><i class="fa fa-search-minus fa-3x"></i></a>
+    </div>
+    </div>
+
+    <div class="row tab-content camera-buttons">
+      <% @rooms.each_with_index do |room, index| %>
+        <div role="tabpanel" class="tab-pane <%= "active" if index == 0 %>" id="room-<%= room.id %>">
+          <% if room.cameras.length > 1 %>
+            <% room.cameras.each do |camera| %>
+              <button class="btn btn-primary"><%= camera.name %></button>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

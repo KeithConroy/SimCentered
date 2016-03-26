@@ -72,6 +72,14 @@ en:
     are_you_sure: "Are you sure you want to delete this room?"
     none_added: "No rooms have been added"
     schedule: "Room Schedule"
+  cameras:
+    self: "Cameras"
+    camera: "Camera"
+    ip_address: "IP Address"
+    serial_number: "Serial Number"
+    create_new: "Create a New Camera"
+    are_you_sure: "Are you sure you want to delete this camera?"
+    none_added: "No cameras have been added"
   users:
     self: "Users"
     edit: "Edit User"

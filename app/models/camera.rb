@@ -1,11 +1,6 @@
-class Room < ActiveRecord::Base
-  attr_accessor :busy
-
+class Camera < ActiveRecord::Base
   belongs_to :organization
-  has_and_belongs_to_many :events
-  has_many :cameras
-
-  validates_presence_of :title, :organization_id
+  belongs_to :room
 
   def self.local(organization_id)
     where(organization_id: organization_id)
@@ -13,13 +8,13 @@ class Room < ActiveRecord::Base
 
   def self.list(organization_id, page)
     local(organization_id)
-      .order(title: :asc)
+      .order(id: :asc)
       .paginate(page: page, per_page: 15)
   end
 
   def self.search(organization_id, phrase)
     local(organization_id)
-      .where('lower(title) LIKE ?', "%#{phrase}%")
-      .order(title: :asc)
+      .where('lower(name) LIKE ?', "%#{phrase}%")
+      .order(name: :asc)
   end
 end

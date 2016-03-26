@@ -1,0 +1,22 @@
+<% if @cameras.empty? %>
+  <tr>
+    <td class="none-added"><%= t('cameras.none_added') %></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+<% else %>
+  <% @cameras.each do |camera| %>
+    <tr>
+      <td><%= link_to camera.name, organization_camera_path(camera.organization_id, camera.id) %></td>
+      <td><%= camera.ip_address %></td>
+      <td><%= room_name(camera.room_id) %></td>
+
+      <td class='icon'>
+        <%= link_to organization_camera_path(camera.organization_id, camera.id), method: :delete, data: { confirm: t('cameras.are_you_sure') } do %>
+          <i class="fa fa-trash-o fa-lg"></i>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+<% end %>

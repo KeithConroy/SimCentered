@@ -1,0 +1,8 @@
+<h2 class="page-header"><%= t('rooms.edit') %></h2>
+
+<%= bootstrap_form_for @camera, layout: :horizontal, control_col: "col-sm-9", url: organization_camera_path do |f| %>
+  <%= f.text_field :name %>
+  <%= f.text_field :ip_address, label: t('cameras.ip_address') %>
+  <%= f.text_field :serial_number, label: t('cameras.serial_number') %>
+  <%= f.submit %>
+<% end %>

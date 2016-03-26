@@ -50,6 +50,14 @@ Rails.application.routes.draw do
     resources :users do
       get 'search', on: :collection
     end
+
+    resources :cameras do
+      collection do
+        get 'search'
+        get 'live'
+        get 'recorded'
+      end
+    end
   end
 
   get '/organizations/:id/community' => 'welcome#community'

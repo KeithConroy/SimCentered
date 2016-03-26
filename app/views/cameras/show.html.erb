@@ -1,0 +1,47 @@
+<% content_for :title, "#{@camera.name}" %>
+
+<h2 class="page-header">
+  <%= link_to organization_cameras_path(@organization), class: "back" do %>
+    <i class="fa fa-angle-double-left fa-lg"></i>
+  <% end %>
+  <i class="fa fa-video-camera"></i>
+  <%= @camera.name %>
+  <small>
+  <span class="pull-right">
+    <a href="#" class="header-icon-right" data-toggle="modal" data-target="#editCameraModal">
+      <i class="fa fa-pencil fa-lg" data-toggle="tooltip" data-placement="left" title="<%= t('crud.edit') %>"></i>
+    </a>
+    <%= link_to organization_camera_path(@camera.organization_id, @camera.id), method: :delete, data: { confirm: t('cameras.are_you_sure') }, class: 'header-icon-right' do %>
+        <i class="fa fa-trash fa-lg" data-toggle="tooltip" data-placement="right" title="<%= t('crud.delete') %>"></i>
+      <% end %>
+  </span>
+  </small>
+</h2>
+
+
+<div class="row col-md-12 details">
+  <h4><%= t('cameras.name') %>: <small><%= @camera.name %></small></h4>
+  <h4><%= t('cameras.ip_address') %>: <small><%= @camera.ip_address %></small></h4>
+  <h4><%= t('rooms.room') %>: <small><%= room_name(@camera.room_id) %></small></h4>
+  <h4><%= t('cameras.serial_number') %>: <small><%= @camera.serial_number %></small></h4>
+</div>
+
+<div class="modal fade" id="editCameraModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><%= t('cameras.edit') %></h4>
+      </div>
+      <div class="modal-body">
+        <%= bootstrap_form_for @camera, layout: :horizontal, control_col: "col-sm-9", url: organization_camera_path do |f| %>
+          <%= f.text_field :name %>
+          <%= f.text_field :ip_address, label: t('cameras.ip_address') %>
+          <%= f.select(:room_id, @rooms) %>
+          <%= f.text_field :serial_number, label: t('cameras.serial_number') %>
+          <%= f.submit %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
