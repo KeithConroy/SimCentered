@@ -72,6 +72,10 @@ RSpec.describe CoursesController, type: :controller do
       it "should give an error status" do
         expect(response.status).to eq 400
       end
+      it "will not update organization_id" do
+        put :update, organization_id: organization.id, id: course.id, course: {organization_id: 123}
+        expect(course.organization_id).to_not eq(123)
+      end
     end
   end
 

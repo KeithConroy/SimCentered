@@ -1,22 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:organization) do
-    Organization.create!(
-      title: "University",
-      subdomain: "uni"
-    )
-  end
-  let(:user) do
-    User.create!(
-      first_name: "Keith",
-      last_name: "Conroy",
-      email: "keith@mail.com",
-      organization_id: organization.id,
-      is_student: false,
-      password: "12345678"
-    )
-  end
+  let(:organization){ create(:organization) }
+  let(:user){ create(:instructor, organization_id: organization.id) }
+
   context 'validation' do
     it "fails validation with no first_name" do
       user = User.new(

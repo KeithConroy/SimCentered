@@ -76,10 +76,12 @@ class ItemsController < ApplicationController
   def heatmap_json(item)
     data = item.disposable ? disposable_heatmap_data(item) : capital_heatmap_data(item)
     name = item.disposable ? ['item used', 'items used'] : ['hour', 'hours']
-    quarter = data.values.max / 4
-    legend = [quarter,quarter*2,quarter*3,quarter*4]
+    unless data.empty?
+      quarter = data.values.max / 4
+      legend = [quarter,quarter*2,quarter*3,quarter*4]
+    end
 
-    { data: data, name: name, legend: legend}
+    { data: data, name: name, legend: legend || [2,4,6,8]}
   end
 
   def disposable_heatmap_data(item, data = {})

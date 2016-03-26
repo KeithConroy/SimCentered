@@ -70,6 +70,14 @@ RSpec.describe EventsController, type: :controller do
       expect{ post :create, event: {title: "Event", instructor_id: instructor.id, organization_id: organization.id}, organization_id: organization.id }.to change{Event.count}.by 1
       expect(response.status).to eq 302
     end
+    it "belongs to instructor" do
+      post :create, event: {title: "Event", instructor_id: instructor.id, organization_id: organization.id}, organization_id: organization.id
+      expect(Event.last.instructor).to eq(instructor)
+    end
+    it "belongs to organization" do
+      post :create, event: {title: "Event", instructor_id: instructor.id, organization_id: organization.id}, organization_id: organization.id
+      expect(Event.last.organization_id).to eq(organization.id)
+    end
     it "does not saves a new event with invalid input" do
       expect{ post :create, event: {title: ""}, organization_id: organization.id }.to_not change{Event.count}
     end
@@ -114,6 +122,10 @@ RSpec.describe EventsController, type: :controller do
       end
       it "should give an error status" do
         expect(response.status).to eq 400
+      end
+      it "will not update organization_id" do
+        put :update, organization_id: organization.id, id: event.id, event: {organization_id: other_organization.id}
+        expect(event.organization_id).to_not eq(other_organization.id)
       end
     end
   end

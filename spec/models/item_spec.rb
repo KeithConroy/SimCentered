@@ -1,19 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Item, type: :model do
-  let(:organization) do
-    Organization.create!(
-      title: "University",
-      subdomain: "uni"
-    )
-  end
-  let(:item) do
-    Item.create!(
-      title: "Test Item",
-      quantity: 1,
-      organization_id: organization.id,
-    )
-  end
+  let(:organization){ create(:organization) }
+
   context 'validation' do
     it "fails validation with no title" do
       item = Item.new(
