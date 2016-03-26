@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       root :to => 'organizations#show', as: :authenticated_root, via: :get
     end
     unauthenticated :user do
-      root :to => 'welcome#index', as: :unauthenticated_root
+      root :to => 'home#index', as: :unauthenticated_root
     end
   end
 
@@ -53,5 +53,5 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/organizations/:id/community' => 'welcome#community'
+  get '/organizations/:id/community' => 'home#community'
 end

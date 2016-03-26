@@ -86,6 +86,10 @@ $dropDown       : true;
   background-color: $colDefault;
 }
 
+ul.nav li.dropdown:hover > ul.dropdown-menu {
+  display: block;
+}
+
 body {
   background-color: #E9EAED;
   height: 100%;

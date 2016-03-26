@@ -1,5 +1,5 @@
 
-#welcome.doctor {
+#home.doctor {
   position: relative;
   height: 100%;
   z-index: 5;
@@ -16,7 +16,7 @@
     z-index: -5;
   }
 }
-#welcome.vitals {
+#home.vitals {
   position: relative;
   height: 100%;
   z-index: 5;
@@ -34,7 +34,7 @@
     z-index: -5;
   }
 }
-#welcome.middle {
+#home.middle {
   position: relative;
   height: 100%;
   z-index: 5;
@@ -69,6 +69,7 @@
   text-align: center;
   font-size: 50px;
   font-weight: 300;
+  font-style: italic;
   line-height: 1;
   letter-spacing: -1px;
   padding-bottom: 50px;
@@ -124,8 +125,12 @@
 }
 
 #contact {
+  color: white;
   padding-top: 10%;
   background: transparent;
+  a {
+    color: #f79e18;
+  }
 }
 
 #faq {

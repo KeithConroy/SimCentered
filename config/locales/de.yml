@@ -6,7 +6,7 @@ de:
     manage: "Verwalten"
     sc_pulse: "SC Pulse(:de)"
     profile: "Profile(:de)"
-  welcome:
+  home:
     about: "About(:de)"
     contact: "Contact(:de)"
     pricing: "Pricing(:de)"
