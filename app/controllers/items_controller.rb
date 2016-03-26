@@ -1,6 +1,8 @@
 class ItemsController < ApplicationController
   before_action :find_item, only: [:show, :edit, :update, :destroy, :heatmap]
 
+  include EventsHelper
+
   def index
     @new_item = Item.new
     @items = Item.list(@organization.id, params[:page])
@@ -55,30 +57,7 @@ class ItemsController < ApplicationController
   end
 
   def heatmap
-    history = @item.scheduled_items.select do |entry|
-      Event.where(id: entry.event_id).first.start < DateTime.now
-    end
-    heatmapJson = {}
-    if @item.disposable
-      history.each do |entry|
-        event = Event.where(id: entry.event_id).first
-        timestamp = event.start.to_i.to_s
-        value = entry.quantity
-        heatmapJson[timestamp] = value
-      end
-      heatmapName = ['item used', 'items used']
-      legend = [20,40,60,80]
-    else
-      history.each do |entry|
-        event = Event.where(id: entry.event_id).first
-        timestamp = event.start.to_i.to_s
-        value = (event.finish.to_i - event.start.to_i)/3600.0
-        heatmapJson[timestamp] = value
-      end
-      heatmapName = ['hour', 'hours']
-      legend = [2,4,6,8]
-    end
-    render json: { data: heatmapJson, name: heatmapName, legend: legend }
+    render json: heatmap_json(@item)
   end
 
   private
@@ -92,5 +71,35 @@ class ItemsController < ApplicationController
 
   def item_params
     params.require(:item).permit(:title, :quantity, :disposable)
+  end
+
+  def heatmap_json(item)
+    data = item.disposable ? disposable_heatmap_data(item) : capital_heatmap_data(item)
+    name = item.disposable ? ['item used', 'items used'] : ['hour', 'hours']
+    quarter = data.values.max / 4
+    legend = [quarter,quarter*2,quarter*3,quarter*4]
+
+    { data: data, name: name, legend: legend}
+  end
+
+  def disposable_heatmap_data(item, data = {})
+    item.scheduled_items.each do |entry|
+      event = Event.where(id: entry.event_id).first
+      if event.start < DateTime.now
+        timestamp = event.start.to_i.to_s
+        data[timestamp] = entry.quantity
+      end
+    end
+    data
+  end
+
+  def capital_heatmap_data(item, data = {})
+    item.events.each do |event|
+      if event.start < DateTime.now
+        timestamp = event.start.to_i.to_s
+        data[timestamp] = event_duration(event)
+      end
+    end
+    data
   end
 end
