@@ -4,12 +4,15 @@ $(document).on('welcome:loaded', function() {
   $(window).scroll(function(){
     var fromTopPx = $(window).height(); // distance to trigger
     var scrolledFromtop = $(window).scrollTop();
-    if(scrolledFromtop > fromTopPx){
-      $('#welcome').addClass('scrolled');
-      $('#welcome').removeClass('doctor');
+    if(scrolledFromtop > fromTopPx && scrolledFromtop < fromTopPx*4){
+      $('#welcome').removeClass();
+      $('#welcome').addClass('middle');
+    }else if(scrolledFromtop > fromTopPx*4){
+      $('#welcome').removeClass();
+      $('#welcome').addClass('vitals');
     }else{
+      $('#welcome').removeClass();
       $('#welcome').addClass('doctor');
-      $('#welcome').removeClass('scrolled');
     }
   });
 });

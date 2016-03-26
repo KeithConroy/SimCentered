@@ -10,6 +10,7 @@ $dropDown       : true;
 .navbar-custom {
   background-color: $bgDefault;
   border-color: $bgHighlight;
+  border: 0;
   .navbar-brand {
     color: $colDefault;
     -webkit-transition-duration: 1s; /* Safari */

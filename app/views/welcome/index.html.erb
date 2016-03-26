@@ -1,3 +1,5 @@
+<% content_for :title, 'SimCentered' %>
+
 <div class="top">
   <h1>Simulation Made Easy</h1>
   <p>Hassle free simulation management system that lets you stay focused on training the future of the medical community.</p>
@@ -5,6 +7,7 @@
 </div>
 
 <div id="about">
+  <div class="nav-buffer"></div>
   <%= render "about" %>
 </div>
 
@@ -30,9 +33,11 @@
 </div><!-- /.row -->
 
 <div id="pricing">
+  <div class="nav-buffer"></div>
   <%= render "pricing" %>
 </div>
 <div id="faq">
+  <div class="nav-buffer"></div>
   <%= render "faq" %>
 </div>
 <div id="contact">
