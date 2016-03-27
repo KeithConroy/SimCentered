@@ -33,7 +33,7 @@
 
         <% if @organization && current_user %>
 
-            <%= link_to "SimCentered", @organization, class: 'navbar-brand' %>
+          <%= link_to "SimCentered", @organization, class: 'navbar-brand' %>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -57,16 +57,6 @@
                   <li><%= link_to t('users.self'), organization_users_path(@organization) %></li>
                 </ul>
               </li>
-<!--               <li>
-                <div id="global-search-parent">
-                  <label for="search">
-                    <i class="fa fa-search"></i>
-                  </label>
-                  <div class="form-group">
-                    <input type="text" class="form-control global-search" placeholder="Search">
-                  </div>
-                </div>
-              </li>-->
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li>
@@ -87,7 +77,13 @@
 
         <% else %>
 
-            <a href="/" class='navbar-brand'>SimCentered</a>
+            <a href="/" class='home navbar-brand'>
+              Sim<div id="animated-motto">
+                <span class="simplify">plify</span>
+                <span class="simulation">ulation</span>
+                <span class="centered">Centered.com</span>
+              </div>
+            </a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -98,17 +94,6 @@
               <li><%= link_to t('sessions.sign_up'), new_organization_path(@organization) %></li>
               <li><%= link_to('Sign In', new_user_session_path)  %></li>
             </ul>
-
-            <!-- <form class="navbar-form navbar-right">
-              <div class="form-group">
-                <input type="text" placeholder="Email" class="form-control">
-              </div>
-              <div class="form-group">
-                <input type="password" placeholder="Password" class="form-control">
-              </div>
-              <button type="submit" class="btn btn-success">Sign in</button>
-            </form> -->
-
         <% end %>
       </div>
     </div>

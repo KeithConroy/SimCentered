@@ -27,7 +27,7 @@
     height: 100%;
     top: 50px;
     left: 0;
-    background: url('vitals.jpg') no-repeat center center;
+    background: url('stethoscope.jpg') no-repeat center center;
     opacity: 0.9;
     background-size: cover;
     will-change: transform;
@@ -45,7 +45,7 @@
     height: 100%;
     top: 50px;
     left: 0;
-    background: url('hospital.jpg') no-repeat center center;
+    background: url('vitals.jpg') no-repeat center center;
     opacity: 0.9;
     background-size: cover;
     will-change: transform;
@@ -53,10 +53,23 @@
   }
 }
 
+.home.navbar-brand {
+  font-size: 1.7em;
+}
+
+#animated-motto {
+  display: inline-block;
+  >.simulation, .simplify {
+    display: none;
+  }
+}
+
 .top {
   width: 40%;
-  height: 90%;
-  margin: 4% 0 4% 15%;
+  height: 100%;
+  position: relative;
+  top: 12%;
+  left: 15%;
   text-shadow: 2px 2px #E8E8E8;
   font-size: 1.5em;
   text-align: center;
@@ -94,6 +107,7 @@
   background-color: #f79e18;
   color: white;
   padding: 50px 50px;
+  margin-bottom: 20%;
   i {
     font-size: 15em;
   }
@@ -105,12 +119,8 @@
       line-height: 1;
       letter-spacing: -1px;
     }
-    &.scheduling {
-    }
     &.inventory {
       text-align: right;
-    }
-    &.assessment {
     }
     &.pulse {
       text-align: right;
@@ -123,6 +133,7 @@
   margin: 0;
   padding: 200px 20px;
   text-align: center;
+  background-color: #E9EAED;
 }
 
 #pricing, #contact, #faq {
