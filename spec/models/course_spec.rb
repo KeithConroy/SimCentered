@@ -1,36 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Course, type: :model do
-  let(:organization) do
-    Organization.create!(
-      title: "University",
-      subdomain: "uni"
-    )
-  end
-  let(:instructor) do
-    User.create!(
-      first_name: "Keith",
-      last_name: "Conroy",
-      email: "keith@mail.com",
-      organization_id: organization.id,
-      is_student: false,
-      password: "12345678"
-    )
-  end
-  let(:course) do
-    Course.create!(
-      title: "Test Course",
-      instructor_id: instructor.id,
-      organization_id: organization.id,
-    )
-  end
-  let(:course3) do
-    Course.create!(
-      title: "Test Course3",
-      instructor_id: instructor.id,
-      organization_id: organization.id,
-    )
-  end
+  let(:organization){ create(:organization) }
+  let(:instructor){ create(:instructor, organization_id: organization.id) }
+  let(:course){ create(:course, instructor_id: instructor.id, organization_id: organization.id)}
+  let(:course3){ create(:course, title: "Test Course3", instructor_id: instructor.id, organization_id: organization.id)}
   let(:organization2) do
     Organization.create!(
       title: "University2",

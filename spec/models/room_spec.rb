@@ -1,18 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Room, type: :model do
-  let(:organization) do
-    Organization.create!(
-      title: "University",
-      subdomain: "uni"
-    )
-  end
-  let(:room) do
-    Room.create!(
-      title: "Test Room",
-      organization_id: organization.id,
-    )
-  end
+  let(:organization){ create(:organization) }
+
   context 'validation' do
     it "fails validation with no title" do
       room = Room.new(

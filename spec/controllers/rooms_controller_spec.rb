@@ -70,6 +70,10 @@ RSpec.describe RoomsController, type: :controller do
       it "should give an error status" do
         expect(response.status).to eq 400
       end
+      it "will not update organization_id" do
+        put :update, organization_id: organization.id, id: room.id, room: {organization_id: 123}
+        expect(room.organization_id).to_not eq(123)
+      end
     end
   end
 

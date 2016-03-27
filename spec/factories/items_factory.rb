@@ -10,6 +10,7 @@ FactoryGirl.define do
 
     factory :capital_item do
       title "Test Item"
+      quantity 1
       disposable false
     end
 
