@@ -65,7 +65,7 @@ class ItemsController < ApplicationController
   def find_item
     @item = Item.where(organization_id: @organization.id, id: params[:id]).first
     unless @item
-      render file: "public/404.html"
+      render file: "public/404.html", status: 404
     end
   end
 

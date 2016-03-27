@@ -58,10 +58,12 @@ class RoomsController < ApplicationController
 
   def heatmap
     data = heatmap_data(@room)
-    quarter = data.values.max / 4
-    legend = [quarter,quarter*2,quarter*3,quarter*4]
+    unless data.empty?
+      quarter = data.values.max / 4
+      legend = [quarter,quarter*2,quarter*3,quarter*4]
+    end
 
-    render json: { data: data, name: ['hour', 'hours'], legend: legend}
+    render json: { data: data, name: ['hour', 'hours'], legend: legend || [2,4,6,8]}
   end
 
   private
@@ -69,7 +71,7 @@ class RoomsController < ApplicationController
   def find_room
     @room = Room.where(organization_id: @organization.id, id: params[:id]).first
     unless @room
-      render file: "public/404.html"
+      render file: "public/404.html", status: 404
     end
   end
 

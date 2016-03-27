@@ -199,7 +199,7 @@ class EventsController < ApplicationController
   def find_event
     @event = Event.where(organization_id: @organization.id, id: params[:id]).first
     unless @event
-      render file: "public/404.html"
+      render file: "public/404.html", status: 404
     end
   end
 
