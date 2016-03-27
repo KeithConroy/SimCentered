@@ -56,9 +56,13 @@
 .top {
   width: 40%;
   height: 90%;
-  margin: 100px 0 30px 20%;
+  margin: 4% 0 4% 15%;
   text-shadow: 2px 2px #E8E8E8;
   font-size: 1.5em;
+  text-align: center;
+  h1 {
+    font-size: 2.5em;
+  }
 }
 
 .nav-buffer {
