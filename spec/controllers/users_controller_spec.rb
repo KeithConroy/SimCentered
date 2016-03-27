@@ -20,6 +20,15 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
+  context 'GET new' do
+    before { get :new, organization_id: organization.id }
+    it "should get new" do
+      expect(response).to be_ok
+      expect(response).to render_template("new")
+      expect(assigns(:user)).to be_a(User)
+    end
+  end
+
   context "POST create" do
     it "saves a new user and redirects" do
       expect{ post :create, user: {first_name: "New", last_name: "User", email: "NU@mail.com", organization_id: organization.id, is_student: false, password: "12345678" }, organization_id: organization.id }.to change{User.count}.by 1
@@ -45,12 +54,20 @@ RSpec.describe UsersController, type: :controller do
     it "gets user" do
       expect(assigns(:user)).to be_a(User)
     end
+    it "renders 404 with invalid user" do
+      get :show, organization_id: organization.id, id: 42
+      expect(response.status).to eq 404
+    end
   end
 
   context "GET #edit" do
     before { get :edit, organization_id: organization.id, id: user.id }
     it "gets user" do
       expect(assigns(:user)).to be_a(User)
+    end
+    it "renders 404 with invalid user" do
+      get :edit, organization_id: organization.id, id: 42
+      expect(response.status).to eq 404
     end
   end
 
@@ -80,6 +97,10 @@ RSpec.describe UsersController, type: :controller do
         put :update, organization_id: organization.id, id: user.id, user: {organization_id: 123}
         expect(user.organization_id).to_not eq(123)
       end
+      it "renders 404 with invalid user" do
+        put :update, organization_id: organization.id, id: 42, user: {first_name: "Updated User"}
+        expect(response.status).to eq 404
+      end
     end
   end
 
@@ -93,6 +114,10 @@ RSpec.describe UsersController, type: :controller do
     end
     it "should redirect" do
       expect(response.status).to eq 302
+    end
+    it "renders 404 with invalid user" do
+      delete :destroy, organization_id: organization.id, id: 42
+      expect(response.status).to eq 404
     end
   end
 
