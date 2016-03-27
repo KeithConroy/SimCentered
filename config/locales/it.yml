@@ -4,7 +4,7 @@ it:
     schedule: "Programma"
     calendar: "Calendario"
     manage: "Gestire"
-    sc_pulse: "SC Pulse(:it)"
+    pulse: "Pulse(:it)"
     profile: "Profile(:it)"
   home:
     about: "About(:it)"

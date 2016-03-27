@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= yield(:title) %></title>
+  <title><%= content_for?(:title) ? yield(:title) : "SimCentered" %></title>
   <%= favicon_link_tag 'sc-blue.ico' %>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -71,7 +71,7 @@
             <ul class="nav navbar-nav navbar-right">
               <li>
                 <a href="/organizations/<%= @organization.id %>/community">
-                  <i class="fa fa-heartbeat fa-lg heart"></i>&nbsp; <%= t('nav.sc_pulse') %>
+                  <i class="fa fa-heartbeat fa-lg heart"></i>&nbsp; <%= t('nav.pulse') %>
                 </a>
               </li>
               <li class="dropdown">

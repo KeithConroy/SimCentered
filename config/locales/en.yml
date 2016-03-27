@@ -4,7 +4,7 @@ en:
     schedule: "Schedule"
     calendar: "Calendar"
     manage: "Manage"
-    sc_pulse: "SC Pulse"
+    pulse: "Pulse"
     profile: "Profile"
   home:
     about: "About"
