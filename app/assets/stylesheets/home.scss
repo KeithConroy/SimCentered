@@ -1,55 +1,50 @@
-
-#home.doctor {
+#home {
   position: relative;
   height: 100%;
   z-index: 5;
-  &::before {
-    content: ' ';
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 50px;
-    left: 0;
-    background: url('doctor.jpg') no-repeat top center;
-    background-size: cover;
-    will-change: transform;
-    z-index: -5;
+  &.doctor {
+    &::before {
+      content: ' ';
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 50px;
+      left: 0;
+      background: url('doctor.jpg') no-repeat top center;
+      background-size: cover;
+      will-change: transform;
+      z-index: -5;
+    }
   }
-}
-#home.vitals {
-  position: relative;
-  height: 100%;
-  z-index: 5;
-  &::before {
-    content: ' ';
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 50px;
-    left: 0;
-    background: url('stethoscope.jpg') no-repeat center center;
-    opacity: 0.9;
-    background-size: cover;
-    will-change: transform;
-    z-index: -5;
+  &.vitals {
+    &::before {
+      content: ' ';
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 50px;
+      left: 0;
+      background: url('stethoscope.jpg') no-repeat center center;
+      opacity: 0.9;
+      background-size: cover;
+      will-change: transform;
+      z-index: -5;
+    }
   }
-}
-#home.middle {
-  position: relative;
-  height: 100%;
-  z-index: 5;
-  &::before {
-    content: ' ';
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 50px;
-    left: 0;
-    background: url('vitals.jpg') no-repeat center center;
-    opacity: 0.9;
-    background-size: cover;
-    will-change: transform;
-    z-index: -5;
+  &.middle {
+    &::before {
+      content: ' ';
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 50px;
+      left: 0;
+      background: url('vitals.jpg') no-repeat center center;
+      opacity: 0.9;
+      background-size: cover;
+      will-change: transform;
+      z-index: -5;
+    }
   }
 }
 
@@ -64,7 +59,7 @@
   }
 }
 
-.top {
+.hero {
   width: 40%;
   height: 100%;
   position: relative;
@@ -145,7 +140,7 @@
 #contact {
   color: white;
   padding-top: 10%;
-  background: transparent;
+  background: rgba(188, 188, 188, 0.36);
   a {
     color: #f79e18;
   }
@@ -171,7 +166,7 @@ body {
 }
 
 body {
-  padding-top: 75px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+  padding-top: 50px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
   padding-bottom: 25px;
   color: #5a5a5a;
   font-family: 'Open Sans', sans-serif;
