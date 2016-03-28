@@ -1,9 +1,5 @@
 require 'rails_helper'
 
-Capybara.register_driver :selenium do |app|
-  Capybara::Selenium::Driver.new(app, :browser => :chrome)
-end
-
 RSpec.describe "Courses", type: :feature, :js => true do
   let(:organization){ create(:organization) }
   let(:instructor){ create(:instructor, organization_id: organization.id) }
@@ -30,7 +26,6 @@ RSpec.describe "Courses", type: :feature, :js => true do
   end
 
   it "shows courses page" do
-    p Organization.all
     create(:course, organization_id: organization.id, instructor_id: instructor.id)
     visit "/organizations/1/courses"
     expect(page).to have_content 'Test Course'
