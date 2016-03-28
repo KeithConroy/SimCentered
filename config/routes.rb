@@ -51,7 +51,8 @@ Rails.application.routes.draw do
     resources :users do
       get 'search', on: :collection
     end
+
+    get 'community', on: :member
   end
 
-  get '/organizations/:id/community' => 'home#community'
 end

@@ -43,6 +43,9 @@ class OrganizationsController < ApplicationController
     redirect_to 'home#index', as: :unauthenticated_root
   end
 
+  def community
+  end
+
   private
 
   def organization_params

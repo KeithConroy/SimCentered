@@ -10,7 +10,7 @@
       height: 100%;
       top: 50px;
       left: 0;
-      background: url('doctor.jpg') no-repeat top center;
+      background: image-url('doctor.jpg') no-repeat top center;
       background-size: cover;
       will-change: transform;
       z-index: -5;
@@ -24,7 +24,7 @@
       height: 100%;
       top: 50px;
       left: 0;
-      background: url('stethoscope.jpg') no-repeat center center;
+      background: image-url('stethoscope.jpg') no-repeat center center;
       opacity: 0.9;
       background-size: cover;
       will-change: transform;
@@ -39,7 +39,7 @@
       height: 100%;
       top: 50px;
       left: 0;
-      background: url('vitals.jpg') no-repeat center center;
+      background: image-url('vitals.jpg') no-repeat center center;
       opacity: 0.9;
       background-size: cover;
       will-change: transform;
@@ -166,7 +166,7 @@ body {
 }
 
 body {
-  padding-top: 50px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+  padding-top: 75px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
   padding-bottom: 25px;
   color: #5a5a5a;
   font-family: 'Open Sans', sans-serif;
