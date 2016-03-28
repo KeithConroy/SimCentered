@@ -46,7 +46,7 @@
       </div>
       <div class="modal-body">
         <%= bootstrap_form_for @new_course, layout: :horizontal, control_col: "col-sm-9", url: organization_courses_path do |f| %>
-          <%= f.text_field :title, label: t('courses.self') %>
+          <%= f.text_field :title, label: t('courses.course') %>
           <%= f.select(:instructor_id, @faculty) %>
           <%= f.submit %>
         <% end %>
