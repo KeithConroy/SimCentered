@@ -2,6 +2,7 @@ class RoomsController < ApplicationController
   before_action :find_room, only: [:show, :edit, :update, :destroy, :heatmap]
 
   include EventsHelper
+  include RoomHeatmap
 
   def index
     @new_room = Room.new
@@ -56,16 +57,6 @@ class RoomsController < ApplicationController
     render :'rooms/_all_rooms', layout: false
   end
 
-  def heatmap
-    data = heatmap_data(@room)
-    unless data.empty?
-      quarter = data.values.max / 4
-      legend = [quarter,quarter*2,quarter*3,quarter*4]
-    end
-
-    render json: { data: data, name: ['hour', 'hours'], legend: legend || [2,4,6,8]}
-  end
-
   private
 
   def find_room
@@ -79,13 +70,4 @@ class RoomsController < ApplicationController
     params.require(:room).permit(:title, :number, :building, :description)
   end
 
-  def heatmap_data(room, data = {})
-    room.events.each do |event|
-      if event.start < DateTime.now
-        timestamp = event.start.to_i.to_s
-        data[timestamp] = event_duration(event)
-      end
-    end
-    data
-  end
 end
