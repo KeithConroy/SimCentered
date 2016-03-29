@@ -62,6 +62,9 @@ group :development, :test do
   gem 'nyan-cat-formatter'
 
   gem 'simplecov'
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'chromedriver-helper'
 
   # Spring speeds up development by keeping your application
   # running in the background. Read more: https://github.com/rails/spring

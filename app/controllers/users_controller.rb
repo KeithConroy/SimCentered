@@ -54,7 +54,7 @@ class UsersController < ApplicationController
   def find_user
     @user = User.where(organization_id: @organization.id, id: params[:id]).first
     unless @user
-      render file: "public/404.html"
+      render file: "public/404.html", status: 404
     end
   end
 

@@ -11,6 +11,13 @@ RSpec.describe OrganizationsController, type: :controller do
       expect{ post :create, organization: {title: "New Organization", subdomain: "norg", email: "new_org_admin@mail.com"} }.to change{Organization.count}.by 1
       expect(response.status).to eq 302
     end
+    it "creates an admin user" do
+      expect{ post :create, organization: {title: "New Organization", subdomain: "norg", email: "new_org_admin@mail.com"} }.to change{User.count}.by 1
+      expect(User.last.first_name).to eq("norg")
+      expect(User.last.last_name).to eq("Admin")
+      expect(User.last.email).to eq("new_org_admin@mail.com")
+      expect(User.last.organization_id).to eq(Organization.last.id)
+    end
     it "does not saves a new organization with invalid input - no title" do
       expect{ post :create, organization: {title: "", subdomain: "empty", email: "new_org_admin@mail.com"} }.to_not change{Organization.count}
     end

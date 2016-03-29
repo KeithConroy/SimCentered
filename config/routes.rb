@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       root :to => 'organizations#show', as: :authenticated_root, via: :get
     end
     unauthenticated :user do
-      root :to => 'welcome#index', as: :unauthenticated_root
+      root :to => 'home#index', as: :unauthenticated_root
     end
   end
 
@@ -46,11 +46,13 @@ Rails.application.routes.draw do
     end
     resources :rooms do
       get 'search', on: :collection
+      get 'heatmap', on: :member
     end
     resources :users do
       get 'search', on: :collection
     end
+
+    get 'community', on: :member
   end
 
-  get '/organizations/:id/community' => 'welcome#community'
 end

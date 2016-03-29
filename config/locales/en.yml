@@ -4,9 +4,9 @@ en:
     schedule: "Schedule"
     calendar: "Calendar"
     manage: "Manage"
-    sc_pulse: "SC Pulse"
+    pulse: "Pulse"
     profile: "Profile"
-  welcome:
+  home:
     about: "About"
     contact: "Contact"
     pricing: "Pricing"

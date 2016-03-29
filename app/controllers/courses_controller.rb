@@ -88,7 +88,7 @@ class CoursesController < ApplicationController
   def find_course
     @course = Course.where(organization_id: @organization.id, id: params[:id]).first
     unless @course
-      render file: "public/404.html"
+      render file: "public/404.html", status: 404
     end
   end
 

@@ -40,7 +40,10 @@ class OrganizationsController < ApplicationController
   def destroy
     @organization.destroy
     sign_out current_user
-    redirect_to 'welcome#index', as: :unauthenticated_root
+    redirect_to 'home#index', as: :unauthenticated_root
+  end
+
+  def community
   end
 
   private

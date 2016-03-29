@@ -1,12 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Organization, type: :model do
-  let(:organization) do
-    Organization.create!(
-      title: "University",
-      subdomain: "uni"
-    )
-  end
+  let(:organization){ create(:organization) }
+
   context 'validation' do
     it "fails validation with no title" do
       organization = Organization.new(

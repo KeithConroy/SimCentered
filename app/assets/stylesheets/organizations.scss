@@ -10,6 +10,7 @@ $dropDown       : true;
 .navbar-custom {
   background-color: $bgDefault;
   border-color: $bgHighlight;
+  border: 0;
   .navbar-brand {
     color: $colDefault;
     -webkit-transition-duration: 1s; /* Safari */
@@ -51,7 +52,7 @@ $dropDown       : true;
     > .active {
       > a, > a:hover, > a:focus {
         color: $colHighlight;
-        background-color: $bgHighlight; }}
+        background-color: $colDefault; }}
     > .open {
       > a, > a:hover, > a:focus {
         color: $colHighlight;
@@ -78,11 +79,15 @@ $dropDown       : true;
     > .active {
       > a, > a:hover, > a:focus {
         color: $colHighlight;
-        background-color: $bgHighlight; }}}
+        background-color: $colDefault; }}}
 }
 
 .nav>li>a:hover {
   background-color: $colDefault;
+}
+
+ul.nav li.dropdown:hover > ul.dropdown-menu {
+  display: block;
 }
 
 body {

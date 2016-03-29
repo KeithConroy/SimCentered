@@ -70,6 +70,14 @@ RSpec.describe EventsController, type: :controller do
       expect{ post :create, event: {title: "Event", instructor_id: instructor.id, organization_id: organization.id}, organization_id: organization.id }.to change{Event.count}.by 1
       expect(response.status).to eq 302
     end
+    it "belongs to instructor" do
+      post :create, event: {title: "Event", instructor_id: instructor.id, organization_id: organization.id}, organization_id: organization.id
+      expect(Event.last.instructor).to eq(instructor)
+    end
+    it "belongs to organization" do
+      post :create, event: {title: "Event", instructor_id: instructor.id, organization_id: organization.id}, organization_id: organization.id
+      expect(Event.last.organization_id).to eq(organization.id)
+    end
     it "does not saves a new event with invalid input" do
       expect{ post :create, event: {title: ""}, organization_id: organization.id }.to_not change{Event.count}
     end
@@ -84,12 +92,20 @@ RSpec.describe EventsController, type: :controller do
     it "gets event" do
       expect(assigns(:event)).to be_a(Event)
     end
+    it "renders 404 with invalid event" do
+      get :show, organization_id: organization.id, id: 42
+      expect(response.status).to eq 404
+    end
   end
 
   context "GET #edit" do
     before { get :edit, organization_id: organization.id, id: event.id }
     it "gets event" do
       expect(assigns(:event)).to be_a(Event)
+    end
+    it "renders 404 with invalid event" do
+      get :edit, organization_id: organization.id, id: 42
+      expect(response.status).to eq 404
     end
   end
 
@@ -115,6 +131,14 @@ RSpec.describe EventsController, type: :controller do
       it "should give an error status" do
         expect(response.status).to eq 400
       end
+      it "will not update organization_id" do
+        put :update, organization_id: organization.id, id: event.id, event: {organization_id: other_organization.id}
+        expect(event.organization_id).to_not eq(other_organization.id)
+      end
+      it "renders 404 with invalid event" do
+        put :update, organization_id: organization.id, id: 42, event: {title: "Updated Event"}
+        expect(response.status).to eq 404
+      end
     end
   end
 
@@ -128,6 +152,10 @@ RSpec.describe EventsController, type: :controller do
     end
     it "should redirect" do
       expect(response.status).to eq 302
+    end
+    it "renders 404 with invalid event" do
+      get :show, organization_id: organization.id, id: 42
+      expect(response.status).to eq 404
     end
   end
 
@@ -166,6 +194,10 @@ RSpec.describe EventsController, type: :controller do
         expect(event.students.count).to be(0)
         expect(event.students).to_not include(other_student)
       end
+      it "renders 404 with invalid event" do
+        post :add_course, organization_id: organization.id, id: 42, course_id: course.id
+        expect(response.status).to eq 404
+      end
     end
   end
 
@@ -183,23 +215,28 @@ RSpec.describe EventsController, type: :controller do
       end
     end
 
-    context "invalid #add_student - student from another organization" do
-      before { post :add_student, organization_id: organization.id, id: event.id, student_id: other_student.id }
-      it "should give an error status" do
-        expect(response.status).to eq 400
+    context "invalid #add_student" do
+      context "student from another organization" do
+        before { post :add_student, organization_id: organization.id, id: event.id, student_id: other_student.id }
+        it "should give an error status" do
+          expect(response.status).to eq 400
+        end
+        it "does not assign a student to the event" do
+          expect(Event.first.students).to_not include(other_student)
+        end
       end
-      it "does not assign a student to the event" do
-        expect(Event.first.students).to_not include(other_student)
+      context "non existant student" do
+        before { post :add_student, organization_id: organization.id, id: event.id, student_id: 20 }
+        it "should give an error status" do
+          expect(response.status).to eq 400
+        end
+        it "does not assign a student to the event" do
+          expect(Event.first.students.count).to be(0)
+        end
       end
-    end
-
-    context "invalid #add_student - non existant student" do
-      before { post :add_student, organization_id: organization.id, id: event.id, student_id: 20 }
-      it "should give an error status" do
-        expect(response.status).to eq 400
-      end
-      it "does not assign a student to the event" do
-        expect(Event.first.students.count).to be(0)
+      it "renders 404 with invalid event" do
+        post :add_course, organization_id: organization.id, id: 42, student_id: student.id
+        expect(response.status).to eq 404
       end
     end
   end
@@ -346,6 +383,10 @@ RSpec.describe EventsController, type: :controller do
     it 'calls Item.search' do
       expect(Item).to respond_to(:search).with(2).argument
       expect(assigns(:items)).to be_a(Array)
+    end
+    it "renders 404 with invalid event" do
+      get :modify_search, organization_id: organization.id, id: 42, phrase: 'event'
+      expect(response.status).to eq 404
     end
   end
 end

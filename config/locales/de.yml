@@ -4,9 +4,9 @@ de:
     schedule: "Zeitplan"
     calendar: "Kalender"
     manage: "Verwalten"
-    sc_pulse: "SC Pulse(:de)"
+    pulse: "Pulse(:de)"
     profile: "Profile(:de)"
-  welcome:
+  home:
     about: "About(:de)"
     contact: "Contact(:de)"
     pricing: "Pricing(:de)"
