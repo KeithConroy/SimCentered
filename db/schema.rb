@@ -11,7 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160313203425) do
+ActiveRecord::Schema.define(version: 20160329020209) do
+
+  create_table "cameras", force: :cascade do |t|
+    t.string   "name"
+    t.string   "ip_address"
+    t.string   "serial_number"
+    t.integer  "organization_id"
+    t.integer  "room_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "cameras", ["organization_id"], name: "index_cameras_on_organization_id"
+  add_index "cameras", ["room_id"], name: "index_cameras_on_room_id"
 
   create_table "courses", force: :cascade do |t|
     t.string   "title"
@@ -47,11 +60,6 @@ ActiveRecord::Schema.define(version: 20160313203425) do
   add_index "events", ["instructor_id"], name: "index_events_on_instructor_id"
   add_index "events", ["organization_id"], name: "index_events_on_organization_id"
 
-  create_table "events_items", id: false, force: :cascade do |t|
-    t.integer "event_id", null: false
-    t.integer "item_id",  null: false
-  end
-
   create_table "events_rooms", id: false, force: :cascade do |t|
     t.integer "room_id",  null: false
     t.integer "event_id", null: false
@@ -79,6 +87,20 @@ ActiveRecord::Schema.define(version: 20160313203425) do
     t.datetime "updated_at", null: false
     t.string   "subdomain"
     t.string   "time_zone"
+  end
+
+  create_table "room_groups", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "room_groups", ["organization_id"], name: "index_room_groups_on_organization_id"
+
+  create_table "room_groups_rooms", id: false, force: :cascade do |t|
+    t.integer "room_group_id", null: false
+    t.integer "room_id",       null: false
   end
 
   create_table "rooms", force: :cascade do |t|

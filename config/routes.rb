@@ -44,10 +44,14 @@ Rails.application.routes.draw do
       get 'search', on: :collection
       get 'heatmap', on: :member
     end
+
     resources :rooms do
       get 'search', on: :collection
       get 'heatmap', on: :member
     end
+
+    resources :room_groups
+
     resources :users do
       get 'search', on: :collection
     end

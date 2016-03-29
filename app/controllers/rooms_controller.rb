@@ -9,6 +9,8 @@ class RoomsController < ApplicationController
       .where(organization_id: @organization.id)
       .order(title: :asc)
       .paginate(page: params[:page], per_page: 15)
+    @groups = RoomGroup.local(@organization.id)
+    @new_group = RoomGroup.new
 
     render :'rooms/_all_rooms', layout: false if request.xhr?
   end

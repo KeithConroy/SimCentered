@@ -1,0 +1,27 @@
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Group &nbsp;<i class="fa fa-sort"></i></th>
+      <th>Rooms</th>
+      <th class='icon'><%= t('crud.delete') %></th>
+    </tr>
+  </thead>
+  <tbody id="rooms-index">
+    <% @groups.each do |group| %>
+      <tr>
+        <td>
+          <%= link_to group.title, organization_room_group_path(group.organization_id, group.id) %>
+        </td>
+        <td>
+          <% group.rooms.each do |room| %>
+            <%= room.title %>
+          <% end %>
+        </td>
+
+        <td class='icon'>
+          <i class="fa fa-trash-o fa-lg"></i>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -3,6 +3,7 @@ class Room < ActiveRecord::Base
 
   belongs_to :organization
   has_and_belongs_to_many :events
+  has_and_belongs_to_many :room_groups
 
   validates_presence_of :title, :organization_id
 
