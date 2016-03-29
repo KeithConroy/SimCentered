@@ -13,7 +13,7 @@ class RoomGroupsController < ApplicationController
     end
     @group.organization_id = @organization.id
     if @group.save
-      redirect_to organization_rooms_path(@organization.id)
+      redirect_to organization_room_group_path(@organization.id, @group.id)
     else
       render json: @group.errors.full_messages, status: 400
     end

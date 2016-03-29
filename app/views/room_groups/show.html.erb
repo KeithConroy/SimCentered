@@ -19,7 +19,8 @@
 </h2>
 
 <div class="row col-md-12 details">
-  <h4><%= t('rooms.self') %>: <small>
+  <h4><%= t('rooms.self') %>:
+    <small>
     <ul>
       <% @group.rooms.each do |room| %>
         <li>
@@ -27,7 +28,8 @@
         </li>
       <% end %>
     </ul>
-    </small></h4>
+    </small>
+  </h4>
 </div>
 
 <div class="modal fade" id="editRoomGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

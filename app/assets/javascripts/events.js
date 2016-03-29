@@ -42,6 +42,8 @@ var bindEvents = function(){
   $("body").on('click', ".add-student", addStudent);
   $("body").on('click', ".remove-student", removeStudent);
 
+  $("body").on('click', ".add-group", addRoomGroup);
+
   $("body").on('click', ".add-room", addRoom);
   $("body").on('click', ".remove-room", removeRoom);
 
@@ -110,6 +112,25 @@ var removeStudent = function(){
       $('#event-show-students').find('.none-added').parent().show()
     }
     $("a[data-student-id='" + data.studentId + "']").closest("tr").remove();
+  }).fail(function() {
+      console.log('error');
+  });
+};
+
+var addRoomGroup = function(){
+  event.preventDefault();
+
+  var url = $(this).attr('href');
+  var groupId = $(this).attr('data-group-id');
+  this.closest("tr").remove();
+
+  $.ajax({
+    url: url,
+    data: { group_id: groupId },
+    type: 'post'
+  }).done(function(data) {
+    // $('#event-show-rooms').find('.none-added').parent().hide()
+    // $('#event-show-rooms').append($(data));
   }).fail(function() {
       console.log('error');
   });

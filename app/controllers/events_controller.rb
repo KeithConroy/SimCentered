@@ -3,6 +3,7 @@ class EventsController < ApplicationController
     :show, :edit, :update, :destroy, :modify_search,
     :add_student, :remove_student,
     :add_course, :remove_course,
+    :add_room_group,
     :add_room, :remove_room,
     :add_item, :remove_item
   ]
@@ -132,9 +133,16 @@ class EventsController < ApplicationController
     end
   end
 
+  def add_room_group
+    @group = RoomGroup.where(id: params[:group_id]).first
+    @group.rooms.each do |room|
+      @event.rooms << room unless @event.rooms.include?(room)
+    end
+  end
+
   def add_room
     if @room && @room.organization_id == @organization.id
-      @event.rooms << @room unless @event.students.include?(@student)
+      @event.rooms << @room unless @event.rooms.include?(@room)
       if @event.save
         render :'events/_scheduled_room', layout: false, locals: { room: @room }
       else
@@ -256,6 +264,7 @@ class EventsController < ApplicationController
   end
 
   def search_all
+    @room_groups = RoomGroup.local(@organization.id)
     search_available_courses
     search_available_students
     search_available_rooms

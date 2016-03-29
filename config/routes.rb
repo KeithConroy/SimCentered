@@ -29,6 +29,8 @@ Rails.application.routes.draw do
         post 'add_student'
         delete 'remove_student'
 
+        post 'add_room_group'
+
         post 'add_room'
         delete 'remove_room'
 

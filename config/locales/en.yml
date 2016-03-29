@@ -72,6 +72,11 @@ en:
     are_you_sure: "Are you sure you want to delete this room?"
     none_added: "No rooms have been added"
     schedule: "Room Schedule"
+  room_groups:
+    self: "Room Groups"
+    group: "Group"
+    none_added: "No room groups have been added"
+    are_you_sure: "Are you sure you want to delete this room group?"
   users:
     self: "Users"
     edit: "Edit User"

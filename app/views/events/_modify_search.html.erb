@@ -21,6 +21,17 @@
   </tr>
   <% end %>
 
+  <% @room_groups.each do |group| %>
+  <tr>
+    <td><i class="fa fa-hospital-o"></i><i class="fa fa-hospital-o"></i> <%= group.title %></td>
+    <td class="icon">
+        <a href="<%= @event.id %>/add_room_group" data-group-id="<%= group.id %>" class="add-group">
+          <i class="fa fa-plus"></i>
+        </a>
+    </td>
+  </tr>
+  <% end %>
+
   <% @rooms.each do |room| %>
   <tr>
     <td><i class="fa fa-hospital-o"></i> <%= room.title %></td>
