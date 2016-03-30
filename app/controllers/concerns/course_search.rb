@@ -7,7 +7,7 @@ module CourseSearch
   end
 
   def modify_search
-    @course = find_course or return
+    @course = find_course || return
     search_available_students
     render :'courses/_modify_search', layout: false
   end
@@ -18,5 +18,4 @@ module CourseSearch
     @students = User.search_students(@organization.id, params[:phrase])
     @students -= @course.students
   end
-
 end

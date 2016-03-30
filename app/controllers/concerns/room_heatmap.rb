@@ -2,14 +2,18 @@ module RoomHeatmap
   extend ActiveSupport::Concern
 
   def heatmap
-    @room = find_room or return
+    @room = find_room || return
     data = heatmap_data(@room)
     unless data.empty?
       quarter = data.values.max / 4
-      legend = [quarter,quarter*2,quarter*3,quarter*4]
+      legend = [quarter, quarter * 2, quarter * 3, quarter * 4]
     end
 
-    render json: { data: data, name: ['hour', 'hours'], legend: legend || [2,4,6,8]}
+    render json: {
+      data: data,
+      name: ['hour', 'hours'],
+      legend: legend || [2, 4, 6, 8]
+    }
   end
 
   private
@@ -23,5 +27,4 @@ module RoomHeatmap
     end
     data
   end
-
 end

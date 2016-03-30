@@ -1,7 +1,7 @@
 <% content_for :title, "#{full_name(@user)}" %>
 
 <h2 class="page-header">
-  <% if current_user.is_faculty? %>
+  <% if current_user.faculty? %>
     <%= link_to organization_users_path(@organization), class: "back" do %>
       <i class="fa fa-angle-double-left fa-lg"></i>
     <% end %>
@@ -52,7 +52,7 @@
             <% @user.courses.each do |course| %>
               <tr>
                 <td>
-                  <% if current_user.is_faculty? %>
+                  <% if current_user.faculty? %>
                     <%= link_to course.title, organization_course_path(course.organization_id, course.id) %>
                   <% else %>
                     <%= course.title %>
@@ -96,7 +96,7 @@
             <% @events.each do |event| %>
               <tr>
                 <td>
-                  <% if current_user.is_faculty? %>
+                  <% if current_user.faculty? %>
                     <%= link_to event.title, organization_event_path(event.organization_id, event.id) %>
                   <% else %>
                     <%= event.title %>
@@ -125,7 +125,7 @@
           <%= f.text_field :first_name, label: t('users.first_name') %>
           <%= f.text_field :last_name, label: t('users.last_name') %>
           <%= f.email_field :email, label: t('users.email') %>
-          <% if current_user.is_faculty? %>
+          <% if current_user.faculty? %>
             <%= f.check_box :is_student, label: t('users.student_question') %>
           <% end %>
           <%= f.password_field :password, label: t('users.password') %>

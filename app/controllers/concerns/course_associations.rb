@@ -2,7 +2,7 @@ module CourseAssociations
   extend ActiveSupport::Concern
 
   def add_student
-    @course = find_course or return
+    @course = find_course || return
     @student = User.where(id: params[:student_id]).first
 
     if @student && @student.organization_id == @organization.id
@@ -18,7 +18,7 @@ module CourseAssociations
   end
 
   def remove_student
-    @course = find_course or return
+    @course = find_course || return
     @student = User.where(id: params[:student_id]).first
 
     if @course.students.include?(@student)
@@ -28,5 +28,4 @@ module CourseAssociations
       render json: 'Student is not enrolled', status: 400
     end
   end
-
 end

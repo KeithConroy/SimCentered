@@ -34,17 +34,17 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = find_event or return
+    @event = find_event || return
     @faculty = find_faculty_options
   end
 
   def edit
-    @event = find_event or return
+    @event = find_event || return
     @faculty = find_faculty_options
   end
 
   def update
-    @event = find_event or return
+    @event = find_event || return
     if @event.update_attributes(event_params)
       redirect_to organization_event_path(@organization.id, @event.id)
     else
@@ -53,7 +53,7 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    @event = find_event or return
+    @event = find_event || return
     @event.destroy
     redirect_to(action: 'index')
   end
@@ -67,5 +67,4 @@ class EventsController < ApplicationController
   def event_params
     params.require(:event).permit(:title, :start, :finish, :instructor_id)
   end
-
 end

@@ -1,5 +1,4 @@
 class ItemsController < ApplicationController
-
   include EventsHelper
   include ItemHeatmap
 
@@ -28,18 +27,18 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = find_item or return
+    @item = find_item || return
     @events = @item.events
       .where('start > ?', DateTime.now)
       .paginate(page: 1, per_page: 10)
   end
 
   def edit
-    @item = find_item or return
+    @item = find_item || return
   end
 
   def update
-    @item = find_item or return
+    @item = find_item || return
     if @item.update_attributes(item_params)
       redirect_to organization_item_path(@organization.id, @item.id)
     else
@@ -69,5 +68,4 @@ class ItemsController < ApplicationController
   def item_params
     params.require(:item).permit(:title, :quantity, :disposable)
   end
-
 end

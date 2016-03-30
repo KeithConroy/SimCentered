@@ -1,5 +1,4 @@
 class CoursesController < ApplicationController
-
   include UsersHelper
   include CourseAssociations
   include CourseSearch
@@ -27,7 +26,7 @@ class CoursesController < ApplicationController
   end
 
   def show
-    @course = find_course or return
+    @course = find_course || return
     @events = @course.events
       .where('start > ?', DateTime.now)
       .paginate(page: 1, per_page: 10)
@@ -37,12 +36,12 @@ class CoursesController < ApplicationController
   end
 
   def edit
-    @course = find_course or return
+    @course = find_course || return
     @faculty = find_faculty_options
   end
 
   def update
-    @course = find_course or return
+    @course = find_course || return
     if @course.update_attributes(course_params)
       redirect_to organization_course_path(@organization.id, @course.id)
     else
@@ -51,7 +50,7 @@ class CoursesController < ApplicationController
   end
 
   def destroy
-    @course = find_course or return
+    @course = find_course || return
     @course.destroy
     redirect_to(action: 'index')
   end
@@ -65,5 +64,4 @@ class CoursesController < ApplicationController
   def course_params
     params.require(:course).permit(:title, :instructor_id)
   end
-
 end
