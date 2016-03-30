@@ -1,5 +1,4 @@
 class ItemsController < ApplicationController
-  before_action :find_item, only: [:show, :edit, :update, :destroy, :heatmap]
 
   include EventsHelper
   include ItemHeatmap
@@ -29,15 +28,18 @@ class ItemsController < ApplicationController
   end
 
   def show
+    @item = find_item or return
     @events = @item.events
       .where('start > ?', DateTime.now)
       .paginate(page: 1, per_page: 10)
   end
 
   def edit
+    @item = find_item or return
   end
 
   def update
+    @item = find_item or return
     if @item.update_attributes(item_params)
       redirect_to organization_item_path(@organization.id, @item.id)
     else
@@ -46,6 +48,7 @@ class ItemsController < ApplicationController
   end
 
   def destroy
+    @item = find_item || return
     @item.destroy
     redirect_to(action: 'index')
   end
@@ -60,10 +63,7 @@ class ItemsController < ApplicationController
   private
 
   def find_item
-    @item = Item.where(organization_id: @organization.id, id: params[:id]).first
-    unless @item
-      render file: "public/404.html", status: 404
-    end
+    authorize(Item.where(id: params[:id]).first)
   end
 
   def item_params

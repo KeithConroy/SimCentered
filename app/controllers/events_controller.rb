@@ -1,6 +1,5 @@
 class EventsController < ApplicationController
-  before_action :find_event, except: [:index, :new, :create, :search]
-  before_action :faculty, only: [:index, :new, :show, :edit]
+  skip_before_action :authorize_faculty, only: [:index]
 
   include UsersHelper
   include EventAssociations
@@ -8,6 +7,7 @@ class EventsController < ApplicationController
 
   def index
     @new_event = Event.new
+    @faculty = find_faculty_options
     if request.xhr?
       @calendar_events = Event.list_json(
         @organization.id, params[:start], params[:end]
@@ -20,6 +20,7 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+    @faculty = find_faculty_options
   end
 
   def create
@@ -33,12 +34,17 @@ class EventsController < ApplicationController
   end
 
   def show
+    @event = find_event or return
+    @faculty = find_faculty_options
   end
 
   def edit
+    @event = find_event or return
+    @faculty = find_faculty_options
   end
 
   def update
+    @event = find_event or return
     if @event.update_attributes(event_params)
       redirect_to organization_event_path(@organization.id, @event.id)
     else
@@ -47,6 +53,7 @@ class EventsController < ApplicationController
   end
 
   def destroy
+    @event = find_event or return
     @event.destroy
     redirect_to(action: 'index')
   end
@@ -54,20 +61,11 @@ class EventsController < ApplicationController
   private
 
   def find_event
-    @event = Event.where(organization_id: @organization.id, id: params[:id]).first
-    unless @event
-      render file: "public/404.html", status: 404
-    end
+    authorize(Event.where(id: params[:id]).first)
   end
 
   def event_params
     params.require(:event).permit(:title, :start, :finish, :instructor_id)
   end
 
-  def faculty
-    faculty = User.faculty(@organization.id)
-    @faculty = faculty.map do |user|
-      ["#{user.first_name} #{user.last_name}", user.id]
-    end
-  end
 end

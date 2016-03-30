@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :find_user, only: [:show, :edit, :update, :destroy]
+  skip_before_action :authorize_faculty, only: [:show, :edit, :update, :destroy]
 
   def index
     @new_user = User.new
@@ -23,15 +23,21 @@ class UsersController < ApplicationController
   end
 
   def show
+    @user = find_user or return
+    authorize_faculty_or_current_student(@user)
     @events = @user.events
       .where('start > ?', DateTime.now)
       .paginate(page: 1, per_page: 10)
   end
 
   def edit
+    @user = find_user or return
+    authorize_faculty_or_current_student(@user)
   end
 
   def update
+    @user = find_user or return
+    authorize_faculty_or_current_student(@user)
     if @user.update_attributes(user_params)
       redirect_to organization_user_path(@organization.id, @user.id)
     else
@@ -40,6 +46,8 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    @user = find_user or return
+    authorize_faculty_or_current_student(@user)
     @user.destroy
     redirect_to(action: 'index')
   end
@@ -52,10 +60,7 @@ class UsersController < ApplicationController
   private
 
   def find_user
-    @user = User.where(organization_id: @organization.id, id: params[:id]).first
-    unless @user
-      render file: "public/404.html", status: 404
-    end
+    authorize(User.where(id: params[:id]).first)
   end
 
   def user_params
@@ -63,4 +68,5 @@ class UsersController < ApplicationController
       :first_name, :last_name, :email, :is_student, :password
     )
   end
+
 end

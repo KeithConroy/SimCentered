@@ -12,6 +12,10 @@ class User < ActiveRecord::Base
 
   validates_presence_of :first_name, :last_name, :organization_id
 
+  def is_faculty?
+    !is_student
+  end
+
   def self.local(organization_id)
     where(organization_id: organization_id)
   end

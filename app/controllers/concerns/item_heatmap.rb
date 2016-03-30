@@ -2,6 +2,7 @@ module ItemHeatmap
   extend ActiveSupport::Concern
 
   def heatmap
+    @item = find_item or return
     render json: heatmap_json(@item)
   end
 

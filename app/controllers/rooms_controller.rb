@@ -1,5 +1,4 @@
 class RoomsController < ApplicationController
-  before_action :find_room, only: [:show, :edit, :update, :destroy, :heatmap]
 
   include EventsHelper
   include RoomHeatmap
@@ -29,15 +28,18 @@ class RoomsController < ApplicationController
   end
 
   def show
+    @room = find_room or return
     @events = @room.events
       .where('start > ?', DateTime.now)
       .paginate(page: 1, per_page: 10)
   end
 
   def edit
+    @room = find_room or return
   end
 
   def update
+    @room = find_room or return
     if @room.update_attributes(room_params)
       redirect_to organization_room_path(@organization.id, @room.id)
     else
@@ -46,6 +48,7 @@ class RoomsController < ApplicationController
   end
 
   def destroy
+    @room = find_room or return
     @room.destroy
     redirect_to(action: 'index')
   end
@@ -60,10 +63,7 @@ class RoomsController < ApplicationController
   private
 
   def find_room
-    @room = Room.where(organization_id: @organization.id, id: params[:id]).first
-    unless @room
-      render file: "public/404.html", status: 404
-    end
+    authorize(Room.where(id: params[:id]).first)
   end
 
   def room_params
