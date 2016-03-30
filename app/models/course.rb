@@ -2,7 +2,7 @@ class Course < ActiveRecord::Base
   belongs_to :organization
   belongs_to :instructor, class_name: 'User'
 
-  has_and_belongs_to_many :students, class_name: 'User'
+  has_and_belongs_to_many :students, class_name: 'User', before_add: :check_organization
   has_and_belongs_to_many :events
 
   validates_presence_of :title, :organization_id
@@ -27,12 +27,9 @@ class Course < ActiveRecord::Base
 
   private
 
-  def same_organization
-    students.each do |student|
-      if student.organization_id != organization_id
-        students.delete(student)
-        errors.add(:base, 'Invalid Association')
-      end
+  def check_organization(resource)
+    if resource.organization_id != organization_id
+      raise "This #{resource.class} does not belong to your organization"
     end
   end
 end

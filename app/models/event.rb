@@ -2,14 +2,13 @@ class Event < ActiveRecord::Base
   belongs_to :organization
   belongs_to :instructor, class_name: 'User'
 
-  has_and_belongs_to_many :courses
-  has_and_belongs_to_many :students, class_name: 'User'
-  has_and_belongs_to_many :rooms
+  has_and_belongs_to_many :courses, before_add: :check_organization
+  has_and_belongs_to_many :students, class_name: 'User', before_add: :check_organization
+  has_and_belongs_to_many :rooms, before_add: :check_organization
   has_many :scheduled_items
-  has_many :items, through: :scheduled_items
+  has_many :items, through: :scheduled_items, before_add: :check_organization
 
   validates_presence_of :title, :organization_id
-  validate :same_organization
 
   def self.local(organization_id)
     where(organization_id: organization_id)
@@ -60,24 +59,9 @@ class Event < ActiveRecord::Base
 
   private
 
-  def same_organization
-    students.each do |student|
-      if student.organization_id != organization_id
-        students.delete(student)
-        errors.add(:base, 'Invalid Student Association')
-      end
-    end
-    rooms.each do |room|
-      if room.organization_id != organization_id
-        rooms.delete(room)
-        errors.add(:base, 'Invalid Room Association')
-      end
-    end
-    items.each do |item|
-      if item.organization_id != organization_id
-        items.delete(item)
-        errors.add(:base, 'Invalid Item Association')
-      end
+  def check_organization(resource)
+    if resource.organization_id != organization_id
+      raise "This #{resource.class} does not belong to your organization"
     end
   end
 end
