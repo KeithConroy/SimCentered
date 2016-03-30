@@ -22,3 +22,4 @@ coverage/
 report/
 
 .byebug_history
+.rubocop_todo.yml

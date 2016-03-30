@@ -2,17 +2,21 @@ module EventAssociations
   extend ActiveSupport::Concern
 
   def add_course
-    @event = find_event or return
+    @event = find_event || return
     @course = Course.where(id: params[:course_id]).first
 
     if @course && @course.organization_id == @organization.id
       @event.courses << @course unless @event.courses.include?(@course)
       add_courses_students(@event, @course)
       if @event.save
-        course_json = { title: @course.title, courseId: @course.id, eventId: @event.id }
-        students_json = @course.students.map{ |student| get_student_json(student) }
+        course_json = {
+          title: @course.title,
+          courseId: @course.id,
+          eventId: @event.id
+        }
+        students_json = @course.students.map { |student| get_student_json(student) }
 
-        render json: {course: course_json, students: students_json}
+        render json: { course: course_json, students: students_json }
       else
         render json: @event.errors.full_messages, status: 400
       end
@@ -22,7 +26,7 @@ module EventAssociations
   end
 
   def remove_course
-    @event = find_event or return
+    @event = find_event || return
     @course = Course.where(id: params[:course_id]).first
 
     if @event.courses.include?(@course)
@@ -32,7 +36,7 @@ module EventAssociations
         render json: {
           count: @event.courses.count,
           courseId: @course.id,
-          studentIds: @course.students.map {|student| student.id }
+          studentIds: @course.students.map(&:id)
         }
       else
         render json: @event.errors.full_messages, status: 400
@@ -43,7 +47,7 @@ module EventAssociations
   end
 
   def add_student
-    @event = find_event or return
+    @event = find_event || return
     @student = User.where(id: params[:student_id]).first
 
     if @student && @student.organization_id == @organization.id
@@ -59,7 +63,7 @@ module EventAssociations
   end
 
   def remove_student
-    @event = find_event or return
+    @event = find_event || return
     @student = User.where(id: params[:student_id]).first
 
     if @event.students.include?(@student)
@@ -78,7 +82,7 @@ module EventAssociations
   end
 
   def add_room
-    @event = find_event or return
+    @event = find_event || return
     @room = Room.where(id: params[:room_id]).first
 
     if @room && @room.organization_id == @organization.id
@@ -94,7 +98,7 @@ module EventAssociations
   end
 
   def remove_room
-    @event = find_event or return
+    @event = find_event || return
     @room = Room.where(id: params[:room_id]).first
 
     @event.rooms.delete(@room)
@@ -109,7 +113,7 @@ module EventAssociations
   end
 
   def add_item
-    @event = find_event or return
+    @event = find_event || return
     @item = Item.where(id: params[:item_id]).first
 
     @event.items << @item
@@ -122,7 +126,7 @@ module EventAssociations
   end
 
   def remove_item
-    @event = find_event or return
+    @event = find_event || return
     @item = Item.where(id: params[:item_id]).first
 
     quantity = @event.scheduled_items.where(item_id: @item.id).first.quantity
@@ -168,5 +172,4 @@ module EventAssociations
     item.quantity += credit
     item.save
   end
-
 end

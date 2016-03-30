@@ -5,7 +5,7 @@ module Authorization
 
   def authorize_faculty
     if current_user.is_student
-      render file: "public/403.html", status: :unauthorized
+      render file: 'public/403.html', status: :unauthorized
     end
   end
 
@@ -13,14 +13,14 @@ module Authorization
     if resource && current_user.organization_id == resource.organization_id
       return resource
     else
-      render file: "public/404.html", status: 404
+      render file: 'public/404.html', status: 404
       return false
     end
   end
 
   def authorize_faculty_or_current_student(user)
     if current_user.is_student && current_user != user
-      render file: "public/403.html", status: :unauthorized
+      render file: 'public/403.html', status: :unauthorized
     end
   end
 
@@ -31,5 +31,4 @@ module Authorization
       super
     end
   end
-
 end
