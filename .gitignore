@@ -20,3 +20,5 @@
 coverage/
 
 report/
+
+.byebug_history
