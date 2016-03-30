@@ -5,15 +5,11 @@ module CourseAssociations
     @course = find_course || return
     @student = User.where(id: params[:student_id]).first
 
-    if @student && @student.organization_id == @organization.id
-      @course.students << @student unless @course.students.include?(@student)
-      if @course.save
-        render :'courses/_enrolled_student', layout: false, locals: { student: @student }
-      else
-        render json: @course.errors.full_messages, status: 400
-      end
-    else
-      render json: 'Invalid Student Association', status: 400
+    begin
+      @course.students << @student
+      render :'courses/_enrolled_student', layout: false, locals: { student: @student }
+    rescue => e
+      render json: { error: e}, status: 400
     end
   end
 

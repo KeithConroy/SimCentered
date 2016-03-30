@@ -2,11 +2,16 @@ class Event < ActiveRecord::Base
   belongs_to :organization
   belongs_to :instructor, class_name: 'User'
 
-  has_and_belongs_to_many :courses, before_add: :check_organization
-  has_and_belongs_to_many :students, class_name: 'User', before_add: :check_organization
-  has_and_belongs_to_many :rooms, before_add: :check_organization
+  has_and_belongs_to_many :courses,
+    before_add: [:check_organization, :add_students],
+    before_remove: :remove_students
+  has_and_belongs_to_many :students, class_name: 'User',
+    before_add: :check_organization
+  has_and_belongs_to_many :rooms,
+    before_add: :check_organization
   has_many :scheduled_items
-  has_many :items, through: :scheduled_items, before_add: :check_organization
+  has_many :items, through: :scheduled_items,
+    before_add: :check_organization
 
   validates_presence_of :title, :organization_id
 
@@ -62,6 +67,18 @@ class Event < ActiveRecord::Base
   def check_organization(resource)
     if resource.organization_id != organization_id
       raise "This #{resource.class} does not belong to your organization"
+    end
+  end
+
+  def add_students(course)
+    course.students.each do |student|
+      students << student
+    end
+  end
+
+  def remove_students(course)
+    course.students.each do |student|
+      students.delete(student)
     end
   end
 end
