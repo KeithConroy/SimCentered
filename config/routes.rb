@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
 
-  devise_for :users
+  devise_for :users,
+    :controllers => {
+      :sessions => "sessions"
+    }
   devise_scope :user do
     authenticated :user do
       root :to => 'organizations#show', as: :authenticated_root, via: :get

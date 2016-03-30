@@ -1,18 +1,19 @@
 class CoursesController < ApplicationController
-  before_action :find_course, except: [:index, :new, :create, :search]
-  before_action :faculty, only: [:index, :new, :show, :edit]
 
+  include UsersHelper
   include CourseAssociations
   include CourseSearch
 
   def index
     @new_course = Course.new
     @courses = Course.list(@organization.id, params[:page])
+    @faculty = find_faculty_options
 
     render :'courses/_all_courses', layout: false if request.xhr?
   end
 
   def new
+    @faculty = find_faculty_options
   end
 
   def create
@@ -26,17 +27,22 @@ class CoursesController < ApplicationController
   end
 
   def show
+    @course = find_course or return
     @events = @course.events
       .where('start > ?', DateTime.now)
       .paginate(page: 1, per_page: 10)
     @students = @course.students
       .paginate(page: params[:page], per_page: 10)
+    @faculty = find_faculty_options
   end
 
   def edit
+    @course = find_course or return
+    @faculty = find_faculty_options
   end
 
   def update
+    @course = find_course or return
     if @course.update_attributes(course_params)
       redirect_to organization_course_path(@organization.id, @course.id)
     else
@@ -45,6 +51,7 @@ class CoursesController < ApplicationController
   end
 
   def destroy
+    @course = find_course or return
     @course.destroy
     redirect_to(action: 'index')
   end
@@ -52,21 +59,11 @@ class CoursesController < ApplicationController
   private
 
   def find_course
-    @course = Course.where(organization_id: @organization.id, id: params[:id]).first
-    unless @course
-      render file: "public/404.html", status: 404
-    end
+    authorize(Course.where(id: params[:id]).first)
   end
 
   def course_params
     params.require(:course).permit(:title, :instructor_id)
-  end
-
-  def faculty
-    faculty = User.faculty(@organization.id)
-    @faculty = faculty.map do |user|
-      ["#{user.first_name} #{user.last_name}", user.id]
-    end
   end
 
 end

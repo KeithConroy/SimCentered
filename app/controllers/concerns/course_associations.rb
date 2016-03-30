@@ -2,6 +2,7 @@ module CourseAssociations
   extend ActiveSupport::Concern
 
   def add_student
+    @course = find_course or return
     @student = User.where(id: params[:student_id]).first
 
     if @student && @student.organization_id == @organization.id
@@ -17,6 +18,7 @@ module CourseAssociations
   end
 
   def remove_student
+    @course = find_course or return
     @student = User.where(id: params[:student_id]).first
 
     if @course.students.include?(@student)

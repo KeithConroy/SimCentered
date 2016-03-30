@@ -2,6 +2,7 @@ module EventAssociations
   extend ActiveSupport::Concern
 
   def add_course
+    @event = find_event or return
     @course = Course.where(id: params[:course_id]).first
 
     if @course && @course.organization_id == @organization.id
@@ -21,6 +22,7 @@ module EventAssociations
   end
 
   def remove_course
+    @event = find_event or return
     @course = Course.where(id: params[:course_id]).first
 
     if @event.courses.include?(@course)
@@ -41,6 +43,7 @@ module EventAssociations
   end
 
   def add_student
+    @event = find_event or return
     @student = User.where(id: params[:student_id]).first
 
     if @student && @student.organization_id == @organization.id
@@ -56,6 +59,7 @@ module EventAssociations
   end
 
   def remove_student
+    @event = find_event or return
     @student = User.where(id: params[:student_id]).first
 
     if @event.students.include?(@student)
@@ -74,6 +78,7 @@ module EventAssociations
   end
 
   def add_room
+    @event = find_event or return
     @room = Room.where(id: params[:room_id]).first
 
     if @room && @room.organization_id == @organization.id
@@ -89,6 +94,7 @@ module EventAssociations
   end
 
   def remove_room
+    @event = find_event or return
     @room = Room.where(id: params[:room_id]).first
 
     @event.rooms.delete(@room)
@@ -103,6 +109,7 @@ module EventAssociations
   end
 
   def add_item
+    @event = find_event or return
     @item = Item.where(id: params[:item_id]).first
 
     @event.items << @item
@@ -115,6 +122,7 @@ module EventAssociations
   end
 
   def remove_item
+    @event = find_event or return
     @item = Item.where(id: params[:item_id]).first
 
     quantity = @event.scheduled_items.where(item_id: @item.id).first.quantity
