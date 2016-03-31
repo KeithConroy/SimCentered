@@ -1,14 +1,11 @@
 class Room < ActiveRecord::Base
+  include BelongsToOrganization
+
   attr_accessor :busy
 
-  belongs_to :organization
   has_and_belongs_to_many :events
 
-  validates_presence_of :title, :organization_id
-
-  def self.local(organization_id)
-    where(organization_id: organization_id)
-  end
+  validates_presence_of :title
 
   def self.list(organization_id, page)
     local(organization_id)

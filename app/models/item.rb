@@ -1,15 +1,12 @@
 class Item < ActiveRecord::Base
+  include BelongsToOrganization
+
   attr_accessor :busy
 
-  belongs_to :organization
   has_many :scheduled_items
   has_many :events, through: :scheduled_items
 
-  validates_presence_of :title, :quantity, :organization_id
-
-  def self.local(organization_id)
-    where(organization_id: organization_id)
-  end
+  validates_presence_of :title, :quantity
 
   def self.list(organization_id, page)
     local(organization_id)

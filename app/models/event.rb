@@ -1,23 +1,19 @@
 class Event < ActiveRecord::Base
-  belongs_to :organization
+  include BelongsToOrganization
+  include HasStudents
+
   belongs_to :instructor, class_name: 'User'
 
   has_and_belongs_to_many :courses,
-    before_add: [:check_organization, :add_students],
+    before_add: [:check_organization, :add_students, :check_duplicate_course],
     before_remove: :remove_students
-  has_and_belongs_to_many :students, class_name: 'User',
-    before_add: :check_organization
   has_and_belongs_to_many :rooms,
-    before_add: :check_organization
-  has_many :scheduled_items
+    before_add: [:check_organization, :check_duplicate_room]
   has_many :items, through: :scheduled_items,
-    before_add: :check_organization
+    before_add: [:check_organization, :check_duplicate_item]
+  has_many :scheduled_items
 
-  validates_presence_of :title, :organization_id
-
-  def self.local(organization_id)
-    where(organization_id: organization_id)
-  end
+  validates_presence_of :title
 
   def self.list(organization_id, page)
     local(organization_id)
@@ -64,12 +60,6 @@ class Event < ActiveRecord::Base
 
   private
 
-  def check_organization(resource)
-    if resource.organization_id != organization_id
-      raise "This #{resource.class} does not belong to your organization"
-    end
-  end
-
   def add_students(course)
     course.students.each do |student|
       students << student
@@ -79,6 +69,24 @@ class Event < ActiveRecord::Base
   def remove_students(course)
     course.students.each do |student|
       students.delete(student)
+    end
+  end
+
+  def check_duplicate_course(course)
+    if courses.include?(course)
+      raise "Course is already added to this event"
+    end
+  end
+
+  def check_duplicate_room(room)
+    if rooms.include?(room)
+      raise "Room is already added to this event"
+    end
+  end
+
+  def check_duplicate_item(item)
+    if items.include?(item)
+      raise "Item is already added to this event"
     end
   end
 end
