@@ -26,39 +26,55 @@ class CoursesController < ApplicationController
   end
 
   def show
-    @course = find_course || return
-    @events = @course.events
-      .where('start > ?', DateTime.now)
-      .paginate(page: 1, per_page: 10)
-    @students = @course.students
-      .paginate(page: params[:page], per_page: 10)
-    @faculty = find_faculty_options
+    begin
+      @course = find_course
+      @events = @course.events
+        .where('start > ?', DateTime.now)
+        .paginate(page: 1, per_page: 10)
+      @students = @course.students
+        .paginate(page: params[:page], per_page: 10)
+      @faculty = find_faculty_options
+    rescue => e
+      render file: 'public/404.html', status: 404
+    end
   end
 
   def edit
-    @course = find_course || return
-    @faculty = find_faculty_options
+    begin
+      @course = find_course
+      @faculty = find_faculty_options
+    rescue => e
+      render file: 'public/404.html', status: 404
+    end
   end
 
   def update
-    @course = find_course || return
-    if @course.update_attributes(course_params)
-      redirect_to organization_course_path(@organization.id, @course.id)
-    else
-      render json: @course.errors.full_messages, status: 400
+    begin
+      @course = find_course
+      if @course.update_attributes(course_params)
+        redirect_to organization_course_path(@organization.id, @course.id)
+      else
+        render json: @course.errors.full_messages, status: 400
+      end
+    rescue => e
+      render file: 'public/404.html', status: 404
     end
   end
 
   def destroy
-    @course = find_course || return
-    @course.destroy
-    redirect_to(action: 'index')
+    begin
+      @course = find_course
+      @course.destroy
+      redirect_to(action: 'index')
+    rescue => e
+      render file: 'public/404.html', status: 404
+    end
   end
 
   private
 
   def find_course
-    authorize(Course.where(id: params[:id]).first)
+    authorize_resource(Course.where(id: params[:id]).first)
   end
 
   def course_params

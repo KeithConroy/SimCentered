@@ -23,33 +23,49 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = find_user || return
-    authorize_faculty_or_current_student(@user)
-    @events = @user.events
-      .where('start > ?', DateTime.now)
-      .paginate(page: 1, per_page: 10)
+    begin
+      @user = find_user
+      authorize_faculty_or_current_student(@user)
+      @events = @user.events
+        .where('start > ?', DateTime.now)
+        .paginate(page: 1, per_page: 10)
+    rescue => e
+      render file: 'public/404.html', status: 404
+    end
   end
 
   def edit
-    @user = find_user || return
-    authorize_faculty_or_current_student(@user)
+    begin
+      @user = find_user
+      authorize_faculty_or_current_student(@user)
+    rescue => e
+      render file: 'public/404.html', status: 404
+    end
   end
 
   def update
-    @user = find_user || return
-    authorize_faculty_or_current_student(@user)
-    if @user.update_attributes(user_params)
-      redirect_to organization_user_path(@organization.id, @user.id)
-    else
-      render json: @user.errors.full_messages, status: 400
+    begin
+      @user = find_user
+      authorize_faculty_or_current_student(@user)
+      if @user.update_attributes(user_params)
+        redirect_to organization_user_path(@organization.id, @user.id)
+      else
+        render json: @user.errors.full_messages, status: 400
+      end
+    rescue => e
+      render file: 'public/404.html', status: 404
     end
   end
 
   def destroy
-    @user = find_user || return
-    authorize_faculty_or_current_student(@user)
-    @user.destroy
-    redirect_to(action: 'index')
+    begin
+      @user = find_user
+      authorize_faculty_or_current_student(@user)
+      @user.destroy
+      redirect_to(action: 'index')
+    rescue => e
+      render file: 'public/404.html', status: 404
+    end
   end
 
   def search
@@ -60,7 +76,7 @@ class UsersController < ApplicationController
   private
 
   def find_user
-    authorize(User.where(id: params[:id]).first)
+    authorize_resource(User.where(id: params[:id]).first)
   end
 
   def user_params

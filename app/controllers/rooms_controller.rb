@@ -27,29 +27,45 @@ class RoomsController < ApplicationController
   end
 
   def show
-    @room = find_room || return
-    @events = @room.events
-      .where('start > ?', DateTime.now)
-      .paginate(page: 1, per_page: 10)
+    begin
+      @room = find_room
+      @events = @room.events
+        .where('start > ?', DateTime.now)
+        .paginate(page: 1, per_page: 10)
+    rescue => e
+      render file: 'public/404.html', status: 404
+    end
   end
 
   def edit
-    @room = find_room || return
+    begin
+      @room = find_room
+    rescue => e
+      render file: 'public/404.html', status: 404
+    end
   end
 
   def update
-    @room = find_room || return
-    if @room.update_attributes(room_params)
-      redirect_to organization_room_path(@organization.id, @room.id)
-    else
-      render json: @room.errors.full_messages, status: 400
+    begin
+      @room = find_room
+      if @room.update_attributes(room_params)
+        redirect_to organization_room_path(@organization.id, @room.id)
+      else
+        render json: @room.errors.full_messages, status: 400
+      end
+    rescue => e
+      render file: 'public/404.html', status: 404
     end
   end
 
   def destroy
-    @room = find_room || return
-    @room.destroy
-    redirect_to(action: 'index')
+    begin
+      @room = find_room
+      @room.destroy
+      redirect_to(action: 'index')
+    rescue => e
+      render file: 'public/404.html', status: 404
+    end
   end
 
   def search
@@ -62,7 +78,7 @@ class RoomsController < ApplicationController
   private
 
   def find_room
-    authorize(Room.where(id: params[:id]).first)
+    authorize_resource(Room.where(id: params[:id]).first)
   end
 
   def room_params

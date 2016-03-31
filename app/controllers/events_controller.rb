@@ -34,34 +34,50 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = find_event || return
-    @faculty = find_faculty_options
+    begin
+      @event = find_event
+      @faculty = find_faculty_options
+    rescue => e
+      render file: 'public/404.html', status: 404
+    end
   end
 
   def edit
-    @event = find_event || return
-    @faculty = find_faculty_options
+    begin
+      @event = find_event
+      @faculty = find_faculty_options
+    rescue => e
+      render file: 'public/404.html', status: 404
+    end
   end
 
   def update
-    @event = find_event || return
-    if @event.update_attributes(event_params)
-      redirect_to organization_event_path(@organization.id, @event.id)
-    else
-      render json: @event.errors.full_messages, status: 400
+    begin
+      @event = find_event
+      if @event.update_attributes(event_params)
+        redirect_to organization_event_path(@organization.id, @event.id)
+      else
+        render json: @event.errors.full_messages, status: 400
+      end
+    rescue => e
+      render file: 'public/404.html', status: 404
     end
   end
 
   def destroy
-    @event = find_event || return
-    @event.destroy
-    redirect_to(action: 'index')
+    begin
+      @event = find_event
+      @event.destroy
+      redirect_to(action: 'index')
+    rescue => e
+      render file: 'public/404.html', status: 404
+    end
   end
 
   private
 
   def find_event
-    authorize(Event.where(id: params[:id]).first)
+    authorize_resource(Event.where(id: params[:id]).first)
   end
 
   def event_params

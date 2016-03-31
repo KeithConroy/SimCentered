@@ -174,9 +174,9 @@ RSpec.describe RoomsController, type: :controller do
       expect(body["data"][four_hour_event.start.to_i.to_s]).to eq(4)
       expect(body["name"]).to eq(["hour", "hours"])
     end
-    it "renders 404 with invalid room" do
+    it "renders 400 with invalid room" do
       get :heatmap, organization_id: organization.id, id: 42
-      expect(response.status).to eq 404
+      expect(response.status).to eq 400
     end
   end
 end

@@ -194,9 +194,9 @@ RSpec.describe EventsController, type: :controller do
         expect(event.students.count).to be(0)
         expect(event.students).to_not include(other_student)
       end
-      it "renders 404 with invalid event" do
+      it "renders 400 with invalid event" do
         post :add_course, organization_id: organization.id, id: 42, course_id: course.id
-        expect(response.status).to eq 404
+        expect(response.status).to eq 400
       end
     end
   end
@@ -234,9 +234,9 @@ RSpec.describe EventsController, type: :controller do
           expect(Event.first.students.count).to be(0)
         end
       end
-      it "renders 404 with invalid event" do
+      it "renders 400 with invalid event" do
         post :add_course, organization_id: organization.id, id: 42, student_id: student.id
-        expect(response.status).to eq 404
+        expect(response.status).to eq 400
       end
     end
   end
@@ -384,9 +384,9 @@ RSpec.describe EventsController, type: :controller do
       expect(Item).to respond_to(:search).with(2).argument
       expect(assigns(:items)).to be_a(Array)
     end
-    it "renders 404 with invalid event" do
+    it "renders 400 with invalid event" do
       get :modify_search, organization_id: organization.id, id: 42, phrase: 'event'
-      expect(response.status).to eq 404
+      expect(response.status).to eq 400
     end
   end
 end

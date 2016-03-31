@@ -9,12 +9,11 @@ module Authorization
     end
   end
 
-  def authorize(resource)
+  def authorize_resource(resource)
     if resource && current_user.organization_id == resource.organization_id
       return resource
     else
-      render file: 'public/404.html', status: 404
-      return false
+      raise "Not Found"
     end
   end
 

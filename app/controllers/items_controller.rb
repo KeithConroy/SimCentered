@@ -27,29 +27,45 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @item = find_item || return
-    @events = @item.events
-      .where('start > ?', DateTime.now)
-      .paginate(page: 1, per_page: 10)
+    begin
+      @item = find_item
+      @events = @item.events
+        .where('start > ?', DateTime.now)
+        .paginate(page: 1, per_page: 10)
+    rescue => e
+      render file: 'public/404.html', status: 404
+    end
   end
 
   def edit
-    @item = find_item || return
+    begin
+      @item = find_item
+    rescue => e
+      render file: 'public/404.html', status: 404
+    end
   end
 
   def update
-    @item = find_item || return
-    if @item.update_attributes(item_params)
-      redirect_to organization_item_path(@organization.id, @item.id)
-    else
-      render json: @item.errors.full_messages, status: 400
+    begin
+      @item = find_item
+      if @item.update_attributes(item_params)
+        redirect_to organization_item_path(@organization.id, @item.id)
+      else
+        render json: @item.errors.full_messages, status: 400
+      end
+    rescue => e
+      render file: 'public/404.html', status: 404
     end
   end
 
   def destroy
-    @item = find_item || return
-    @item.destroy
-    redirect_to(action: 'index')
+    begin
+      @item = find_item
+      @item.destroy
+      redirect_to(action: 'index')
+    rescue => e
+      render file: 'public/404.html', status: 404
+    end
   end
 
   def search
@@ -62,7 +78,7 @@ class ItemsController < ApplicationController
   private
 
   def find_item
-    authorize(Item.where(id: params[:id]).first)
+    authorize_resource(Item.where(id: params[:id]).first)
   end
 
   def item_params
