@@ -16,6 +16,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @user.organization_id = @organization.id
     if @user.save
+      # UserMailer.welcome_email(@user).deliver_later
       redirect_to organization_user_path(@organization.id, @user.id)
     else
       render json: @user.errors.full_messages, status: 400
