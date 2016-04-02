@@ -26,5 +26,9 @@ module SCRails
     config.active_record.raise_in_transactional_callbacks = true
 
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
+
+    config.to_prepare do
+      DeviseController.skip_before_filter :authorize_faculty
+    end
   end
 end
