@@ -1,12 +1,22 @@
-<% @users.each do |user| %>
+<% if @users.empty? %>
   <tr>
-    <td><%= link_to full_name(user), organization_user_path(user.organization_id, user.id) %></td>
-    <td><%= user.email %></td>
-    <td><%= status(user) %></td>
-
-    <td class='icon'><%= link_to organization_user_path(user.organization_id, user.id), method: :delete, data: { confirm: 'Are you sure you want to delete this user?' }, class: "glyphicon" do %>
-      <i class="fa fa-trash-o fa-lg"></i>
-    <% end %>
-    </td>
+    <td class="none-added"><%= t('users.none_added') %></td>
+    <td></td>
+    <td></td>
+    <td></td>
   </tr>
+<% else %>
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= link_to full_name(user), organization_user_path(user.organization_id, user.id) %></td>
+      <td><%= user.email %></td>
+      <td><%= status(user) %></td>
+
+      <td class='icon'>
+        <%= link_to organization_user_path(user.organization_id, user.id), method: :delete, data: { confirm: t('users.are_you_sure') } do %>
+          <i class="fa fa-trash-o fa-lg"></i>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
 <% end %>

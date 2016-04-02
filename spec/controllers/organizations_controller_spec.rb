@@ -1,32 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe OrganizationsController, type: :controller do
-  let(:organization) do
-    Organization.create!(
-      title: "University",
-      subdomain: "uni"
-    )
-  end
-  let(:instructor) do
-    User.create!(
-      first_name: "Keith",
-      last_name: "Conroy",
-      email: "keith@mail.com",
-      organization_id: organization.id,
-      is_student: false,
-    )
-  end
+  login_admin
+
+  let(:organization){ Organization.first }
+  let(:instructor){ create(:instructor, organization_id: organization.id) }
 
   context "POST create" do
     it "saves a new organization and redirects" do
-      expect{ post :create, organization: {title: "New Organization", subdomain: "norg", email: "admin@mail.com"} }.to change{Organization.count}.by 1
+      expect{ post :create, organization: {title: "New Organization", subdomain: "norg", email: "new_org_admin@mail.com"} }.to change{Organization.count}.by 1
       expect(response.status).to eq 302
     end
+    it "creates an admin user" do
+      expect{ post :create, organization: {title: "New Organization", subdomain: "norg", email: "new_org_admin@mail.com"} }.to change{User.count}.by 1
+      expect(User.last.first_name).to eq("norg")
+      expect(User.last.last_name).to eq("Admin")
+      expect(User.last.email).to eq("new_org_admin@mail.com")
+      expect(User.last.organization_id).to eq(Organization.last.id)
+    end
     it "does not saves a new organization with invalid input - no title" do
-      expect{ post :create, organization: {title: "", subdomain: "empty", email: "admin@mail.com"} }.to_not change{Organization.count}
+      expect{ post :create, organization: {title: "", subdomain: "empty", email: "new_org_admin@mail.com"} }.to_not change{Organization.count}
     end
     it "does not saves a new organization with invalid input- no subdomain" do
-      expect{ post :create, organization: {title: "organization", email: "admin@mail.com"} }.to_not change{Organization.count}
+      expect{ post :create, organization: {title: "organization", email: "new_org_admin@mail.com"} }.to_not change{Organization.count}
     end
   end
 
@@ -115,17 +111,12 @@ RSpec.describe OrganizationsController, type: :controller do
       expect{ delete :destroy, id: organization.id }.to change{Room.count}.from(1).to(0)
     end
     it "destroys the organizations users" do
-      expect{ delete :destroy, id: organization.id }.to change{User.count}.from(1).to(0)
+      expect{ delete :destroy, id: organization.id }.to change{User.count}.from(2).to(0)
     end
     it "should redirect" do
       delete :destroy, id: organization.id
       expect(response.status).to eq 302
     end
-  end
-
-  context "GET #search" do
-    before { get :search, phrase: 'organization' }
-    it "searches"
   end
 
 end

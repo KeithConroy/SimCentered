@@ -1,10 +1,12 @@
-<h2 class="page-header">Create a New Event</h2>
+<% content_for :title, t('events.new') %>
+
+<h2 class="page-header"><%= t('events.create_new') %></h2>
 
 <%= bootstrap_form_for @event, layout: :horizontal, control_col: "col-sm-9", url: organization_events_path do |f| %>
-  <%= f.text_field :title %>
+  <%= f.text_field :title, label: t('events.event') %>
   <%= f.select(:instructor_id, @faculty) %>
-  <%= f.datetime_select :start, :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
-  <%= f.datetime_select :finish, :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
+  <%= f.datetime_select :start, label: t('events.start'), :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
+  <%= f.datetime_select :finish, label: t('events.end'), :ampm => true, :minute_step => 15, :order => [:month, :day, :year] %>
   <%= f.submit %>
 <% end %>
 

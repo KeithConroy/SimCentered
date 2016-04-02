@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>SimCentered<%= yield(:title) %></title>
-  <%= favicon_link_tag 'sc-red.ico' %>
-  <!-- Latest compiled and minified CSS -->
+  <title><%= content_for?(:title) ? yield(:title) : "SimCentered" %></title>
+  <%= favicon_link_tag 'sc-blue.ico' %>
+
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
   <!-- Optional theme -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css" />
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <!-- Latest compiled and minified JavaScript -->
+
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body data-controller="<%= controller.controller_name %>" data-action="<%= controller.action_name %>">
   <nav class="navbar navbar-fixed-top navbar-custom">
     <div class="container">
       <div class="navbar-header">
@@ -28,92 +31,107 @@
           <span class="icon-bar"></span>
         </button>
 
-        <% if @organization.id %>
+        <% if @organization && current_user %>
 
-            <%= link_to "SimCentered", @organization, class: 'navbar-brand' %>
+          <%= link_to "SimCentered", @organization, class: 'navbar-brand' %>
           </div>
-          <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                  <i class="fa fa-calendar fa-lg"></i>&nbsp; Schedule
-                </a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><%= link_to "Calendar", organization_events_path(@organization) %></li>
-                  <li><%= link_to "New Event", new_organization_event_path(@organization, @event) %></li>
-                </ul>
-              </li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                  <i class="fa fa-cog fa-lg"></i>&nbsp; Manage
-                </a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><%= link_to "Courses", organization_courses_path(@organization) %></li>
-                  <li><%= link_to "Inventory", organization_items_path(@organization) %></li>
-                  <li><%= link_to "Rooms", organization_rooms_path(@organization) %></li>
-                  <li><%= link_to "Users", organization_users_path(@organization) %></li>
-                </ul>
-              </li>
-<!--               <li>
-                <div id="global-search-parent">
-                  <label for="search">
-                    <i class="fa fa-search"></i>
-                  </label>
-                  <div class="form-group">
-                    <input type="text" class="form-control global-search" placeholder="Search">
-                  </div>
-                </div>
-              </li>-->
-            </ul>
+          <% if current_user.faculty? %>
+            <div id="navbar" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                    <i class="fa fa-calendar fa-lg"></i>&nbsp; <%= t('nav.schedule') %>
+                  </a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><%= link_to t('nav.calendar'), organization_events_path(@organization) %></li>
+                    <li><%= link_to t('events.new'), new_organization_event_path(@organization, @event) %></li>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                    <i class="fa fa-cog fa-lg"></i>&nbsp; <%= t('nav.manage') %>
+                  </a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><%= link_to t('courses.self'), organization_courses_path(@organization) %></li>
+                    <li><%= link_to t('inventory.self'), organization_items_path(@organization) %></li>
+                    <li><%= link_to t('rooms.self'), organization_rooms_path(@organization) %></li>
+                    <li><%= link_to t('users.self'), organization_users_path(@organization) %></li>
+                  </ul>
+                </li>
+              </ul>
+            <% end %>
             <ul class="nav navbar-nav navbar-right">
-              <li>
-                <a href="/organizations/<%= @organization.id %>/community">
-                  <i class="fa fa-heartbeat fa-lg heart"></i>&nbsp; SC Pulse
-                </a>
-              </li>
+              <% if current_user.faculty? %>
+                <li>
+                  <a href="/organizations/<%= @organization.id %>/community">
+                    <i class="fa fa-heartbeat fa-lg heart"></i>&nbsp; <%= t('nav.pulse') %>
+                  </a>
+                </li>
+              <% end %>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                  <i class="fa fa-user-md fa-lg"></i>&nbsp; User
+                  <i class="fa fa-user-md fa-lg"></i>&nbsp; <%= full_name(current_user) %>
                 </a>
                 <ul class="dropdown-menu" role="menu">
-                  <li><%= link_to "Profile", organization_user_path(@organization, 1) %></li>
-                  <li><a href="/">Log Out</a></li>
+                  <li><%= link_to t('nav.profile'), organization_user_path(@organization, current_user) %></li>
+                  <li><%= link_to(t('sessions.log_out'), destroy_user_session_path, :method => :delete) %></li>
                 </ul>
               </li>
             </ul>
 
         <% else %>
-
-            <a href="/" class='navbar-brand'>SimCentered</a>
+          <% if controller.controller_name == 'home' %>
+            <a href="/" class='home navbar-brand'>
+              Sim<div id="animated-motto">
+                <span class="simulation">ulation</span>
+                <span class="simplified">plified</span>
+                <span class="centered">Centered.com</span>
+              </div>
+            </a>
+          <% else %>
+            <a href="/" class='home navbar-brand'>SimCentered.com</a>
+          <% end %>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="about">About</a></li>
-              <li><a href="contact">Contact</a></li>
-              <li><a href="pricing">Pricing</a></li>
-              <li><a href="faq">FAQ</a></li>
-              <li><%= link_to "Sign Up", new_organization_path(@organization) %></li>
-              <li><a href="/organizations/1">Sign In</a></li>
+              <li><a href="#about"><%= t('home.about') %></a></li>
+              <li><a href="#pricing"><%= t('home.pricing') %></a></li>
+              <li><a href="#faq"><%= t('home.faq') %></a></li>
+              <li><a href="#contact"><%= t('home.contact') %></a></li>
+              <li><%= link_to t('sessions.sign_up'), new_organization_path(@organization) %></li>
+              <li><%= link_to('Sign In', new_user_session_path)  %></li>
             </ul>
-
-            <!-- <form class="navbar-form navbar-right">
-              <div class="form-group">
-                <input type="text" placeholder="Email" class="form-control">
-              </div>
-              <div class="form-group">
-                <input type="password" placeholder="Password" class="form-control">
-              </div>
-              <button type="submit" class="btn btn-success">Sign in</button>
-            </form> -->
-
         <% end %>
       </div>
     </div>
   </nav>
-
-<div id="main" class="container">
+<!--   <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+ -->
+<%
+  if controller.controller_name == 'home'
+    id = 'home'
+    klass = 'doctor'
+  else
+    id = 'main'
+    klass = 'container'
+  end
+%>
+<div id="<%= id %>" class="<%= klass %>">
   <%= yield %>
 </div>
+
+<div id="footer">
+  <%= link_to "English", request.parameters.merge({locale: 'en'}) %> |
+  <%= link_to "German", request.parameters.merge({locale: 'de'}) %> |
+  <%= link_to "Italian", request.parameters.merge({locale: 'it'}) %>
+</div>
+
+<script>
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
 
 </body>
 </html>

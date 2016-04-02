@@ -1,13 +1,13 @@
-<% content_for :title, " | Users" %>
+<% content_for :title, t('users.self') %>
 
-<h2 class="page-header"><i class="fa fa-user-md"></i> Users
+<h2 class="page-header"><i class="fa fa-user-md"></i> <%= t('users.self') %>
   <small>
     <div id="search-parent">
       <label for="search">
         <i class="fa fa-search"></i>
       </label>
       <div class="form-group">
-        <input id="user-search" type="text" class="form-control search" placeholder="Search">
+        <input id="user-search" type="text" class="form-control search" placeholder="<%= t('search') %>">
       </div>
     </div>
     <span class="pull-right">
@@ -25,10 +25,10 @@
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th>Name &nbsp;<i class="fa fa-sort"></i></th>
-          <th>Email</th>
-          <th>Status &nbsp;<i class="fa fa-sort"></i></th>
-          <th class='icon'>Delete</th>
+          <th><%= t('users.name') %> &nbsp;<i class="fa fa-sort"></i></th>
+          <th><%= t('users.email') %></th>
+          <th><%= t('users.status') %> &nbsp;<i class="fa fa-sort"></i></th>
+          <th class='icon'><%= t('crud.delete') %></th>
         </tr>
       </thead>
       <tbody id="users-index">
@@ -43,15 +43,15 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Create a New User</h4>
+        <h4 class="modal-title" id="myModalLabel"><%= t('users.create_new') %></h4>
       </div>
       <div class="modal-body">
         <%= bootstrap_form_for @new_user, layout: :horizontal, control_col: "col-sm-9", url: organization_users_path do |f| %>
-          <%= f.text_field :first_name %>
-          <%= f.text_field :last_name %>
-          <%= f.email_field :email %>
-          <%= f.check_box :is_student, label: "Student?" %>
-          <%= f.password_field :password %>
+          <%= f.text_field :first_name, label: t('users.first_name') %>
+          <%= f.text_field :last_name, label: t('users.last_name') %>
+          <%= f.email_field :email, label: t('users.email') %>
+          <%= f.check_box :is_student, label: t('users.student_question') %>
+          <%= f.password_field :password, label: t('users.password') %>
           <%= f.submit %>
         <% end %>
       </div>

@@ -1,14 +1,11 @@
 class UsersController < ApplicationController
-  before_action :find_user, only: [:show, :edit, :update, :destroy]
+  skip_before_action :authorize_faculty, only: [:show, :edit, :update, :destroy]
 
   def index
     @new_user = User.new
-    @users = User
-      .where(organization_id: @organization.id)
-      .order(last_name: :asc, first_name: :asc)
-      .paginate(page: params[:page], per_page: 15)
+    @users = User.list(@organization.id, params[:page])
 
-    return render :'users/_all_users', layout: false if request.xhr?
+    render :'users/_all_users', layout: false if request.xhr?
   end
 
   def new
@@ -27,12 +24,21 @@ class UsersController < ApplicationController
   end
 
   def show
+    @user = find_user || return
+    authorize_faculty_or_current_student(@user)
+    @events = @user.events
+      .where('start > ?', DateTime.now)
+      .paginate(page: 1, per_page: 10)
   end
 
   def edit
+    @user = find_user || return
+    authorize_faculty_or_current_student(@user)
   end
 
   def update
+    @user = find_user || return
+    authorize_faculty_or_current_student(@user)
     if @user.update_attributes(user_params)
       redirect_to organization_user_path(@organization.id, @user.id)
     else
@@ -41,27 +47,26 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    @user = find_user || return
+    authorize_faculty_or_current_student(@user)
     @user.destroy
-    redirect_to(:action => 'index')
+    redirect_to(action: 'index')
   end
 
   def search
-    @users = User
-      .where("organization_id = ? AND lower(first_name) LIKE ? OR lower(last_name) LIKE ?", @organization.id, "%#{params[:phrase]}%", "%#{params[:phrase]}%")
-      .order(last_name: :asc, first_name: :asc)
-      .paginate(page: 1, per_page: 15)
-
-    return render :'users/_all_users', layout: false
+    @users = User.search(@organization.id, params[:phrase])
+    render :'users/_all_users', layout: false
   end
 
   private
 
   def find_user
-    @user = User.where(id: params[:id]).first
+    authorize(User.where(id: params[:id]).first)
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :is_student, :password)
+    params.require(:user).permit(
+      :first_name, :last_name, :email, :is_student, :password
+    )
   end
-
 end

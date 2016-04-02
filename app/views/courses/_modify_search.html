@@ -3,7 +3,7 @@
   <tr>
     <td><%= full_name(student) %></td>
     <td class="icon">
-      <a href="<%= @course.id %>/add_student/<%= student.id %>" class="add-student">
+      <a href="<%= @course.id %>/add_student" data-student-id="<%= student.id %>" class="add-student-course">
         <i class="fa fa-plus"></i>
       </a>
     </td>

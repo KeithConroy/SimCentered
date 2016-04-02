@@ -1,46 +1,58 @@
-<% content_for :title, " | #{@organization.title}" %>
+<% content_for :title, "#{@organization.title}" %>
 
 <h2 class="page-header">
   <%= @organization.title %>
   <small>
   <span class="pull-right">
     <a href="#" class="header-icon-right" data-toggle="modal" data-target="#editOrganizationModal">
-      Edit <i class="fa fa-pencil"></i>
+      <i class="fa fa-pencil fa-lg" data-toggle="tooltip" data-placement="left" title="<%= t('crud.edit') %>"></i>
     </a>
-    <%= link_to 'Delete', organization_path(@organization), method: :delete, data: { confirm: 'Are you sure? This will delete your entire account including Events, Users, Courses, Rooms and Inventory.' }, class: 'header-icon-right' %>
+    <%= link_to t('crud.delete'), organization_path(@organization), method: :delete, data: { confirm: t('org.are_you_sure') }, class: 'header-icon-right' %>
   </span>
   </small>
 </h2>
 
-<h3 class="page-header">Today's Events</h3>
+<h3 class="page-header"><%= t('events.todays') %></h3>
 
 <div class="panel panel-default">
   <div class="table-responsive">
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th>Event</th>
-          <th>Start</th>
-          <th>End</th>
-          <th class='icon'>Edit</th>
-          <th class='icon'>Delete</th>
+          <th><%= t('events.event') %></th>
+          <th><%= t('events.start') %></th>
+          <th><%= t('events.end') %></th>
+          <th class='icon'><%= t('crud.edit') %></th>
+          <th class='icon'><%= t('crud.delete') %></th>
         </tr>
       </thead>
       <tbody>
-        <% @events.each do |event| %>
-        <tr>
-          <td><%= link_to event.title, organization_event_path(event.organization_id, event.id) %></td>
-          <td><%= event.start.strftime("%b %e @ %l:%M %p") %></td>
-          <td><%= event.finish.strftime("%b %e @ %l:%M %p") %></td>
-          <td class='icon'><%= link_to edit_organization_event_path(event.organization_id, event.id), class: "glyphicon" do %>
-            <i class="fa fa-pencil-square-o fa-lg"></i>
+        <% if @todays_events.empty? %>
+          <tr>
+            <td class="none-added"><%= t('events.none_today') %></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        <% else %>
+          <% @todays_events.each do |event| %>
+            <tr>
+              <td><%= link_to event.title, organization_event_path(event.organization_id, event.id) %></td>
+              <td><%= event.start.strftime("%b %e @ %l:%M %p") %></td>
+              <td><%= event.finish.strftime("%b %e @ %l:%M %p") %></td>
+              <td class='icon'>
+                <%= link_to edit_organization_event_path(event.organization_id, event.id) do %>
+                  <i class="fa fa-pencil-square-o fa-lg"></i>
+                <% end %>
+              </td>
+              <td class='icon'>
+                <%= link_to organization_event_path(event.organization_id, event.id), method: :delete, data: { confirm: t('events.are_you_sure') } do %>
+                  <i class="fa fa-trash-o fa-lg"></i>
+                <% end %>
+              </td>
+            </tr>
           <% end %>
-          </td>
-          <td class='icon'><%= link_to organization_event_path(event.organization_id, event.id), method: :delete, data: { confirm: 'Are you sure you want to delete this event?' }, class: "glyphicon" do %>
-            <i class="fa fa-trash-o fa-lg"></i>
-          <% end %>
-          </td>
-        </tr>
         <% end %>
       </tbody>
     </table>
@@ -52,12 +64,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Edit Organization</h4>
+        <h4 class="modal-title" id="myModalLabel"><%= t('org.edit') %></h4>
       </div>
       <div class="modal-body">
-        <%= bootstrap_form_for @organization, layout: :horizontal, control_col: "col-sm-9", url: organization_path do |f| %>
-          <%= f.text_field :title, label: "Organization Name" %>
-          <%= f.text_field :subdomain %>
+        <%= bootstrap_form_for @organization, layout: :horizontal, control_col: "col-sm-9", url: organization_path(@organization) do |f| %>
+          <%= f.text_field :title, label: t('org.name') %>
+          <%= f.text_field :subdomain, label: t('org.subdomain') %>
           <%= f.time_zone_select :time_zone, nil, :default => "Pacific Time (US & Canada)"%>
           <%= f.submit %>
         <% end %>

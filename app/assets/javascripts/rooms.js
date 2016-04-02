@@ -1,13 +1,15 @@
-$(document).on('page:change', function() {
-
+$(document).on('rooms:loaded', function() {
   $('#room-search').on('keyup', roomSearch);
+});
 
+$(document).on('rooms#show:loaded', function() {
+  getRoomHeatmapData();
 });
 
 var roomSearch = function(){
   var phrase = $(this).val().toLowerCase();
   if (phrase) {
-    $.get('rooms/search/'+phrase).success(function(payload) {
+    $.get('rooms/search', { phrase: phrase }).success(function(payload) {
       $('#rooms-index').html($(payload));
     });
   } else {
@@ -15,4 +17,11 @@ var roomSearch = function(){
       $('#rooms-index').html($(payload));
     });
   }
-}
+};
+
+var getRoomHeatmapData = function(){
+  var heatmapData;
+  $.get(roomId + '/heatmap').success(function(payload) {
+    initializeHeatmap(payload)
+  });
+};
