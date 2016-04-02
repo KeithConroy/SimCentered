@@ -2,7 +2,7 @@ module RoomHeatmap
   extend ActiveSupport::Concern
 
   def heatmap
-    @room = find_room || return
+    @room = find_room
     data = heatmap_data(@room)
     unless data.empty?
       quarter = data.values.max / 4

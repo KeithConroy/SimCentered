@@ -26,7 +26,7 @@ class CoursesController < ApplicationController
   end
 
   def show
-    @course = find_course || return
+    @course = find_course
     @events = @course.events
       .where('start > ?', DateTime.now)
       .paginate(page: 1, per_page: 10)
@@ -36,12 +36,12 @@ class CoursesController < ApplicationController
   end
 
   def edit
-    @course = find_course || return
+    @course = find_course
     @faculty = find_faculty_options
   end
 
   def update
-    @course = find_course || return
+    @course = find_course
     if @course.update_attributes(course_params)
       redirect_to organization_course_path(@organization.id, @course.id)
     else
@@ -50,7 +50,7 @@ class CoursesController < ApplicationController
   end
 
   def destroy
-    @course = find_course || return
+    @course = find_course
     @course.destroy
     redirect_to(action: 'index')
   end
@@ -58,7 +58,7 @@ class CoursesController < ApplicationController
   private
 
   def find_course
-    authorize(Course.where(id: params[:id]).first)
+    authorize_resource(Course.where(id: params[:id]).first)
   end
 
   def course_params

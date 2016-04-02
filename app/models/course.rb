@@ -1,16 +1,11 @@
 class Course < ActiveRecord::Base
-  belongs_to :organization
-  belongs_to :instructor, class_name: 'User'
+  include BelongsToOrganization
+  include HasStudents
 
-  has_and_belongs_to_many :students, class_name: 'User'
+  belongs_to :instructor, class_name: 'User'
   has_and_belongs_to_many :events
 
-  validates_presence_of :title, :organization_id
-  validate :same_organization
-
-  def self.local(organization_id)
-    where(organization_id: organization_id)
-  end
+  validates_presence_of :title
 
   def self.list(organization_id, page)
     local(organization_id)
@@ -23,16 +18,5 @@ class Course < ActiveRecord::Base
       .where('lower(title) LIKE ?', "%#{phrase}%")
       .order(title: :asc)
       .paginate(page: 1, per_page: 15)
-  end
-
-  private
-
-  def same_organization
-    students.each do |student|
-      if student.organization_id != organization_id
-        students.delete(student)
-        errors.add(:base, 'Invalid Association')
-      end
-    end
   end
 end

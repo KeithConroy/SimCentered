@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = find_user || return
+    @user = find_user
     authorize_faculty_or_current_student(@user)
     @events = @user.events
       .where('start > ?', DateTime.now)
@@ -32,12 +32,12 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = find_user || return
+    @user = find_user
     authorize_faculty_or_current_student(@user)
   end
 
   def update
-    @user = find_user || return
+    @user = find_user
     authorize_faculty_or_current_student(@user)
     if @user.update_attributes(user_params)
       redirect_to organization_user_path(@organization.id, @user.id)
@@ -47,7 +47,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = find_user || return
+    @user = find_user
     authorize_faculty_or_current_student(@user)
     @user.destroy
     redirect_to(action: 'index')
@@ -61,7 +61,7 @@ class UsersController < ApplicationController
   private
 
   def find_user
-    authorize(User.where(id: params[:id]).first)
+    authorize_resource(User.where(id: params[:id]).first)
   end
 
   def user_params

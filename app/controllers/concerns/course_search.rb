@@ -7,7 +7,7 @@ module CourseSearch
   end
 
   def modify_search
-    @course = find_course || return
+    @course = find_course
     search_available_students
     render :'courses/_modify_search', layout: false
   end

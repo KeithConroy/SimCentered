@@ -1,19 +1,19 @@
 class Event < ActiveRecord::Base
-  belongs_to :organization
+  include BelongsToOrganization
+  include HasStudents
+
   belongs_to :instructor, class_name: 'User'
 
-  has_and_belongs_to_many :courses
-  has_and_belongs_to_many :students, class_name: 'User'
-  has_and_belongs_to_many :rooms
+  has_and_belongs_to_many :courses,
+    before_add: [:check_organization, :add_students, :check_duplicate_course],
+    before_remove: :remove_students
+  has_and_belongs_to_many :rooms,
+    before_add: [:check_organization, :check_duplicate_room]
+  has_many :items, through: :scheduled_items,
+    before_add: [:check_organization, :check_duplicate_item]
   has_many :scheduled_items
-  has_many :items, through: :scheduled_items
 
-  validates_presence_of :title, :organization_id
-  validate :same_organization
-
-  def self.local(organization_id)
-    where(organization_id: organization_id)
-  end
+  validates_presence_of :title
 
   def self.list(organization_id, page)
     local(organization_id)
@@ -60,24 +60,33 @@ class Event < ActiveRecord::Base
 
   private
 
-  def same_organization
-    students.each do |student|
-      if student.organization_id != organization_id
-        students.delete(student)
-        errors.add(:base, 'Invalid Student Association')
-      end
+  def add_students(course)
+    course.students.each do |student|
+      students << student
     end
-    rooms.each do |room|
-      if room.organization_id != organization_id
-        rooms.delete(room)
-        errors.add(:base, 'Invalid Room Association')
-      end
+  end
+
+  def remove_students(course)
+    course.students.each do |student|
+      students.delete(student)
     end
-    items.each do |item|
-      if item.organization_id != organization_id
-        items.delete(item)
-        errors.add(:base, 'Invalid Item Association')
-      end
+  end
+
+  def check_duplicate_course(course)
+    if courses.include?(course)
+      raise Errors::DuplicateAssignment
+    end
+  end
+
+  def check_duplicate_room(room)
+    if rooms.include?(room)
+      raise Errors::DuplicateAssignment
+    end
+  end
+
+  def check_duplicate_item(item)
+    if items.include?(item)
+      raise Errors::DuplicateAssignment
     end
   end
 end

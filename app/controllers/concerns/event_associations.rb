@@ -2,156 +2,102 @@ module EventAssociations
   extend ActiveSupport::Concern
 
   def add_course
-    @event = find_event || return
-    @course = Course.where(id: params[:course_id]).first
+    @event = find_event
+    @course = find_course
 
-    if @course && @course.organization_id == @organization.id
-      @event.courses << @course unless @event.courses.include?(@course)
-      add_courses_students(@event, @course)
-      if @event.save
-        course_json = {
-          title: @course.title,
-          courseId: @course.id,
-          eventId: @event.id
-        }
-        students_json = @course.students.map { |student| get_student_json(student) }
+    @event.courses << @course
+    course_json = { title: @course.title, courseId: @course.id, eventId: @event.id }
+    students_json = @course.students.map { |student| get_student_json(student) }
 
-        render json: { course: course_json, students: students_json }
-      else
-        render json: @event.errors.full_messages, status: 400
-      end
-    else
-      render json: @event.errors.full_messages, status: 400
-    end
+    render json: { course: course_json, students: students_json }
   end
 
   def remove_course
-    @event = find_event || return
-    @course = Course.where(id: params[:course_id]).first
+    @event = find_event
+    @course = find_course
 
-    if @event.courses.include?(@course)
-      @event.courses.delete(@course)
-      remove_courses_students(@event, @course)
-      if @event.save
-        render json: {
-          count: @event.courses.count,
-          courseId: @course.id,
-          studentIds: @course.students.map(&:id)
-        }
-      else
-        render json: @event.errors.full_messages, status: 400
-      end
-    else
-      render json: 'Course is not enrolled', status: 400
-    end
+    @event.courses.delete(@course)
+    render json: {
+      count: @event.courses.count,
+      courseId: @course.id,
+      studentIds: @course.students.map(&:id)
+    }
   end
 
   def add_student
-    @event = find_event || return
-    @student = User.where(id: params[:student_id]).first
+    @event = find_event
+    @student = find_student
 
-    if @student && @student.organization_id == @organization.id
-      @event.students << @student unless @event.students.include?(@student)
-      if @event.save
-        render :'events/_scheduled_student', layout: false, locals: { student: @student }
-      else
-        render json: @event.errors.full_messages, status: 400
-      end
-    else
-      render json: 'Invalid Student Association', status: 400
-    end
+    @event.students << @student
+    render :'events/_scheduled_student', layout: false, locals: { student: @student }
   end
 
   def remove_student
-    @event = find_event || return
-    @student = User.where(id: params[:student_id]).first
+    @event = find_event
+    @student = find_student
 
-    if @event.students.include?(@student)
-      @event.students.delete(@student)
-      if @event.save
-        render json: {
-          count: @event.students.count,
-          studentId: @student.id
-        }
-      else
-        render json: @event.errors.full_messages, status: 400
-      end
-    else
-      render json: 'Student is not enrolled', status: 400
-    end
+    @event.students.delete(@student)
+    render json: { count: @event.students.count, studentId: @student.id }
   end
 
   def add_room
-    @event = find_event || return
-    @room = Room.where(id: params[:room_id]).first
+    @event = find_event
+    @room = find_room
 
-    if @room && @room.organization_id == @organization.id
-      @event.rooms << @room unless @event.rooms.include?(@room)
-      if @event.save
-        render :'events/_scheduled_room', layout: false, locals: { room: @room }
-      else
-        render json: @event.errors.full_messages, status: 400
-      end
-    else
-      render json: 'Invalid Room Association', status: 400
-    end
+    @event.rooms << @room
+    render :'events/_scheduled_room', layout: false, locals: { room: @room }
   end
 
   def remove_room
-    @event = find_event || return
-    @room = Room.where(id: params[:room_id]).first
+    @event = find_event
+    @room = find_room
 
     @event.rooms.delete(@room)
-    if @event.save
-      render json: {
-        count: @event.rooms.count,
-        roomId: @room.id
-      }
-    else
-      render json: @event.errors.full_messages, status: 400
-    end
+    render json: {
+      count: @event.rooms.count,
+      roomId: @room.id
+    }
   end
 
   def add_item
-    @event = find_event || return
-    @item = Item.where(id: params[:item_id]).first
+    @event = find_event
+    @item = find_item
 
     @event.items << @item
-    if @event.save
-      deduct_quantity(@event, @item) if @item.disposable
-      render :'events/_scheduled_item', layout: false, locals: { item: @item }
-    else
-      render json: @event.errors.full_messages, status: 400
-    end
+    deduct_quantity(@event, @item) if @item.disposable
+    render :'events/_scheduled_item', layout: false, locals: { item: @item }
   end
 
   def remove_item
-    @event = find_event || return
-    @item = Item.where(id: params[:item_id]).first
+    @event = find_event
+    @item = find_item
 
     quantity = @event.scheduled_items.where(item_id: @item.id).first.quantity
     @event.items.delete(@item)
-    if @event.save
-      credit_quantity(@item, quantity) if @item.disposable
-      render json: {
-        count: @event.items.count,
-        itemId: @item.id
-      }
-    else
-      render json: @event.errors.full_messages, status: 400
-    end
+    credit_quantity(@item, quantity) if @item.disposable
+    render json: { count: @event.items.count, itemId: @item.id }
   end
 
   private
 
-  def get_student_json(student)
-    { name: full_name(student), tudentId: student.id, eventId: @event.id }
+  def find_course
+    authorize_resource(Course.where(id: params[:course_id]).first)
   end
 
-  def add_courses_students(event, course)
-    course.students.each do |student|
-      event.students << student unless event.students.include?(student)
-    end
+  def find_student
+    authorize_resource(User.where(id: params[:student_id]).first)
+  end
+
+  def find_item
+    authorize_resource(Item.where(id: params[:item_id]).first)
+  end
+
+  def find_room
+    authorize_resource(Room.where(id: params[:room_id]).first)
+  end
+
+  def get_student_json(student)
+    { name: full_name(student), tudentId: student.id, eventId: @event.id }
   end
 
   def remove_courses_students(event, course)

@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include BelongsToOrganization
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -6,18 +8,13 @@ class User < ActiveRecord::Base
 
   attr_accessor :busy
 
-  belongs_to :organization
   has_and_belongs_to_many :events
   has_and_belongs_to_many :courses
 
-  validates_presence_of :first_name, :last_name, :organization_id
+  validates_presence_of :first_name, :last_name
 
   def faculty?
     !is_student
-  end
-
-  def self.local(organization_id)
-    where(organization_id: organization_id)
   end
 
   def self.list(organization_id, page)

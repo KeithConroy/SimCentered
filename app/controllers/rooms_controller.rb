@@ -27,18 +27,18 @@ class RoomsController < ApplicationController
   end
 
   def show
-    @room = find_room || return
+    @room = find_room
     @events = @room.events
       .where('start > ?', DateTime.now)
       .paginate(page: 1, per_page: 10)
   end
 
   def edit
-    @room = find_room || return
+    @room = find_room
   end
 
   def update
-    @room = find_room || return
+    @room = find_room
     if @room.update_attributes(room_params)
       redirect_to organization_room_path(@organization.id, @room.id)
     else
@@ -47,7 +47,7 @@ class RoomsController < ApplicationController
   end
 
   def destroy
-    @room = find_room || return
+    @room = find_room
     @room.destroy
     redirect_to(action: 'index')
   end
@@ -62,7 +62,7 @@ class RoomsController < ApplicationController
   private
 
   def find_room
-    authorize(Room.where(id: params[:id]).first)
+    authorize_resource(Room.where(id: params[:id]).first)
   end
 
   def room_params

@@ -7,7 +7,7 @@ module EventSearch
   end
 
   def modify_search
-    @event = find_event || return
+    @event = find_event
     search_all
     conflicting_events = Event.conflicting(@organization.id, @event)
     find_busy(conflicting_events) unless conflicting_events.empty?

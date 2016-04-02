@@ -132,7 +132,7 @@ RSpec.describe CoursesController, type: :controller do
     context "invalid #add_student" do
       before { post :add_student, organization_id: organization.id, id: course.id, student_id: 42 }
       it "should give an error status" do
-        expect(response.status).to eq 400
+        expect(response.status).to eq 404
       end
       it "does not assign a student to the course" do
         expect(Course.first.students.count).to be(0)
@@ -162,7 +162,7 @@ RSpec.describe CoursesController, type: :controller do
       before { post :add_student, organization_id: organization.id, id: course.id, student_id: student.id }
       before { post :remove_student, organization_id: organization.id, id: course.id, student_id: 42 }
       it "should give an error status" do
-        expect(response.status).to eq 400
+        expect(response.status).to eq 404
       end
       it "does not remove a student from the course" do
         expect(Course.first.students.count).to be(1)
