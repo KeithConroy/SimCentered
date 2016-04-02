@@ -20,6 +20,7 @@
     <li><a href="#faq"><%= t('home.faq') %></a></li>
     <li><a href="#contact"><%= t('home.contact') %></a></li>
     <li><%= link_to t('sessions.sign_up'), new_organization_path(@organization) %></li>
-    <li><%= link_to('Sign In', new_user_session_path)  %></li>
+    <li><a href="#" data-toggle="modal" data-target="#signInModal"><%= t('sessions.sign_in') %></a></li>
   </ul>
 </div>
+

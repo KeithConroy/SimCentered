@@ -1,6 +1,6 @@
 class OrganizationsController < ApplicationController
   # skip_before_action :same_organization
-  skip_before_action :authenticate_user!, only: [:new]
+  skip_before_action :authenticate_user!, :authorize_faculty, only: [:new]
   def index
   end
 
