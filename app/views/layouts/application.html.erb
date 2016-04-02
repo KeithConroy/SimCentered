@@ -80,14 +80,17 @@
             </ul>
 
         <% else %>
-
+          <% if controller.controller_name == 'home' %>
             <a href="/" class='home navbar-brand'>
               Sim<div id="animated-motto">
-                <span class="simplify">plify</span>
                 <span class="simulation">ulation</span>
+                <span class="simplified">plified</span>
                 <span class="centered">Centered.com</span>
               </div>
             </a>
+          <% else %>
+            <a href="/" class='home navbar-brand'>SimCentered.com</a>
+          <% end %>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
