@@ -1,0 +1,25 @@
+<div class="navbar-header">
+  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+  <a href="/" class='home navbar-brand'>
+    Sim<div id="animated-motto">
+      <span class="simplify">plify</span>
+      <span class="simulation">ulation</span>
+      <span class="centered">Centered.com</span>
+    </div>
+  </a>
+</div>
+<div id="navbar" class="navbar-collapse collapse">
+  <ul class="nav navbar-nav navbar-right">
+    <li><a href="#about"><%= t('home.about') %></a></li>
+    <li><a href="#pricing"><%= t('home.pricing') %></a></li>
+    <li><a href="#faq"><%= t('home.faq') %></a></li>
+    <li><a href="#contact"><%= t('home.contact') %></a></li>
+    <li><%= link_to t('sessions.sign_up'), new_organization_path(@organization) %></li>
+    <li><%= link_to('Sign In', new_user_session_path)  %></li>
+  </ul>
+</div>

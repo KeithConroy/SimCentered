@@ -1,6 +1,4 @@
 class EventsController < ApplicationController
-  skip_before_action :authorize_faculty, only: [:index]
-
   include UsersHelper
   include EventAssociations
   include EventSearch
