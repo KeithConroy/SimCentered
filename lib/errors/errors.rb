@@ -7,10 +7,10 @@ module Errors
 
     def self.included(base)
       base.rescue_from Errors::NotFound do |e|
-        render file: "public/404.html", :status => 404
+        render file: "public/404.html", status: 404
       end
       base.rescue_from Errors::Forbidden do |e|
-        render file: "public/403.html", :status => 403
+        render file: "public/403.html", status: 403
       end
       base.rescue_from Errors::DuplicateAssignment do |e|
         render json: { error: e }, status: 400

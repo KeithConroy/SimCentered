@@ -10,6 +10,12 @@ RSpec.describe "Authorization", type: :feature, :js => true do
       login_as(student, :scope => :user)
     end
 
+    it 'does not show faculty nav' do
+      visit("/organizations/1/users/#{student.id}")
+      expect(page).to_not have_content 'Manage'
+      expect(page).to_not have_content 'Pulse'
+    end
+
     it 'blocks organization actions' do
       visit('/organizations/1')
       expect(page).to have_content 'You are not authorized to visit this page'
