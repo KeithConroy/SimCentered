@@ -10,7 +10,7 @@ module HasStudents
 
   def check_duplicate_student(user)
     if students.include?(user)
-      raise "Student is already added to this #{self.class}"
+      raise Errors::DuplicateAssignment
     end
   end
 end

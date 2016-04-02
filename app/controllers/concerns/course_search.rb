@@ -7,13 +7,9 @@ module CourseSearch
   end
 
   def modify_search
-    begin
-      @course = find_course
-      search_available_students
-      render :'courses/_modify_search', layout: false
-    rescue => e
-      render json: { error: e }, status: 400
-    end
+    @course = find_course
+    search_available_students
+    render :'courses/_modify_search', layout: false
   end
 
   private

@@ -74,19 +74,19 @@ class Event < ActiveRecord::Base
 
   def check_duplicate_course(course)
     if courses.include?(course)
-      raise "Course is already added to this event"
+      raise Errors::DuplicateAssignment
     end
   end
 
   def check_duplicate_room(room)
     if rooms.include?(room)
-      raise "Room is already added to this event"
+      raise Errors::DuplicateAssignment
     end
   end
 
   def check_duplicate_item(item)
     if items.include?(item)
-      raise "Item is already added to this event"
+      raise Errors::DuplicateAssignment
     end
   end
 end

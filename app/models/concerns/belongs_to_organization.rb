@@ -16,7 +16,7 @@ module BelongsToOrganization
 
   def check_organization(resource)
     if resource.organization_id != organization_id
-      raise "This #{resource.class} does not belong to your organization"
+      raise Errors::Forbidden
     end
   end
 end

@@ -2,115 +2,99 @@ module EventAssociations
   extend ActiveSupport::Concern
 
   def add_course
-    begin
-      @event = find_event
-      @course = Course.where(id: params[:course_id]).first
+    @event = find_event
+    @course = find_course
 
-      @event.courses << @course
-      course_json = { title: @course.title, courseId: @course.id, eventId: @event.id }
-      students_json = @course.students.map { |student| get_student_json(student) }
+    @event.courses << @course
+    course_json = { title: @course.title, courseId: @course.id, eventId: @event.id }
+    students_json = @course.students.map { |student| get_student_json(student) }
 
-      render json: { course: course_json, students: students_json }
-    rescue => e
-      render json: { error: e }, status: 400
-    end
+    render json: { course: course_json, students: students_json }
   end
 
   def remove_course
-    begin
-      @event = find_event
-      @course = Course.where(id: params[:course_id]).first
+    @event = find_event
+    @course = find_course
 
-      @event.courses.delete(@course)
-      render json: {
-        count: @event.courses.count,
-        courseId: @course.id,
-        studentIds: @course.students.map(&:id)
-      }
-    rescue => e
-      render json: { error: e }, status: 400
-    end
+    @event.courses.delete(@course)
+    render json: {
+      count: @event.courses.count,
+      courseId: @course.id,
+      studentIds: @course.students.map(&:id)
+    }
   end
 
   def add_student
-    begin
-      @event = find_event
-      @student = User.where(id: params[:student_id]).first
+    @event = find_event
+    @student = find_student
 
-      @event.students << @student
-      render :'events/_scheduled_student', layout: false, locals: { student: @student }
-    rescue => e
-      render json: { error: e }, status: 400
-    end
+    @event.students << @student
+    render :'events/_scheduled_student', layout: false, locals: { student: @student }
   end
 
   def remove_student
-    begin
-      @event = find_event
-      @student = User.where(id: params[:student_id]).first
+    @event = find_event
+    @student = find_student
 
-      @event.students.delete(@student)
-      render json: { count: @event.students.count, studentId: @student.id }
-    rescue => e
-      render json: { error: e }, status: 400
-    end
+    @event.students.delete(@student)
+    render json: { count: @event.students.count, studentId: @student.id }
   end
 
   def add_room
-    begin
-      @event = find_event
-      @room = Room.where(id: params[:room_id]).first
+    @event = find_event
+    @room = find_room
 
-      @event.rooms << @room
-      render :'events/_scheduled_room', layout: false, locals: { room: @room }
-    rescue => e
-      render json: { error: e }, status: 400
-    end
+    @event.rooms << @room
+    render :'events/_scheduled_room', layout: false, locals: { room: @room }
   end
 
   def remove_room
-    begin
-      @event = find_event
-      @room = Room.where(id: params[:room_id]).first
+    @event = find_event
+    @room = find_room
 
-      @event.rooms.delete(@room)
-      render json: {
-        count: @event.rooms.count,
-        roomId: @room.id
-      }
-    rescue => e
-      render json: { error: e }, status: 400
-    end
+    @event.rooms.delete(@room)
+    render json: {
+      count: @event.rooms.count,
+      roomId: @room.id
+    }
   end
 
   def add_item
-    begin
-      @event = find_event
-      @item = Item.where(id: params[:item_id]).first
+    @event = find_event
+    @item = find_item
 
-      @event.items << @item
-      deduct_quantity(@event, @item) if @item.disposable
-      render :'events/_scheduled_item', layout: false, locals: { item: @item }
-    rescue => e
-      render json: { error: e }, status: 400
-    end
+    @event.items << @item
+    deduct_quantity(@event, @item) if @item.disposable
+    render :'events/_scheduled_item', layout: false, locals: { item: @item }
   end
 
   def remove_item
-    begin
-      @event = find_event
-      @item = Item.where(id: params[:item_id]).first
+    @event = find_event
+    @item = find_item
 
-      quantity = @event.scheduled_items.where(item_id: @item.id).first.quantity
-      @event.items.delete(@item)
-      credit_quantity(@item, quantity) if @item.disposable
-      render json: { count: @event.items.count, itemId: @item.id }
-    rescue => e
-      render json: { error: e }, status: 400
-    end
+    quantity = @event.scheduled_items.where(item_id: @item.id).first.quantity
+    @event.items.delete(@item)
+    credit_quantity(@item, quantity) if @item.disposable
+    render json: { count: @event.items.count, itemId: @item.id }
   end
 
   private
+
+  def find_course
+    authorize_resource(Course.where(id: params[:course_id]).first)
+  end
+
+  def find_student
+    authorize_resource(User.where(id: params[:student_id]).first)
+  end
+
+  def find_item
+    authorize_resource(Item.where(id: params[:item_id]).first)
+  end
+
+  def find_room
+    authorize_resource(Room.where(id: params[:room_id]).first)
+  end
 
   def get_student_json(student)
     { name: full_name(student), tudentId: student.id, eventId: @event.id }

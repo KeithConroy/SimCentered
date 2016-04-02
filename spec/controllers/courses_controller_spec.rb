@@ -132,14 +132,14 @@ RSpec.describe CoursesController, type: :controller do
     context "invalid #add_student" do
       before { post :add_student, organization_id: organization.id, id: course.id, student_id: 42 }
       it "should give an error status" do
-        expect(response.status).to eq 400
+        expect(response.status).to eq 404
       end
       it "does not assign a student to the course" do
         expect(Course.first.students.count).to be(0)
       end
-      it "renders 400 with invalid course" do
+      it "renders 404 with invalid course" do
         post :add_student, organization_id: organization.id, id: 42, student_id: student.id
-        expect(response.status).to eq 400
+        expect(response.status).to eq 404
       end
     end
   end
@@ -162,14 +162,14 @@ RSpec.describe CoursesController, type: :controller do
       before { post :add_student, organization_id: organization.id, id: course.id, student_id: student.id }
       before { post :remove_student, organization_id: organization.id, id: course.id, student_id: 42 }
       it "should give an error status" do
-        expect(response.status).to eq 400
+        expect(response.status).to eq 404
       end
       it "does not remove a student from the course" do
         expect(Course.first.students.count).to be(1)
       end
-      it "renders 400 with invalid course" do
+      it "renders 404 with invalid course" do
         post :remove_student, organization_id: organization.id, id: 42, student_id: student.id
-        expect(response.status).to eq 400
+        expect(response.status).to eq 404
       end
     end
   end
@@ -225,9 +225,9 @@ RSpec.describe CoursesController, type: :controller do
       expect(User).to respond_to(:search_students).with(2).argument
       expect(assigns(:students)).to be_a(Array)
     end
-    it "renders 400 with invalid course" do
+    it "renders 404 with invalid course" do
       get :modify_search, organization_id: organization.id, id: 42, phrase: 'course'
-      expect(response.status).to eq 400
+      expect(response.status).to eq 404
     end
   end
 end

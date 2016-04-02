@@ -2,12 +2,8 @@ module ItemHeatmap
   extend ActiveSupport::Concern
 
   def heatmap
-    begin
-      @item = find_item
-      render json: heatmap_json(@item)
-    rescue => e
-      render json: { error: e }, status: 400
-    end
+    @item = find_item
+    render json: heatmap_json(@item)
   end
 
   private

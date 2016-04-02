@@ -194,9 +194,9 @@ RSpec.describe ItemsController, type: :controller do
       expect(body["name"]).to eq(["hour", "hours"])
     end
 
-    it "renders 400 with invalid item" do
+    it "renders 404 with invalid item" do
       get :heatmap, organization_id: organization.id, id: 42
-      expect(response.status).to eq 400
+      expect(response.status).to eq 404
     end
   end
 end

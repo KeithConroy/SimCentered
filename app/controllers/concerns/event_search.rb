@@ -7,16 +7,12 @@ module EventSearch
   end
 
   def modify_search
-    begin
-      @event = find_event
-      search_all
-      conflicting_events = Event.conflicting(@organization.id, @event)
-      find_busy(conflicting_events) unless conflicting_events.empty?
+    @event = find_event
+    search_all
+    conflicting_events = Event.conflicting(@organization.id, @event)
+    find_busy(conflicting_events) unless conflicting_events.empty?
 
-      render :'events/_modify_search', layout: false
-    rescue => e
-      render json: { error: e }, status: 400
-    end
+    render :'events/_modify_search', layout: false
   end
 
   private

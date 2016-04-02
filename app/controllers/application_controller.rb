@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!, :authorize_faculty
   before_action :find_organization, :set_time_zone, :set_locale
 
+  include Errors::RescueError
   include Authorization
 
   private
@@ -14,7 +15,7 @@ class ApplicationController < ActionController::Base
     @organization = Organization.where(id: current_user.organization_id).first if current_user
     if params[:organization_id] && @organization
       if params[:organization_id].to_i != @organization.id
-        render file: 'public/403.html', status: :unauthorized
+        raise Errors::Forbidden
       end
     end
   end
