@@ -276,9 +276,8 @@ var modifySearch = function(event){
   if (phrase) {
     $.get(eventId + '/modify_search', { phrase: phrase }).success(function(payload) {
       $('.search-results table').html($(payload));
+      $('.search-results tr:first').addClass('force-hover');
       showResults();
-      // $('.search-results tr:first')
-      // add hover to first element
     });
   } else {
     $('.search-results table').empty();
