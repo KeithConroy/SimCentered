@@ -9,7 +9,7 @@ module EventSearch
   def modify_search
     @event = find_event
     search_all
-    conflicting_events = Event.conflicting(@organization.id, @event)
+    conflicting_events = @event.conflicting
     find_busy(conflicting_events) unless conflicting_events.empty?
 
     render :'events/_modify_search', layout: false
@@ -25,23 +25,19 @@ module EventSearch
   end
 
   def search_available_courses
-    @courses = Course.search(@organization.id, params[:phrase])
-    @courses -= @event.courses
+    @courses = Course.search(@organization.id, params[:phrase]).limit(10) - @event.courses
   end
 
   def search_available_students
-    @students = User.search_students(@organization.id, params[:phrase])
-    @students -= @event.students
+    @students = User.search_students(@organization.id, params[:phrase]).limit(10) - @event.students
   end
 
   def search_available_rooms
-    @rooms = Room.search(@organization.id, params[:phrase])
-    @rooms -= @event.rooms
+    @rooms = Room.search(@organization.id, params[:phrase]).limit(10) - @event.rooms
   end
 
   def search_available_items
-    @items = Item.search(@organization.id, params[:phrase])
-    @items -= @event.items
+    @items = Item.search(@organization.id, params[:phrase]).limit(10) - @event.items
   end
 
   def find_busy(conflicting_events)

@@ -1,8 +1,9 @@
 class Course < ActiveRecord::Base
   include BelongsToOrganization
-  include HasStudents
 
   belongs_to :instructor, class_name: 'User'
+  has_and_belongs_to_many :students, class_name: 'User',
+    before_add: :check_organization
   has_and_belongs_to_many :events
 
   validates_presence_of :title

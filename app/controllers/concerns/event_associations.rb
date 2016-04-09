@@ -5,7 +5,7 @@ module EventAssociations
     @event = find_event
     @course = find_course
 
-    @event.courses << @course
+    @event.courses << @course unless @event.courses.include?(@course)
     course_json = { title: @course.title, courseId: @course.id, eventId: @event.id }
     students_json = @course.students.map { |student| get_student_json(student) }
 
@@ -28,7 +28,7 @@ module EventAssociations
     @event = find_event
     @student = find_student
 
-    @event.students << @student
+    @event.students << @student unless @event.student.include?(@student)
     render :'events/_scheduled_student', layout: false, locals: { student: @student }
   end
 
@@ -44,7 +44,7 @@ module EventAssociations
     @event = find_event
     @room = find_room
 
-    @event.rooms << @room
+    @event.rooms << @room unless @event.rooms.include?(@room)
     render :'events/_scheduled_room', layout: false, locals: { room: @room }
   end
 
@@ -63,7 +63,7 @@ module EventAssociations
     @event = find_event
     @item = find_item
 
-    @event.items << @item
+    @event.items << @item unless @event.items.include?(@item)
     deduct_quantity(@event, @item) if @item.disposable
     render :'events/_scheduled_item', layout: false, locals: { item: @item }
   end

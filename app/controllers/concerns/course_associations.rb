@@ -4,7 +4,7 @@ module CourseAssociations
   def add_student
     @course = find_course
     @student = find_student
-    @course.students << @student
+    @course.students << @student unless @course.students.include?(@student)
     render :'courses/_enrolled_student', layout: false, locals: { student: @student }
   end
 
