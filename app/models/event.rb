@@ -34,14 +34,6 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def self.conflicting(organization_id, event)
-    local(organization_id)
-      .where(
-        '(start BETWEEN ? AND ?) OR (finish BETWEEN ? AND ?)',
-        event.start, event.finish, event.start, event.finish
-      )
-  end
-
   def self.search(organization_id, phrase)
     local(organization_id)
       .where('lower(title) LIKE ?', "%#{phrase}%")
@@ -56,6 +48,14 @@ class Event < ActiveRecord::Base
         DateTime.now.beginning_of_day, DateTime.now.end_of_day
       )
       .order(start: :asc)
+  end
+
+  def conflicting
+    Event.local(organization_id)
+      .where(
+        '(start BETWEEN ? AND ?) OR (finish BETWEEN ? AND ?)',
+        start, finish, start, finish
+      )
   end
 
   private

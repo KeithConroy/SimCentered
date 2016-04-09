@@ -15,7 +15,6 @@ module CourseSearch
   private
 
   def search_available_students
-    @students = User.search_students(@organization.id, params[:phrase])
-    @students -= @course.students
+    @students = User.search_students(@organization.id, params[:phrase]) - @course.students
   end
 end

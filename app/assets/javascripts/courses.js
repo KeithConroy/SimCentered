@@ -6,6 +6,7 @@ $(document).on('courses:loaded', function() {
   $('#course-search').on('keyup', courseSearch);
 
   $('.modify-course-search').on('keyup', modifyCourseSearch);
+  $('.modify-course-search').focusin(modifyCourseSearch);
   $('.modify-course-search').focusout(hideResults);
 
 });
@@ -16,6 +17,7 @@ var addStudentCourse = function(){
   var url = $(this).attr('href');
   var studentId = $(this).attr('data-student-id');
   this.closest("tr").remove();
+  // $('.search-results tr:first').addClass('force-hover');
 
   $.ajax({
     url: url,
@@ -66,21 +68,42 @@ var courseSearch = function(){
 var modifyCourseSearch = function(event){
   var phrase = $(this).val().toLowerCase();
   var courseId = $(this).attr('id');
+  var $current = $('.force-hover:first');
 
-  if(event.keyCode == 13){
-    $('.search-results a:first').click();
+  if(event.keyCode == 13){ // enter
+    if($current.next().length !== 0){
+      moveHoverDown($current);
+    }else if ($current.prev().length !== 0){
+      moveHoverUp($current);
+    }
+    $current.find('a:first').click();
+  }else if(event.keyCode == 40 && $current.next().length !== 0){ // down
+    moveHoverDown($current);
+  }else if(event.keyCode == 38 && $current.prev().length !== 0){ // up
+    moveHoverUp($current);
+  }else {
+    if (phrase) {
+      $.get(courseId + '/modify_search', { phrase: phrase }).success(function(payload) {
+        $('.search-results table').html($(payload));
+        $('.search-results tr:first').addClass('force-hover');
+        showResults();
+      });
+    } else {
+      $('.search-results table').empty();
+      hideResults();
+    }
   }
 
-  if (phrase) {
-    $.get(courseId + '/modify_search', { phrase: phrase }).success(function(payload) {
-      $('.search-results table').html($(payload));
-      $('.search-results tr:first').addClass('force-hover');
-      showResults();
-    });
-  } else {
-    $('.search-results table').empty();
-    hideResults();
-  }
+};
+
+var moveHoverDown = function($current) {
+  $current.removeClass('force-hover');
+  $current.next().addClass('force-hover');
+};
+
+var moveHoverUp = function($current) {
+  $current.removeClass('force-hover');
+  $current.prev().addClass('force-hover');
 };
 
 var showResults = function() {

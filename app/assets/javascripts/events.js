@@ -53,6 +53,7 @@ var bindEvents = function(){
   $('body').on('keyup', calendarFlip);
 
   $('.modify-search').on('keyup', modifySearch);
+  $('.modify-search').focusin(modifySearch);
   $('.modify-search').focusout(hideResults);
 };
 
@@ -276,7 +277,7 @@ var modifySearch = function(event){
   if (phrase) {
     $.get(eventId + '/modify_search', { phrase: phrase }).success(function(payload) {
       $('.search-results table').html($(payload));
-      $('.search-results tr:first').addClass('force-hover');
+      $('.search-results a:first').closest('tr').addClass('force-hover');
       showResults();
     });
   } else {
