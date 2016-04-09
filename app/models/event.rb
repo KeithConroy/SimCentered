@@ -1,16 +1,17 @@
 class Event < ActiveRecord::Base
   include BelongsToOrganization
-  include HasStudents
 
   belongs_to :instructor, class_name: 'User'
 
   has_and_belongs_to_many :courses,
-    before_add: [:check_organization, :add_students, :check_duplicate_course],
+    before_add: [:check_organization, :add_students],
     before_remove: :remove_students
+  has_and_belongs_to_many :students, class_name: 'User',
+    before_add: :check_organization
   has_and_belongs_to_many :rooms,
-    before_add: [:check_organization, :check_duplicate_room]
+    before_add: [:check_organization]
   has_many :items, through: :scheduled_items,
-    before_add: [:check_organization, :check_duplicate_item]
+    before_add: [:check_organization]
   has_many :scheduled_items
 
   validates_presence_of :title
@@ -62,31 +63,13 @@ class Event < ActiveRecord::Base
 
   def add_students(course)
     course.students.each do |student|
-      students << student
+      students << student unless students.include?(student)
     end
   end
 
   def remove_students(course)
     course.students.each do |student|
       students.delete(student)
-    end
-  end
-
-  def check_duplicate_course(course)
-    if courses.include?(course)
-      raise Errors::DuplicateAssignment
-    end
-  end
-
-  def check_duplicate_room(room)
-    if rooms.include?(room)
-      raise Errors::DuplicateAssignment
-    end
-  end
-
-  def check_duplicate_item(item)
-    if items.include?(item)
-      raise Errors::DuplicateAssignment
     end
   end
 end
