@@ -216,8 +216,8 @@ var addCourse = function(){
     data: { course_id: courseId },
     type: 'post'
   }).done(function(data) {
+    $("a[data-course-id='" + data.course.courseId + "']").closest("tr").remove();
     $('#event-show-courses').find('.none-added').parent().hide()
-
     $('#event-show-courses').append(courseTemplate(data.course));
 
     for (var i = 0; i < data.students.length; i++) {
@@ -269,20 +269,44 @@ var eventSearch = function(){
 var modifySearch = function(event){
   var phrase = $(this).val().toLowerCase();
   var eventId = $(this).attr('id');
+  var $current = $('.force-hover');
 
   if(event.keyCode == 13){
-    $('.search-results a:first').click();
+    if($current.next().length !== 0){
+      moveHoverDown($current);
+    }else if ($current.prev().length !== 0){
+      moveHoverUp($current);
+    }
+    $current.find('a').click();
+  }else if(event.keyCode == 40){ // down
+    moveHoverDown($current);
+  }else if(event.keyCode == 38){ // up
+    moveHoverUp($current);
+  }else {
+    if (phrase) {
+      $.get(eventId + '/modify_search', { phrase: phrase }).success(function(payload) {
+        $('.search-results table').html($(payload));
+        $('.search-results a:first').closest('tr').addClass('force-hover');
+        showResults();
+      });
+    } else {
+      $('.search-results table').empty();
+      hideResults();
+    }
   }
+};
 
-  if (phrase) {
-    $.get(eventId + '/modify_search', { phrase: phrase }).success(function(payload) {
-      $('.search-results table').html($(payload));
-      $('.search-results a:first').closest('tr').addClass('force-hover');
-      showResults();
-    });
-  } else {
-    $('.search-results table').empty();
-    hideResults();
+var moveHoverDown = function($current) {
+  if($current.next().length !== 0){
+    $current.removeClass('force-hover');
+    $current.closest('tr').next().addClass('force-hover');
+  }
+};
+
+var moveHoverUp = function($current) {
+  if($current.prev().length !== 0){
+    $current.removeClass('force-hover');
+    $current.closest('tr').prev().addClass('force-hover');
   }
 };
 

@@ -70,17 +70,17 @@ var modifyCourseSearch = function(event){
   var courseId = $(this).attr('id');
   var $current = $('.force-hover:first');
 
-  if(event.keyCode == 13){ // enter
+  if(event.keyCode === 13){ // enter
     if($current.next().length !== 0){
-      moveHoverDown($current);
+      moveHoverDownCourse($current);
     }else if ($current.prev().length !== 0){
-      moveHoverUp($current);
+      moveHoverUpCourse($current);
     }
     $current.find('a:first').click();
-  }else if(event.keyCode == 40 && $current.next().length !== 0){ // down
-    moveHoverDown($current);
-  }else if(event.keyCode == 38 && $current.prev().length !== 0){ // up
-    moveHoverUp($current);
+  }else if(event.keyCode === 40){ // down
+    moveHoverDownCourse($current);
+  }else if(event.keyCode === 38){ // up
+    moveHoverUpCourse($current);
   }else {
     if (phrase) {
       $.get(courseId + '/modify_search', { phrase: phrase }).success(function(payload) {
@@ -93,17 +93,20 @@ var modifyCourseSearch = function(event){
       hideResults();
     }
   }
-
 };
 
-var moveHoverDown = function($current) {
-  $current.removeClass('force-hover');
-  $current.next().addClass('force-hover');
+var moveHoverDownCourse = function($current) {
+  if($current.next().length !== 0){
+    $current.removeClass('force-hover');
+    $current.next().addClass('force-hover');
+  }
 };
 
-var moveHoverUp = function($current) {
-  $current.removeClass('force-hover');
-  $current.prev().addClass('force-hover');
+var moveHoverUpCourse = function($current) {
+  if($current.prev().length !== 0){
+    $current.removeClass('force-hover');
+    $current.prev().addClass('force-hover');
+  }
 };
 
 var showResults = function() {
