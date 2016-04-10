@@ -1,10 +1,11 @@
 class OrganizationsController < ApplicationController
-  # skip_before_action :same_organization
   skip_before_action :authenticate_user!, :authorize_faculty, only: [:new]
+
   def index
   end
 
   def new
+    raise Errors::Forbidden if current_user
     @organization = Organization.new
   end
 

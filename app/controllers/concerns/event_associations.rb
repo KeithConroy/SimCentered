@@ -28,7 +28,7 @@ module EventAssociations
     @event = find_event
     @student = find_student
 
-    @event.students << @student unless @event.student.include?(@student)
+    @event.students << @student unless @event.students.include?(@student)
     render :'events/_scheduled_student', layout: false, locals: { student: @student }
   end
 
@@ -97,7 +97,7 @@ module EventAssociations
   end
 
   def get_student_json(student)
-    { name: full_name(student), tudentId: student.id, eventId: @event.id }
+    { name: full_name(student), studentId: student.id, eventId: @event.id }
   end
 
   def remove_courses_students(event, course)
