@@ -73,8 +73,11 @@ RSpec.describe "Authorization", type: :feature, :js => true do
     it 'allows student to view show and edit' do
       visit("/organizations/1/users/#{student.id}")
       expect(page).to have_content 'Test Student'
+      expect(page).to have_content 'Courses'
+      expect(page).to have_content 'Schedule'
       visit("/organizations/1/users/#{student.id}/edit")
       expect(page).to have_content 'Test Student'
+      expect(page).to have_content 'Edit User'
     end
 
   end
