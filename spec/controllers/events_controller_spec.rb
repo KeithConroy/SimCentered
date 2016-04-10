@@ -366,7 +366,7 @@ RSpec.describe EventsController, type: :controller do
       expect(response).to render_template("events/_modify_search")
     end
     it 'calls Event.conflicting' do
-      expect(Event).to respond_to(:conflicting).with(2).argument
+      expect(assigns(:event)).to respond_to(:conflicting)
     end
     it 'calls Course.search' do
       expect(Course).to respond_to(:search).with(2).argument
