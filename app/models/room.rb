@@ -1,5 +1,6 @@
 class Room < ActiveRecord::Base
   include BelongsToOrganization
+  include Heatmap
 
   attr_accessor :busy
 
@@ -7,15 +8,22 @@ class Room < ActiveRecord::Base
 
   validates_presence_of :title
 
-  def self.list(organization_id, page)
-    local(organization_id)
-      .order(title: :asc)
-      .paginate(page: page, per_page: 15)
+  class << self
+    def list(organization_id, page)
+      local(organization_id)
+        .order(title: :asc)
+        .paginate(page: page, per_page: 15)
+    end
+
+    def search(organization_id, phrase)
+      local(organization_id)
+        .where('lower(title) LIKE ?', "%#{phrase}%")
+        .order(title: :asc)
+    end
   end
 
-  def self.search(organization_id, phrase)
-    local(organization_id)
-      .where('lower(title) LIKE ?', "%#{phrase}%")
-      .order(title: :asc)
+  def heatmap_json
+    data = duration_heatmap_data
+    { data: data, name: ['hour', 'hours'], legend: heatmap_legend(data) }
   end
 end

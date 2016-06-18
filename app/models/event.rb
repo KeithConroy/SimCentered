@@ -59,6 +59,10 @@ class Event < ActiveRecord::Base
       )
   end
 
+  def duration
+    (self.finish.to_i - self.start.to_i) / 3600.0
+  end
+
   private
 
   def add_students(course)

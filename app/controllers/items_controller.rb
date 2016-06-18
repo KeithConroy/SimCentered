@@ -1,6 +1,4 @@
 class ItemsController < ApplicationController
-  include EventsHelper
-  include ItemHeatmap
 
   def index
     @new_item = Item.new
@@ -57,6 +55,11 @@ class ItemsController < ApplicationController
       .search(@organization.id, params[:phrase])
       .paginate(page: 1, per_page: 15)
     render :'items/_all_items', layout: false
+  end
+
+  def heatmap
+    @item = find_item
+    render json: @item.heatmap_json
   end
 
   private

@@ -19,4 +19,9 @@ RSpec.describe Room, type: :model do
       expect(room.errors[:organization_id].size).to eq(1)
     end
   end
+
+  context "#heatmap_json" do
+    xit "calculates the heatmap json" do
+    end
+  end
 end
