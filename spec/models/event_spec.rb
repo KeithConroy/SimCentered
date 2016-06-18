@@ -4,6 +4,7 @@ RSpec.describe Event, type: :model do
   let(:organization){ create(:organization) }
   let(:instructor){ create(:instructor, organization_id: organization.id) }
   let(:event){ create(:event, instructor_id: instructor.id, organization_id: organization.id) }
+  let(:four_hour_event){ create(:event, instructor_id: instructor.id, organization_id: organization.id, start: DateTime.now, finish: DateTime.now + 4.hours) }
 
   context 'validation' do
     it "fails validation with no title" do
@@ -21,6 +22,13 @@ RSpec.describe Event, type: :model do
       )
       event.valid?
       expect(event.errors[:organization_id].size).to eq(1)
+    end
+  end
+
+  context "#duration" do
+    it "returns the events duration" do
+      expect(event.duration).to eq(1)
+      expect(four_hour_event.duration).to eq(4)
     end
   end
 end

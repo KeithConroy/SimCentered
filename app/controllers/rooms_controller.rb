@@ -1,6 +1,4 @@
 class RoomsController < ApplicationController
-  include EventsHelper
-  include RoomHeatmap
 
   def index
     @new_room = Room.new
@@ -57,6 +55,11 @@ class RoomsController < ApplicationController
       .search(@organization.id, params[:phrase])
       .paginate(page: 1, per_page: 15)
     render :'rooms/_all_rooms', layout: false
+  end
+
+  def heatmap
+    @room = find_room
+    render json: @room.heatmap_json
   end
 
   private
